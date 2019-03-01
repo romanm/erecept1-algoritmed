@@ -1,0 +1,19 @@
+.am-n {font-weight: normal;}
+.am-b {font-weight: bold;}
+.am-i {font-style: italic; }
+.am-u {text-decoration: underline; }
+a.am-0u {text-decoration: none; }
+
+table.am-amk025-table tr td{
+	vertical-align: top;
+}
+table.am-amk025-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+@media print {
+	.am-no-print, .am-no-print * {
+		display: none !important;
+	}
+}
