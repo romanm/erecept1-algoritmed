@@ -1,0 +1,28 @@
+<div>
+	<button class="w3-border">OK, Зберегти</button>
+	<div data-ng-repeat="col in o.children">
+		<div class="w3-tiny am-b" title="{{col.doc_id}}">{{col.value}}</div>
+		<div data-ng-if="85370==col.doc_id">
+			<span data-ng-repeat="sEl in referencesMap[col.reference].children">
+				<label class="w3-hover-shadow"> <input name="gender"
+					data-ng-value="sEl.doc_id"
+					data-ng-model="edit_table.editRow.gender_id" type="radio">
+					{{sEl.string}}
+			</label>
+			</span> <label class="w3-hover-shadow"> <input name="gender"
+				data-ng-click="edit_table.editRow.gender_id=null" type="radio">
+				?
+			</label>
+		</div>
+		<input class="w3-border"
+			data-ng-if="85370!=col.doc_id && 85247!=col.doc_id"
+			data-ng-model="edit_table.editRow['col_'+col.doc_id]"
+			data-ng-disabled="!edit_table.editRow" />
+		<div data-ng-if="85247==col.doc_id">
+			<input class="w3-border" type="date"
+				value="{{edit_table.editRow['col_'+col.doc_id]}}"
+				data-ng-model="edit_table.editRow['col_'+col.doc_id]"
+				data-ng-disabled="!edit_table.editRow" />
+		</div>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+<div>
+	<div class="w3-row">
+		<div class="w3-half">
+			<div class="w3-border w3-container">
+				<span class="w3-tiny am-b">Лікар:</span> <span class="w3-small">
+					{{o.employee.party.last_name}}, {{o.employee.party.first_name}}
+					{{o.employee.party.second_name}} </span>
+				<div>
+					<span class="w3-tiny am-b">Паціент:</span> {{o.person.last_name}},
+					{{o.person.first_name}} {{o.person.second_name}}
+				</div>
+			</div>
+		</div>
+		<div class="w3-half">
+			<div class="w3-border">
+				<span class="w3-tiny am-b">ЗОЗ:</span>
+				{{o.legal_entity.public_name}}<span class="w3-small"> <span
+					class="w3-tiny am-b">ЕДРПУ:</span> {{o.legal_entity.edrpou}},
+					{{o.division.name}}
+				</span>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="w3-panel">
+			<span class="am-b"> eRz: </span>
+			{{o.medication_info.medication_name}}
+		</div>
+			{{o.medication_info.dosage.denumerator_value}}
+			{{dictionaries[36].values[o.medication_info.dosage.denumerator_unit]}}
+			{{o.medication_info.dosage.numerator_value}}
+			{{dictionaries[36].values[o.medication_info.dosage.numerator_unit]}}
+			{{o.medication_info.dosage}}
+		<div>
+			{{o.medication_info.dosage.numerator_unit}}
+		<div class="am-b w3-tiny"> Інструкція для пацієнта: </div>
+		{{o.dosage_instruction[0].patient_instruction}}</div>
+	</div>
+	<div class="w3-tiny am-b w3-right">
+	
+	{{o.medical_program.name}}</div>
+
+</div>

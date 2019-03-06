@@ -3,6 +3,7 @@
 <meta charset="utf-8" />
 <title>eРецепт</title>
 <link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
@@ -16,5 +17,28 @@
 	<h1 class="w3-container w3-small">
 		<span data-ng-include="'/f/home-link.html'"></span> &nbsp; рецепт
 	</h1>
+	<div class="w3-row-padding">
+		<div class="w3-twothird">
+			<div class="w3-small am-b w3-hover-shadow">Відпущені рецепти в
+				аптеці:</div>
+			<div class="w3-border" style="margin-bottom: 8px;">
+				<div data-ng-repeat="o in [recept_template.docRoot.children[2]]"
+					data-ng-include="'/f/recept/table_recepts.html'"
+					data-ng-init="rowAttName = 'row_'+o.doc_id+'_id';"></div>
+			</div>
+			<div class="w3-small am-b">Отриманий рецепт по ID:</div>
+			<div class="w3-border" style="margin-bottom: 8px;">
+				<div data-ng-repeat="o in [recept_sample]"
+					data-ng-include="'/f/recept/eR1.html'"></div>
+			</div>
+		</div>
+		<div class="w3-third">
+			<div class="w3-small am-b">Уточненя рецепту:</div>
+			<div class="w3-border" style="margin-bottom: 8px;">
+				<div data-ng-repeat="o in [recept_template.docRoot.children[2]]"
+					data-ng-include="'/f/recept/edit_col.html'"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

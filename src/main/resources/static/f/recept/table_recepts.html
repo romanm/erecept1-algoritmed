@@ -1,0 +1,30 @@
+<div style="overflow: auto;">
+	<table>
+		<thead>
+			<tr class="w3-tiny w3-blue-gray">
+				<td>☰</td>
+				<td><i class="fa fa-id-card-o" aria-hidden="true"></i></td>
+				<th data-ng-repeat="col in o.children" title="{{col}}">{{col.value}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="row in patient_data" class="w3-hover-shadow"
+				title="{{row.row_85243_id}}"
+				data-ng-click="edit_table.selectRow(row)">
+				<td
+					data-ng-class="{'w3-green':row[rowAttName]==edit_table.selectedRow[rowAttName]}">
+				</td>
+				<td><a href="/f/amk025/start1.html?l1=85089&amk={{row.amk}}"
+					class="w3-card " data-ng-if="row.amk"> <i
+						class="fa fa-id-card-o" aria-hidden="true"></i>
+				</a></td>
+				<td data-ng-repeat="col in patient_template.docRoot.children"
+					data-ng-switch="col.doc_id"><span data-ng-switch-when="85247">
+						{{row['col_'+col.doc_id] | date:'mediumDate'}} </span> <span
+					data-ng-switch-default>
+						{{row['col_'+col.doc_id]?'':'&nbsp;'}} {{row['col_'+col.doc_id]}}
+				</span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
