@@ -11,6 +11,12 @@ var initApp = function($scope, $http){
 	}	}
 	$scope.elementsMap = {}
 	$scope.referencesMap = {}
+
+	$scope.highlight = function(text, search){
+		if (!text) return
+		if (!search) return text;
+		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
+	}
 }
 
 function replaceParams(params){
@@ -78,6 +84,7 @@ function json_elementsMap(json, elementsMap, referencesMap){
 }
 
 var sql_app = {}
+
 sql_app.amk025_template = function(){
 	return "SELECT * FROM doc d2, doc d1,docbody " +
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"

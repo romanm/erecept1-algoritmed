@@ -1,0 +1,17 @@
+<div>
+	<input class="w3-border" data-ng-model="drug_list.seek"
+		data-ng-change="drug_list.changeSeek()"> {{drug_list.seek}}
+	<table>
+		<thead>
+			<tr class="w3-tiny w3-blue-gray">
+				<th data-ng-repeat="(k,v) in drug_list.head">{{v}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="row in drug_list.data">
+				<td data-ng-repeat="(k,v) in drug_list.head"
+					ng-bind-html="highlight(row[k], drug_list.seek)"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
