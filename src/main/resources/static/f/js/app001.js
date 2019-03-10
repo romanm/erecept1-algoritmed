@@ -36,6 +36,20 @@ function replaceParams(params){
 //	console.log(params.sql)
 }
 
+var writeSql = function(data){
+	replaceParams(data)
+	exe_fn.httpPost
+	({	url:'/r/url_sql_read_db1',
+		then_fn:function(response) {
+//			console.log(response.data)
+			if(data.dataAfterSave)
+				data.dataAfterSave(response)
+		},
+		data:data,
+	})
+}
+
+
 function readSql(params, obj){
 	replaceParams(params)
 	if(!obj) obj = params
