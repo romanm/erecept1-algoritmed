@@ -8,9 +8,32 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr data-ng-repeat="row in drug_list.data">
+			<tr data-ng-repeat-start="row in drug_list.data"
+				data-ng-click="drug_list.openRow(row)" class="w3-hover-shadow">
+				<td
+				data-ng-class="{'w3-border 1w3-leftbar':row.open}"
+					ng-bind-html="highlight(row.inn+' ('+row.trade+')', drug_list.seek)">
+				</td>
+				<td>{{row.cnt}}</td>
+				<!-- 
 				<td data-ng-repeat="(k,v) in drug_list.head"
 					ng-bind-html="highlight(row[k], drug_list.seek)"></td>
+				 -->
+			</tr>
+			<tr data-ng-repeat-end data-ng-if="row.open">
+				<td class="w3-border w3-leftbar" colspan="3">{{row.reestr[0].n________6}}
+					<ul>
+						<li data-ng-repeat="r in row.reestr">{{r.n________3}}
+							<div>{{r.n________5}}</div>
+							<div class="w3-tiny w3-right">{{r.n_______29}} - {{r.n_______30}}</div>
+						</li>
+					</ul> 
+					<!-- 
+					<div class="w3-code w3-tiny">
+					{{row}}
+					</div>
+					-->
+				</td>
 			</tr>
 		</tbody>
 	</table>
