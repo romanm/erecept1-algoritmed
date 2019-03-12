@@ -11,12 +11,13 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		"WHERE parent=" + row.dtrade_id + " \n" +
 		"AND doc_id=uuid_id \n" +
 		"AND r.id=value"
-		var sql2 = "SELECT d.*, i.*,edfv.value ed_form, edv.value ed, uuid  \n" +
+		var sql2 = "SELECT d.*, i.*, f.*,edfv.value ed_form, edv.value ed, uuid  \n" +
 		"FROM (SELECT uuid_id, value uuid FROM doc d0, uuid u where d0.parent=" +
 		row.dtrade_id +
 		" AND d0.doc_id=uuid_id) u \n" +
 		", doc d \n" +
-		"LEFT JOIN integer i ON integer_id=d.doc_id \n" +
+		"LEFT JOIN (SELECT integer_id, value vint FROM integer) i ON integer_id=d.doc_id \n" +
+		"LEFT JOIN (SELECT double_id, value vfloat FROM double) f ON double_id=d.doc_id \n" +
 		", doc edf, string edfv \n" +
 		", doc ed, string edv \n" +
 		"WHERE d.parent = uuid_id \n" +
@@ -25,7 +26,8 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		"AND edfv.string_id = edf.doc_id \n" +
 		"AND d.reference2 = ed.doc_id \n" +
 		"AND edv.string_id = ed.doc_id"
-		console.log(row, sql, sql2)
+		console.log(row)
+//		console.log(row, sql,'\n', sql2)
 		readSql({
 			sql:sql,
 			afterRead:function(response){
@@ -34,6 +36,10 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 					sql:sql2,
 					afterRead:function(response){
 						row.reestr2 = response.data.list
+						row.reestr2Map = {}
+						angular.forEach(row.reestr2,function(v){
+							row.reestr2Map[v.uuid] = v
+						})
 					}
 				})
 			}
@@ -206,11 +212,14 @@ function addID(newValue){
 }
 
 function splitPakung(){
-	var sql = "SELECT id,n________5,n_________,n________2, u.* \n" +
+	var sql = "SELECT id,n________5,n_________,n________2, u.*, d.* \n" +
 	"FROM reestr, uuid u \n" +
+	"left join doc d on parent=uuid_id \n" +
 	"where value=id \n" +
 	"and n________5 like '%таблетк%' \n" +
-	"and array_length(regexp_split_to_array(n________5, E' мг'),1)=2"
+	"and array_length(regexp_split_to_array(n________5, E' мг'),1)=2 \n" +
+	"and doc_id is null \n" +
+	"order by n________2, n_________"
 	readSql({
 		sql:sql
 		,afterRead:function(response){
@@ -218,12 +227,26 @@ function splitPakung(){
 			angular.forEach(response.data.list, function(v){
 				if(i<1){
 					var mgs = v.n________5.split('мг'),
-					mgVal = mgs[0].trim().split(' ').reverse()[0]*1
+					mgVal = mgs[0].trim().split(' ').reverse()[0].replace(',','.')*1
 					var sql2 = "INSERT INTO doc (parent,doc_id,doctype,reference,reference2) " +
-					"VALUES (" + v.uuid_id + ",nextval('dbid'),18,112270,112272); \n" +
-					"INSERT INTO integer (integer_id, value) " +
-					"VALUES (currval('dbid'), '" +mgVal+ "' ); \n"
-					console.log(mgVal, Number.isInteger(mgVal), mgs,v, sql2)
+					"VALUES (" + v.uuid_id + ",nextval('dbid'),18,112270,112272); \n"
+					if(isInt(mgVal)){
+						sql2 += "INSERT INTO integer (integer_id, value) " +
+						"VALUES (currval('dbid'), '" +mgVal+ "' ); \n"
+					}else{
+						sql2 += "INSERT INTO double (double_id, value) " +
+						"VALUES (currval('dbid'), '" +mgVal+ "' ); \n"
+					}
+					console.log(isInt(mgVal), isFloat(mgVal), '->', mgVal, Number.isInteger(mgVal), mgs,v, sql2,'\n',sql)
+					/*
+					console.log(mgVal1, mgVal, Number.isInteger(mgVal), mgs,v, sql2,'\n',sql)
+					 */
+					writeSql({sql : sql2,
+						dataAfterSave:function(response){
+							console.log(response.data)
+						}
+					})
+
 				}
 				i++
 			})

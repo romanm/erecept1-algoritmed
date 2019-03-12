@@ -96,6 +96,15 @@ function json_elementsMap(json, elementsMap, referencesMap){
 		json_elementsMap(v, elementsMap, referencesMap)
 	})
 }
+/*
+ * */
+function isInt(n){
+	return Number(n) === n && n % 1 === 0;
+}
+
+function isFloat(n){
+	return Number(n) === n && n % 1 !== 0;
+}
 
 var sql_app = {}
 
