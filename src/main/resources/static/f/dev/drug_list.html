@@ -26,7 +26,16 @@
 							<div class="w3-small">{{row.reestr2Map[r.id].ed_form}}
 								{{row.reestr2Map[r.id].vint}} 
 								{{row.reestr2Map[r.id].vfloat}} 
-								{{row.reestr2Map[r.id].ed}}</div>
+								{{row.reestr2Map[r.id].ed}}
+								<span
+								data-ng-if="row.reestr2Map[r.id].ed2"
+								>
+								/
+								{{row.reestr2Map[r.id].vint2}} 
+								{{row.reestr2Map[r.id].vfloat2}} 
+								{{row.reestr2Map[r.id].ed2}}
+								</span>
+								</div>
 							<div class="w3-tiny w3-right">{{r.n_______29}} -
 								{{r.n_______30}}</div> {{r.n________3}}
 							<div>{{r.n________5}}</div>

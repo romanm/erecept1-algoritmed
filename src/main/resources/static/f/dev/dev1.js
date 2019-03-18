@@ -1,5 +1,4 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
-	console.log(123)
 	initApp($scope, $http)
 
 	splitPakung()
@@ -11,13 +10,21 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		"WHERE parent=" + row.dtrade_id + " \n" +
 		"AND doc_id=uuid_id \n" +
 		"AND r.id=value"
-		var sql2 = "SELECT d.*, i.*, f.*,edfv.value ed_form, edv.value ed, uuid  \n" +
+
+		var sql2 = "SELECT d.*, i.*, f.*,edfv.value ed_form, edv.value ed, v2.*, uuid  \n" +
 		"FROM (SELECT uuid_id, value uuid FROM doc d0, uuid u where d0.parent=" +
 		row.dtrade_id +
 		" AND d0.doc_id=uuid_id) u \n" +
 		", doc d \n" +
 		"LEFT JOIN (SELECT integer_id, value vint FROM integer) i ON integer_id=d.doc_id \n" +
 		"LEFT JOIN (SELECT double_id, value vfloat FROM double) f ON double_id=d.doc_id \n" +
+		"left join ( \n" +
+		"SELECT d2.doc_id v2_id, d2.parent parent2, f2.*, i2.*, edv2.value ed2 FROM  doc d2 \n" +
+		"LEFT JOIN (SELECT integer_id, value vint2 FROM integer) i2 ON integer_id=d2.doc_id \n" +
+		"LEFT JOIN (SELECT double_id, value vfloat2 FROM double) f2 ON double_id=d2.doc_id \n" +
+		", string edv2 \n" +
+		"where edv2.string_id = d2.reference2 \n" +
+		") v2 ON parent2=d.doc_id \n" +
 		", doc edf, string edfv \n" +
 		", doc ed, string edv \n" +
 		"WHERE d.parent = uuid_id \n" +
@@ -26,8 +33,8 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		"AND edfv.string_id = edf.doc_id \n" +
 		"AND d.reference2 = ed.doc_id \n" +
 		"AND edv.string_id = ed.doc_id"
-		console.log(row)
-//		console.log(row, sql,'\n', sql2)
+//		console.log(row)
+		console.log(row, sql,'\n', sql2)
 		readSql({
 			sql:sql,
 			afterRead:function(response){
@@ -211,7 +218,110 @@ function addID(newValue){
 	})
 }
 
-function splitPakung(){
+function splitPakung(){//ампул мг мл
+	var sql = "SELECT id,n________5,n________3,n_________,n________2, u.*, d.* \n" +
+	"FROM reestr, uuid u \n" +
+	"left join doc d on parent=uuid_id \n" +
+	"where value=id \n" +
+	"and n________5 like '%ампул%' \n" +
+	"and array_length(regexp_split_to_array(n________3, E' мг/мл по '),1)=2 \n" +
+	"order by n________2, n_________"
+	console.log(sql)
+	readSql({
+		sql:sql
+		,afterRead:function(response){
+			var i = 0
+			angular.forEach(response.data.list, function(v){
+				if(i<1){
+					var mgs = v.n________3.split('мг/мл по'),
+					mgMlVal = mgs[0].trim().split(' ').reverse()[0].replace(',','.')*1,
+					mlVal = mgs[1].trim().split(' ')[0].replace(',','.')*1
+					var sql2 = "INSERT INTO doc (parent,doc_id,doctype,reference,reference2) " +
+					"VALUES (" + v.uuid_id + ", :nextDbId1, 18, 112271, 115779); \n"
+					if(isInt(mgMlVal)){
+						sql2 += "INSERT INTO integer (integer_id, value) " +
+						"VALUES ( :nextDbId1, '" +mgMlVal+ "' ); \n"
+					}else{
+						sql2 += "INSERT INTO double (double_id, value) " +
+						"VALUES ( :nextDbId1, '" +mgMlVal+ "' ); \n"
+					}
+					if(mlVal){//МУКОСОЛ
+						sql2 += "INSERT INTO doc (parent,doc_id,doctype,reference2) " +
+						"VALUES ( :nextDbId1, :nextDbId2, 18, 112273); \n"
+						if(isInt(mlVal)){
+							sql2 += "INSERT INTO integer (integer_id, value) " +
+							"VALUES ( :nextDbId2, '" +mlVal+ "' ); \n"
+						}else{
+							sql2 += "INSERT INTO double (double_id, value) " +
+							"VALUES ( :nextDbId2, '" +mlVal+ "' ); \n"
+						}	
+					}
+					console.log(mgMlVal, mlVal, mgs, v, sql2)
+				}
+				i++
+			})
+		}
+	})
+
+}
+
+function splitPakungAmpulMgMl(){//ампул мг мл
+	var sql = "SELECT id,n________5,n_________,n________2, u.*, d.* \n" +
+	"FROM reestr, uuid u \n" +
+	"left join doc d on parent=uuid_id \n" +
+	"where value=id \n" +
+	"and n________5 like '%ампул%' \n" +
+	"and n________5 like '% мл %' \n" +
+	"and array_length(regexp_split_to_array(n________5, E' мг'),1)=2 \n" +
+	"and doc_id is null \n" +
+	"order by n________2, n_________"
+	console.log(sql)
+	readSql({
+		sql:sql
+		,afterRead:function(response){
+			var i = 0
+			angular.forEach(response.data.list, function(v){
+				if(i<11){
+					var mgs = v.n________5.split('мг'),
+					mgVal = mgs[0].trim().split(' ').reverse()[0].replace(',','.')*1
+					var mls = v.n________5.split('мл'),
+					mlVal = mls[0].trim().split(' ').reverse()[0].replace(',','.').replace('(','')*1
+					var sql2 = "INSERT INTO doc (parent,doc_id,doctype,reference,reference2) " +
+					"VALUES (" + v.uuid_id + ", :nextDbId1, 18, 112271, 112272); \n"
+					if(isInt(mgVal)){
+						sql2 += "INSERT INTO integer (integer_id, value) " +
+						"VALUES ( :nextDbId1, '" +mgVal+ "' ); \n"
+					}else{
+						sql2 += "INSERT INTO double (double_id, value) " +
+						"VALUES ( :nextDbId1, '" +mgVal+ "' ); \n"
+					}
+					if(mlVal){//АЛПРОСТАН® АМІОКОРДИН®
+						sql2 += "INSERT INTO doc (parent,doc_id,doctype,reference2) " +
+						"VALUES ( :nextDbId1, :nextDbId2, 18, 112273); \n"
+						if(isInt(mlVal)){
+							sql2 += "INSERT INTO integer (integer_id, value) " +
+							"VALUES ( :nextDbId2, '" +mlVal+ "' ); \n"
+						}else{
+							sql2 += "INSERT INTO double (double_id, value) " +
+							"VALUES ( :nextDbId2, '" +mlVal+ "' ); \n"
+						}	
+					}
+					console.log(mlVal, mgVal, v, sql2)
+					/*
+					 * */
+					writeSql({sql : sql2,
+						dataAfterSave:function(response){
+							console.log(response.data)
+						}
+					})
+				}
+				i++
+			})
+		}
+	})
+}
+
+function splitPakungTabletMg(){
 	var sql = "SELECT id,n________5,n_________,n________2, u.*, d.* \n" +
 	"FROM reestr, uuid u \n" +
 	"left join doc d on parent=uuid_id \n" +
@@ -225,7 +335,7 @@ function splitPakung(){
 		,afterRead:function(response){
 			var i = 0
 			angular.forEach(response.data.list, function(v){
-				if(i<1){
+				if(i<111){
 					var mgs = v.n________5.split('мг'),
 					mgVal = mgs[0].trim().split(' ').reverse()[0].replace(',','.')*1
 					var sql2 = "INSERT INTO doc (parent,doc_id,doctype,reference,reference2) " +
@@ -240,13 +350,12 @@ function splitPakung(){
 					console.log(isInt(mgVal), isFloat(mgVal), '->', mgVal, Number.isInteger(mgVal), mgs,v, sql2,'\n',sql)
 					/*
 					console.log(mgVal1, mgVal, Number.isInteger(mgVal), mgs,v, sql2,'\n',sql)
-					 */
+					*/
 					writeSql({sql : sql2,
 						dataAfterSave:function(response){
 							console.log(response.data)
 						}
 					})
-
 				}
 				i++
 			})

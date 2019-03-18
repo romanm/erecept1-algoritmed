@@ -1,7 +1,6 @@
 var app = angular.module('myApp', ['ngSanitize']);
 var exe_fn = {}
 var initApp = function($scope, $http){
-	console.log(123)
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {
@@ -107,7 +106,6 @@ function isFloat(n){
 }
 
 var sql_app = {}
-
 sql_app.amk025_template = function(){
 	return "SELECT * FROM doc d2, doc d1,docbody " +
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
