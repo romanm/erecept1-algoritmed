@@ -1,6 +1,47 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
 
+	$http.get('/f/json/dictionaries.json')
+	.then(function(response){
+		console.log(response.data)
+		var i1=0
+		angular.forEach(response.data.data, function(v){
+			if(i1<211){
+				console.log(i1, v.name)
+				readSql({
+					sql:"SELECT * FROM doc,string where string_id=doc_id and parent = 115920 and value = '" +
+					v.name +
+					"'",
+					afterRead:function(response){
+						console.log(response.data.list.length,response.data)
+						if(response.data.list.length==0){
+							var sql = "INSERT INTO doc (parent, doc_id,doctype) VALUES (115920, :nextDbId1, 18);\n"
+								sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, '" + v.name + "');\n"
+								var i = 1
+								angular.forEach(v.values, function(v2, k2){
+									console.log(k2,v2)
+									sql += "INSERT INTO doc (parent,doc_id,doctype) VALUES (:nextDbId1, :nextDbId" + ++i + ", 18);\n"
+									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + k2 + "');\n"
+									sql += "INSERT INTO doc (parent,reference,doc_id,doctype) VALUES (115924, :nextDbId" + i + ", :nextDbId" + ++i + ", 18);\n"
+									v2 = v2.replace(/'/g,"''")
+									v2 = v2.replace(/;/g,":,")
+									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + v2 + "');\n"
+								})
+								console.log(v.name,v,sql)
+								if(true){
+									writeSql({sql : sql,
+										dataAfterSave:function(response){
+											console.log(response.data)
+										}
+									})
+								}
+						}
+					}
+				})
+			}
+			i1++
+		})
+	}) 
 	splitPakung()
 
 	$scope.drug_list = {}
@@ -226,7 +267,7 @@ function splitPakung(){//ампул мг мл
 	"and n________5 like '%ампул%' \n" +
 	"and array_length(regexp_split_to_array(n________3, E' мг/мл по '),1)=2 \n" +
 	"order by n________2, n_________"
-	console.log(sql)
+//	console.log(sql)
 	readSql({
 		sql:sql
 		,afterRead:function(response){
@@ -256,7 +297,7 @@ function splitPakung(){//ампул мг мл
 							"VALUES ( :nextDbId2, '" +mlVal+ "' ); \n"
 						}	
 					}
-					console.log(mgMlVal, mlVal, mgs, v, sql2)
+//					console.log(mgMlVal, mlVal, mgs, v, sql2)
 				}
 				i++
 			})
