@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html data-n1g-app="myApp" data-n1g-controller="myCtrl" lang="uk-UA">
+<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
 <meta charset="utf-8" />
 <title>Аптека</title>
 <link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
 	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app001.js"></script>
+<script src="/f/new_apteka/start1.js"></script>
+
 <body class="w3-container">
+	<div class="w3-right-align">
+		<div data-ng-include="'/f/btn-to-login.html'"></div>
+	</div>
 	<h1 class="w3-container">Аптека НСЗУ електроний рецепт</h1>
 	<div class="w3-row-padding">
 		<div class="w3-half">
@@ -21,7 +32,8 @@
 				<div>Реєстрація аптеки</div>
 				<ul>
 					<li><a href="/f/apteka/start1.html">аптека</a></li>
-					<li><a href="/f/new_apteka/start1.html">Реєстрація нової аптеки</a></li>
+					<li><a href="/f/new_apteka/start1.html">Реєстрація нової
+							аптеки</a></li>
 				</ul>
 			</div>
 		</div>
