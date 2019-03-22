@@ -111,3 +111,10 @@ sql_app.amk025_template = function(){
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
 }
 
+sql_app.read_table_config=function(){
+	return "SELECT * FROM doc d, docbody s \n" +
+	"WHERE parent = :tableId AND s.docbody_id=d.doc_id AND doctype!=4"
+}
+sql_app.read_sql_from_docRoot = function(){
+	return "SELECT * FROM doc, docbody  WHERE doc_id=docbody_id and doctype=19  AND parent=:jsonId AND reference = :tableId "
+}

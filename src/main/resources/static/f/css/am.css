@@ -3,6 +3,8 @@
 .am-i {font-style: italic; }
 .am-u {text-decoration: underline; }
 a.am-0u {text-decoration: none; }
+.am-uppercase{text-transform: uppercase;}
+
 
 table.am-amk025-table tr td{
 	vertical-align: top;
