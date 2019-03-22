@@ -13,10 +13,9 @@
 <script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
 <script src="/f/js/app001.js"></script>
 <script src="/f/recept/start1.js"></script>
-<body class="w3-container">
-	<h1 class="w3-container w3-small">
-		<span data-ng-include="'/f/home-link.html'"></span> &nbsp; рецепт
-	</h1>
+<body class="w13-container">
+<div data-ng-repeat="o in [{page_title:'рецепт',page_group:'провізор'}]"
+		data-ng-include="'/f/page-head.html'"></div>
 	<div class="w3-row-padding">
 		<div class="w3-twothird">
 			<div class="w3-small am-b w3-hover-shadow">Відпущені рецепти в

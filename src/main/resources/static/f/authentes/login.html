@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
 <meta charset="utf-8" />
-<title>Реєстрація нової аптеки</title>
+<title>Логі́н</title>
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
@@ -15,26 +15,10 @@
 <script src="/f/new_apteka/start1.js"></script>
 <body>
 	<div
-		data-ng-repeat="o in [{page_title:'Реєстрація нової аптеки', page_group:'Адмін сторінка закладу'}]"
+		data-ng-repeat="o in [{page_title:'Логі́н', page_group:'Автентифікація'}]"
 		data-ng-include="'/f/page-head.html'"></div>
 	<div class="w3-container" style="margin-top: 2px;">
-		<button class="w3-border">Запис</button>
-		<div data-ng-repeat="o in legal_entitie_template.children"
-			data-ng-switch="o.value">
-			<div class="w3-row-padding" data-ng-switch-default>
-				<div class="w3-quarter ">
-					<div class="w3-right-align">
-						<span class="am-b">
-							{{fieldName(['legal_entitie',o.value])}} </span>
-					</div>
-				</div>
-				<div class="w3-threequarter">
-					<input data-ng-change1="editDoc.change(o)"
-						data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"
-						class="w3-border w3-input">
-				</div>
-			</div>
-		</div>
+		<div data-ng-include="'/f/authentes/form_login.html'"></div>
 	</div>
 </body>
 </html>

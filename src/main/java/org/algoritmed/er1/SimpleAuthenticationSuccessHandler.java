@@ -33,7 +33,8 @@ implements AuthenticationSuccessHandler, LogoutSuccessHandler{
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication arg2)
 			throws IOException, ServletException {
-		String redirectUrl = "/v/login1";
+//		String redirectUrl = "/v/login1";
+		String redirectUrl = "/f/authentes/login.html";
 		System.err.println("--40-- redirectUrl--"+redirectUrl);
 		redirectStrategy.sendRedirect(request, response, redirectUrl);
 		

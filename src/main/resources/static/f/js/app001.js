@@ -16,6 +16,15 @@ var initApp = function($scope, $http){
 		if (!search) return text;
 		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
 	}
+	exe_fn.httpGet({
+		url:'/r/principal',
+		then_fn:function(response){
+			if(response.data.principal){
+				$scope.principal = response.data.principal
+				console.log($scope.principal.name,$scope.principal)
+			}
+		},
+	})
 }
 
 function replaceParams(params){
