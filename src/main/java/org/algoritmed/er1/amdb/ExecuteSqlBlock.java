@@ -26,7 +26,7 @@ public class ExecuteSqlBlock {
 		this.dbJdbcTemplate = dbJdbcTemplate;
 	}
 //	private Environment env;
-//	@Autowired 
+	@Autowired 
 	protected Environment env;
 	/**
 	 * Генератор наступного ID единого для всієї БД.
@@ -119,6 +119,27 @@ public class ExecuteSqlBlock {
 		return sql_from_env;
 	}
 
+	public void executeSql(Map<String, Object> data) {
+		String sql = (String) data.get("sql");
+		updateNewIds(sql, data, env);
+
+		int i = 0;
+		for (String sql_command : sql.split(";")) {
+			System.err.println(i);
+			String sql2 = sql_command.trim();
+			System.err.println(sql2);
+			String first_word = sql2.split(" ")[0];
+			if("SELECT".equals(first_word)) {
+				List<Map<String, Object>> list = dbParamJdbcTemplate.queryForList(sql2, data);
+				data.put("list"+i, list);
+			}else {
+				int update = dbParamJdbcTemplate.update(sql2, data);
+				data.put("update_"+ i, update);
+			}
+			i++;
+		}
+	}
+	
 	public void updateNewIds(String sql, Map<String, Object> data, Environment env) {
 		this.env =env;
 		String[] split_nextDbId = null;

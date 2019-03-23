@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
 <meta charset="utf-8" />
-<title>Логі́н</title>
+<title>{{ctrl.page_title}}</title>
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
@@ -12,13 +13,17 @@
 <script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
 <script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
 <script src="/f/js/app001.js"></script>
-<script src="login.js"></script>
+<script src="login-activate.js"></script>
 <body>
 	<div
-		data-ng-repeat="o in [{page_title:'Логі́н', page_group:'Автентифікація'}]"
+		data-ng-repeat="o in [{page_title:ctrl.page_title, page_group:'Автентифікація'}]"
 		data-ng-include="'/f/page-head.html'"></div>
 	<div class="w3-container" style="margin-top: 2px;">
-		<div data-ng-include="'/f/authentes/form_login.html'"></div>
+		<h1>{{ctrl.page_title}}</h1>
+		<div class="w3-panel w3-red" data-ng-if="ctrl.error_text">
+			<h3>Небезпечно!</h3>
+			<p>{{ctrl.error_text}}</p>
+		</div>
 	</div>
 </body>
 </html>

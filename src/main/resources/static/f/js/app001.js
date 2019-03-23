@@ -25,6 +25,25 @@ var initApp = function($scope, $http){
 			}
 		},
 	})
+	build_request($scope)
+
+}
+
+function build_request($scope){
+	$scope.request={};
+//	console.log($scope.request)
+	$scope.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
+	$scope.request.parameters={};
+	if(window.location.search.split('?')[1]){
+		angular.forEach(window.location.search.split('?')[1].split('&'), function(value, index){
+			var par = value.split("=");
+			$scope.request.parameters[par[0]] = par[1];
+		});
+	}
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
 }
 
 function replaceParams(params){

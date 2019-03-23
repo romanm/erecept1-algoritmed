@@ -36,26 +36,12 @@ public class Db1Rest extends DbCommon{
 				+ "\n SQL = \n"+data.get("sql")
 //				+ "\n" + data
 				);
-		String sql = (String) data.get("sql");
-		executeSqlBlock.updateNewIds(sql, data, env);
-		int i = 0;
-		for (String sql_command : sql.split(";")) {
-			System.err.println(i);
-			String sql2 = sql_command.trim();
-			System.err.println(sql2);
-			String first_word = sql2.split(" ")[0];
-			if("SELECT".equals(first_word)) {
-				List<Map<String, Object>> list = dbParamJdbcTemplate.queryForList(sql2, data);
-				data.put("list"+i, list);
-			}else {
-				int update = dbParamJdbcTemplate.update(sql2, data);
-				data.put("update_"+ i, update);
-			}
-			i++;
-		}
+		executeSqlBlock.executeSql(data);
 		data.remove("sql");
 		return data;
 	}
+
+	
 
 	@GetMapping("/r/url_sql_read_db1")
 	public @ResponseBody Map<String, Object> url_sql_read_db1(

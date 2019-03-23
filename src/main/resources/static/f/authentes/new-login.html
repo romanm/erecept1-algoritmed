@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl" lang="uk-UA">
+<meta charset="utf-8" />
+<title>Новий користувач</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app001.js"></script>
+<script src="new-login.js"></script>
+<body>
+	<div
+		data-ng-repeat="o in [{page_title:'Новий користувач', page_group:'Автентифікація'}]"
+		data-ng-include="'/f/page-head.html'"></div>
+	<div class="w3-container" style="margin-top: 2px;">
+		<div>
+		<div class="w3-row">
+			<div class="w3-col m3 l3 s3 w3-small">Ім’я користувача</div>
+			<div class="w3-col m9 l9 s9">
+				<input type="text" class="w3-border" data-ng-model="ctrl.newUser.username"
+					placeholder="Логін ім'я">
+			</div>
+		</div>
+		<div class="w3-row">
+			<div class="w3-col m3 l3 s3 ">Пароль:</div>
+			<div class="w3-col m9 l9 s9">
+				<input type="password" placeholder="Пароль"
+				data-ng-model="ctrl.newUser.password"
+					class="w3-border">
+			</div>
+		</div>
+			<div class="w3-row">
+				<div class="w3-col m3 l3 s3 w3-small">Пароль підтвердження:</div>
+				<div class="w3-col m9 l9 s9">
+					<input type="password" placeholder="Пароль для порівняння"
+						data-ng-blur="ctrl.newUser.checkEqualsPassword()"
+						data-ng-model="ctrl.newUser.password2" class="w3-border">
+					<div class="w3-red" data-ng-if="!ctrl.newUser.equalsPassword">
+						Паролі не однакові</div>
+				</div>
+			</div>
+			<div class="w3-row">
+			<div class="w3-col m3 l3 s3 ">Електрона пошта:</div>
+			<div class="w3-col m9 l9 s9">
+				<input type="email" placeholder="e@ma.il"
+				data-ng-model="ctrl.newUser.email"
+					class="w3-border">
+			</div>
+		</div>
+		<a class="w3-btn w3-border w3-round"
+		data-ng-click="ctrl.newUser.next1()"
+		href="#"
+			h1ref="/logout"> Далі 
+			<i class="fa {{ctrl.nextArrow.array[ctrl.nextArrow.random3]}}" aria-hidden="true"></i>
+			</a>
+	</div>
+	</div>
+</body>
+</html>
