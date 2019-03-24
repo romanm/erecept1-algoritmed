@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl" lang="uk-UA">
 <meta charset="utf-8" />
 <title>Реєстрація нової аптеки</title>
 <link rel="stylesheet" href="/f/css/w3.css">
@@ -18,20 +18,28 @@
 		data-ng-repeat="o in [{page_title:'Реєстрація нової аптеки', page_group:'Адмін сторінка закладу'}]"
 		data-ng-include="'/f/page-head.html'"></div>
 	<div class="w3-container" style="margin-top: 2px;">
-		<button class="w3-border">Запис</button>
-		<div data-ng-repeat="o in legal_entitie_template.children"
-			data-ng-switch="o.value">
-			<div class="w3-row-padding" data-ng-switch-default>
-				<div class="w3-quarter ">
-					<div class="w3-right-align">
-						<span class="am-b">
-							{{fieldName(['legal_entitie',o.value])}} </span>
+		<div data-ng-if="!ctrl.legal_entitie">
+			<button class="w3-border" data-ng-click="ctrl.createNewAptek()">Створити
+				нову аптеку</button>
+		</div>
+		<div data-ng-if="ctrl.legal_entitie">
+			<button class="w3-border">Запис</button>
+			<div data-ng-repeat="o in legal_entitie_template.children"
+				data-ng-switch="o.value">
+				<div class="w3-row-padding" data-ng-switch-default>
+					<div class="w3-quarter ">
+						<div class="w3-right-align" title="{{o.doc_id}}">
+							<span class="am-b">
+								{{fieldName(['legal_entitie',o.value])}} </span>
+						</div>
 					</div>
-				</div>
-				<div class="w3-threequarter">
-					<input data-ng-change1="editDoc.change(o)"
-						data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"
-						class="w3-border w3-input">
+					<div class="w3-threequarter">
+						<input data-ng-change1="editDoc.change(o)"
+						data-ng-model="o.value_element['value']"
+							data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"
+							class="w3-border w3-input">
+								{{elementsMap[o.value_element.parent].doc_id}}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,59 @@
-app.controller('myCtrl', function($scope, $http, $interval, $filter) {
-	console.log(123)
+app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
+	var ctrl = this
+	ctrl.createNewAptek = function(){
+		//122596 - аптеки:bigdata, 115827 - legal_entitie:datamodel, 18 # element,
+		//122617 - author.create.
+		var sql = "INSERT INTO doc (doc_id,parent,reference,doctype) VALUES (:nextDbId1, 122596,115827, 18);\n" +
+		"INSERT INTO doc (doc_id,parent,reference,reference2,doctype) VALUES (:nextDbId2, :nextDbId1, 122617, :user_id, 18);\n"
+		sql += sql_mtAptek
+		console.log(sql)
+		if(ctrl.legal_entitie)
+			return
+		writeSql({sql : sql,
+			user_id:$scope.principal.user_id,
+			dataAfterSave:function(response){
+				set_legal_entitie(response.data.list2[0])
+			}
+		})
+	}
+	
+	var sql_mtAptek = "SELECT d1.*,value complex_type FROM doc d1,string,doc d2 " +
+	"WHERE d1.reference=string_id AND d1.doc_id=d2.parent AND d2.reference2 = :user_id ;\n"
+	
+	var set_legal_entitie = function(o){
+		ctrl.legal_entitie = o
+		$scope.elementsMap[o.doc_id] = o
+		$scope.elementsMap[o.reference].value_element = o
+//		console.log(ctrl.legal_entitie.doc_id, ctrl.legal_entitie,1111111, $scope.elementsMap[o.reference], o.reference, o.doc_id)
+		readSql({
+			sql:sql_app.doc_read_parent_elements(),
+			parent:ctrl.legal_entitie.doc_id,
+			afterRead:function(response){
+				ctrl.legal_entitie.children = response.data.list
+				angular.forEach(ctrl.legal_entitie.children, function(v){
+					mapElement(v, $scope.elementsMap)
+//					console.log(v, $scope.elementsMap[v.reference])
+					if($scope.elementsMap[v.reference]){
+						$scope.elementsMap[v.reference].value_element = v
+					}
+				})
+			},
+		})
+	}
+	
+	$scope.$watch('principal',function(){
+		if($scope.principal){
+//			console.log(sql_mtAptek, $scope.principal.user_id)
+			readSql({
+				sql: sql_mtAptek,
+				user_id:$scope.principal.user_id,
+				afterRead:function(response){
+					set_legal_entitie(response.data.list[0])
+				}
+			})
+		}
+	})
 
 	readSql({
 		sql:sql_app.read_json_doc(),
@@ -8,12 +61,18 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 		afterRead:function(response){
 			$scope.eHealth_template = JSON.parse(response.data.list[0].docbody)
 			$scope.legal_entitie_template = $scope.eHealth_template.docRoot.children[2].children[0]
+			mapElement($scope.legal_entitie_template, $scope.elementsMap)
+			if(false)
 			console.log(
-					$scope.legal_entitie_template
+				$scope.legal_entitie_template,
+				$scope.legal_entitie_template.doc_id,
+				$scope.elementsMap,
+				123,
+				$scope.elementsMap[$scope.legal_entitie_template.doc_id]
 			)
-
 		}
 	})
+
 	$scope.fieldName = function(path){
 		var oFieldName = field_names
 		var last_path
@@ -27,13 +86,42 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	}
 	$scope.editDoc = {}
 	$scope.editDoc.blur = function(o){
-		console.log('blur',o)
+		console.log('blur', o.doc_id,o.value,'\n value_element = ',o.value_element)
+		if(o.value_element.doc_id){
+			var sql = "UPDATE string SET value = '" + o.value_element.value + "' WHERE string_id=" + o.value_element.doc_id + ";"
+//			console.log(sql)
+			writeSql({
+				sql:sql,
+				dataAfterSave:function(response){
+					console.log(response.data)
+				}
+			})
+		}else{
+			if(o.value_element.value){
+				var sql = "INSERT INTO doc (doc_id,parent,reference,doctype) " +
+				"VALUES (:nextDbId1, " + o.value_element.parent + "," + o.value_element.reference + ", 18);\n" +
+				"INSERT INTO string (string_id,value) " +
+				"VALUES (:nextDbId1, '" + o.value_element.value + "');"
+//				console.log(sql)
+				writeSql({
+					sql:sql,
+					dataAfterSave:function(response){
+						o.value_element.doc_id = response.data.nextDbId1
+//						console.log(response.data, o.value_element)
+					}
+				})
+			}
+		}
 	}
 	$scope.editDoc.focus = function(o){
-		console.log('focus',o)
+		console.log('focus',o.doc_id,o.value,!o.value_element,o.parent, $scope.elementsMap[o.parent])
+		if(!o.value_element){
+			o.value_element = {reference:o.doc_id,parent:$scope.elementsMap[o.parent].value_element.doc_id}
+		}
+		console.log(o.value_element)
 	}
 	$scope.editDoc.change = function(o){
-		console.log(o)
+		console.log("change",o.doc_id)
 	}
 })
 

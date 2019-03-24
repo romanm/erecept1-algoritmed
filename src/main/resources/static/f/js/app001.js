@@ -21,12 +21,24 @@ var initApp = function($scope, $http){
 		then_fn:function(response){
 			if(response.data.principal){
 				$scope.principal = response.data.principal
-				console.log($scope.principal.name,$scope.principal)
+				$scope.principal.user_id = response.data.list0[0].user_id
+				/*
+				console.log($scope.principal.name
+						,$scope.principal
+						,$scope.principal.user_id
+						)
+				 * */
 			}
 		},
 	})
 	build_request($scope)
+}
 
+var mapElement = function(element,elementsMap){
+	elementsMap[element.doc_id] = element
+	angular.forEach(element.children, function(el){
+		mapElement(el, elementsMap)
+	})
 }
 
 function build_request($scope){
@@ -145,4 +157,22 @@ sql_app.read_table_config=function(){
 }
 sql_app.read_sql_from_docRoot = function(){
 	return "SELECT * FROM doc, docbody  WHERE doc_id=docbody_id and doctype=19  AND parent=:jsonId AND reference = :tableId "
+}
+
+sql_app.doc_read_elements = function(){
+	return "SELECT * FROM doc d1 \n" +
+	"LEFT JOIN string ON string_id=d1.doc_id \n" +
+	"LEFT JOIN docbody ON docbody_id=d1.doc_id \n" +
+	"LEFT JOIN sort ON sort_id=d1.doc_id \n" +
+	"LEFT JOIN (SELECT double_id, value vreal FROM double) r ON double_id=d1.doc_id \n" +
+	"LEFT JOIN (SELECT doc_id, s.value string_reference FROM doc LEFT JOIN string s ON string_id=doc_id ) d2 ON d2.doc_id=d1.reference \n" +
+	"LEFT JOIN (SELECT doc_id, s.value string_reference2 FROM doc LEFT JOIN string s ON string_id=doc_id ) d3 ON d3.doc_id=d1.reference2 \n" +
+	"LEFT JOIN (SELECT inn_id, inn inn_reference2 FROM inn ) n2 ON n2.inn_id=d1.reference2 \n" +
+	"WHERE d1.doc_id IN "
+}
+
+sql_app.doc_read_parent_elements = function(){
+	return sql_app.doc_read_elements() + "(" +
+	"SELECT doc_id FROM doc where parent=:parent" +
+	")"
 }
