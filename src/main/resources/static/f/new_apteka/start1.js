@@ -85,6 +85,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		return r
 	}
 	$scope.editDoc = {}
+	
 	$scope.editDoc.blur = function(o){
 		console.log('blur', o.doc_id,o.value,'\n value_element = ',o.value_element)
 		if(o.value_element.doc_id){
@@ -113,12 +114,32 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 			}
 		}
 	}
+	$scope.editDoc.blur_select = function(o){
+		console.log('blur_select',o)
+	}
 	$scope.editDoc.focus = function(o){
-		console.log('focus',o.doc_id,o.value,!o.value_element,o.parent, $scope.elementsMap[o.parent])
 		if(!o.value_element){
 			o.value_element = {reference:o.doc_id,parent:$scope.elementsMap[o.parent].value_element.doc_id}
 		}
-		console.log(o.value_element)
+		console.log('focus',o.doc_id,o.value,!o.value_element,o, $scope.elementsMap[o.parent],o.value_element)
+		if(o.reference){
+			var sql = "SELECT d1.*, s1.value, s2.value value_ua " +
+			"FROM doc d1, string s1, doc d2, string s2 " +
+			"WHERE d1.parent=" + o.reference +" " +
+			"AND d2.reference=d1.doc_id " +
+			"AND s1.string_id=d1.doc_id " +
+			"AND s2.string_id=d2.doc_id " +
+			"AND d2.parent=115924; "
+			readSql({
+				sql:sql,
+				afterRead:function(response){
+					var o2 = {doc_id:o.reference, value:o.string_reference}
+					o2.children = response.data.list
+					$scope.elementsMap[o.reference] = o2
+					console.log(o2)
+				}
+			})
+		}
 	}
 	$scope.editDoc.change = function(o){
 		console.log("change",o.doc_id)

@@ -18,31 +18,13 @@
 		data-ng-repeat="o in [{page_title:'Реєстрація нової аптеки', page_group:'Адмін сторінка закладу'}]"
 		data-ng-include="'/f/page-head.html'"></div>
 	<div class="w3-container" style="margin-top: 2px;">
-		<div data-ng-if="!ctrl.legal_entitie">
+		<div data-ng-if="!principal">Потрібна відповідна Автентифікація</div>
+		<div data-ng-if="!ctrl.legal_entitie && principal">
 			<button class="w3-border" data-ng-click="ctrl.createNewAptek()">Створити
 				нову аптеку</button>
 		</div>
-		<div data-ng-if="ctrl.legal_entitie">
-			<button class="w3-border">Запис</button>
-			<div data-ng-repeat="o in legal_entitie_template.children"
-				data-ng-switch="o.value">
-				<div class="w3-row-padding" data-ng-switch-default>
-					<div class="w3-quarter ">
-						<div class="w3-right-align" title="{{o.doc_id}}">
-							<span class="am-b">
-								{{fieldName(['legal_entitie',o.value])}} </span>
-						</div>
-					</div>
-					<div class="w3-threequarter">
-						<input data-ng-change1="editDoc.change(o)"
-						data-ng-model="o.value_element['value']"
-							data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"
-							class="w3-border w3-input">
-								{{elementsMap[o.value_element.parent].doc_id}}
-					</div>
-				</div>
-			</div>
-		</div>
+		<div data-ng-if="ctrl.legal_entitie"
+			data-ng-include="'/f/new_apteka/new_apteka_form.html'"></div>
 	</div>
 </body>
 </html>
