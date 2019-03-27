@@ -1,0 +1,11 @@
+<span> <span class="am-b">
+		{{fieldName(['legal_entitie',o.value])}} </span> <select
+	data-ng-if="elementsMap[o.reference]" data-ng-focus="editDoc.focus(o)"
+	data-ng-blur="editDoc.blur_select(o)"
+	data-ng-model="o.value_element['reference2']" class="w3-border">
+		<option value="{{o2.doc_id}}"
+			ng-selected="o.value_element['reference2']==o2.doc_id"
+			data-ng-repeat="o2 in elementsMap[o.reference].children">
+			{{o2.value_ua}}</option>
+</select>
+</span>

@@ -1,0 +1,20 @@
+<div class="w3-row-padding">
+	<div class="w3-quarter ">
+		<div class="w3-right-align" title="{{o.doc_id}}, {{o.value}}">
+			<a href="#" class="w3-btn" data-ng-click="ctrl.editDoc.addList(o)">+</a>
+			<span class="am-b"> {{fieldName(['legal_entitie',o.value])}} </span>
+		</div>
+	</div>
+	<div class="w3-threequarter">
+		<div data-ng-repeat="o2 in o.value_elements">
+			<div class="w3-block w3-hover-shadow"
+				data-ng-click="o2.openToEdit = !o2.openToEdit">
+				<i class="fa fa-pencil-square-o"
+					data-ng-if="o2.openToEdit" aria-hidden="true"></i>
+				{{o.doc_id}}
+			</div>
+			<div class="w3-hide w3-border w3-container"
+				data-ng-class="{'w3-show':o2.openToEdit}">{{o.doc_id}}</div>
+		</div>
+	</div>
+</div>

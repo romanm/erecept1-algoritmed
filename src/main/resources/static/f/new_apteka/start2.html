@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl" lang="uk-UA">
+<meta charset="utf-8" />
+<title>Реєстрація нової аптеки</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app001.js"></script>
+<script src="/f/new_apteka/start1.js"></script>
+<body>
+	<div
+		data-ng-repeat="o in [{page_title:'Реєстрація нової аптеки', page_group:'Адмін сторінка закладу',width1:30,width2:50}]"
+		data-ng-include="'/f/page-head.html'"></div>
+	<div class="w3-container" style="margin-top: 2px;">
+		<div data-ng-if="!principal">Потрібна відповідна Автентифікація</div>
+		<div data-ng-if="!ctrl.legal_entitie && principal">
+			<button class="w3-border" data-ng-click="ctrl.createNewAptek()">Створити
+				нову аптеку</button>
+		</div>
+		<div data-ng-if="ctrl.legal_entitie"
+			data-ng-include="'/f/new_apteka/new_apteka_form2.html'"></div>
+	</div>
+</body>
+</html>

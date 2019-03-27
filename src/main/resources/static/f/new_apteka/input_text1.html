@@ -1,0 +1,14 @@
+<div class="w3-row-padding">
+	<div class="w3-quarter ">
+		<div class="w3-right-align" title="{{o.doc_id}}, {{o.value}}">
+			<span class="am-b"> {{fieldName(['legal_entitie',o.value])}} </span>
+		</div>
+	</div>
+	<div class="w3-threequarter">
+		<input data-ng-change1="editDoc.change(o)"
+			data-ng-focus="editDoc.focus(o)" 
+			data-ng-model="o.value_element['value']"
+			data-ng-blur="editDoc.blur(o)"
+			class="w3-border w3-input">
+	</div>
+</div>

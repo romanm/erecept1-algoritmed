@@ -1,0 +1,28 @@
+<div>
+	<button class="w3-border" data-ng-class="{'w3-disabled':true}">Запис</button>
+	<div>
+		<span data-ng-repeat="o_id in [115788]"
+			data-ng-init="o = elementsMap[o_id]"
+			data-ng-include="'/f/new_apteka/select2.html'"></span> <span
+			data-ng-repeat="o_id in [115791]"
+			data-ng-init="o = elementsMap[o_id]"
+			data-ng-include="'/f/new_apteka/input_text2.html'"></span>
+	</div>
+	<div>
+		<span data-ng-repeat="o_id in [115785]"
+			data-ng-init="o = elementsMap[o_id]"
+			data-ng-include="'/f/new_apteka/select2.html'"></span>
+	</div>
+	<div>
+		<span data-ng-repeat="o_id in [115786]"
+			data-ng-init="o = elementsMap[o_id]"
+			data-ng-include="'/f/new_apteka/select2.html'"></span>
+	</div>
+	<div data-ng-repeat="o_id in [115782, 115783, 115784]"
+		data-ng-init="o = elementsMap[o_id]"
+		data-ng-include="'/f/new_apteka/input_text1.html'"></div>
+	<div data-ng-repeat="o_id in [115789]"
+		data-ng-init="o = elementsMap[o_id]"
+		data-ng-include="'/f/new_apteka/input_list1.html'"></div>
+
+</div>
