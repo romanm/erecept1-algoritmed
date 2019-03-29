@@ -1,48 +1,9 @@
 app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	initApp($scope, $http)
 
-	$http.get('/f/json/dictionaries.json')
-	.then(function(response){
-		console.log(response.data)
-		var i1=0
-		angular.forEach(response.data.data, function(v){
-			if(i1<211){
-				console.log(i1, v.name)
-				readSql({
-					sql:"SELECT * FROM doc,string where string_id=doc_id and parent = 115920 and value = '" +
-					v.name +
-					"'",
-					afterRead:function(response){
-						console.log(response.data.list.length,response.data)
-						if(response.data.list.length==0){
-							var sql = "INSERT INTO doc (parent, doc_id,doctype) VALUES (115920, :nextDbId1, 18);\n"
-								sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, '" + v.name + "');\n"
-								var i = 1
-								angular.forEach(v.values, function(v2, k2){
-									console.log(k2,v2)
-									sql += "INSERT INTO doc (parent,doc_id,doctype) VALUES (:nextDbId1, :nextDbId" + ++i + ", 18);\n"
-									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + k2 + "');\n"
-									sql += "INSERT INTO doc (parent,reference,doc_id,doctype) VALUES (115924, :nextDbId" + i + ", :nextDbId" + ++i + ", 18);\n"
-									v2 = v2.replace(/'/g,"''")
-									v2 = v2.replace(/;/g,":,")
-									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + v2 + "');\n"
-								})
-								console.log(v.name,v,sql)
-								if(true){
-									writeSql({sql : sql,
-										dataAfterSave:function(response){
-											console.log(response.data)
-										}
-									})
-								}
-						}
-					}
-				})
-			}
-			i1++
-		})
-	}) 
-	splitPakung()
+	importDictionary2($http)
+
+//	splitPakung()
 
 	$scope.drug_list = {}
 	$scope.drug_list.openRow = function(row){
@@ -259,6 +220,73 @@ function addID(newValue){
 	})
 }
 
+function importDictionary2($http){//
+	console.log('importDictionary2')
+	$http.get('/f/json/dictionaries2.json')
+	.then(function(response){
+		var i1=0, i2=0
+		angular.forEach(response.data.data, function(v){
+			i1++
+			readSql({
+				sql:"SELECT * FROM doc,string where string_id=doc_id and parent = 115920 and value = '" +
+				v.name +
+				"'",
+				afterRead:function(response){
+					if(response.data.list.length==0){
+						console.log(i2, v.name)
+						i2++
+					}
+					
+				},
+			})
+		})
+	})
+}
+
+function importDictionary1(){//
+	$http.get('/f/json/dictionaries2.json')
+	.then(function(response){
+		console.log(response.data)
+		var i1=0
+		angular.forEach(response.data.data, function(v){
+//			if(i1<211){
+			if(i1<1){
+				console.log(i1, v.name)
+				readSql({
+					sql:"SELECT * FROM doc,string where string_id=doc_id and parent = 115920 and value = '" +
+					v.name +
+					"'",
+					afterRead:function(response){
+						console.log(response.data.list.length,response.data)
+						if(response.data.list.length==0){
+							var sql = "INSERT INTO doc (parent, doc_id,doctype) VALUES (115920, :nextDbId1, 18);\n"
+								sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, '" + v.name + "');\n"
+								var i = 1
+								angular.forEach(v.values, function(v2, k2){
+									console.log(k2,v2)
+									sql += "INSERT INTO doc (parent,doc_id,doctype) VALUES (:nextDbId1, :nextDbId" + ++i + ", 18);\n"
+									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + k2 + "');\n"
+									sql += "INSERT INTO doc (parent,reference,doc_id,doctype) VALUES (115924, :nextDbId" + i + ", :nextDbId" + ++i + ", 18);\n"
+									v2 = v2.replace(/'/g,"''")
+									v2 = v2.replace(/;/g,":,")
+									sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId" + i + ", '" + v2 + "');\n"
+								})
+								console.log(v.name,v,sql)
+								if(true){
+									writeSql({sql : sql,
+										dataAfterSave:function(response){
+											console.log(response.data)
+										}
+									})
+								}
+						}
+					}
+				})
+			}
+			i1++
+		})
+	}) 
+}
 function splitPakung(){//ампул мг мл
 	var sql = "SELECT id,n________5,n________3,n_________,n________2, u.*, d.* \n" +
 	"FROM reestr, uuid u \n" +

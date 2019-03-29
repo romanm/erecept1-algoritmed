@@ -26,31 +26,41 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		console.log('ctrl.legal_entitie',ctrl.legal_entitie)
 		$scope.elementsMap[o.doc_id] = o
 		$scope.elementsMap[o.reference].value_element = o
-//		console.log(ctrl.legal_entitie.doc_id, ctrl.legal_entitie,1111111, $scope.elementsMap[o.reference], o.reference, o.doc_id)
+		console.log(sql_app.doc_read_parent_elements(), ctrl.legal_entitie.doc_id)
+		var parentId = ctrl.legal_entitie.doc_id
 		readSql({
 			sql:sql_app.doc_read_parent_elements(),
-			parent:ctrl.legal_entitie.doc_id,
+			parent:parentId,
 			afterRead:function(response){
-				ctrl.legal_entitie.children = response.data.list
-				angular.forEach(ctrl.legal_entitie.children, function(v){
-					mapElement(v, $scope.elementsMap)
-//					console.log(v, $scope.elementsMap[v.reference])
-					var legal_entitie_template_element = $scope.elementsMap[v.reference]
-					if(legal_entitie_template_element){
-						if(legal_entitie_template_element.doctype>=32||legal_entitie_template_element.doctype<=37){
-							// тип [] - масив елементів поєднання один до багатьох
-							if(!$scope.elementsMap[v.reference].value_elements){
-								$scope.elementsMap[v.reference].value_elements = []
-							}
-							$scope.elementsMap[v.reference].value_elements.push(v)
-						}else{
-							// тип {} - елемент поєднання один до одного
-							$scope.elementsMap[v.reference].value_element = v
-						}
-					}
-				})
+				if(response.data.list.length > 0){
+					addChildrenElements(response.data.list)
+				}
 			},
 		})
+	}
+	
+	function addChildrenElements(l){
+		angular.forEach(l, function(v){
+			var parentV = $scope.elementsMap[v.parent]
+			if(!parentV.children) ctrl.legal_entitie.children = []
+			parentV.children.push(v)
+			mapElement(v, $scope.elementsMap)
+			var legal_entitie_template_element = $scope.elementsMap[v.reference]
+			if(legal_entitie_template_element){
+				if(legal_entitie_template_element.doctype>=32 && legal_entitie_template_element.doctype<=37){
+					// тип [] - масив елементів поєднання один до багатьох
+					if(!legal_entitie_template_element.value_elements){
+						legal_entitie_template_element.value_elements = []
+					}
+					console.log(legal_entitie_template_element)
+					legal_entitie_template_element.value_elements.push(v)
+				}else{
+					// тип {} - елемент поєднання один до одного
+					legal_entitie_template_element.value_element = v
+				}
+			}
+		})
+		
 	}
 	
 	$scope.$watch('principal',function(){
@@ -73,19 +83,20 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 			$scope.eHealth_template = JSON.parse(response.data.list[0].docbody)
 			$scope.legal_entitie_template = $scope.eHealth_template.docRoot.children[2].children[0]
 			mapElement($scope.eHealth_template.docRoot, $scope.elementsMap)
-			console.log(115789
-					, $scope.elementsMap[115789]
-			,$scope.elementsMap[115789].reference
-			, $scope.elementsMap[$scope.elementsMap[115789].reference]
-			)
-			if(false)
-			console.log(
-				$scope.legal_entitie_template,
-				$scope.legal_entitie_template.doc_id,
-				$scope.elementsMap,
-				123,
-				$scope.elementsMap[$scope.legal_entitie_template.doc_id]
-			)
+			if(false){
+				console.log(115789
+						, $scope.elementsMap[115789]
+				,$scope.elementsMap[115789].reference
+				, $scope.elementsMap[$scope.elementsMap[115789].reference]
+				)
+				console.log(
+						$scope.legal_entitie_template,
+						$scope.legal_entitie_template.doc_id,
+						$scope.elementsMap,
+						123,
+						$scope.elementsMap[$scope.legal_entitie_template.doc_id]
+				)
+			}
 		}
 	})
 
@@ -105,6 +116,13 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	
 	ctrl.editDoc.editForm = {}
 	ctrl.elementsMap = $scope.elementsMap
+	ctrl.editDoc.openToEdit = function(o){
+		o.openToEdit = !o.openToEdit
+		readSelectData(117180, 'ADDRESS_TYPE')
+		readSelectData(117111, 'SETTLEMENT_TYPE')
+		readSelectData(117023, 'STREET_TYPE')
+	}
+
 	ctrl.editDoc.addList = function(o){
 		ctrl.editDoc.focus(o)
 		console.log('ctrl.editDoc.addList',o,ctrl.elementsMap[o.parent])
@@ -112,10 +130,16 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		var sql = insertDocElement1(o) + sql_update_reference2(o)
 		writeDocElement1(o,sql)
 	}
-	
-	ctrl.editDoc.focus = function(o){
+
+	ctrl.editDoc.focus = function(o, parentValEl){
+		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
 		if(!o.value_element){
-			o.value_element = {reference:o.doc_id, parent:ctrl.elementsMap[o.parent].value_element.doc_id}
+			o.value_element = {reference:o.doc_id, }
+			if(parentValEl){
+				o.value_element.parent = parentValEl.doc_id
+			}else{
+				o.value_element.parent = ctrl.elementsMap[o.parent].value_element.doc_id
+			}
 		}
 		console.log('focus',o.doc_id,o.reference,o.value,!o.value_element,o, $scope.elementsMap[o.parent],o.value_element)
 		if(o.reference && !$scope.elementsMap[o.reference]){
@@ -132,7 +156,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	}
 
 	$scope.editDoc.blur_select = function(o){
-		console.log('blur_select',o)
+		console.log('blur_select',o, o.value_element)
 		if(o.value_element.doc_id){
 			var sql = sql_update_reference2(o).replace(':nextDbId1',o.value_element.doc_id)
 			writeDocElement1(o,sql)
@@ -172,6 +196,8 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	}
 
 	var readSelectData = function(reference, string_reference){
+		if($scope.elementsMap[reference])
+			return
 		var sql = "SELECT d1.*, s1.value, s2.value value_ua " +
 		"FROM doc d1, string s1, doc d2, string s2 \n" +
 		"WHERE d1.parent=" + reference +" " +
@@ -185,7 +211,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 				var o2 = {doc_id:reference, value:string_reference}
 				o2.children = response.data.list
 				$scope.elementsMap[reference] = o2
-//				console.log(reference, string_reference, o2, sql)
+				//console.log(reference, string_reference, o2)
 			}
 		})
 	}
@@ -193,8 +219,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	readSelectData(117239, 'LEGAL_ENTITY_TYPE')
 	readSelectData(117018, 'OWNER_PROPERTY_TYPE')
 	readSelectData(117301, 'LEGAL_FORM')
-	
-	
+
 })
 
 var field_names = {
@@ -217,7 +242,7 @@ var field_names = {
 		public_offer: "публічна пропозиція",
 		children:{
 			addresses: {
-				type: "тип",
+				type: "тип адреси",
 				country: "країна",
 				area: "обл.",
 				region: "р-н.",

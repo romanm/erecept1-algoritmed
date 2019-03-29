@@ -6,15 +6,35 @@
 		</div>
 	</div>
 	<div class="w3-threequarter">
-		<div data-ng-repeat="o2 in o.value_elements">
+		<div data-ng-repeat="vEl in o.value_elements">
 			<div class="w3-block w3-hover-shadow"
-				data-ng-click="o2.openToEdit = !o2.openToEdit">
+				data-ng-click="ctrl.editDoc.openToEdit(vEl)">
 				<i class="fa fa-pencil-square-o"
-					data-ng-if="o2.openToEdit" aria-hidden="true"></i>
-				{{o.doc_id}}
+					data-ng-if="vEl.openToEdit" aria-hidden="true"></i>
+				{{vEl.doc_id}}
+				{{vEl.children}}
+				<span
+				data-ng-repeat="vEl2 in vEl.children"
+				>
+				{{vEl2.doc_id}}
+				
+				</span>
 			</div>
-			<div class="w3-hide w3-border w3-container"
-				data-ng-class="{'w3-show':o2.openToEdit}">{{o.doc_id}}</div>
+			<div
+				class="w3-hide w3-border w3-border-green w3-container w3-display-container"
+				data-ng-class="{'w3-show':vEl.openToEdit}">
+				<span data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити"
+					class="w3-button w3-display-topright">×</span>
+
+				<div>
+					<!-- ADDRESS_TYPE -->
+					<span data-ng-repeat="o_id in [115806]"
+						data-ng-init="o = elementsMap[o_id]; parentValEl = vEl;"
+						data-ng-include="'/f/new_apteka/select2.html'"></span>
+				</div>
+				<div data-ng-repeat="o2 in elementsMap[o.reference].children">
+					{{o2.doc_id}} {{o2.value}}</div>
+			</div>
 		</div>
 	</div>
 </div>
