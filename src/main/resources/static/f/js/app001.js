@@ -1,6 +1,7 @@
 var app = angular.module('myApp', ['ngSanitize']);
 var exe_fn = {}
-var initApp = function($scope, $http){
+var initApp = function($scope, $http, ctrl){
+	
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {
@@ -32,6 +33,41 @@ var initApp = function($scope, $http){
 		},
 	})
 	build_request($scope)
+
+	if(ctrl){
+		$scope.editDoc = {}
+		ctrl.editDoc = $scope.editDoc
+		ctrl.editDoc.upDowntElementByRefGroup	= function(o, direction,refId){
+			// зробити останнім, зробити першим робити тільки в межах групи з одним reference == refId
+		}
+		ctrl.editDoc.downElementByRefGroup	= function(o,refId){this.upDowntElement(o, 1)}
+		ctrl.editDoc.upElementByRefGroup		= function(o,refId){this.upDowntElement(o, -1)}
+		ctrl.editDoc.downElement	= function(o){this.upDowntElement(o, 1)}
+		ctrl.editDoc.upElement		= function(o){this.upDowntElement(o, -1)}
+		ctrl.editDoc.upDowntElement	= function(o, direction){
+			var oParent = $scope.elementsMap[o.parent]
+			console.log(oParent)
+			var position = oParent.children.indexOf(o)
+			if((position +1 == oParent.children.length) && direction == 1){// зробити першим
+				var x = oParent.children.splice(position, 1)
+				oParent.children.splice(0, 0, x[0])
+			}else if((position == 0) && direction == -1){// зробити останнім
+				var x = oParent.children.splice(position, 1)
+				oParent.children.push(x[0])
+			}else{
+				var x = oParent.children.splice(position, 1)
+				oParent.children.splice(position + direction, 0, x[0])
+			}
+			angular.forEach(oParent.children, function(v,k){
+				v.sort = k
+//				var				data = { sort:k, sort_id:v.doc_id, }
+				if(v.sort_id)	v.sql = "UPDATE sort SET sort=:sort WHERE sort_id=:sort_id"
+				else			v.sql = "INSERT INTO sort (sort,sort_id) VALUES (:sort,:sort_id)"
+				writeSql(v)
+			})
+		}
+	}
+
 }
 
 var mapElement = function(element,elementsMap){
@@ -166,7 +202,10 @@ sql_app.doc_read_elements = function(){
 	"LEFT JOIN sort ON sort_id=d1.doc_id \n" +
 	"LEFT JOIN (SELECT double_id, value vreal FROM double) r ON double_id=d1.doc_id \n" +
 	"LEFT JOIN (SELECT doc_id, s.value string_reference FROM doc LEFT JOIN string s ON string_id=doc_id ) d2 ON d2.doc_id=d1.reference \n" +
-	"LEFT JOIN (SELECT doc_id, s.value string_reference2 FROM doc LEFT JOIN string s ON string_id=doc_id ) d3 ON d3.doc_id=d1.reference2 \n" +
+	"LEFT JOIN (SELECT doc_id, s.value string_reference2, s.i18_value FROM doc LEFT JOIN " +
+	"(SELECT s.string_id, s.value, i18.value i18_value FROM doc,string i18, string s " +
+	"WHERE doc_id=i18.string_id AND s.string_id=reference AND parent=115924)" +
+	" s ON string_id=doc_id ) d3 ON d3.doc_id=d1.reference2 \n" +
 	"LEFT JOIN (SELECT inn_id, inn inn_reference2 FROM inn ) n2 ON n2.inn_id=d1.reference2 \n" +
 	"WHERE d1.doc_id IN "
 }

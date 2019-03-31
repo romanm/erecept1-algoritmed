@@ -1,0 +1,13 @@
+<div>
+	<i class="fa fa-search" aria-hidden="true"></i> <input
+		data-ng-model="seekKved" class="w3-border">
+	{{elementsMap[121345].children.length}}
+	<div style="max-height: 350px; overflow: auto;" class="w3-border">
+		<ul class="w3-ul">
+			<li data-ng-repeat="k in elementsMap[121345].children | filter : seekKved"
+			class="w3-hover-shadow"
+			data-ng-click="ctrl.editDoc.update_reference2({doc_id:vEl.doc_id, reference2:k.doc_id})"
+				data-ng-bind-html="highlight(k.value + ' - ' +k.value_ua, seekKved)"></li>
+		</ul>
+	</div>
+</div>

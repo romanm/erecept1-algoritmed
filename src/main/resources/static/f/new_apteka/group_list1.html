@@ -1,0 +1,43 @@
+<div class="w3-row-padding">
+	<div class="w3-quarter ">
+		<div class="w3-right-align" title="{{o.doc_id}}, {{o.value}}">
+			<a href="#" class="w3-btn" data-ng-click="ctrl.editDoc.addList(o)">+</a>
+			<span class="am-b"> {{fieldName(['legal_entitie',o.value])}} </span>
+		</div>
+	</div>
+	<div class="w3-threequarter">
+		<div data-ng-repeat="vEl in o.value_elements">
+			<div class="w3-block w3-hover-shadow "
+				data-ng-mouseover="ctrl.editDoc.mouseOverId = vEl.doc_id"
+				data-ng-click="ctrl.editDoc.openToEdit(vEl)">
+				<i
+					class="fa fa-pencil-square-o w13-border w13-border-green w3-green"
+					data-ng-if="vEl.openToEdit" aria-hidden="true"></i> <span
+					data-ng-if="!(vEl.children.length>0)"> <span class="w3-tiny">
+						____запис____ </span> {{vEl.doc_id}}
+				</span> <span
+					data-ng-include="'/f/new_apteka/group_list1.view_'+o_id+'.html'"></span>
+				<span class="w3-right"
+					data-ng-if="ctrl.editDoc.mouseOverId == vEl.doc_id"><a
+					href="#" ng-click="ctrl.editDoc.upElementByRefGroup(vEl,o_id)"
+					title="догори" class="w3-hover-shadow w3-hover-gray"><i
+						class="fa fa-sort-asc"></i></a> <a href="#"
+					ng-click="ctrl.editDoc.downElementByRefGroup(vEl,o_id)"
+					title="донизу" class="w3-hover-shadow w3-hover-gray"><i
+						class="fa fa-sort-desc"></i></a> </span>
+			</div>
+			<div
+				class="w3-hide w3-border w3-border-green w3-container w3-display-container"
+				data-ng-class="{'w3-show':vEl.openToEdit}">
+				<span data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити"
+					class="w3-button w3-display-topright">×</span>
+				<div data-ng-include="'/f/new_apteka/group_list1.edit_'+o_id+'.html'"></div>
+				
+				<!-- 
+				<div data-ng-repeat="o2 in elementsMap[o.reference].children">
+					{{o2.doc_id}} {{o2.value}}</div>
+				 -->
+			</div>
+		</div>
+	</div>
+</div>
