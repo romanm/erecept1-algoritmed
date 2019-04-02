@@ -162,7 +162,8 @@ public class ExecuteSqlBlock {
 					.replaceAll("\\)", "")
 					.replaceAll(";", "")
 					;
-//System.out.println("s2 = "+s2);
+				s2 = s2.trim();
+System.out.println("s2 = "+s2);
 //System.out.println("s1 = "+s1);
 				int nextDbKey = Integer.parseInt(s2);
 				nextDbMap.put(nextDbKey, nextDbKey);

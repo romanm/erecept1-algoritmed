@@ -46,7 +46,7 @@ var initApp = function($scope, $http, ctrl){
 		ctrl.editDoc.upElement		= function(o){this.upDowntElement(o, -1)}
 		ctrl.editDoc.upDowntElement	= function(o, direction){
 			var oParent = $scope.elementsMap[o.parent]
-			console.log(oParent)
+			console.log( oParent.children.indexOf(o), oParent)
 			var position = oParent.children.indexOf(o)
 			if((position +1 == oParent.children.length) && direction == 1){// зробити першим
 				var x = oParent.children.splice(position, 1)
@@ -61,8 +61,8 @@ var initApp = function($scope, $http, ctrl){
 			angular.forEach(oParent.children, function(v,k){
 				v.sort = k
 //				var				data = { sort:k, sort_id:v.doc_id, }
-				if(v.sort_id)	v.sql = "UPDATE sort SET sort=:sort WHERE sort_id=:sort_id"
-				else			v.sql = "INSERT INTO sort (sort,sort_id) VALUES (:sort,:sort_id)"
+				if(v.sort_id)	v.sql = "UPDATE sort SET sort=:sort WHERE sort_id=:doc_id"
+				else			v.sql = "INSERT INTO sort (sort,sort_id) VALUES (:sort,:doc_id)"
 				writeSql(v)
 			})
 		}

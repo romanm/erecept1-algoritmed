@@ -25,7 +25,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	
 	var set_legal_entitie = function(o){
 		ctrl.legal_entitie = o
-		console.log('ctrl.legal_entitie',ctrl.legal_entitie)
+		console.log('ctrl.legal_entitie', ctrl.legal_entitie.reference, ctrl.legal_entitie, $scope.elementsMap[o.reference])
 		$scope.elementsMap[o.doc_id] = o
 		$scope.elementsMap[o.reference].value_element = o
 		var parentId = ctrl.legal_entitie.doc_id
@@ -127,24 +127,41 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		readSelectData(117111, 'SETTLEMENT_TYPE')
 		readSelectData(117023, 'STREET_TYPE')
 	}
-	ctrl.editDoc.openToEdit = function(o){
-		o.openToEdit = !o.openToEdit
-		console.log(o.reference2,o)
-		if(ctrl.editDoc['openToEdit_'+o.reference2])
-			ctrl.editDoc['openToEdit_'+o.reference2](o)
+	ctrl.editDoc.removeById = function(vEl){
+		var sql = "DELETE FROM doc WHERE doc_id=" + ctrl.editDoc.removeId
+		writeSql({ sql:sql,
+		dataAfterSave:function(response){
+			if(response.data.update_0==1){
+				vEl.isRemoved = true
+			}
+		}})
+	}
+	ctrl.editDoc.openToEdit = function(vEl, tEl){
+		vEl.openToEdit = !vEl.openToEdit
+		if(!vEl.openToEdit){
+			delete ctrl.editDoc.removeId
+		}
+		console.log(vEl.reference2, tEl.reference, tEl.reference2, vEl, $scope.elementsMap[vEl.parent])
+		if(ctrl.editDoc['openToEdit_'+tEl.reference])
+			ctrl.editDoc['openToEdit_'+tEl.reference](vEl)
+			
+//		if(ctrl.editDoc['openToEdit_'+vEl.reference2])
+//			ctrl.editDoc['openToEdit_'+vEl.reference2](vEl)
 	}
 
 	ctrl.editDoc.addList = function(o){
-		ctrl.editDoc.focus(o)
-		console.log('ctrl.editDoc.addList',o,ctrl.elementsMap[o.parent])
-		var value_element = o.value_element
+//		ctrl.editDoc.focus(o)
+		var value_element = {parent:ctrl.elementsMap[o.parent].value_element.doc_id, openToEdit:true}
+		value_element.reference = o.doc_id
 		value_element.reference2 = o.reference
 		var sql = insertDocElement1(value_element) + sql_update_reference2(value_element)
+		var x = o.value_elements.push(value_element)
+		console.log('ctrl.editDoc.addList', 'o', o,ctrl.elementsMap[o.parent], 'value_elements', o.value_elements, sql, x, value_element)
 		writeDocElement1(value_element,sql)
 	}
 
 	ctrl.editDoc.focus = function(o, parentValEl){
-		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
+//		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
 		if(!o.value_element){
 			o.value_element = {reference:o.doc_id, }
 			if(parentValEl){
@@ -153,7 +170,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 				o.value_element.parent = ctrl.elementsMap[o.parent].value_element.doc_id
 			}
 		}
-		console.log('focus',o.doc_id,o.reference,o.value,!o.value_element,o, $scope.elementsMap[o.parent],o.value_element)
+//		console.log('focus',o.doc_id,o.reference,o.value,!o.value_element,o, $scope.elementsMap[o.parent],o.value_element)
 		if(o.reference && !$scope.elementsMap[o.reference]){
 			readSelectData(o.reference, o.string_reference)
 		}
@@ -164,20 +181,22 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		"VALUES (:nextDbId1, " + value_element.parent + ", " + value_element.reference + ", 18);\n"
 	}
 	var sql_update_reference2 = function(value_element){
-		return "UPDATE doc SET reference2 = " + value_element.reference2 + " WHERE doc_id=:nextDbId1;"
+		return "UPDATE doc SET reference2 = " + value_element.reference2 + " WHERE doc_id=:nextDbId1;\n"
 	}
 
 	var save_reference2 = function(value_element){
 		if(value_element.doc_id){
 			var sql = sql_update_reference2(value_element).replace(':nextDbId1',value_element.doc_id)
-			writeDocElement1(value_element,sql)
+			sql += sql_app.doc_read_elements() + "(" + value_element.doc_id + ")"
 		}else{
 			var sql = insertDocElement1(value_element) + sql_update_reference2(value_element)
-			writeDocElement1(value_element,sql)
+			sql += sql_app.doc_read_elements() + "(:nextDbId1 )"
 		}
+		writeDocElement1(value_element, sql)
 	}
 
-	ctrl.editDoc.update_reference2 = function(value_element){
+	ctrl.editDoc.update_reference2 = function(value_element, reference2){
+		value_element.reference2 = reference2
 		console.log(value_element)
 		save_reference2(value_element)
 	}
@@ -206,11 +225,15 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	}
 
 	var writeDocElement1 = function(value_element,sql){
-		writeSql({
-			sql:sql,
+		writeSql({ sql:sql,
 			dataAfterSave:function(response){
 				if(response.data.nextDbId1){
 					value_element.doc_id = response.data.nextDbId1
+				}
+				if(response.data.list1){
+					angular.forEach(response.data.list1[0], function(v,k){
+						value_element[k] = v
+					})
 				}
 				console.log('writeDocElement1 ',response.data, value_element)
 			}
@@ -231,7 +254,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 			var o2 = {doc_id:reference, value:string_reference}
 			o2.children = response.data.list
 			$scope.elementsMap[reference] = o2
-			console.log(reference, $scope.elementsMap[reference])
+//			console.log(reference, $scope.elementsMap[reference])
 			angular.forEach(o2.children, function(v){
 				$scope.elementsMap[v.doc_id] = v
 			})
