@@ -87,6 +87,7 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 			$scope.eHealth_template = JSON.parse(response.data.list[0].docbody)
 			$scope.legal_entitie_template = $scope.eHealth_template.docRoot.children[2].children[0]
 			mapElement($scope.eHealth_template.docRoot, $scope.elementsMap)
+console.log($scope.legal_entitie_template)
 			if(false){
 				console.log(115789
 						, $scope.elementsMap[115789]
@@ -155,6 +156,10 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		value_element.reference = o.doc_id
 		value_element.reference2 = o.reference
 		var sql = insertDocElement1(value_element) + sql_update_reference2(value_element)
+		console.log(o)
+		if(o.doctype>=32 && o.doctype<=37 && !o.value_elements){
+			o.value_elements = []
+		}
 		var x = o.value_elements.push(value_element)
 		console.log('ctrl.editDoc.addList', 'o', o,ctrl.elementsMap[o.parent], 'value_elements', o.value_elements, sql, x, value_element)
 		writeDocElement1(value_element,sql)
@@ -178,10 +183,10 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 
 	var insertDocElement1 = function(value_element){
 		return  "INSERT INTO doc (doc_id,parent,reference,doctype) " +
-		"VALUES (:nextDbId1, " + value_element.parent + ", " + value_element.reference + ", 18);\n"
+		"VALUES (:nextDbId1, " + value_element.parent + ", " + value_element.reference + ", 18); \n"
 	}
 	var sql_update_reference2 = function(value_element){
-		return "UPDATE doc SET reference2 = " + value_element.reference2 + " WHERE doc_id=:nextDbId1;\n"
+		return "UPDATE doc SET reference2 = " + value_element.reference2 + " WHERE doc_id=:nextDbId1; \n"
 	}
 
 	var save_reference2 = function(value_element){
@@ -208,17 +213,17 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 
 	$scope.editDoc.blur = function(o){
 		var value_element = o.value_element
-		console.log('blur', o.doc_id,o.value,'\n value_element = ',o.value_element)
+		console.log('blur', o.doc_id,o.value,'\n value_element = ',value_element)
 		if(value_element.doc_id){
-			var sql = "UPDATE string SET value = '" + value_element.value + "' WHERE string_id=" + value_element.doc_id + ";"
-//			console.log(sql)
+			var sql = "UPDATE string SET value = '" + value_element.value + "' WHERE string_id=" + value_element.doc_id + "; "
+			console.log(sql)
 			writeDocElement1(value_element,sql)
 		}else{
-			if(o.value_element.value){
-				var sql = insertDocElement1(o) +
+			if(value_element.value){
+				var sql = insertDocElement1(value_element) +
 				"INSERT INTO string (string_id,value) " +
-				"VALUES (:nextDbId1, '" + value_element.value + "');"
-//				console.log(sql)
+				"VALUES (:nextDbId1, '" + value_element.value + "'); "
+				console.log(sql)
 				writeDocElement1(value_element,sql)
 			}
 		}
