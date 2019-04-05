@@ -2,7 +2,7 @@
 	<div>
 		<!-- ADDRESS_TYPE -->
 		<span data-ng-repeat="o_id in [115806]"
-			data-ng-init="o = elementsMap[o_id]; parentValEl = vEl;"
+			data-ng-init="o = elementsMap[o_id]; parentValEl = vEl; name_path = ['legal_entitie', 'children', 'addresses',o.value]"
 			data-ng-include="'/f/new_apteka/select2.html'"></span>
 	</div>
 </div>

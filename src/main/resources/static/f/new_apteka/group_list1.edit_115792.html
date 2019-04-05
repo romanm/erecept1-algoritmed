@@ -1,0 +1,11 @@
+<div>
+
+	<span data-ng-repeat="o_id in [115805]"
+		data-ng-init="o = elementsMap[o_id]; parentValEl = vEl; name_path = ['legal_entitie', 'children', 'phones',o.value];"
+		data-ng-include="'/f/new_apteka/select2.html'"></span>
+	<div data-ng-repeat="o_id in [115804]"
+		data-ng-init="o = elementsMap[o_id]; name_path = ['legal_entitie', 'children', 'phones',o.value];"
+		data-ng-include="'/f/new_apteka/input_text2.html'"></div>
+
+	
+</div>

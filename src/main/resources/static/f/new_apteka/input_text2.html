@@ -1,5 +1,5 @@
 <span> <span class="am-b">
-		{{fieldName(['legal_entitie',o.value])}} </span> <input
+		{{fieldName(name_path || ['legal_entitie',o.value])}} </span> <input
 	data-ng-change1="editDoc.change(o)"
 	data-ng-model="o.value_element['value']"
 	data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"

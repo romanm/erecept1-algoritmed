@@ -113,7 +113,9 @@ console.log($scope.legal_entitie_template)
 			oFieldName = oFieldName[last_path]
 		})
 		var r = oFieldName||last_path
-		r = r.substr(0,1).toUpperCase() + r.substr(1);
+//console.log(r)
+		if (typeof r === 'string' || r instanceof String)
+			r = r.substr(0,1).toUpperCase() + r.substr(1);
 		return r
 	}
 
@@ -122,6 +124,9 @@ console.log($scope.legal_entitie_template)
 	ctrl.editDoc.openToEdit_121345 = function(o){
 		readSelectData(121345, 'KVEDS')
 		console.log('openToEdit_115826', ctrl.elementsMap[121345])
+	}
+	ctrl.editDoc.openToEdit_115803 = function(o){
+		readSelectData(116966, 'PHONE_TYPE')
 	}
 	ctrl.editDoc.openToEdit_115801 = function(o){
 		readSelectData(117180, 'ADDRESS_TYPE')
@@ -301,6 +306,10 @@ var field_names = {
 		security1: "security?",
 		public_offer: "публічна пропозиція",
 		children:{
+			phones: {
+				type:"тип телефону",
+				number:"номер телефону",
+			},
 			addresses: {
 				type: "тип адреси",
 				country: "країна",
