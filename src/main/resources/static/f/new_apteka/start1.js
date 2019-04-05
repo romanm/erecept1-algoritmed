@@ -164,7 +164,16 @@ console.log($scope.legal_entitie_template)
 		console.log('ctrl.editDoc.addList', 'o', o,ctrl.elementsMap[o.parent], 'value_elements', o.value_elements, sql, x, value_element)
 		writeDocElement1(value_element,sql)
 	}
-
+	
+	ctrl.editDoc.isEmpty = function(vEl){
+		var doctype = ctrl.elementsMap[vEl.reference].doctype
+		if(37 == doctype && vEl.children)
+			return false
+		if(32 == doctype && vEl.string_reference2)
+			return false
+		return true
+	}
+	
 	ctrl.editDoc.focus = function(o, parentValEl){
 //		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
 		if(!o.value_element){

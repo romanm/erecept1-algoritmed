@@ -15,9 +15,10 @@
 				<i
 					class="fa fa-pencil-square-o w13-border w13-border-green w3-green"
 					data-ng-if="vEl.openToEdit" aria-hidden="true"></i> <span
-					data-ng-if="!(vEl.children.length>0)"> <span class="w3-tiny">
-						____запис____ </span> {{vEl.doc_id}}
-				</span> <span data-ng-include="'/f/new_apteka/group_list1.view_'+o_id+'.html'"></span>
+					data-ng-if="ctrl.editDoc.isEmpty(vEl)"> <span
+					class="w3-tiny"> ____запис____ {{vEl.doc_id}}</span>
+				</span> <span
+					data-ng-include="'/f/new_apteka/group_list1.view_'+o_id+'.html'"></span>
 				<span class="w3-right"
 					data-ng-if="ctrl.editDoc.mouseOverId == vEl.doc_id"><a
 					href="#" ng-click="ctrl.editDoc.upElementByRefGroup(vEl,o_id)"
