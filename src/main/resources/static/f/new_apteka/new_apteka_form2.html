@@ -1,10 +1,9 @@
-<div>
+<div data-ng-repeat="vEl in [ctrl.legal_entitie]">
 	<button class="w3-border" data-ng-class="{'w3-disabled':true}">Запис</button>
 	<div>
 		<span data-ng-repeat="o_id in [115788]"
 			data-ng-init="o = elementsMap[o_id]; name_path = ['legal_entitie',o.value];"
-			data-ng-include="'/f/new_apteka/select2.html'"></span>
-			 <span
+			data-ng-include="'/f/new_apteka/select2.html'"></span> <span
 			data-ng-repeat="o_id in [115791]"
 			data-ng-init="o = elementsMap[o_id]"
 			data-ng-include="'/f/new_apteka/input_text2.html'"></span>
@@ -31,5 +30,4 @@
 	<div data-ng-repeat="o_id in [115789]"
 		data-ng-init="o = elementsMap[o_id]"
 		data-ng-include="'/f/new_apteka/group_list1.html'"></div>
-
 </div>

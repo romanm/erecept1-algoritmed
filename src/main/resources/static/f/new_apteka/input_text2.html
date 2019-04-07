@@ -1,7 +1,7 @@
 <span> <span class="am-b">
 		{{fieldName(name_path || ['legal_entitie',o.value])}} </span> <input
 	data-ng-change1="editDoc.change(o)"
-	data-ng-model="o.value_element['value']"
-	data-ng-focus="editDoc.focus(o)" data-ng-blur="editDoc.blur(o)"
+	data-ng-model="vEl.referenceMap[o.doc_id]['value']"
+	data-ng-focus="editDoc.focus(o,vEl)" data-ng-blur="editDoc.blur(o,vEl)"
 	class="w3-border">
 </span>

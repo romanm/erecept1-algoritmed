@@ -30,10 +30,10 @@
 			</div>
 			<div
 				class="w3-hide w3-card w3-border w3-border-green  w3-display-container"
-				style="height: 370px;" data-ng-class="{'w3-show':vEl.openToEdit}">
-				<div data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити"
+				style="height: {{ctrl.editDoc.htmlParam['edd_height_'+vEl.reference] ||370}}px;" data-ng-class="{'w3-show':vEl.openToEdit}">
+				<div data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити {{vEl.doc_id}}.{{vEl.reference}}"
 					class="w3-button w3-display-topright">×</div>
-				<div class="w13-display-topleft">
+				<div class="w3-border-bottom">
 					<div class="w3-dropdown-hover">
 						&nbsp; <i class="fa fa-bars" aria-hidden="true"></i> &nbsp;
 						<div class="w3-border w3-bar-block w3-dropdown-content">
@@ -48,7 +48,7 @@
 					<button class="w3-border" data-ng-click="ctrl.editDoc.openToEdit(vEl)">x Закрити</button>
 				</div>
 				
-				<div class="w13-display-left w3-container">
+				<div class="w3-container">
 					<div data-ng-if="ctrl.editDoc.removeId==vEl.doc_id" class=" w3-red">
 						Ви дійсно хочете видалити запис
 						<button class="w3-border"

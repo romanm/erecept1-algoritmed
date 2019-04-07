@@ -25,10 +25,10 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	
 	var set_legal_entitie = function(o){
 		ctrl.legal_entitie = o
-		console.log('ctrl.legal_entitie', ctrl.legal_entitie.reference, ctrl.legal_entitie, $scope.elementsMap[o.reference])
+		var parentId = ctrl.legal_entitie.doc_id
+		console.log('ctrl.legal_entitie',ctrl.legal_entitie.doc_id , ctrl.legal_entitie.reference, ctrl.legal_entitie, $scope.elementsMap[o.reference])
 		$scope.elementsMap[o.doc_id] = o
 		$scope.elementsMap[o.reference].value_element = o
-		var parentId = ctrl.legal_entitie.doc_id
 		readSql({sql:sql_app.doc_read_elements() 
 		+"(SELECT d1.doc_id FROM doc d1 WHERE d1.parent=" + parentId + ") ORDER BY sort",
 		afterRead:function(response){ if(response.data.list.length > 0){
@@ -46,6 +46,8 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 	function addChildrenElements(l){
 		angular.forEach(l, function(v){
 			var parentV = $scope.elementsMap[v.parent]
+			if(!parentV.referenceMap) parentV.referenceMap = {}
+			if(v.reference) parentV.referenceMap[v.reference] = v
 			if(!parentV.children) parentV.children = []
 			parentV.children.push(v)
 			mapElement(v, $scope.elementsMap)
@@ -119,6 +121,9 @@ console.log($scope.legal_entitie_template)
 		return r
 	}
 
+	ctrl.editDoc.htmlParam = {}
+	ctrl.editDoc.htmlParam.edd_height_115792 = 100
+
 	ctrl.editDoc.mouseOverId = 0
 
 	ctrl.editDoc.openToEdit_121345 = function(o){
@@ -134,7 +139,9 @@ console.log($scope.legal_entitie_template)
 		readSelectData(117023, 'STREET_TYPE')
 	}
 	ctrl.editDoc.removeById = function(vEl){
-		var sql = "DELETE FROM doc WHERE doc_id=" + ctrl.editDoc.removeId
+//		var sql = "DELETE FROM doc WHERE doc_id=" + ctrl.editDoc.removeId
+		var sql = "DELETE FROM doc WHERE " + ctrl.editDoc.removeId + "IN (parent,doc_id)" 
+		console.log(vEl)
 		writeSql({ sql:sql,
 		dataAfterSave:function(response){
 			if(response.data.update_0==1){
@@ -179,19 +186,24 @@ console.log($scope.legal_entitie_template)
 		return true
 	}
 	
-	ctrl.editDoc.focus = function(o, parentValEl){
+	ctrl.editDoc.focus = function(tEl, parentValEl){
+		if(!parentValEl.referenceMap) 
+			parentValEl.referenceMap = {}
+		if(!parentValEl.referenceMap[tEl.doc_id])
+			parentValEl.referenceMap[tEl.doc_id] = {reference:tEl.doc_id,parent:parentValEl.doc_id}
+		console.log(parentValEl, 'tEl', tEl)
 //		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
-		if(!o.value_element){
-			o.value_element = {reference:o.doc_id, }
+		if(!tEl.value_element){
+			tEl.value_element = {reference:tEl.doc_id, }
 			if(parentValEl){
-				o.value_element.parent = parentValEl.doc_id
+				tEl.value_element.parent = parentValEl.doc_id
 			}else{
-				o.value_element.parent = ctrl.elementsMap[o.parent].value_element.doc_id
+				tEl.value_element.parent = ctrl.elementsMap[tEl.parent].value_element.doc_id
 			}
 		}
 //		console.log('focus',o.doc_id,o.reference,o.value,!o.value_element,o, $scope.elementsMap[o.parent],o.value_element)
-		if(o.reference && !$scope.elementsMap[o.reference]){
-			readSelectData(o.reference, o.string_reference)
+		if(tEl.reference && !$scope.elementsMap[tEl.reference]){
+			readSelectData(tEl.reference, tEl.string_reference)
 		}
 	}
 
@@ -211,6 +223,7 @@ console.log($scope.legal_entitie_template)
 			var sql = insertDocElement1(value_element) + sql_update_reference2(value_element)
 			sql += sql_app.doc_read_elements() + "(:nextDbId1 )"
 		}
+//		console.log(sql)
 		writeDocElement1(value_element, sql)
 	}
 
@@ -219,15 +232,15 @@ console.log($scope.legal_entitie_template)
 		console.log(value_element)
 		save_reference2(value_element)
 	}
-	$scope.editDoc.blur_select = function(o){
-		var value_element = o.value_element
-		console.log('blur_select',o, value_element)
+	$scope.editDoc.blur_select = function(tEl,parent_vEl){
+		var value_element = parent_vEl.referenceMap[tEl.doc_id]
+		console.log('blur_select',tEl, value_element)
 		save_reference2(value_element)
 	}
 
-	$scope.editDoc.blur = function(o){
-		var value_element = o.value_element
-		console.log('blur', o.doc_id,o.value,'\n value_element = ',value_element)
+	$scope.editDoc.blur = function(tEl,parent_vEl){
+		var value_element = parent_vEl.referenceMap[tEl.doc_id]
+		console.log('blur', tEl.doc_id,tEl.value,'\n value_element = ',value_element)
 		if(value_element.doc_id){
 			var sql = "UPDATE string SET value = '" + value_element.value + "' WHERE string_id=" + value_element.doc_id + "; "
 			console.log(sql)
