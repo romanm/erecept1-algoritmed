@@ -43,13 +43,18 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		}}})
 	}
 
+	function addChildrenWithReferenceMap(v){
+		var parentV = $scope.elementsMap[v.parent]
+//		console.log(v, parentV)
+		if(!parentV.referenceMap) parentV.referenceMap = {}
+		if(v.reference) parentV.referenceMap[v.reference] = v
+		if(!parentV.children) parentV.children = []
+		parentV.children.push(v)
+	}
+
 	function addChildrenElements(l){
 		angular.forEach(l, function(v){
-			var parentV = $scope.elementsMap[v.parent]
-			if(!parentV.referenceMap) parentV.referenceMap = {}
-			if(v.reference) parentV.referenceMap[v.reference] = v
-			if(!parentV.children) parentV.children = []
-			parentV.children.push(v)
+			addChildrenWithReferenceMap(v)
 			mapElement(v, $scope.elementsMap)
 			var legal_entitie_template_element = $scope.elementsMap[v.reference]
 			if(legal_entitie_template_element){
@@ -141,10 +146,10 @@ console.log($scope.legal_entitie_template)
 	ctrl.editDoc.removeById = function(vEl){
 //		var sql = "DELETE FROM doc WHERE doc_id=" + ctrl.editDoc.removeId
 		var sql = "DELETE FROM doc WHERE " + ctrl.editDoc.removeId + "IN (parent,doc_id)" 
-		console.log(vEl)
 		writeSql({ sql:sql,
 		dataAfterSave:function(response){
-			if(response.data.update_0==1){
+			console.log('vEl',vEl, 'response.data', response.data)
+			if(response.data.update_0>=1){
 				vEl.isRemoved = true
 			}
 		}})
@@ -187,10 +192,8 @@ console.log($scope.legal_entitie_template)
 	}
 	
 	ctrl.editDoc.focus = function(tEl, parentValEl){
-		if(!parentValEl.referenceMap) 
-			parentValEl.referenceMap = {}
-		if(!parentValEl.referenceMap[tEl.doc_id])
-			parentValEl.referenceMap[tEl.doc_id] = {reference:tEl.doc_id,parent:parentValEl.doc_id}
+		var v = {reference:tEl.doc_id,parent:parentValEl.doc_id}
+		addChildrenWithReferenceMap(v)
 		console.log(parentValEl, 'tEl', tEl)
 //		console.log('focus', o.doc_id, o.parent, o, ctrl.elementsMap[o.parent], ctrl.legal_entitie )
 		if(!tEl.value_element){
@@ -218,12 +221,10 @@ console.log($scope.legal_entitie_template)
 	var save_reference2 = function(value_element){
 		if(value_element.doc_id){
 			var sql = sql_update_reference2(value_element).replace(':nextDbId1',value_element.doc_id)
-			sql += sql_app.doc_read_elements() + "(" + value_element.doc_id + ")"
 		}else{
 			var sql = insertDocElement1(value_element) + sql_update_reference2(value_element)
-			sql += sql_app.doc_read_elements() + "(:nextDbId1 )"
 		}
-//		console.log(sql)
+//	console.log(sql)
 		writeDocElement1(value_element, sql)
 	}
 
@@ -243,31 +244,40 @@ console.log($scope.legal_entitie_template)
 		console.log('blur', tEl.doc_id,tEl.value,'\n value_element = ',value_element)
 		if(value_element.doc_id){
 			var sql = "UPDATE string SET value = '" + value_element.value + "' WHERE string_id=" + value_element.doc_id + "; "
-			console.log(sql)
 			writeDocElement1(value_element,sql)
 		}else{
 			if(value_element.value){
 				var sql = insertDocElement1(value_element) +
 				"INSERT INTO string (string_id,value) " +
 				"VALUES (:nextDbId1, '" + value_element.value + "'); "
-				console.log(sql)
 				writeDocElement1(value_element,sql)
 			}
 		}
 	}
 
 	var writeDocElement1 = function(value_element,sql){
+		if(value_element.doc_id){
+			sql += sql_app.doc_read_elements() + "(" + value_element.doc_id + ")"
+		}else{
+			sql += sql_app.doc_read_elements() + "(:nextDbId1 )"
+		}
+		console.log(sql)
 		writeSql({ sql:sql,
 			dataAfterSave:function(response){
 				if(response.data.nextDbId1){
 					value_element.doc_id = response.data.nextDbId1
+ctrl.elementsMap[value_element.doc_id] = value_element
 				}
-				if(response.data.list1){
-					angular.forEach(response.data.list1[0], function(v,k){
-						value_element[k] = v
-					})
-				}
-				console.log('writeDocElement1 ',response.data, value_element)
+				var l
+				if(response.data.list1) l = response.data.list1[0]
+				if(response.data.list2) l = response.data.list2[0]
+				if(l)
+				angular.forEach(l, function(v,k){
+					console.log(k)
+					value_element[k] = v
+				})
+				
+				console.log('writeDocElement1 ',response.data, 'value_element ', value_element)
 			}
 		})
 	}
