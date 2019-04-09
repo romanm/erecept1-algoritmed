@@ -1,12 +1,17 @@
-<span> <span class="am-b"> {{fieldName(name_path)}} </span> <select
+<span data-ng-repeat="v2El in [vEl.referenceMap[o_id]]"> <span
+	class="am-b"> {{fieldName(name_path)}} </span> 
+	i:{{v2El.doc_id}}:r:{{o.doc_id}}:{{v2El.reference2}}:
+	{{vEl.doc_id}}:
+	<select
 	data-ng-if="elementsMap[o.reference]"
-	data-ng-focus="editDoc.focus(o, vEl)"
 	data-ng-blur="editDoc.blur_select(o, vEl)"
+	data-ng-focus="editDoc.focus(o, vEl)"
 	data-ng-model="vEl.referenceMap[o.doc_id]['reference2']"
 	class="w3-border">
 		<option value="{{o2.doc_id}}" class="w3-red"
-			data-ng-selected="vEl.referenceMap[o.doc_id].reference2 == o2.doc_id"
+			data-ng-selected="v2El.reference2 == o2.doc_id"
 			data-ng-repeat="o2 in elementsMap[o.reference].children">
-			{{vEl.referenceMap[o.doc_id].reference2 == o2.doc_id?'> ':''}}{{o2.value_ua}}</option>
+			{{v2El.reference2}}-{{o2.doc_id}} {{v2El.reference2 ==
+			o2.doc_id?'> ':''}}{{o2.value_ua}}</option>
 </select>
 </span>

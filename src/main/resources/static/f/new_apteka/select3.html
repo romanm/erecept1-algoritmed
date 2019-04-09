@@ -1,0 +1,10 @@
+<span data-ng-repeat="v2El in [vEl.referenceMap[o_id]]"> <span
+	class="am-b w3-small"> {{fieldName(name_path)}} </span> {{v2El.i18_value}} <select
+	data-ng-model="v2El['reference2']"
+	data-n1g-focus="editDoc.focus(o, vEl)"
+	data-ng-blur="editDoc.blur_select(o, vEl)" class="w3-border">
+		<option value="{{o2.doc_id}}"
+			data-ng-repeat="o2 in elementsMap[o.reference].children">
+			{{v2El.reference2 == o2.doc_id?'> ':''}} {{o2.value_ua}}</option>
+</select>
+</span>

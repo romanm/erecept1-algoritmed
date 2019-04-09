@@ -181,7 +181,7 @@ console.log($scope.legal_entitie_template)
 		console.log('ctrl.editDoc.addList', 'o', o,ctrl.elementsMap[o.parent], 'value_elements', o.value_elements, sql, x, value_element)
 		writeDocElement1(value_element,sql)
 	}
-	
+
 	ctrl.editDoc.isEmpty = function(vEl){
 		var doctype = ctrl.elementsMap[vEl.reference].doctype
 		if(37 == doctype && vEl.children)
@@ -190,8 +190,14 @@ console.log($scope.legal_entitie_template)
 			return false
 		return true
 	}
-	
+
 	ctrl.editDoc.focus = function(tEl, parentValEl){
+		if(parentValEl.referenceMap[tEl.doc_id])
+			return
+		addChildrenWithReferenceMap({reference:tEl.doc_id, parent:parentValEl.doc_id, })
+	}
+
+	ctrl.editDoc.focus1 = function(tEl, parentValEl){
 		var v = {reference:tEl.doc_id,parent:parentValEl.doc_id}
 		addChildrenWithReferenceMap(v)
 		console.log(parentValEl, 'tEl', tEl)
@@ -233,7 +239,7 @@ console.log($scope.legal_entitie_template)
 		console.log(value_element)
 		save_reference2(value_element)
 	}
-	$scope.editDoc.blur_select = function(tEl,parent_vEl){
+	$scope.editDoc.blur_select = function(tEl,parent_vEl, v2El){
 		var value_element = parent_vEl.referenceMap[tEl.doc_id]
 		console.log('blur_select',tEl, value_element)
 		save_reference2(value_element)
@@ -261,22 +267,19 @@ console.log($scope.legal_entitie_template)
 		}else{
 			sql += sql_app.doc_read_elements() + "(:nextDbId1 )"
 		}
-		console.log(sql)
+//		console.log(sql)
 		writeSql({ sql:sql,
 			dataAfterSave:function(response){
 				if(response.data.nextDbId1){
 					value_element.doc_id = response.data.nextDbId1
-ctrl.elementsMap[value_element.doc_id] = value_element
+					ctrl.elementsMap[value_element.doc_id] = value_element
 				}
 				var l
 				if(response.data.list1) l = response.data.list1[0]
 				if(response.data.list2) l = response.data.list2[0]
-				if(l)
-				angular.forEach(l, function(v,k){
-					console.log(k)
+				if(l) angular.forEach(l, function(v,k){
 					value_element[k] = v
 				})
-				
 				console.log('writeDocElement1 ',response.data, 'value_element ', value_element)
 			}
 		})
@@ -353,4 +356,12 @@ var field_names = {
 
 sql_app.read_json_doc = function(){
 	return "SELECT * FROM doc, docbody  WHERE doc_id=docbody_id and doctype=20 AND reference = :docId "
+}
+
+Object.prototype.okeys = function(){
+	return Object.keys(this)
+}
+
+Object.prototype.oklength = function(){
+	return Object.keys(this).length
 }
