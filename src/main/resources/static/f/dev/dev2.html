@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app001.js"></script>
+<script src="/f/dev/dev2.js"></script>
+<style media="print">
+.am-table-box { overflow: auto;}
+</style>
+<style media="screen">
+.am-table-box { overflow: auto; max-height: {{ctrl.wInnerHeight-190}}px; }
+</style>
+</head>
+<body class="w3-container">
+	<h1 class="w3-container w3-small">
+		<span data-ng-include="'/f/home-link.html'"></span> &nbsp;
+		{{ctrl.page_title}}
+	</h1>
+
+	Hello World! w18ukr018hol2018
+<button data-ng-click="ctrl.config.changeSortDisks()" class="w3-border">sort antibiotik</button>
+	<div class=" am-table-box w3-card">
+		<table>
+			<thead>
+				<tr class="w3-tiny w3-blue-gray">
+					<th>g</th>
+					<th>o</th>
+					<th>c</th>
+					<th data-ng-repeat="di in ctrl.disksIndex">
+						{{ctrl.disksO[ctrl.disks[di]].antibiotik}} {{ctrl.disks[di]}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr 
+				class="w3-hover-shadow"
+				data-ng-repeat="m in ctrl.dataMicrobes"
+					data-ng-if="'-'==m.org_type||'+'==m.org_type||'f'==m.org_type">
+					<td>({{m.org_type}})</td>
+					<td title="{{m.organism}}"><span class="am-b w3-small">
+							{{m.org_clean}} </span></td>
+					<td><span class="w3-tiny">[{{m.count}}]</span></td>
+					<td data-ng-repeat="di in ctrl.disksIndex"
+						data-ng-class="{'w3-border':ctrl.data_value[m.organism][ctrl.disks[di]]}"><span
+						data-ng-if="ctrl.data_value[m.organism][ctrl.disks[di]]">
+							{{ctrl.data_value[m.organism][ctrl.disks[di]].mn}} <span
+							class="w3-tiny">
+								{{ctrl.data_value[m.organism][ctrl.disks[di]].mcp}}% </span>
+					</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div><span class="am-b">Відділеня:</span>
+		All, <span data-ng-repeat="d in ctrl.dataDepartments"> {{d.ward}} <span
+			class="w3-tiny ">[{{d.count}}]</span> ,
+		</span>
+	</div>
+	<div class="w3-tiny w3-right">таблиця результатів аналізу</div>
+</body>
+</html>
