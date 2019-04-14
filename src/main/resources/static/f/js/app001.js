@@ -8,6 +8,7 @@ var initApp = function($scope, $http, ctrl){
 			url : '/r/url_sql_read_db1',
 			params : params,
 			then_fn : then_fn,
+			error_fn : params.error_fn,
 	}	}
 	$scope.elementsMap = {}
 	$scope.referencesMap = {}
@@ -94,6 +95,16 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
 }
 
+function extendSql(params, extendList){
+	if(!extendList){
+		extendList = Object.keys(params)
+		extendList.splice(extendList.indexOf('sql'),1)
+	}
+	angular.forEach(extendList, function(v){
+		params.sql = params.sql.replace(new RegExp(':'+v,"g"),params[v])
+	})
+	return params
+}
 function replaceParams(params){
 //	console.log(params.sql)
 	angular.forEach(params.sql.split(':'), function(v,k){

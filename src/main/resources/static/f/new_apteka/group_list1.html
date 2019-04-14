@@ -1,8 +1,8 @@
 <div class="w3-row-padding">
 	<div class="w3-quarter ">
 		<div class="w3-right-align" title="{{o.doc_id}}, {{o.value}}">
-			<a href="#" class="w3-btn" data-ng-click="ctrl.editDoc.addList(o)">+</a>
-			<span class="am-b"> {{fieldName(['legal_entitie',o.value])}} </span>
+			<a href="#" class="w3-btn am-no-print" data-ng-click="ctrl.editDoc.addList(o)">+</a>
+			<span class="am-b "> {{fieldName(['legal_entitie',o.value])}} </span>
 		</div>
 	</div>
 	<div class="w3-threequarter">
@@ -10,29 +10,27 @@
 		data-ng-if="!vEl.isRemoved"
 		>
 			<div class="w3-block w3-hover-shadow "
-				data-ng-mouseover="ctrl.editDoc.mouseOverId = vEl.doc_id"
-				data-ng-click="ctrl.editDoc.openToEdit(vEl, o)">
-				<i
+				data-ng-mouseover="ctrl.editDoc.mouseOverId = vEl.doc_id">
+				<a class="am-0u" href="#" data-ng-click="ctrl.editDoc.openToEdit(vEl, o)"> <i
 					class="fa fa-pencil-square-o w13-border w13-border-green w3-green"
 					data-ng-if="vEl.openToEdit" aria-hidden="true"></i> <span
 					data-ng-if="ctrl.editDoc.isEmpty(vEl)"> <span
-					class="w3-tiny"> ____запис____ {{vEl.doc_id}}</span>
+						class="w3-tiny"> ____запис____ {{vEl.doc_id}}</span>
 				</span> <span
 					data-ng-include="'/f/new_apteka/group_list1.view_'+o_id+'.html'"></span>
-				<span class="w3-right"
-					data-ng-if="ctrl.editDoc.mouseOverId == vEl.doc_id"><a
-					href="#" ng-click="ctrl.editDoc.upElementByRefGroup(vEl,o_id)"
+				</a> <span class="w3-right"
+					data-ng-if="ctrl.editDoc.mouseOverId == vEl.doc_id"><span
+					data-ng-click="ctrl.editDoc.upElementByRefGroup(vEl,o_id)"
 					title="догори" class="w3-hover-shadow w3-hover-gray"><i
-						class="fa fa-sort-asc"></i></a> <a href="#"
-					ng-click="ctrl.editDoc.downElementByRefGroup(vEl,o_id)"
+						class="fa fa-sort-asc"></i></span> <span
+					data-ng-click="ctrl.editDoc.downElementByRefGroup(vEl,o_id)"
 					title="донизу" class="w3-hover-shadow w3-hover-gray"><i
-						class="fa fa-sort-desc"></i></a> </span>
+						class="fa fa-sort-desc"></i></span> </span>
 			</div>
 			<div
 				class="w3-hide w3-card w3-border w3-border-green  w3-display-container"
 				style="height: {{ctrl.editDoc.htmlParam['edd_height_'+vEl.reference] ||370}}px;" data-ng-class="{'w3-show':vEl.openToEdit}">
-				<div data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити {{vEl.doc_id}}.{{vEl.reference}}"
-					class="w3-button w3-display-topright">×</div>
+				
 				<div class="w3-border-bottom">
 					<div class="w3-dropdown-hover">
 						&nbsp; <i class="fa fa-bars" aria-hidden="true"></i> &nbsp;
@@ -63,6 +61,8 @@
 				<div data-ng-repeat="o2 in elementsMap[o.reference].children">
 					{{o2.doc_id}} {{o2.value}}</div>
 				 -->
+				<a href="#" data-ng-click="ctrl.editDoc.openToEdit(vEl)" title="Закрити {{vEl.doc_id}}.{{vEl.reference}}"
+					class="w3-button w3-display-topright">×</a>
 			</div>
 		</div>
 	</div>
