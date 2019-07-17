@@ -105,6 +105,7 @@ function extendSql(params, extendList){
 	})
 	return params
 }
+
 function replaceParams(params){
 //	console.log(params.sql)
 	angular.forEach(params.sql.split(':'), function(v,k){
