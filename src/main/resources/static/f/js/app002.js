@@ -2,6 +2,7 @@ var app = angular.module('myApp', ['ngSanitize']);
 var exe_fn = {}
 var initApp = function($scope, $http, ctrl){
 	$scope.elementsMap = {}
+	ctrl.i18 = {}
 	ctrl.elementsMap = $scope.elementsMap
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
@@ -12,6 +13,12 @@ var initApp = function($scope, $http, ctrl){
 			error_fn : params.error_fn,
 	}	}
 
+	ctrl.i18_name = function(leE){
+		if(ctrl.i18[leE.doc_id])
+			return ctrl.i18[leE.doc_id].value
+		else 
+			return leE.value + ' ' + leE.doc_id
+	}
 }
 
 function Exe_fn($scope, $http){
@@ -36,6 +43,7 @@ function Exe_fn($scope, $http){
 }
 
 function readSql(params, obj){
+//	console.log(params)
 	replaceParams(params)
 	if(!obj) obj = params
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
@@ -62,16 +70,52 @@ function replaceParams(params){
 	})
 }
 
-
-var mapElement = function(element,elementsMap){
+var mapElement = function(element, elementsMap){
 	elementsMap[element.doc_id] = element
 	angular.forEach(element.children, function(el){
 		mapElement(el, elementsMap)
 	})
+	return elementsMap
 }
 
-
 var sql_app = {}
+sql_app.select_i18_ua_of_doc = function(){ 
+	return sql_app.select_i18_ua() + 
+	" AND d1.reference IN (" +
+	sql_app.select_doc_id_l8() +
+	") "
+}
+sql_app.select_i18_ua= function(){ 
+	return "SELECT d2.value var, d1.* FROM \n" +
+	"(SELECT * FROM doc LEFT JOIN string s ON string_id=doc_id) d1, \n" +
+	"(SELECT * FROM doc LEFT JOIN string s ON string_id=doc_id) d2 \n" +
+	" WHERE d1.parent = 115924 \n" +
+	" AND d2.doc_id=d1.reference"
+}
+sql_app.select_doc_id_l8 = function(){ 
+	return "SELECT doc_id FROM (" +
+	sql_app.select_doc_l8() +
+			") x"
+}
+sql_app.select_doc_l8= function(){ 
+	return "SELECT 0 l, * FROM doc WHERE doc_id=:rootId \n" +
+	"UNION \n" +
+	"SELECT 1 l, d1.* FROM doc d1 WHERE parent=:rootId \n" +
+	"UNION \n" +
+	"SELECT 2 l, d2.* FROM doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id \n" +
+	"UNION \n" +
+	"SELECT 3 l, d3.* FROM doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id \n" +
+	"UNION \n" +
+	"SELECT 4 l, d4.* FROM doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id \n" +
+	"UNION \n" +
+	"SELECT 5 l, d5.* FROM doc d5, doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id AND d5.parent=d4.doc_id \n" +
+	"UNION \n" +
+	"SELECT 6 l, d6.* FROM doc d6, doc d5, doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id AND d5.parent=d4.doc_id AND d6.parent=d5.doc_id \n" +
+	"UNION \n" +
+	"SELECT 7 l, d7.* FROM doc d7, doc d6, doc d5, doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id AND d5.parent=d4.doc_id AND d6.parent=d5.doc_id AND d7.parent=d6.doc_id \n" +
+	"UNION \n" +
+	"SELECT 8 l, d8.* FROM doc d8, doc d7, doc d6, doc d5, doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id AND d5.parent=d4.doc_id AND d6.parent=d5.doc_id AND d7.parent=d6.doc_id AND d8.parent=d7.doc_id "
+}
 sql_app.amk025_template = function(){
 	return "SELECT * FROM doc d2, doc d1,docbody " +
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
