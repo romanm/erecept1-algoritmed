@@ -22,24 +22,54 @@
 		{{ctrl.page_title}}
 	</h1>
 	<div class="w3-row">
-		<div class="w3-container w3-half w3-border">
-			<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children">
-				{{ctrl.i18_name(leE)}}
-				<div data-ng-if="leE.children" class="w3-border w3-container">
-					<div data-ng-repeat="leE2 in leE.children">{{leE2.value}} a3</div>
-					a2
+		<div class="w3-half w3-border">
+			<div class="w3-blue-gray">
+				<div class="w3-container w3-tiny w3-right-align am-i">Редагування</div>
+			</div>
+			<div class="w3-container">
+				<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children">
+					{{ctrl.i18_name(leE)}}
+					<div data-ng-if="leE.children" class="w3-border w3-container">
+						<div data-ng-repeat="leE2 in leE.children">a3
+							{{ctrl.i18_name(leE2)}}</div>
+						a2
+					</div>
+					<div data-ng-if="!leE.children">
+						<input class="w3-border am-width-100pr"
+							data-ng-focus="ctrl.focus_field(leE)"
+							d1ata-ng-change="ctrl.change_text_field(leE)"
+							>
+					</div>
+					<div data-ng-if="$last">&nbsp;</div>
 				</div>
-				<div data-ng-if="!leE.children">
-					<input class="w3-border am-width-100pr">
-				</div>
-				<div data-ng-if="$last">&nbsp;</div>
 			</div>
 		</div>
 		<div class="w3-half w3-border">
 			<div class="w3-blue-gray">
-				<div class="w3-tiny w3-right-align am-i">Лікувальні заклади</div>
+				<div class="w3-container w3-tiny w3-right-align am-i">Лікувальні
+					заклади - список</div>
 			</div>
-			<div class="w3-container">------</div>
+			<div>
+				<div class="w3-card">
+					<div class="w3-container w3-small">
+						<button class="w3-border" data-ng-click="ctrl.newClinic()">новий</button>
+					</div>
+				</div>
+				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
+					data-ng-click="ctrl.setEditClinic(clinicEl)"
+					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
+					class="w3-hover-shadow">
+					{{clinicEl.doc_id}}
+					</div>
+			</div>
+		</div>
+		<div class="w3-half w3-border">
+			<div class="w3-blue-gray">
+				<div class="w3-container w3-tiny w3-right-align am-i">Вид</div>
+			</div>
+			<div class="w3-container">
+				<div class="w3-code w3-tiny">{{ctrl.edit_clinic}}</div>
+			</div>
 		</div>
 	</div>
 	</div>

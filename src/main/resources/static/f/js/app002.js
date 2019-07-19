@@ -1,6 +1,23 @@
 var app = angular.module('myApp', ['ngSanitize']);
 var exe_fn = {}
 var initApp = function($scope, $http, ctrl){
+	ctrl.new_obj_counter = 1
+	ctrl.new_obj_list = []
+	ctrl.focus_field = function(leE){
+		if(ctrl.edit_clinic){
+			if(!ctrl.edit_clinic.children){
+				ctrl.edit_clinic.children = []
+			}
+			console.log(leE.doc_id, leE.parent, ctrl.edit_clinic.reference, leE)
+			if(leE.parent == ctrl.edit_clinic.reference){
+				var new_ed_obj = {}
+				new_ed_obj.doc_id = ctrl.new_obj_counter++
+				new_ed_obj.reference = leE.doc_id
+				ctrl.edit_clinic.children.push(new_ed_obj)
+			}
+		}
+	}
+	
 	$scope.elementsMap = {}
 	ctrl.i18 = {}
 	ctrl.elementsMap = $scope.elementsMap
@@ -21,25 +38,17 @@ var initApp = function($scope, $http, ctrl){
 	}
 }
 
-function Exe_fn($scope, $http){
-	this.httpGet=function(progr_am){
-		if(progr_am.error_fn)
-			$http
-			.get(progr_am.url, {params:progr_am.params})
-			.then(progr_am.then_fn, progr_am.error_fn)
-		else
-			$http
-			.get(progr_am.url, {params:progr_am.params})
-			.then(progr_am.then_fn)
-	}
-	this.httpPost=function(progr_am){
-		if(progr_am.error_fn)
-			$http.post(progr_am.url, progr_am.data)
-			.then(progr_am.then_fn, progr_am.error_fn)
-		else
-			$http.post(progr_am.url, progr_am.data)
-			.then(progr_am.then_fn)
-	}
+var writeSql = function(data){
+	replaceParams(data)
+	exe_fn.httpPost
+	({	url:'/r/url_sql_read_db1',
+		then_fn:function(response) {
+//			console.log(response.data)
+			if(data.dataAfterSave)
+				data.dataAfterSave(response)
+		},
+		data:data,
+	})
 }
 
 function readSql(params, obj){
@@ -116,7 +125,29 @@ sql_app.select_doc_l8= function(){
 	"UNION \n" +
 	"SELECT 8 l, d8.* FROM doc d8, doc d7, doc d6, doc d5, doc d4, doc d3, doc d2, doc d1 WHERE d1.parent=:rootId AND d2.parent=d1.doc_id AND d3.parent=d2.doc_id AND d4.parent=d3.doc_id AND d5.parent=d4.doc_id AND d6.parent=d5.doc_id AND d7.parent=d6.doc_id AND d8.parent=d7.doc_id "
 }
+
 sql_app.amk025_template = function(){
 	return "SELECT * FROM doc d2, doc d1,docbody " +
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
+}
+
+function Exe_fn($scope, $http){
+	this.httpGet=function(progr_am){
+		if(progr_am.error_fn)
+			$http
+			.get(progr_am.url, {params:progr_am.params})
+			.then(progr_am.then_fn, progr_am.error_fn)
+		else
+			$http
+			.get(progr_am.url, {params:progr_am.params})
+			.then(progr_am.then_fn)
+	}
+	this.httpPost=function(progr_am){
+		if(progr_am.error_fn)
+			$http.post(progr_am.url, progr_am.data)
+			.then(progr_am.then_fn, progr_am.error_fn)
+		else
+			$http.post(progr_am.url, progr_am.data)
+			.then(progr_am.then_fn)
+	}
 }
