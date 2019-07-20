@@ -5,9 +5,22 @@ var initApp = function($scope, $http, ctrl){
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap
 	ctrl.new_obj_counter = 1
-	ctrl.template_to_data = []
+	ctrl.template_to_data = {}
 	ctrl.new_obj_list = []
 	ctrl.focus_field = function(leE){
+		console.log(leE, ctrl.edit_clinic, ctrl.template_to_data)
+		if(ctrl.template_to_data[leE.doc_id]){
+			console.log(ctrl.template_to_data[leE.doc_id])
+		}else{
+			var v = {}
+			v.parent = ctrl.template_to_data[leE.parent].doc_id
+			v.reference = leE.doc_id
+			v.doc_id = ctrl.new_obj_counter++
+			console.log(v)
+			el_to_tree(ctrl, v)
+		}
+	}
+	ctrl.f2ocus_field = function(leE){
 		if(ctrl.edit_clinic){
 			if(!ctrl.edit_clinic.children){
 				ctrl.edit_clinic.children = []
@@ -105,7 +118,18 @@ sql_app.select_i18_ua= function(){
 sql_app.select_doc_id_l8 = function(){ 
 	return "SELECT doc_id FROM (" +
 	sql_app.select_doc_l8() +
-			") x"
+	") x"
+}
+sql_app.select_doc_l8_nodes= function(){ 
+	return "SELECT * FROM (\n" +
+	sql_app.select_doc_l8() +
+	") t, (\n" +
+	sql_app.select_content_nodes() +
+	"\n) n WHERE t.doc_id=n.doc_id"
+}
+sql_app.select_content_nodes = function(){ 
+	return "SELECT doc_id, s.value d_s FROM doc d " +
+	"LEFT JOIN string s ON d.doc_id=s.string_id "
 }
 sql_app.select_doc_l8= function(){ 
 	return "SELECT 0 l, * FROM doc WHERE doc_id=:rootId \n" +

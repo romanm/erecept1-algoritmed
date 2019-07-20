@@ -26,6 +26,11 @@
 			<div class="w3-blue-gray">
 				<div class="w3-container w3-tiny w3-right-align am-i">Редагування</div>
 			</div>
+			<div class="w3-card">
+					<div class="w3-container w3-small">
+						<button class="w3-border" data-ng-click="ctrl.saveClinic()">зберегти</button>
+					</div>
+				</div>
 			<div class="w3-container">
 				<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children">
 					{{ctrl.i18_name(leE)}}
@@ -37,9 +42,9 @@
 					<div data-ng-if="!leE.children">
 						<input class="w3-border am-width-100pr"
 							data-ng-focus="ctrl.focus_field(leE)"
+							data-ng-model="ctrl.template_to_data[leE.doc_id].d_s"
 							d1ata-ng-change="ctrl.change_text_field(leE)"
 							>
-							{{ctrl.template_to_data[leE.doc_id]}}
 					</div>
 					<div data-ng-if="$last">&nbsp;</div>
 				</div>

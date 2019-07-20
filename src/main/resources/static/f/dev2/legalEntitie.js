@@ -14,10 +14,11 @@ app.controller('AppCtrl', function($scope, $http) {
 
 	ctrl.readTree = function(rootEl){
 		console.log('ctrl.readTree rootEl =', rootEl)
-		read_Tree(ctrl, rootEl.doc_id)
+		read_tree(ctrl, rootEl.doc_id)
 	}
 	ctrl.setEditClinic = function(clinicEl){
 		ctrl.edit_clinic = clinicEl
+		el_to_tree(ctrl, clinicEl)
 	}
 	ctrl.newClinic = function(){
 		var params = {}
@@ -54,31 +55,35 @@ function read_clinic_list(ctrl, parentId){
 	})
 }
 
-function read_Tree(ctrl, rootId) {
-	var sql = sql_app.select_doc_l8() + " ORDER BY l "
-	readSql({
-		sql:sql,
-		rootId:rootId,
-		afterRead:function(response){
-			angular.forEach(response.data.list, function(v,k){
-				if(v.doc_id==rootId){
-				}else{
-					console.log(v.parent, v.reference, ctrl.elementsMap[v.reference])
-					if(ctrl.elementsMap[v.reference]){
-						ctrl.template_to_data[v.reference] = v
-						console.log(v)
-					}
-					if(!ctrl.elementsMap[v.parent].children){
-						ctrl.elementsMap[v.parent].children = []
-						ctrl.elementsMap[v.parent].children_ids = []
-					}
-					if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
-						ctrl.elementsMap[v.parent].children.push(v)
-						ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
-					}
-				}
-			})
+function el_to_tree(ctrl, v) {
+	ctrl.elementsMap[v.doc_id] = v
+	console.log(v.parent, v.reference, ctrl.elementsMap[v.reference], v)
+	if(ctrl.elementsMap[v.reference]){
+		ctrl.template_to_data[v.reference] = v
+	}
+	if(ctrl.elementsMap[v.parent]){
+		if(!ctrl.elementsMap[v.parent].children){
+			ctrl.elementsMap[v.parent].children = []
+			ctrl.elementsMap[v.parent].children_ids = []
 		}
+		if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
+			ctrl.elementsMap[v.parent].children.push(v)
+			ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
+		}
+	}
+}
+
+function read_tree(ctrl, rootId) {
+//	var sql = sql_app.select_doc_l8() + " ORDER BY l "
+//	console.log(sql)
+	var sql = sql_app.select_doc_l8_nodes() + " ORDER BY l "
+	var list_el_to_tree = function(v){
+		if(v.doc_id!=rootId){
+			el_to_tree(ctrl, v)
+		}
+	}
+	readSql({ sql:sql, rootId:rootId,
+		afterRead:function(response){ angular.forEach(response.data.list, list_el_to_tree) }
 	})
 }
 function read_X(ctrl, rootId) {
