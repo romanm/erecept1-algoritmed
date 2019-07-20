@@ -1,7 +1,11 @@
 var app = angular.module('myApp', ['ngSanitize']);
 var exe_fn = {}
 var initApp = function($scope, $http, ctrl){
+	ctrl.i18 = {}
+	$scope.elementsMap = {}
+	ctrl.elementsMap = $scope.elementsMap
 	ctrl.new_obj_counter = 1
+	ctrl.template_to_data = []
 	ctrl.new_obj_list = []
 	ctrl.focus_field = function(leE){
 		if(ctrl.edit_clinic){
@@ -18,9 +22,6 @@ var initApp = function($scope, $http, ctrl){
 		}
 	}
 	
-	$scope.elementsMap = {}
-	ctrl.i18 = {}
-	ctrl.elementsMap = $scope.elementsMap
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {

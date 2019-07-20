@@ -39,6 +39,7 @@
 							data-ng-focus="ctrl.focus_field(leE)"
 							d1ata-ng-change="ctrl.change_text_field(leE)"
 							>
+							{{ctrl.template_to_data[leE.doc_id]}}
 					</div>
 					<div data-ng-if="$last">&nbsp;</div>
 				</div>
@@ -56,10 +57,11 @@
 					</div>
 				</div>
 				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
-					data-ng-click="ctrl.setEditClinic(clinicEl)"
+					data-ng-click="ctrl.setEditClinic(clinicEl); ctrl.readTree(clinicEl)"
 					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
 					class="w3-hover-shadow">
 					{{clinicEl.doc_id}}
+					{{clinicEl.value}}
 					</div>
 			</div>
 		</div>

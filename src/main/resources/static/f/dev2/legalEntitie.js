@@ -6,12 +6,16 @@ app.controller('AppCtrl', function($scope, $http) {
 	read_clinic_list(ctrl, 285460)
 	read_X(ctrl, 115827)
 	
-	
 /*
 	ctrl.change_text_field = function(leE){
 		console.log(leE)
 	}
- * */	
+ * */
+
+	ctrl.readTree = function(rootEl){
+		console.log('ctrl.readTree rootEl =', rootEl)
+		read_Tree(ctrl, rootEl.doc_id)
+	}
 	ctrl.setEditClinic = function(clinicEl){
 		ctrl.edit_clinic = clinicEl
 	}
@@ -31,18 +35,53 @@ app.controller('AppCtrl', function($scope, $http) {
 })
 
 function read_clinic_list(ctrl, parentId){
-	var sql = "SELECT * FROM doc WHERE parent=:parentId"
+	var sql = "SELECT * FROM doc row " +
+	"LEFT JOIN (" +
+	"SELECT * FROM doc, string s2 " +
+	"WHERE reference=115783 AND doc_id=string_id " +
+	") short_name ON row.doc_id=short_name.parent " +
+	"WHERE row.parent=:parentId " //285460
 	readSql({
 		sql:sql,
 		parentId:parentId,
 		afterRead:function(response){
 			ctrl.clinic_list = response.data.list
-			console.log(ctrl.clinic_list, response.data, sql)
+			//console.log(ctrl.clinic_list, response.data, sql)
+			angular.forEach(response.data.list, function(v,k){
+				ctrl.elementsMap[v.doc_id] = v
+			})
+		}
+	})
+}
+
+function read_Tree(ctrl, rootId) {
+	var sql = sql_app.select_doc_l8() + " ORDER BY l "
+	readSql({
+		sql:sql,
+		rootId:rootId,
+		afterRead:function(response){
+			angular.forEach(response.data.list, function(v,k){
+				if(v.doc_id==rootId){
+				}else{
+					console.log(v.parent, v.reference, ctrl.elementsMap[v.reference])
+					if(ctrl.elementsMap[v.reference]){
+						ctrl.template_to_data[v.reference] = v
+						console.log(v)
+					}
+					if(!ctrl.elementsMap[v.parent].children){
+						ctrl.elementsMap[v.parent].children = []
+						ctrl.elementsMap[v.parent].children_ids = []
+					}
+					if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
+						ctrl.elementsMap[v.parent].children.push(v)
+						ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
+					}
+				}
+			})
 		}
 	})
 }
 function read_X(ctrl, rootId) {
-//	var sql = sql_app.select_doc_id_l8()
 //	var sql = sql_app.select_i18_ua() + " LIMIT 22"
 	var sql = sql_app.select_i18_ua_of_doc()
 	readSql({
