@@ -4,36 +4,7 @@ var initApp = function($scope, $http, ctrl){
 	ctrl.i18 = {}
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap
-	ctrl.new_obj_counter = 1
-	ctrl.template_to_data = {}
 	ctrl.new_obj_list = []
-	ctrl.focus_field = function(leE){
-		console.log(leE, ctrl.edit_clinic, ctrl.template_to_data)
-		if(ctrl.template_to_data[leE.doc_id]){
-			console.log(ctrl.template_to_data[leE.doc_id])
-		}else{
-			var v = {}
-			v.parent = ctrl.template_to_data[leE.parent].doc_id
-			v.reference = leE.doc_id
-			v.doc_id = ctrl.new_obj_counter++
-			console.log(v)
-			el_to_tree(ctrl, v)
-		}
-	}
-	ctrl.f2ocus_field = function(leE){
-		if(ctrl.edit_clinic){
-			if(!ctrl.edit_clinic.children){
-				ctrl.edit_clinic.children = []
-			}
-			console.log(leE.doc_id, leE.parent, ctrl.edit_clinic.reference, leE)
-			if(leE.parent == ctrl.edit_clinic.reference){
-				var new_ed_obj = {}
-				new_ed_obj.doc_id = ctrl.new_obj_counter++
-				new_ed_obj.reference = leE.doc_id
-				ctrl.edit_clinic.children.push(new_ed_obj)
-			}
-		}
-	}
 	
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
@@ -49,6 +20,51 @@ var initApp = function($scope, $http, ctrl){
 			return ctrl.i18[leE.doc_id].value
 		else 
 			return leE.value + ' ' + leE.doc_id
+	}
+}
+
+var initDocEditor = function(ctrl){
+	ctrl.new_obj_counter = 1
+	ctrl.template_to_data = {}
+	ctrl.changed_data = {}
+	ctrl.saveEditDoc = function(){
+		console.log(ctrl.changed_data)
+	}
+	ctrl.change_text_field = function(leE){
+		var dataEl = ctrl.template_to_data[leE.doc_id]
+		ctrl.changed_data[dataEl.doc_id] = dataEl
+	}
+	ctrl.focus_field = function(leE){
+		if(ctrl.template_to_data[leE.doc_id]){
+		}else{
+			var v = {}
+			v.parent = ctrl.template_to_data[leE.parent].doc_id
+			v.reference = leE.doc_id
+			v.doc_id = ctrl.new_obj_counter++
+			el_to_tree(ctrl, v)
+		}
+	}
+	ctrl.setEditDoc = function(clinicEl){
+		ctrl.edit_clinic = clinicEl
+		el_to_tree(ctrl, clinicEl)
+	}
+}
+
+function el_to_tree(ctrl, v) {
+	ctrl.elementsMap[v.doc_id] = v
+	console.log(v.parent, v.reference, ctrl.elementsMap[v.reference], v)
+	if(ctrl.elementsMap[v.reference]){
+		ctrl.template_to_data[v.reference] = v
+	}
+	if(ctrl.elementsMap[v.parent]){
+		if(!ctrl.elementsMap[v.parent].children){
+			ctrl.elementsMap[v.parent].children = []
+			ctrl.elementsMap[v.parent].children_ids = []
+		}
+		if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
+			ctrl.elementsMap[v.parent].children.push(v)
+			ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
+		}
 	}
 }
 

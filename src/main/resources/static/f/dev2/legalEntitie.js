@@ -2,23 +2,15 @@ app.controller('AppCtrl', function($scope, $http) {
 	var ctrl = this
 	ctrl.page_title = 'лікувальний заклад'
 	initApp($scope, $http, ctrl)
+	initDocEditor(ctrl)
+
 	read_eHealthInUA(ctrl)
 	read_clinic_list(ctrl, 285460)
 	read_X(ctrl, 115827)
-	
-/*
-	ctrl.change_text_field = function(leE){
-		console.log(leE)
-	}
- * */
 
 	ctrl.readTree = function(rootEl){
 		console.log('ctrl.readTree rootEl =', rootEl)
 		read_tree(ctrl, rootEl.doc_id)
-	}
-	ctrl.setEditClinic = function(clinicEl){
-		ctrl.edit_clinic = clinicEl
-		el_to_tree(ctrl, clinicEl)
 	}
 	ctrl.newClinic = function(){
 		var params = {}
@@ -28,7 +20,7 @@ app.controller('AppCtrl', function($scope, $http) {
 		writeSql({sql : params.sql,
 			dataAfterSave:function(response){
 				console.log(response.data)
-				ctrl.setEditClinic(response.data.list1[0])
+				ctrl.setEditDoc(response.data.list1[0])
 				ctrl.clinic_list.unshift(ctrl.edit_clinic)
 			}
 		})
@@ -53,24 +45,6 @@ function read_clinic_list(ctrl, parentId){
 			})
 		}
 	})
-}
-
-function el_to_tree(ctrl, v) {
-	ctrl.elementsMap[v.doc_id] = v
-	console.log(v.parent, v.reference, ctrl.elementsMap[v.reference], v)
-	if(ctrl.elementsMap[v.reference]){
-		ctrl.template_to_data[v.reference] = v
-	}
-	if(ctrl.elementsMap[v.parent]){
-		if(!ctrl.elementsMap[v.parent].children){
-			ctrl.elementsMap[v.parent].children = []
-			ctrl.elementsMap[v.parent].children_ids = []
-		}
-		if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
-			ctrl.elementsMap[v.parent].children.push(v)
-			ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
-		}
-	}
 }
 
 function read_tree(ctrl, rootId) {

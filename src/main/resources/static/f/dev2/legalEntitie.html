@@ -28,7 +28,7 @@
 			</div>
 			<div class="w3-card">
 					<div class="w3-container w3-small">
-						<button class="w3-border" data-ng-click="ctrl.saveClinic()">зберегти</button>
+						<button class="w3-border" data-ng-click="ctrl.saveEditDoc()">зберегти</button>
 					</div>
 				</div>
 			<div class="w3-container">
@@ -43,7 +43,7 @@
 						<input class="w3-border am-width-100pr"
 							data-ng-focus="ctrl.focus_field(leE)"
 							data-ng-model="ctrl.template_to_data[leE.doc_id].d_s"
-							d1ata-ng-change="ctrl.change_text_field(leE)"
+							data-ng-change="ctrl.change_text_field(leE)"
 							>
 					</div>
 					<div data-ng-if="$last">&nbsp;</div>
@@ -62,7 +62,7 @@
 					</div>
 				</div>
 				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
-					data-ng-click="ctrl.setEditClinic(clinicEl); ctrl.readTree(clinicEl)"
+					data-ng-click="ctrl.setEditDoc(clinicEl); ctrl.readTree(clinicEl)"
 					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
 					class="w3-hover-shadow">
 					{{clinicEl.doc_id}}
