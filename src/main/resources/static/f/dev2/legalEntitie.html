@@ -27,24 +27,52 @@
 				<div class="w3-container w3-tiny w3-right-align am-i">Редагування</div>
 			</div>
 			<div class="w3-card">
-					<div class="w3-container w3-small">
-						<button class="w3-border" data-ng-click="ctrl.saveEditDoc()">зберегти</button>
-					</div>
+				<div class="w3-container w3-small">
+					<button class="w3-border"
+						data-ng-disabled="ctrl.disabled_field(leE)"
+						data-ng-click="ctrl.saveEditDoc()">зберегти</button>
 				</div>
+			</div>
 			<div class="w3-container">
-				<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children">
-					{{ctrl.i18_name(leE)}}
-					<div data-ng-if="leE.children" class="w3-border w3-container">
-						<div data-ng-repeat="leE2 in leE.children">a3
-							{{ctrl.i18_name(leE2)}}</div>
-						a2
-					</div>
-					<div data-ng-if="!leE.children">
-						<input class="w3-border am-width-100pr"
+				<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children"
+					data-ng-init="isSelect = ctrl.isSelectEl(leE)">
+					{{ctrl.i18_name(leE)}} <span class="w3-right w3-hover-shadow"
+						data-ng-click="ctrl.addArrayEl(leE)"
+						data-ng-if="ctrl.isArray(leE)">+ </span>
+					<div data-ng-if="isSelect">
+						<select class="w3-border am-width-100pr"
 							data-ng-focus="ctrl.focus_field(leE)"
-							data-ng-model="ctrl.template_to_data[leE.doc_id].d_s"
+							data-ng-disabled="ctrl.disabled_field(leE)"
 							data-ng-change="ctrl.change_text_field(leE)"
-							>
+							data-ng-model="ctrl.template_to_data[leE.doc_id].reference2"
+							data-ng-options="item.doc_id as (item.value) for item in ctrl.elementsMap[leE.reference].children">
+							<option value="">-- пусто --</option>
+						</select>
+						<!-- 
+						<select class="w3-border am-width-100pr"
+								data-ng-focus="ctrl.focus_field(leE)"
+								data-ng-disabled="ctrl.disabled_field(leE)"
+						>
+							<option value="">--  пусто --</option>
+							<option
+								data-ng-repeat="o in ctrl.elementsMap[leE.reference].children"
+								value="{{o.doc_id}}">{{o.value}}</option>
+						</select> {{leE.reference}} {{ctrl.elementsMap[leE.reference].doc_id}}
+					 -->
+					</div>
+					<div data-ng-if="!isSelect">
+						<div data-ng-if="leE.children" class="w3-border w3-container">
+							<div data-ng-repeat="leE2 in leE.children">a3
+								{{ctrl.i18_name(leE2)}}</div>
+							a2
+						</div>
+						<div data-ng-if="!leE.children">
+							<input class="w3-border am-width-100pr"
+								data-ng-disabled="ctrl.disabled_field(leE)"
+								data-ng-focus="ctrl.focus_field(leE)"
+								data-ng-model="ctrl.template_to_data[leE.doc_id].d_s"
+								data-ng-change="ctrl.change_text_field(leE)">
+						</div>
 					</div>
 					<div data-ng-if="$last">&nbsp;</div>
 				</div>

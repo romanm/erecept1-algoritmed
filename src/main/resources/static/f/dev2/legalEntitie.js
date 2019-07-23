@@ -6,12 +6,14 @@ app.controller('AppCtrl', function($scope, $http) {
 
 	read_eHealthInUA(ctrl)
 	read_clinic_list(ctrl, 285460)
-	read_X(ctrl, 115827)
+	read_i18_ua_of_doc(ctrl, 115827)
+	read_dd_of_doc(ctrl, 115827)
 
 	ctrl.readTree = function(rootEl){
 		console.log('ctrl.readTree rootEl =', rootEl)
 		read_tree(ctrl, rootEl.doc_id)
 	}
+
 	ctrl.newClinic = function(){
 		var params = {}
 		params.sql = "INSERT INTO doc (doc_id, parent,doctype, reference) VALUES (:nextDbId1, 285460, 18, 115827 ); " +
@@ -25,6 +27,7 @@ app.controller('AppCtrl', function($scope, $http) {
 			}
 		})
 	}
+
 })
 
 function read_clinic_list(ctrl, parentId){
@@ -60,7 +63,34 @@ function read_tree(ctrl, rootId) {
 		afterRead:function(response){ angular.forEach(response.data.list, list_el_to_tree) }
 	})
 }
-function read_X(ctrl, rootId) {
+
+function read_dd_of_doc(ctrl, rootId) {
+//	console.log(sql_app.select_i18_ua())
+	var sql = sql_app.select_doc_dd_l8()
+	var sql = sql_app.select_dd_for_doc_l8()
+	var params = {
+		sql:sql,
+		rootId:rootId,
+		afterRead:function(response){
+			angular.forEach(response.data.list, function(v,k){
+				ctrl.elementsMap[v.doc_id] = v
+				if(0==v.l){
+				}else{
+					var vp = ctrl.elementsMap[v.parent]
+					if(!vp.children) 
+						vp.children = []
+					vp.children.push(v)
+//					if(vp.doc_id==117239) 
+//						console.log(vp)
+				}
+			})
+		}
+	}
+//	console.log(replaceParams(params))
+	readSql(params)
+}
+
+function read_i18_ua_of_doc(ctrl, rootId) {
 //	var sql = sql_app.select_i18_ua() + " LIMIT 22"
 	var sql = sql_app.select_i18_ua_of_doc()
 	readSql({
