@@ -6,6 +6,13 @@ var initApp = function($scope, $http, ctrl){
 	ctrl.elementsMap = $scope.elementsMap
 	ctrl.new_obj_list = []
 	
+	build_request($scope)
+	console.log($scope.request.parameters)
+	ctrl.request = $scope.request
+	$scope.openUrl = function(url){
+		console.log(url)
+		window.location.href = url;
+	}
 	exe_fn = new Exe_fn($scope, $http);
 	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
 		return {
@@ -15,19 +22,22 @@ var initApp = function($scope, $http, ctrl){
 			error_fn : params.error_fn,
 	}	}
 
-	ctrl.i18_name = function(leE){
-		if(ctrl.i18[leE.doc_id])
-			return ctrl.i18[leE.doc_id].value
+	ctrl.i18_name = function(tE){
+		if(ctrl.i18[tE.doc_id])
+			return ctrl.i18[tE.doc_id].value
 		else
-			return leE.value + ' ' + leE.doc_id
+			return tE.value + ' ' + tE.doc_id
 	}
 }
 
 var initDocEditor = function(ctrl){
 	ctrl.db_obj_counter = 100
-	ctrl.new_obj_counter = 1
-	ctrl.template_to_data = {}
-	ctrl.changed_data = {}
+	ctrl.initEditDoc = function(){
+		ctrl.new_obj_counter = 1
+		ctrl.template_to_data = {}
+		ctrl.changed_data = {}
+	}
+	ctrl.initEditDoc()
 	ctrl.saveEditDoc = function(){
 		console.log(ctrl.changed_data)
 		angular.forEach(ctrl.changed_data, function(v,k){
@@ -36,11 +46,11 @@ var initDocEditor = function(ctrl){
 				content_table = "string"
 				val = v.d_s
 			}
-			var leE = ctrl.elementsMap[v.reference]
+			var tE = ctrl.elementsMap[v.reference]
 			var saveV = Object.assign({}, v)
 			console.log(saveV)
 			if(v.doc_id>ctrl.db_obj_counter){//UPDATE
-				if(ctrl.isSelectEl(leE)){
+				if(ctrl.isSelectEl(tE)){
 					sql = "UPDATE doc SET reference2=:reference2 WHERE doc_id=:doc_id;"
 				}else
 				if(val){
@@ -59,10 +69,10 @@ var initDocEditor = function(ctrl){
 //				}
 //				writeSql(saveV)
 			}else{//INSERT
-				if(ctrl.isSelectEl(leE)){
+				if(ctrl.isSelectEl(tE)){
 					sql  = "INSERT INTO doc (doc_id, doctype, parent, reference, reference2) " +
 					"VALUES (:nextDbId1, 18, :parent, :reference, :reference2); "
-					console.log(v, leE, ctrl.isSelectEl(leE), sql)
+					console.log(v, tE, ctrl.isSelectEl(tE), sql)
 				}else{
 					saveV.val = val
 					sql  = "INSERT INTO doc (doc_id, doctype, parent, reference) VALUES (:nextDbId1, 18, :parent, :reference); "
@@ -81,33 +91,34 @@ var initDocEditor = function(ctrl){
 			writeSql(saveV)
 		})
 	}
-	ctrl.isSelectEl = function(leE){
-		return leE.reference && (leE.doctype==18)
+	ctrl.isSelectEl = function(tE){
+		return tE.reference && (tE.doctype==18)
 	}
-	ctrl.addArrayEl = function(leE){
-		console.log(leE)
+	ctrl.addArrayEl = function(tE){
+		console.log(tE)
 	}
-	ctrl.isArray = function(leE){
-		return leE.doctype>=32&&leE.doctype<=37
+	ctrl.isArray = function(tE){
+		return tE.doctype>=32&&tE.doctype<=37
 	}
-	ctrl.change_text_field = function(leE){
-		var dataEl = ctrl.template_to_data[leE.doc_id]
+	ctrl.change_text_field = function(tE){
+		var dataEl = ctrl.template_to_data[tE.doc_id]
 		ctrl.changed_data[dataEl.doc_id] = dataEl
 	}
-	ctrl.disabled_field = function(leE){
+	ctrl.disabled_field = function(tE){
 		return !ctrl.edit_clinic
 	}
-	ctrl.focus_field = function(leE){
-		if(ctrl.template_to_data[leE.doc_id]){
+	ctrl.focus_field = function(tE){
+		if(ctrl.template_to_data[tE.doc_id]){
 		}else{
 			var v = {}
-			v.parent = ctrl.template_to_data[leE.parent].doc_id
-			v.reference = leE.doc_id
+			v.parent = ctrl.template_to_data[tE.parent].doc_id
+			v.reference = tE.doc_id
 			v.doc_id = ctrl.new_obj_counter++
 			el_to_tree(ctrl, v)
 		}
 	}
 	ctrl.setEditDoc = function(clinicEl){
+		ctrl.initEditDoc()
 		ctrl.edit_clinic = clinicEl
 		el_to_tree(ctrl, clinicEl)
 	}
@@ -288,3 +299,17 @@ function Exe_fn($scope, $http){
 			.then(progr_am.then_fn)
 	}
 }
+
+function build_request($scope){
+	$scope.request={};
+//	console.log($scope.request)
+	$scope.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
+	$scope.request.parameters={};
+	if(window.location.search.split('?')[1]){
+		angular.forEach(window.location.search.split('?')[1].split('&'), function(value, index){
+			var par = value.split("=");
+			$scope.request.parameters[par[0]] = par[1];
+		});
+	}
+}
+

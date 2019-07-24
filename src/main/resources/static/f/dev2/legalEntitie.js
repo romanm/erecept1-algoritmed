@@ -46,6 +46,14 @@ function read_clinic_list(ctrl, parentId){
 			angular.forEach(response.data.list, function(v,k){
 				ctrl.elementsMap[v.doc_id] = v
 			})
+			console.log(ctrl.request)
+			if(ctrl.request.parameters.le){
+				var clinicEl = ctrl.elementsMap[ctrl.request.parameters.le]
+				if(clinicEl){
+					ctrl.setEditDoc(clinicEl)
+					ctrl.readTree(clinicEl)
+				}
+			}
 		}
 	})
 }

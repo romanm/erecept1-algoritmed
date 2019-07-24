@@ -1,3 +1,36 @@
 <div>
-a4
+	<div data-ng-repeat="tE in ptE.children"
+		data-ng-init="isSelect = ctrl.isSelectEl(tE)">
+		<span class="w3-small am-b"> {{ctrl.i18_name(tE)}}: </span><span
+			class="w3-right w3-hover-shadow" data-ng-click="ctrl.addArrayEl(tE)"
+			data-ng-if="ctrl.isArray(tE)">+ </span>
+
+		<div data-ng-if="isSelect">
+			<select class="w3-border am-width-100pr"
+				data-ng-focus="ctrl.focus_field(tE)"
+				data-ng-disabled="ctrl.disabled_field(tE)"
+				data-ng-change="ctrl.change_text_field(tE)"
+				data-ng-model="ctrl.template_to_data[tE.doc_id].reference2"
+				data-ng-options="item.doc_id as (item.value) for item in ctrl.elementsMap[tE.reference].children">
+				<option value="">-- пусто --</option>
+			</select>
+		</div>
+		<div data-ng-if="!isSelect">
+			<div data-ng-if="!tE.children">
+				<input class="w3-border am-width-100pr"
+					data-ng-disabled="ctrl.disabled_field(tE)"
+					data-ng-focus="ctrl.focus_field(tE)"
+					data-ng-model="ctrl.template_to_data[tE.doc_id].d_s"
+					data-ng-change="ctrl.change_text_field(tE)">
+			</div>
+			<div data-ng-if="tE.children" class="w3-border w3-container">
+				<div data-ng-repeat="ptE in [tE]"
+					data-ng-include="'/f/dev2/ed_element.html'"></div>
+			</div>
+		</div>
+		<div data-ng-if="$last" style="margin-bottom: 1ex;"></div>
+	</div>
+	<!-- 
+	<div class="w3-code w3-tiny">{{tE}}</div>
+	 -->
 </div>

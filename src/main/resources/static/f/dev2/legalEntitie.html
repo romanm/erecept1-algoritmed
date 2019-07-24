@@ -20,6 +20,7 @@
 	<h1 class="w3-container w3-small">
 		<span data-ng-include="'/f/home-link.html'"></span> &nbsp;
 		{{ctrl.page_title}}
+		<div class="w3-right">.</div>
 	</h1>
 	<div class="w3-row">
 		<div class="w3-half w3-border">
@@ -29,53 +30,13 @@
 			<div class="w3-card">
 				<div class="w3-container w3-small">
 					<button class="w3-border"
-						data-ng-disabled="ctrl.disabled_field(leE)"
+						data-ng-disabled="ctrl.disabled_field(tE)"
 						data-ng-click="ctrl.saveEditDoc()">зберегти</button>
 				</div>
 			</div>
 			<div class="w3-container">
-				<div data-ng-repeat="leE in ctrl.docLeagalEntitie.children"
-					data-ng-init="isSelect = ctrl.isSelectEl(leE)">
-					{{ctrl.i18_name(leE)}} <span class="w3-right w3-hover-shadow"
-						data-ng-click="ctrl.addArrayEl(leE)"
-						data-ng-if="ctrl.isArray(leE)">+ </span>
-					<div data-ng-if="isSelect">
-						<select class="w3-border am-width-100pr"
-							data-ng-focus="ctrl.focus_field(leE)"
-							data-ng-disabled="ctrl.disabled_field(leE)"
-							data-ng-change="ctrl.change_text_field(leE)"
-							data-ng-model="ctrl.template_to_data[leE.doc_id].reference2"
-							data-ng-options="item.doc_id as (item.value) for item in ctrl.elementsMap[leE.reference].children">
-							<option value="">-- пусто --</option>
-						</select>
-						<!-- 
-						<select class="w3-border am-width-100pr"
-								data-ng-focus="ctrl.focus_field(leE)"
-								data-ng-disabled="ctrl.disabled_field(leE)"
-						>
-							<option value="">--  пусто --</option>
-							<option
-								data-ng-repeat="o in ctrl.elementsMap[leE.reference].children"
-								value="{{o.doc_id}}">{{o.value}}</option>
-						</select> {{leE.reference}} {{ctrl.elementsMap[leE.reference].doc_id}}
-					 -->
-					</div>
-					<div data-ng-if="!isSelect">
-						<div data-ng-if="leE.children" class="w3-border w3-container">
-							<div data-ng-repeat="leE2 in leE.children">a3
-								{{ctrl.i18_name(leE2)}}</div>
-							a2
-						</div>
-						<div data-ng-if="!leE.children">
-							<input class="w3-border am-width-100pr"
-								data-ng-disabled="ctrl.disabled_field(leE)"
-								data-ng-focus="ctrl.focus_field(leE)"
-								data-ng-model="ctrl.template_to_data[leE.doc_id].d_s"
-								data-ng-change="ctrl.change_text_field(leE)">
-						</div>
-					</div>
-					<div data-ng-if="$last">&nbsp;</div>
-				</div>
+				<div data-ng-repeat="ptE in [ctrl.docLeagalEntitie]"
+					data-ng-include="'/f/dev2/ed_element.html'"></div>
 			</div>
 		</div>
 		<div class="w3-half w3-border">
@@ -90,11 +51,14 @@
 					</div>
 				</div>
 				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
-					data-ng-click="ctrl.setEditDoc(clinicEl); ctrl.readTree(clinicEl)"
+					data-ng-click="openUrl('?le='+clinicEl.doc_id)"
+					d1ata-ng-click="ctrl.setEditDoc(clinicEl); ctrl.readTree(clinicEl)"
 					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
 					class="w3-hover-shadow">
+					<a href="?le={{clinicEl.doc_id}}">
 					{{clinicEl.doc_id}}
 					{{clinicEl.value}}
+					</a>
 					</div>
 			</div>
 		</div>
@@ -103,7 +67,20 @@
 				<div class="w3-container w3-tiny w3-right-align am-i">Вид</div>
 			</div>
 			<div class="w3-container">
+				<div>
+					<div data-ng-repeat="tE in ctrl.docLeagalEntitie.children"
+						data-ng-if="ctrl.template_to_data[tE.doc_id]">
+						<div class="w3-tiny am-b" title="{{tE.doc_id}}">
+							{{ctrl.i18_name(tE)}}:</div>
+						{{ctrl.template_to_data[tE.doc_id].d_s}}
+						<div data-ng-if="ctrl.template_to_data[tE.doc_id].reference2">
+							{{ctrl.elementsMap[ctrl.template_to_data[tE.doc_id].reference2].value}}
+							</div>
+					</div>
+				</div>
+				<!-- 
 				<div class="w3-code w3-tiny">{{ctrl.edit_clinic}}</div>
+				 -->
 			</div>
 		</div>
 	</div>
