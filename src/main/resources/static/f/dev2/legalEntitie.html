@@ -52,14 +52,11 @@
 				</div>
 				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
 					data-ng-click="openUrl('?le='+clinicEl.doc_id)"
-					d1ata-ng-click="ctrl.setEditDoc(clinicEl); ctrl.readTree(clinicEl)"
 					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
 					class="w3-hover-shadow">
-					<a href="?le={{clinicEl.doc_id}}">
-					{{clinicEl.doc_id}}
-					{{clinicEl.value}}
-					</a>
-					</div>
+					<a href="?le={{clinicEl.doc_id}}"> {{clinicEl.doc_id}}
+						{{clinicEl.value}} </a>
+				</div>
 			</div>
 		</div>
 		<div class="w3-half w3-border">
@@ -75,7 +72,12 @@
 						{{ctrl.template_to_data[tE.doc_id].d_s}}
 						<div data-ng-if="ctrl.template_to_data[tE.doc_id].reference2">
 							{{ctrl.elementsMap[ctrl.template_to_data[tE.doc_id].reference2].value}}
-							</div>
+						</div>
+						<div data-ng-if="ctrl.isArrayDocNode(tE)">
+							<div
+								data-ng-repeat="(dId, dE) in ctrl.template_to_data[tE.doc_id]">
+								{{dE.d_s}}</div>
+						</div>
 					</div>
 				</div>
 				<!-- 

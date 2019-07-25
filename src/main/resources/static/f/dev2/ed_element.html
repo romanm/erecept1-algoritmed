@@ -17,11 +17,21 @@
 		</div>
 		<div data-ng-if="!isSelect">
 			<div data-ng-if="!tE.children">
-				<input class="w3-border am-width-100pr"
-					data-ng-disabled="ctrl.disabled_field(tE)"
-					data-ng-focus="ctrl.focus_field(tE)"
-					data-ng-model="ctrl.template_to_data[tE.doc_id].d_s"
-					data-ng-change="ctrl.change_text_field(tE)">
+				<div data-ng-if="ctrl.isArrayDocNode(tE)">
+					<div data-ng-repeat="(dId, dE) in ctrl.template_to_data[tE.doc_id]">
+						<input class="w3-border am-width-100pr"
+							data-ng-disabled="ctrl.disabled_field(tE)" data-ng-model="dE.d_s"
+							data-ng-change="ctrl.change_data_text_field(dE)">
+					</div>
+					<div data-ng-if="!ctrl.template_to_data[tE.doc_id]">a2</div>
+				</div>
+				<div data-ng-if="!ctrl.isArrayDocNode(tE)">
+					<input class="w3-border am-width-100pr"
+						data-ng-disabled="ctrl.disabled_field(tE)"
+						data-ng-focus="ctrl.focus_field(tE)"
+						data-ng-model="ctrl.template_to_data[tE.doc_id].d_s"
+						data-ng-change="ctrl.change_text_field(tE)">
+				</div>
 			</div>
 			<div data-ng-if="tE.children" class="w3-border w3-container">
 				<div data-ng-repeat="ptE in [tE]"

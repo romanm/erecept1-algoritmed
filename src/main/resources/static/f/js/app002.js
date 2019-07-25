@@ -42,13 +42,13 @@ var initDocEditor = function(ctrl){
 		console.log(ctrl.changed_data)
 		angular.forEach(ctrl.changed_data, function(v,k){
 			var content_table, sql, val
-			if(v.d_s){
+			var tE = ctrl.elementsMap[v.reference]
+			if(v.d_s || 32==tE.doctype){
 				content_table = "string"
 				val = v.d_s
 			}
-			var tE = ctrl.elementsMap[v.reference]
 			var saveV = Object.assign({}, v)
-			console.log(saveV)
+			console.log(tE, saveV)
 			if(v.doc_id>ctrl.db_obj_counter){//UPDATE
 				if(ctrl.isSelectEl(tE)){
 					sql = "UPDATE doc SET reference2=:reference2 WHERE doc_id=:doc_id;"
@@ -95,26 +95,39 @@ var initDocEditor = function(ctrl){
 		return tE.reference && (tE.doctype==18)
 	}
 	ctrl.addArrayEl = function(tE){
-		console.log(tE)
+		if(ctrl.isArrayDocNode(tE)){
+			console.log(tE.doctype, tE)
+			console.log(ctrl.template_to_data[tE.parent])
+			var dataEl = create_new_dE(tE)
+			dataEl.d_s = ''
+			ctrl.changed_data[dataEl.doc_id] = dataEl
+		}
 	}
 	ctrl.isArray = function(tE){
-		return tE.doctype>=32&&tE.doctype<=37
+		return tE.doctype>=32 && tE.doctype<=37
+	}
+	ctrl.change_data_text_field = function(dataEl){
+		ctrl.changed_data[dataEl.doc_id] = dataEl
 	}
 	ctrl.change_text_field = function(tE){
 		var dataEl = ctrl.template_to_data[tE.doc_id]
-		ctrl.changed_data[dataEl.doc_id] = dataEl
+		ctrl.change_data_text_field(dataEl)
 	}
-	ctrl.disabled_field = function(tE){
-		return !ctrl.edit_clinic
+	ctrl.disabled_field = function(tE){ return !ctrl.edit_clinic }
+	var array_doctype = function(){ return [32,33,34,35,36,37] }
+	ctrl.isArrayDocNode = function(tE){ return array_doctype().includes(tE.doctype) }
+	var create_new_dE = function(tE){
+		var dataEl = {}
+		dataEl.parent = ctrl.template_to_data[tE.parent].doc_id
+		dataEl.reference = tE.doc_id
+		dataEl.doc_id = ctrl.new_obj_counter++
+		el_to_tree(ctrl, dataEl)
+		return dataEl
 	}
 	ctrl.focus_field = function(tE){
 		if(ctrl.template_to_data[tE.doc_id]){
 		}else{
-			var v = {}
-			v.parent = ctrl.template_to_data[tE.parent].doc_id
-			v.reference = tE.doc_id
-			v.doc_id = ctrl.new_obj_counter++
-			el_to_tree(ctrl, v)
+			create_new_dE(tE)
 		}
 	}
 	ctrl.setEditDoc = function(clinicEl){
@@ -124,20 +137,28 @@ var initDocEditor = function(ctrl){
 	}
 }
 
-function el_to_tree(ctrl, v) {
-	ctrl.elementsMap[v.doc_id] = v
-	//console.log(v.parent, v.reference, ctrl.elementsMap[v.reference], v)
-	if(ctrl.elementsMap[v.reference]){
-		ctrl.template_to_data[v.reference] = v
-	}
-	if(ctrl.elementsMap[v.parent]){
-		if(!ctrl.elementsMap[v.parent].children){
-			ctrl.elementsMap[v.parent].children = []
-			ctrl.elementsMap[v.parent].children_ids = []
+function el_to_tree(ctrl, dataEl) {
+	ctrl.elementsMap[dataEl.doc_id] = dataEl
+	//console.log(dataEl.parent, dataEl.reference, ctrl.elementsMap[dataEl.reference], dataEl)
+	var tE = ctrl.elementsMap[dataEl.reference]
+	if(tE){
+		if(ctrl.isArrayDocNode(tE)){
+			if(!ctrl.template_to_data[dataEl.reference])
+				ctrl.template_to_data[dataEl.reference] = {}
+			ctrl.template_to_data[dataEl.reference][dataEl.doc_id] = dataEl
+			console.log(tE.doctype, tE, ctrl.template_to_data[dataEl.reference])
+		}else{
+			ctrl.template_to_data[dataEl.reference] = dataEl
 		}
-		if(!ctrl.elementsMap[v.parent].children_ids.includes(v.doc_id)){
-			ctrl.elementsMap[v.parent].children.push(v)
-			ctrl.elementsMap[v.parent].children_ids.push(v.doc_id)
+	}
+	if(ctrl.elementsMap[dataEl.parent]){
+		if(!ctrl.elementsMap[dataEl.parent].children){
+			ctrl.elementsMap[dataEl.parent].children = []
+			ctrl.elementsMap[dataEl.parent].children_ids = []
+		}
+		if(!ctrl.elementsMap[dataEl.parent].children_ids.includes(dataEl.doc_id)){
+			ctrl.elementsMap[dataEl.parent].children.push(dataEl)
+			ctrl.elementsMap[dataEl.parent].children_ids.push(dataEl.doc_id)
 		}
 	}
 }
