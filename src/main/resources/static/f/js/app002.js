@@ -62,12 +62,7 @@ var initDocEditor = function(ctrl){
 				}else{//DELETE
 					sql = "DELETE FROM doc WHERE doc_id=:doc_id; "
 				}
-//				saveV.sql = sql
 				console.log(sql, val)
-//				saveV.dataAfterSave = function(response){
-//					console.log(response.data)
-//				}
-//				writeSql(saveV)
 			}else{//INSERT
 				if(ctrl.isSelectEl(tE)){
 					sql  = "INSERT INTO doc (doc_id, doctype, parent, reference, reference2) " +
@@ -84,8 +79,11 @@ var initDocEditor = function(ctrl){
 			}
 			saveV.dataAfterSave = function(response){
 				console.log(response.data, response.data.nextDbId1, v)
-				if(response.data.nextDbId1)
+				if(response.data.nextDbId1){
+					delete ctrl.elementsMap[v.doc_id]
 					v.doc_id = response.data.nextDbId1
+					ctrl.elementsMap[v.doc_id] = v
+				}
 			}
 			saveV.sql = sql
 			writeSql(saveV)
@@ -117,11 +115,34 @@ var initDocEditor = function(ctrl){
 	var array_doctype = function(){ return [32,33,34,35,36,37] }
 	ctrl.isArrayDocNode = function(tE){ return array_doctype().includes(tE.doctype) }
 	var create_new_dE = function(tE){
-		var dataEl = {}
-		dataEl.parent = ctrl.template_to_data[tE.parent].doc_id
-		dataEl.reference = tE.doc_id
-		dataEl.doc_id = ctrl.new_obj_counter++
-		el_to_tree(ctrl, dataEl)
+		var dataEl_parent = ctrl.template_to_data[tE.parent]
+		if(!dataEl_parent){
+			var tE_parent = ctrl.elementsMap[tE.parent]
+			var dataEl_2parent = ctrl.template_to_data[tE_parent.parent]
+			dataEl_parent = {}
+			dataEl_parent.parent = dataEl_2parent.doc_id
+			dataEl_parent.reference = tE.parent
+			var saveV = Object.assign({}, dataEl_parent)
+			console.log(tE_parent, dataEl_2parent, saveV)
+			saveV.sql = "INSERT INTO doc (doc_id, doctype, parent, reference) " +
+			"VALUES (:nextDbId1, 18, :parent, :reference); "
+			saveV.dataAfterSave = function(response){
+				console.log(response.data, response.data.nextDbId1, saveV)
+				dataEl_parent.doc_id = response.data.nextDbId1
+				ctrl.elementsMap[dataEl_parent.doc_id] = dataEl_parent
+		 		ctrl.template_to_data[tE.parent] = dataEl_parent
+				console.log(dataEl_parent)
+				create_new_dE(tE)
+			}
+			writeSql(saveV)
+		}else{
+			var dataEl = {}
+			dataEl.parent = dataEl_parent.doc_id
+			dataEl.reference = tE.doc_id
+			dataEl.doc_id = ctrl.new_obj_counter++
+			console.log(dataEl)
+			el_to_tree(ctrl, dataEl)
+		}
 		return dataEl
 	}
 	ctrl.focus_field = function(tE){

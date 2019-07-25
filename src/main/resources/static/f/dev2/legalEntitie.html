@@ -64,22 +64,8 @@
 				<div class="w3-container w3-tiny w3-right-align am-i">Вид</div>
 			</div>
 			<div class="w3-container">
-				<div>
-					<div data-ng-repeat="tE in ctrl.docLeagalEntitie.children"
-						data-ng-if="ctrl.template_to_data[tE.doc_id]">
-						<div class="w3-tiny am-b" title="{{tE.doc_id}}">
-							{{ctrl.i18_name(tE)}}:</div>
-						{{ctrl.template_to_data[tE.doc_id].d_s}}
-						<div data-ng-if="ctrl.template_to_data[tE.doc_id].reference2">
-							{{ctrl.elementsMap[ctrl.template_to_data[tE.doc_id].reference2].value}}
-						</div>
-						<div data-ng-if="ctrl.isArrayDocNode(tE)">
-							<div
-								data-ng-repeat="(dId, dE) in ctrl.template_to_data[tE.doc_id]">
-								{{dE.d_s}}</div>
-						</div>
-					</div>
-				</div>
+				<div data-ng-repeat="ptE in [ctrl.docLeagalEntitie]"
+					data-ng-include="'/f/dev2/view_element.html'"></div>
 				<!-- 
 				<div class="w3-code w3-tiny">{{ctrl.edit_clinic}}</div>
 				 -->

@@ -1,0 +1,17 @@
+<div data-ng-repeat="tE in ptE.children"
+	data-ng-init="dataEl = ctrl.template_to_data[tE.doc_id]"
+	data-ng-if="ctrl.template_to_data[tE.doc_id]">
+	<div class="w3-tiny am-b" title="{{tE.doc_id}}">
+		{{ctrl.i18_name(tE)}}:</div>
+	{{dataEl.d_s}}
+	<div data-ng-if="dataEl.reference2">
+		{{ctrl.elementsMap[dataEl.reference2].value}}</div>
+	<div data-ng-if="ctrl.isArrayDocNode(tE)">
+		<div data-ng-repeat="(dId, dE) in dataEl">{{dE.d_s}}</div>
+	</div>
+	<div data-ng-if="ctrl.template_to_data[tE.doc_id].children"
+		class="w3-container">
+		<div data-ng-repeat="ptE in [tE]"
+			data-ng-include="'/f/dev2/view_element.html'"></div>
+	</div>
+</div>
