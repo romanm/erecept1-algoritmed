@@ -18,10 +18,22 @@
 </head>
 <body class="w3-container">
 	<h1 class="w3-container w3-small">
-		<span data-ng-include="'/f/home-link.html'"></span> &nbsp;
-		{{ctrl.page_title}}
-		<div class="w3-right">.</div>
+		<span data-ng-include="'/f/home-link.html'"></span>
+		<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
+		</div>
 	</h1>
+	<div class="w3-small w3-border-top">
+		<span class=""> Заклад </span> <i
+			class="fa fa-chevron-right " aria-hidden="true"></i>
+		<!-- 
+			<i
+			class="fa fa-play w3-text-light-grey" aria-hidden="true"></i>
+			 -->
+		Підрозділ <i class="fa fa-chevron-right" aria-hidden="true"></i>
+		<!-- 
+		 <i class="fa fa-play w3-text-light-grey" aria-hidden="true"></i>
+			 -->
+	</div>
 	<div class="w3-row">
 		<div class="w3-half w3-border">
 			<div class="w3-blue-gray">

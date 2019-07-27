@@ -167,7 +167,7 @@ function el_to_tree(ctrl, dataEl) {
 			if(!ctrl.template_to_data[dataEl.reference])
 				ctrl.template_to_data[dataEl.reference] = {}
 			ctrl.template_to_data[dataEl.reference][dataEl.doc_id] = dataEl
-			console.log(tE.doctype, tE, ctrl.template_to_data[dataEl.reference])
+//			console.log(tE.doctype, tE, ctrl.template_to_data[dataEl.reference])
 		}else{
 			ctrl.template_to_data[dataEl.reference] = dataEl
 		}
@@ -344,7 +344,7 @@ function Exe_fn($scope, $http){
 
 function build_request($scope){
 	$scope.request={};
-//	console.log($scope.request)
+	console.log($scope.request)
 	$scope.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
 	$scope.request.parameters={};
 	if(window.location.search.split('?')[1]){

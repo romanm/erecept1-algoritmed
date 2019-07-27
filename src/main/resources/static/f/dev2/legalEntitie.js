@@ -124,9 +124,9 @@ function read_eHealthInUA(ctrl) {
 				JSON.parse(response.data.list[0].docbody).docRoot
 			mapElement(ctrl.docbodyeHealthInUA,ctrl.elementsMap)
 //			console.log(ctrl.docbodyeHealthInUA, ctrl.elementsMap[115827], ctrl.elementsMap)
-			ctrl.docLeagalEntitie = 
-				ctrl.elementsMap[115827]
-			console.log(ctrl.docLeagalEntitie)
+			ctrl.docLeagalEntitie = ctrl.elementsMap[115827]
+			ctrl.docDivision = ctrl.elementsMap[115856]
+			console.log(ctrl.docLeagalEntitie, ctrl.docDivision)
 //			console.log(Object.keys(ctrl.elementsMap))
 //			console.log(Object.keys(mapElement(ctrl.docLeagalEntitie,{})))
 		}

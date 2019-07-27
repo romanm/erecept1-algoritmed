@@ -1,0 +1,14 @@
+<span class="w3-bar"> <a
+	href="/f/dev2/legalEntitie.html?le={{request.parameters.le}}"
+	data-ng-class="{
+	'w3-light-gray':'legalEntitie'==request.path[0],
+	'w3-border-bottom':'legalEntitie'!=request.path[0],
+	}"
+	class="w3-button w3-padding-small ">Заклади</a> <a
+	data-ng-class="{
+	'w3-light-gray':'employees'==request.path[0],
+	'w3-border-bottom':'employees'!=request.path[0],
+	}"
+	href="/f/dev2/employees.html?le={{request.parameters.le}}"
+	class="w3-button w3-padding-small ">Кадри</a>
+</span>
