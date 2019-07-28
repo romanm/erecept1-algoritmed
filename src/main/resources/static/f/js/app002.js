@@ -278,8 +278,6 @@ function read_dataModelList(ctrl, sql){ readSql({
 })}
 
 function read_tree(ctrl, rootId) {
-//	var sql = sql_app.select_doc_l8() + " ORDER BY l "
-//	console.log(sql)
 	var sql = sql_app.select_doc_l8_nodes() + " ORDER BY l "
 	var list_el_to_tree = function(v){
 		if(v.doc_id!=rootId){
