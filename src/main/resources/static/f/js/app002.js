@@ -1,4 +1,5 @@
 var app = angular.module('myApp', ['ngSanitize']);
+var conf = {dataModelList : {}}
 var exe_fn = {}
 var initApp = function($scope, $http, ctrl){
 	ctrl.i18 = {}
@@ -26,9 +27,11 @@ var initApp = function($scope, $http, ctrl){
 		if(ctrl.i18[tE.doc_id])
 			return ctrl.i18[tE.doc_id].value
 		else
-			return tE.value + ' ' + tE.doc_id
+			return (tE.d_s||tE.value) + ' ' + tE.doc_id
 	}
+	ctrl.isArrayDocNode = function(tE){ return array_doctype().includes(tE.doctype) }
 }
+var array_doctype = function(){ return [32,33,34,35,36,37] }
 
 var initDocEditor = function(ctrl){
 	ctrl.db_obj_counter = 100
@@ -38,6 +41,13 @@ var initDocEditor = function(ctrl){
 		ctrl.changed_data = {}
 	}
 	ctrl.initEditDoc()
+	read_jsonDocBody(ctrl, {
+		jsonId:285518,
+		afterRead:function(ctrl){
+			ctrl.dataModelEditor001 = ctrl.elementsMap[285522]
+			console.log(ctrl.dataModelEditor001)
+		},
+	})
 	ctrl.saveEditDoc = function(){
 		console.log(ctrl.changed_data)
 		angular.forEach(ctrl.changed_data, function(v,k){
@@ -89,6 +99,27 @@ var initDocEditor = function(ctrl){
 			writeSql(saveV)
 		})
 	}
+	console.log(123)
+	ctrl.createDataModelEntity = function(){
+		console.log(123)
+		ctrl.newDataModelEntity(conf.dataModelList.parentId, conf.dataModelTemplateId)
+	}
+	ctrl.newDataModelEntity = function(parentId, dataModelId){
+		var params = {}
+		params.parentId = parentId
+		params.dataModelId = dataModelId
+		params.sql = "INSERT INTO doc (doc_id, parent,doctype, reference) VALUES (:nextDbId1, :parentId, 18, :dataModelId ); " +
+		"SELECT * FROM doc WHERE doc_id=:nextDbId1;"
+		if(conf.dataModelList.sql_newEl)
+			params.sql = conf.dataModelList.sql_newEl(ctrl)
+		console.log(params.sql)
+		params.dataAfterSave = function(response){
+			console.log(response.data)
+			ctrl.setEditDoc(response.data.list1[0])
+			ctrl.dataModelList.unshift(ctrl.dataModelEl)
+		}
+		writeSql(params)
+	}
 	ctrl.isSelectEl = function(tE){
 		return tE.reference && (tE.doctype==18)
 	}
@@ -111,9 +142,9 @@ var initDocEditor = function(ctrl){
 		var dataEl = ctrl.template_to_data[tE.doc_id]
 		ctrl.change_data_text_field(dataEl)
 	}
-	ctrl.disabled_field = function(tE){ return !ctrl.edit_clinic }
-	var array_doctype = function(){ return [32,33,34,35,36,37] }
-	ctrl.isArrayDocNode = function(tE){ return array_doctype().includes(tE.doctype) }
+	ctrl.disabled_field = function(tE){ 
+		return !ctrl.dataModelEl
+	}
 	var create_new_dE = function(tE){
 		var dataEl_parent = ctrl.template_to_data[tE.parent]
 		if(!dataEl_parent){
@@ -151,15 +182,14 @@ var initDocEditor = function(ctrl){
 			create_new_dE(tE)
 		}
 	}
-	ctrl.setEditDoc = function(clinicEl){
+	ctrl.setEditDoc = function(dataModelEl){
 		ctrl.initEditDoc()
-		ctrl.edit_clinic = clinicEl
-		el_to_tree(ctrl, clinicEl)
+		ctrl.dataModelEl = dataModelEl
+		el_to_tree(ctrl, dataModelEl)
 	}
 }
 
 function el_to_tree(ctrl, dataEl) {
-	ctrl.elementsMap[dataEl.doc_id] = dataEl
 	//console.log(dataEl.parent, dataEl.reference, ctrl.elementsMap[dataEl.reference], dataEl)
 	var tE = ctrl.elementsMap[dataEl.reference]
 	if(tE){
@@ -172,6 +202,10 @@ function el_to_tree(ctrl, dataEl) {
 			ctrl.template_to_data[dataEl.reference] = dataEl
 		}
 	}
+	el_to_tree0(ctrl, dataEl)
+}
+function el_to_tree0(ctrl, dataEl) {
+	ctrl.elementsMap[dataEl.doc_id] = dataEl
 	if(ctrl.elementsMap[dataEl.parent]){
 		if(!ctrl.elementsMap[dataEl.parent].children){
 			ctrl.elementsMap[dataEl.parent].children = []
@@ -213,6 +247,50 @@ function readSql(params, obj){
 	}))
 }
 
+function read_jsonDocBody(ctrl, params) { readSql({
+	sql:sql_app.amk025_template(),
+	jsonId:params.jsonId,
+	afterRead:function(response){
+		ctrl.docbodyeHealthInUA = JSON.parse(response.data.list[0].docbody).docRoot
+		mapElement(ctrl.docbodyeHealthInUA,ctrl.elementsMap)
+		params.afterRead(ctrl)
+	}
+})}
+
+function read_dataModelList(ctrl, sql){ readSql({
+	sql:sql,
+	parentId:conf.dataModelList.parentId,
+	afterRead:function(response){
+		ctrl.dataModelList = response.data.list
+		angular.forEach(response.data.list, function(v,k){
+			ctrl.elementsMap[v.doc_id] = v
+		})
+		console.log(ctrl.request)
+		if(conf.editDocId){
+			var clinicEl = ctrl.elementsMap[conf.editDocId]
+			if(clinicEl){
+				ctrl.setEditDoc(clinicEl)
+				//ctrl.readTree(clinicEl)
+				read_tree(ctrl, clinicEl.doc_id)
+			}
+		}
+	}
+})}
+
+function read_tree(ctrl, rootId) {
+//	var sql = sql_app.select_doc_l8() + " ORDER BY l "
+//	console.log(sql)
+	var sql = sql_app.select_doc_l8_nodes() + " ORDER BY l "
+	var list_el_to_tree = function(v){
+		if(v.doc_id!=rootId){
+			el_to_tree(ctrl, v)
+		}
+	}
+	readSql({ sql:sql, rootId:rootId,
+		afterRead:function(response){ angular.forEach(response.data.list, list_el_to_tree) }
+	})
+}
+
 function replaceParams(params){
 	angular.forEach(params.sql.split(':'), function(v,k){
 		if(k>0){
@@ -248,6 +326,13 @@ sql_app.select_i18_ua = function(){
 	"(SELECT * FROM doc LEFT JOIN string s ON string_id=doc_id) d2 \n" +
 	" WHERE d1.parent = 115924 \n" +
 	" AND d2.doc_id=d1.reference"
+}
+sql_app.select_doc_l8_nodes_sort = function(){ 
+	return "SELECT * FROM (\n" +
+	sql_app.select_doc_l8_sort() +
+	") t, (\n" +
+	sql_app.select_content_nodes() +
+	"\n) n WHERE t.doc_id=n.doc_id"
 }
 sql_app.select_doc_l8_nodes= function(){ 
 	return "SELECT * FROM (\n" +
@@ -288,6 +373,12 @@ sql_app.select_doc_dd_id_l8 = function(){
 	")x ) \n"
 }
 
+sql_app.select_doc_l8_sort = function(){ 
+	return "SELECT * FROM (" +
+	sql_app.select_doc_l8() +
+	") x LEFT JOIN sort ON doc_id=sort_id " +
+	"ORDER BY l, sort"
+}
 sql_app.select_doc_l8 = function(){ 
 	return "SELECT 0 l, * FROM doc WHERE doc_id=:rootId \n" +
 	"UNION \n" +
@@ -353,5 +444,21 @@ function build_request($scope){
 			$scope.request.parameters[par[0]] = par[1];
 		});
 	}
+}
+
+function read_i18_ua_of_doc(ctrl, rootId) {
+//	var sql = sql_app.select_i18_ua() + " LIMIT 22"
+	var sql = sql_app.select_i18_ua_of_doc()
+	readSql({
+		sql:sql,
+		rootId:rootId,
+		afterRead:function(response){
+//			console.log(response.data, sql)
+//			console.log(response.data.list, ctrl.i18)
+			angular.forEach(response.data.list, function(v,k){
+				ctrl.i18[v.reference] = v
+			})
+		}
+	})
 }
 

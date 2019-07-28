@@ -4,10 +4,10 @@
 <head>
 <meta charset="utf-8" />
 <title>{{ctrl.page_title}}</title>
-<link rel="stylesheet" href="/f/css/w3.css">
-<link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
 	type="image/x-icon">
 <script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
@@ -17,10 +17,12 @@
 <script src="/f/dev2/employees.js"></script>
 </head>
 <body class="w3-container">
-	<h1 class="w3-container w3-small">
-		<span data-ng-include="'/f/home-link.html'"></span>
-		<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
-		</div>
-	</h1>
+	<div class="am-max-width-1">
+		<h1 class="w3-container w3-small">
+			<span data-ng-include="'/f/home-link.html'"></span>
+			<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
+			</div>
+		</h1>
+	</div>
 </body>
 </html>

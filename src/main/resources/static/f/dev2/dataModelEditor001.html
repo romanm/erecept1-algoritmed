@@ -1,0 +1,41 @@
+<div class="w3-row">
+	<div class="w3-half w3-border">
+		<div class="w3-blue-gray">
+			<div class="w3-container w3-tiny w3-right-align am-i">
+				{{elementsMap[285525].value}}</div>
+		</div>
+		<div class="w3-card">
+			<div class="w3-container w3-small">
+				<button class="w3-border" data-ng-disabled="ctrl.disabled_field(tE)"
+					data-ng-click="ctrl.saveEditDoc()">
+					{{elementsMap[285529].value}}</button>
+			</div>
+		</div>
+		<div class="w3-container">
+			<div data-ng-repeat="ptE in [ctrl.editDocTemplate]"
+				data-ng-include="'/f/dev2/ed_element.html'"></div>
+		</div>
+	</div>
+	<div class="w3-half w3-border">
+		<div class="w3-blue-gray">
+			<div class="w3-container w3-tiny w3-right-align am-i">
+				{{elementsMap[285526].value}}</div>
+		</div>
+		<div>
+			<div class="w3-card">
+				<div class="w3-container w3-small">
+					<button class="w3-border"
+						data-ng-click="ctrl.createDataModelEntity()">
+						{{elementsMap[285528].value}}</button>
+				</div>
+			</div>
+			<div data-ng-repeat="lEl in ctrl.dataModelList"
+				data-ng-click="openUrl('?le='+lEl.doc_id)"
+				data-ng-class="{'w3-light-gray':lEl.doc_id==ctrl.dataModelEl.doc_id}"
+				class="w3-hover-shadow">
+				<span
+					data-ng-include="'/f/dev2/dmList_link_'+request.path[0]+'.html'"></span>
+			</div>
+		</div>
+	</div>
+</div>

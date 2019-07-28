@@ -14,17 +14,24 @@
 <script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
 <script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
 <script src="/f/js/app002.js"></script>
-<script src="/f/dev2/divisions.js"></script>
+<script src="/f/dev3/treeEditor.js"></script>
 </head>
 <body class="w3-container">
 	<div class="am-max-width-1">
 		<h1 class="w3-container w3-small">
 			<span data-ng-include="'/f/home-link.html'"></span>
-			<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
-			</div>
 		</h1>
-		<div data-ng-include="'/f/dev2/head-le_div.html'"></div>
-		<div data-ng-include="'/f/dev2/dataModelEditor001.html'"></div>
+		<div class="w3-row">
+			<div class="w3-half w3-border">a1</div>
+			<div class="w3-half w3-border">
+				<button class="w3-border" data-ng-click="ctrl.viewJson(request.parameters.rootId)">viewJson</button>
+				<button class="w3-border" data-ng-click="ctrl.saveJson(request.parameters.rootId)">saveJson</button>
+				<div>
+					<textarea rows="22" c1ols="" class="w3-tiny am-width-100pr">{{ctrl.stringifyJsonTree}}
+				</textarea>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

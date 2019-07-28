@@ -4,10 +4,10 @@
 <head>
 <meta charset="utf-8" />
 <title>{{ctrl.page_title}}</title>
-<link rel="stylesheet" href="/f/css/w3.css">
-<link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
 	type="image/x-icon">
 <script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
@@ -17,74 +17,68 @@
 <script src="/f/dev2/legalEntitie.js"></script>
 </head>
 <body class="w3-container">
-	<h1 class="w3-container w3-small">
-		<span data-ng-include="'/f/home-link.html'"></span>
-		<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
-		</div>
-	</h1>
-	<div class="w3-small w3-border-top">
-		<span class=""> Заклад </span> <i
-			class="fa fa-chevron-right " aria-hidden="true"></i>
-		<!-- 
-			<i
-			class="fa fa-play w3-text-light-grey" aria-hidden="true"></i>
-			 -->
-		Підрозділ <i class="fa fa-chevron-right" aria-hidden="true"></i>
-		<!-- 
-		 <i class="fa fa-play w3-text-light-grey" aria-hidden="true"></i>
-			 -->
-	</div>
-	<div class="w3-row">
-		<div class="w3-half w3-border">
-			<div class="w3-blue-gray">
-				<div class="w3-container w3-tiny w3-right-align am-i">Редагування</div>
+	<div class="am-max-width-1">
+		<h1 class="w3-container w3-small">
+			<span data-ng-include="'/f/home-link.html'"></span>
+			<div class="w3-right" data-ng-include="'/f/dev2/head-right-bar.html'">
 			</div>
-			<div class="w3-card">
-				<div class="w3-container w3-small">
-					<button class="w3-border"
-						data-ng-disabled="ctrl.disabled_field(tE)"
-						data-ng-click="ctrl.saveEditDoc()">зберегти</button>
+		</h1>
+<div data-ng-include="'/f/dev2/head-le_div.html'"></div>
+<div data-ng-include="'/f/dev2/dataModelEditor001.html'"></div>
+		
+		<div class="w3-row">
+			<div class="w3-half w3-border">
+				<div class="w3-blue-gray">
+					<div class="w3-container w3-tiny w3-right-align am-i">Редагування</div>
 				</div>
-			</div>
-			<div class="w3-container">
-				<div data-ng-repeat="ptE in [ctrl.docLeagalEntitie]"
-					data-ng-include="'/f/dev2/ed_element.html'"></div>
-			</div>
-		</div>
-		<div class="w3-half w3-border">
-			<div class="w3-blue-gray">
-				<div class="w3-container w3-tiny w3-right-align am-i">Лікувальні
-					заклади - список</div>
-			</div>
-			<div>
 				<div class="w3-card">
 					<div class="w3-container w3-small">
-						<button class="w3-border" data-ng-click="ctrl.newClinic()">новий</button>
+						<button class="w3-border"
+							data-ng-disabled="ctrl.disabled_field(tE)"
+							data-ng-click="ctrl.saveEditDoc()">зберегти</button>
 					</div>
 				</div>
-				<div data-ng-repeat="clinicEl in ctrl.clinic_list"
-					data-ng-click="openUrl('?le='+clinicEl.doc_id)"
-					data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.edit_clinic.doc_id}"
-					class="w3-hover-shadow">
-					<a href="?le={{clinicEl.doc_id}}"> {{clinicEl.doc_id}}
-						{{clinicEl.value}} </a>
+				<div class="w3-container">
+					<div data-ng-repeat="ptE in [ctrl.editDocTemplate]"
+						data-ng-include="'/f/dev2/ed_element.html'"></div>
+				</div>
+			</div>
+			<div class="w3-half w3-border">
+				<div class="w3-blue-gray">
+					<div class="w3-container w3-tiny w3-right-align am-i">Лікувальні
+						заклади - список</div>
+				</div>
+				<div>
+					<div class="w3-card">
+						<div class="w3-container w3-small">
+							<button class="w3-border" data-ng-click="ctrl.newClinic()">новий</button>
+						</div>
+					</div>
+					<!-- 
+					<div data-ng-repeat="clinicEl in ctrl.clinic_list"
+					 -->
+					<div data-ng-repeat="clinicEl in ctrl.dataModelList"
+						data-ng-click="openUrl('?le='+clinicEl.doc_id)"
+						data-ng-class="{'w3-light-gray':clinicEl.doc_id==ctrl.dataModelEl.doc_id}"
+						class="w3-hover-shadow">
+						<a href="?le={{clinicEl.doc_id}}"> {{clinicEl.doc_id}}
+							{{clinicEl.value}} </a>
+					</div>
+				</div>
+			</div>
+			<div class="w3-half w3-border">
+				<div class="w3-blue-gray">
+					<div class="w3-container w3-tiny w3-right-align am-i">Вид</div>
+				</div>
+				<div class="w3-container">
+					<div data-ng-repeat="ptE in [ctrl.docLeagalEntitie]"
+						data-ng-include="'/f/dev2/view_element.html'"></div>
+					<!-- 
+				<div class="w3-code w3-tiny">{{ctrl.dataModelEl}}</div>
+				 -->
 				</div>
 			</div>
 		</div>
-		<div class="w3-half w3-border">
-			<div class="w3-blue-gray">
-				<div class="w3-container w3-tiny w3-right-align am-i">Вид</div>
-			</div>
-			<div class="w3-container">
-				<div data-ng-repeat="ptE in [ctrl.docLeagalEntitie]"
-					data-ng-include="'/f/dev2/view_element.html'"></div>
-				<!-- 
-				<div class="w3-code w3-tiny">{{ctrl.edit_clinic}}</div>
-				 -->
-			</div>
-		</div>
 	</div>
-	</div>
-
 </body>
 </html>
