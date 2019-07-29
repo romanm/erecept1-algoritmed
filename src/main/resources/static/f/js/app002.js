@@ -99,7 +99,6 @@ var initDocEditor = function(ctrl){
 			writeSql(saveV)
 		})
 	}
-	console.log(123)
 	ctrl.createDataModelEntity = function(){
 		console.log(123)
 		ctrl.newDataModelEntity(conf.dataModelList.parentId, conf.dataModelTemplateId)
@@ -265,7 +264,7 @@ function read_dataModelList(ctrl, sql){ readSql({
 		angular.forEach(response.data.list, function(v,k){
 			ctrl.elementsMap[v.doc_id] = v
 		})
-		console.log(ctrl.request)
+//		console.log(sql, conf.dataModelList.parentId)
 		if(conf.editDocId){
 			var clinicEl = ctrl.elementsMap[conf.editDocId]
 			if(clinicEl){
@@ -405,6 +404,14 @@ sql_app.select_doc_l8 = function(){
 	"AND d6.parent=d5.doc_id AND d7.parent=d6.doc_id AND d8.parent=d7.doc_id "
 }
 
+sql_app.read_list_legalEntity = function(){
+	return "SELECT * FROM doc row " +
+	"LEFT JOIN (" +
+	"SELECT * FROM doc, string s2 " +
+	"WHERE reference=115783 AND doc_id=string_id " +
+	") short_name ON row.doc_id=short_name.parent "
+}
+
 sql_app.amk025_template = function(){
 	return "SELECT * FROM doc d2, doc d1,docbody " +
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
@@ -451,8 +458,6 @@ function read_i18_ua_of_doc(ctrl, rootId) {
 		sql:sql,
 		rootId:rootId,
 		afterRead:function(response){
-//			console.log(response.data, sql)
-//			console.log(response.data.list, ctrl.i18)
 			angular.forEach(response.data.list, function(v,k){
 				ctrl.i18[v.reference] = v
 			})

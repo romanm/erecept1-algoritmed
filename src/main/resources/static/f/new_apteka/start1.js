@@ -92,8 +92,11 @@ app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
 		docId:115796,
 		afterRead:function(response){
 			$scope.eHealth_template = JSON.parse(response.data.list[0].docbody)
-			$scope.legal_entitie_template = $scope.eHealth_template.docRoot.children[2].children[0]
 			mapElement($scope.eHealth_template.docRoot, $scope.elementsMap)
+			console.log($scope.elementsMap[115827])
+//			$scope.legal_entitie_template = $scope.eHealth_template.docRoot.children[2].children[0]
+			$scope.legal_entitie_template = $scope.elementsMap[115827]
+
 console.log($scope.legal_entitie_template)
 			if(false){
 				console.log(115789

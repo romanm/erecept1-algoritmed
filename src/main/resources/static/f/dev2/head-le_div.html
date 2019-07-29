@@ -1,8 +1,15 @@
 <div class="w3-small w3-border-top">
-	<a href="/f/dev2/legalEntitie.html?le={{request.parameters.le}}">
+	<a href="/f/dev2/legalEntitie.html?le={{request.parameters.le}}"
+		data-ng-class="{'w3-light-gray':'legalEntitie'==request.path[0]}">
 		{{elementsMap[285531].value}} </a> <i class="fa fa-chevron-right "
 		aria-hidden="true"></i> <a
+		data-ng-class="{
+		'w3-light-gray':'divisions'==request.path[0],
+		'w3-disabled':!request.parameters.le,
+		}"
 		href="/f/dev2/divisions.html?le={{request.parameters.le}}">
 		{{elementsMap[285532].value}} <i class="fa fa-chevron-right"
-		aria-hidden="true"></i></a> |
+		aria-hidden="true"></i></a> | {{ctrl.legalEntityEl.value}} <i class="fa fa-chevron-right"
+		data-ng-if="ctrl.legalEntityEl.value" aria-hidden="true"></i>
+	{{ctrl.dataModelEl.value}}
 </div>

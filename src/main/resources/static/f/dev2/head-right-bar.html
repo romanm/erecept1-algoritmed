@@ -1,8 +1,7 @@
 <span class="w3-bar"> <a
 	href="/f/dev2/legalEntitie.html?le={{request.parameters.le}}"
 	data-ng-class="{
-	'w3-light-gray':'legalEntitie'==request.path[0],
-	'w3-light-gray':'divisions'==request.path[0],
+	'w3-light-gray':'legalEntitie'==request.path[0]||'divisions'==request.path[0],
 	'w3-border-bottom':'legalEntitie'!=request.path[0],
 	}"
 	class="w3-button w3-padding-small">{{elementsMap[285533].value}}</a>

@@ -29,13 +29,23 @@ app.controller('AppCtrl', function($scope, $http) {
 		"WHERE row.parent=:parentId " +
 		"AND row.doc_id = le.reference "
 	}
-	console.log(sql_list().replace(":parentId",conf.dataModelList.parentId))
+//	console.log(sql_list().replace(":parentId",conf.dataModelList.parentId))
 	read_dataModelList(ctrl, sql_list())
+
+	var sql_le = sql_app.read_list_legalEntity() +
+		"WHERE row.doc_id = " + ctrl.request.parameters.le
+	readSql({
+		sql:sql_le,
+		afterRead:function(response){
+			ctrl.legalEntityEl = response.data.list[0]
+			console.log(ctrl.legalEntityEl, sql_le)
+		}
+		
+	})
 
 	read_jsonDocBody(ctrl, {
 		jsonId:conf.eHealthInUA_id,
 		afterRead:function(ctrl){
-			console.log(ctrl)
 			ctrl.docDivision = ctrl.elementsMap[conf.dataModelTemplateId]
 			ctrl.editDocTemplate = ctrl.elementsMap[conf.dataModelTemplateId]
 			console.log(ctrl.editDocTemplate)

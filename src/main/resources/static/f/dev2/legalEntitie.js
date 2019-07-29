@@ -20,11 +20,7 @@ app.controller('AppCtrl', function($scope, $http) {
 		},
 	})
 
-	var sql_list = "SELECT * FROM doc row " +
-	"LEFT JOIN (" +
-	"SELECT * FROM doc, string s2 " +
-	"WHERE reference=115783 AND doc_id=string_id " +
-	") short_name ON row.doc_id=short_name.parent " +
+	var sql_list = sql_app.read_list_legalEntity() +
 	"WHERE row.parent=:parentId " //285460
 	read_dataModelList(ctrl, sql_list)
 	
