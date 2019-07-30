@@ -34,6 +34,17 @@ var initApp = function($scope, $http, ctrl){
 var array_doctype = function(){ return [32,33,34,35,36,37] }
 
 var initDocEditor = function(ctrl){
+	
+	read_jsonDocBody(ctrl, {
+		jsonId:conf.eHealthInUA_id,
+		afterRead:function(ctrl){
+			ctrl.editDocTemplate = ctrl.elementsMap[conf.dataModelTemplateId]
+			console.log(ctrl.editDocTemplate)
+			read_i18_ua_of_doc(ctrl, conf.dataModelTemplateId)
+		},
+	})
+
+	
 	ctrl.db_obj_counter = 100
 	ctrl.initEditDoc = function(){
 		ctrl.new_obj_counter = 1

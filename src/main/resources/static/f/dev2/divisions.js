@@ -1,3 +1,5 @@
+conf.eHealthInUA_id = 115796
+conf.dataModelTemplateId = 115856
 conf.dataModelList.parentId = 285516
 conf.dataModelList.sql_newEl = function(ctrl){ return "" +
 	"INSERT INTO doc (doc_id, parent,doctype, reference) " +
@@ -8,8 +10,6 @@ conf.dataModelList.sql_newEl = function(ctrl){ return "" +
 	ctrl.request.parameters.le +
 	" );" // ?jsonId=122594
 }
-conf.eHealthInUA_id = 115796
-conf.dataModelTemplateId = 115856
 
 app.controller('AppCtrl', function($scope, $http) {
 	var ctrl = this
@@ -43,13 +43,4 @@ app.controller('AppCtrl', function($scope, $http) {
 		
 	})
 
-	read_jsonDocBody(ctrl, {
-		jsonId:conf.eHealthInUA_id,
-		afterRead:function(ctrl){
-			ctrl.docDivision = ctrl.elementsMap[conf.dataModelTemplateId]
-			ctrl.editDocTemplate = ctrl.elementsMap[conf.dataModelTemplateId]
-			console.log(ctrl.editDocTemplate)
-			read_i18_ua_of_doc(ctrl, conf.dataModelTemplateId)
-		},
-	})
 })

@@ -9,17 +9,6 @@ app.controller('AppCtrl', function($scope, $http) {
 	conf.editDocId = ctrl.request.parameters.le
 	initDocEditor(ctrl)
 
-	read_jsonDocBody(ctrl, {
-		jsonId:conf.eHealthInUA_id,
-		afterRead:function(ctrl){
-			console.log(ctrl)
-			ctrl.docLeagalEntitie = ctrl.elementsMap[conf.dataModelTemplateId]
-			ctrl.editDocTemplate = ctrl.elementsMap[conf.dataModelTemplateId]
-			console.log(ctrl.editDocTemplate)
-			read_i18_ua_of_doc(ctrl, conf.dataModelTemplateId)
-		},
-	})
-
 	var sql_list = sql_app.read_list_legalEntity() +
 	"WHERE row.parent=:parentId " //285460
 	read_dataModelList(ctrl, sql_list)
