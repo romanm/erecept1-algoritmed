@@ -1,0 +1,1568 @@
+{
+	"*42": {
+		"primary": [
+			"ebm00738"
+		]
+	},
+	"31": {
+		"primary": [
+			"ebm01065"
+		]
+	},
+	"31.60": {
+		"primary": [
+			"ebm00742"
+		]
+	},
+	"31.70": {
+		"primary": [
+			"ebm01018"
+		]
+	},
+	"31.89": {
+		"primary": [
+			"ebm00975"
+		]
+	},
+	"39": {
+		"primary": [
+			"ebm00985"
+		]
+	},
+	"45.137": {
+		"primary": [
+			"ebm01023"
+		]
+	},
+	"50": {
+		"primary": [
+			"ebm00983"
+		]
+	},
+	"58": {
+		"primary": [
+			"ebm01068"
+		]
+	},
+	"59": {
+		"primary": [
+			"ebm00393",
+			"ebm00990",
+			"ebm00995"
+		]
+	},
+	"A01": {
+		"primary": [
+			"ebm00931"
+		]
+	},
+	"A03": {
+		"primary": [
+			"ebm01029"
+		]
+	},
+	"A07": {
+		"primary": [
+			"ebm01049"
+		]
+	},
+	"A09": {
+		"primary": [
+			"ebm01113"
+		]
+	},
+	"A16": {
+		"primary": [
+			"ebm00993"
+		]
+	},
+	"A23": {
+		"primary": [
+			"ebm01093"
+		]
+	},
+	"A77": {
+		"primary": [
+			"ebm00037"
+		]
+	},
+	"A78": {
+		"primary": [
+			"ebm01037"
+		]
+	},
+	"A81": {
+		"primary": [
+			"ebm01028"
+		]
+	},
+	"A85": {
+		"primary": [
+			"ebm01004",
+			"ebm01030"
+		]
+	},
+	"A86": {
+		"primary": [
+			"ebm01124"
+		]
+	},
+	"A87": {
+		"primary": [
+			"ebm00992",
+			"ebm01015",
+			"ebm01016"
+		]
+	},
+	"A88": {
+		"primary": [
+			"ebm00376"
+		]
+	},
+	"A89": {
+		"primary": [
+			"ebm00096"
+		]
+	},
+	"A90": {
+		"primary": [
+			"ebm01022",
+			"ebm01117"
+		]
+	},
+	"A91": {
+		"primary": [
+			"ebm00945"
+		]
+	},
+	"A92": {
+		"primary": [
+			"ebm00301"
+		]
+	},
+	"A94": {
+		"primary": [
+			"ebm00986",
+			"ebm01035"
+		]
+	},
+	"A98": {
+		"primary": [
+			"ebm01040",
+			"ebm01082"
+		]
+	},
+	"A99": {
+		"primary": [
+			"ebm00999"
+		]
+	},
+	"B73": {
+		"primary": [
+			"ebm00320"
+		]
+	},
+	"B75": {
+		"secondary": [
+			"ebm00954"
+		]
+	},
+	"B78": {
+		"primary": [
+			"ebm01080"
+		]
+	},
+	"B82": {
+		"secondary": [
+			"ebm00317",
+			"ebm00319"
+		]
+	},
+	"B84": {
+		"primary": [
+			"ebm00306"
+		]
+	},
+	"D12": {
+		"primary": [
+			"ebm00974"
+		]
+	},
+	"D21": {
+		"primary": [
+			"ebm00168"
+		]
+	},
+	"D70": {
+		"primary": [
+			"ebm01032",
+			"ebm01036"
+		]
+	},
+	"D71": {
+		"primary": [
+			"ebm01014"
+		]
+	},
+	"D73": {
+		"primary": [
+			"ebm00043"
+		]
+	},
+	"D74": {
+		"primary": [
+			"ebm01079"
+		]
+	},
+	"D77": {
+		"primary": [
+			"ebm01067"
+		]
+	},
+	"D78": {
+		"primary": [
+			"ebm00631"
+		]
+	},
+	"D80": {
+		"primary": [
+			"ebm00632",
+			"ebm00972"
+		]
+	},
+	"D81": {
+		"primary": [
+			"ebm01085"
+		]
+	},
+	"D82": {
+		"primary": [
+			"ebm00162"
+		]
+	},
+	"D83": {
+		"primary": [
+			"ebm01086"
+		],
+		"secondary": [
+			"ebm00148"
+		]
+	},
+	"D88": {
+		"primary": [
+			"ebm01078"
+		]
+	},
+	"D92": {
+		"primary": [
+			"ebm00195"
+		]
+	},
+	"D93": {
+		"secondary": [
+			"ebm00184"
+		]
+	},
+	"D94": {
+		"primary": [
+			"ebm01073"
+		]
+	},
+	"D95": {
+		"primary": [
+			"ebm01059"
+		]
+	},
+	"D96": {
+		"primary": [
+			"ebm01043"
+		]
+	},
+	"D97": {
+		"primary": [
+			"ebm01041",
+			"ebm01114"
+		]
+	},
+	"D99": {
+		"primary": [
+			"ebm01034"
+		]
+	},
+	"F16": {
+		"primary": [
+			"ebm01024",
+			"ebm01125"
+		],
+		"secondary": [
+			"ebm00810"
+		]
+	},
+	"F70": {
+		"primary": [
+			"ebm01044"
+		]
+	},
+	"F73": {
+		"primary": [
+			"ebm01033"
+		]
+	},
+	"F74": {
+		"primary": [
+			"ebm01017"
+		]
+	},
+	"F99": {
+		"primary": [
+			"ebm01063"
+		]
+	},
+	"H02": {
+		"primary": [
+			"ebm01062"
+		]
+	},
+	"H76": {
+		"primary": [
+			"ebm00851"
+		]
+	},
+	"H79": {
+		"primary": [
+			"ebm01083"
+		]
+	},
+	"H85": {
+		"primary": [
+			"ebm01061"
+		]
+	},
+	"K70": {
+		"primary": [
+			"ebm00963",
+			"ebm01118"
+		]
+	},
+	"K71": {
+		"primary": [
+			"ebm01111"
+		]
+	},
+	"K74": {
+		"primary": [
+			"ebm00078"
+		]
+	},
+	"K76": {
+		"secondary": [
+			"ebm00080"
+		]
+	},
+	"K78": {
+		"primary": [
+			"ebm00979",
+			"ebm00981",
+			"ebm01007",
+			"ebm01008",
+			"ebm01009"
+		]
+	},
+	"K79": {
+		"primary": [
+			"ebm00059",
+			"ebm00065"
+		],
+		"secondary": [
+			"ebm00057"
+		]
+	},
+	"K80": {
+		"primary": [
+			"ebm00062",
+			"ebm00063"
+		]
+	},
+	"K81": {
+		"primary": [
+			"ebm00961"
+		]
+	},
+	"K83": {
+		"secondary": [
+			"ebm00093"
+		]
+	},
+	"K84": {
+		"primary": [
+			"ebm01094"
+		],
+		"secondary": [
+			"ebm00066",
+			"ebm00092",
+			"ebm00343"
+		]
+	},
+	"K86": {
+		"primary": [
+			"ebm00069"
+		]
+	},
+	"K87": {
+		"secondary": [
+			"ebm00946"
+		]
+	},
+	"K92": {
+		"primary": [
+			"ebm00437"
+		]
+	},
+	"K95": {
+		"primary": [
+			"ebm00964"
+		]
+	},
+	"K99": {
+		"secondary": [
+			"ebm00099"
+		]
+	},
+	"L15": {
+		"primary": [
+			"ebm00651"
+		]
+	},
+	"L17": {
+		"primary": [
+			"ebm01087"
+		]
+	},
+	"L18": {
+		"primary": [
+			"ebm00395"
+		]
+	},
+	"L20": {
+		"primary": [
+			"ebm00984"
+		]
+	},
+	"L71": {
+		"primary": [
+			"ebm01021"
+		]
+	},
+	"L76": {
+		"primary": [
+			"ebm00350",
+			"ebm00869",
+			"ebm00947",
+			"ebm00948",
+			"ebm00956"
+		]
+	},
+	"L79": {
+		"primary": [
+			"ebm01012"
+		]
+	},
+	"L81": {
+		"secondary": [
+			"ebm00363"
+		]
+	},
+	"L82": {
+		"primary": [
+			"ebm00987",
+			"ebm01010"
+		]
+	},
+	"L87": {
+		"primary": [
+			"ebm00430",
+			"ebm01053"
+		]
+	},
+	"L92": {
+		"primary": [
+			"ebm01013"
+		]
+	},
+	"L93": {
+		"primary": [
+			"ebm00407",
+			"ebm01077"
+		]
+	},
+	"L94": {
+		"primary": [
+			"ebm00657"
+		]
+	},
+	"L98": {
+		"secondary": [
+			"ebm00351"
+		]
+	},
+	"L99": {
+		"primary": [
+			"ebm00400",
+			"ebm00447",
+			"ebm01076",
+			"ebm01095",
+			"ebm01120"
+		],
+		"secondary": [
+			"ebm00466"
+		]
+	},
+	"N01": {
+		"primary": [
+			"ebm00966"
+		]
+	},
+	"N08": {
+		"primary": [
+			"ebm00744"
+		]
+	},
+	"N28": {
+		"primary": [
+			"ebm01051"
+		]
+	},
+	"N29": {
+		"primary": [
+			"ebm00747"
+		]
+	},
+	"N50": {
+		"secondary": [
+			"ebm00745"
+		]
+	},
+	"N71": {
+		"primary": [
+			"ebm00773",
+			"ebm01047",
+			"ebm01048"
+		]
+	},
+	"N73": {
+		"primary": [
+			"ebm01045"
+		]
+	},
+	"N74": {
+		"primary": [
+			"ebm01074"
+		]
+	},
+	"N87": {
+		"primary": [
+			"ebm00798"
+		]
+	},
+	"N88": {
+		"primary": [
+			"ebm00767"
+		]
+	},
+	"N89": {
+		"primary": [
+			"ebm00792"
+		]
+	},
+	"N90": {
+		"primary": [
+			"ebm00793"
+		]
+	},
+	"N94": {
+		"primary": [
+			"ebm00778",
+			"ebm00996"
+		],
+		"secondary": [
+			"ebm00032"
+		]
+	},
+	"N99": {
+		"primary": [
+			"ebm01042"
+		],
+		"secondary": [
+			"ebm00783"
+		]
+	},
+	"O72": {
+		"primary": [
+			"ebm00998"
+		]
+	},
+	"P06": {
+		"primary": [
+			"ebm00788"
+		]
+	},
+	"P08": {
+		"primary": [
+			"ebm01075"
+		]
+	},
+	"P15": {
+		"primary": [
+			"ebm00893"
+		]
+	},
+	"P19": {
+		"primary": [
+			"ebm01003",
+			"ebm01070"
+		],
+		"secondary": [
+			"ebm00468",
+			"ebm00889",
+			"ebm00890",
+			"ebm00917"
+		]
+	},
+	"P20": {
+		"primary": [
+			"ebm01084"
+		]
+	},
+	"P25": {
+		"primary": [
+			"ebm01031"
+		]
+	},
+	"P28": {
+		"secondary": [
+			"ebm00470"
+		]
+	},
+	"P70": {
+		"secondary": [
+			"ebm00477"
+		]
+	},
+	"P71": {
+		"secondary": [
+			"ebm00754",
+			"ebm00764"
+		]
+	},
+	"P72": {
+		"primary": [
+			"ebm00722"
+		],
+		"secondary": [
+			"ebm00757"
+		]
+	},
+	"P73": {
+		"secondary": [
+			"ebm00935"
+		]
+	},
+	"P76": {
+		"primary": [
+			"ebm00472"
+		]
+	},
+	"P80": {
+		"primary": [
+			"ebm00728",
+			"ebm01027",
+			"ebm01115"
+		]
+	},
+	"P85": {
+		"primary": [
+			"ebm00735"
+		]
+	},
+	"P98": {
+		"secondary": [
+			"ebm00708"
+		]
+	},
+	"R05": {
+		"primary": [
+			"ebm00115"
+		]
+	},
+	"R06": {
+		"primary": [
+			"ebm00866"
+		]
+	},
+	"R07": {
+		"primary": [
+			"ebm00860"
+		]
+	},
+	"R24": {
+		"primary": [
+			"ebm00116"
+		]
+	},
+	"R29": {
+		"primary": [
+			"ebm01054"
+		]
+	},
+	"R41": {
+		"secondary": [
+			"ebm00054"
+		]
+	},
+	"R42": {
+		"secondary": [
+			"ebm00049",
+			"ebm00050"
+		]
+	},
+	"R71": {
+		"primary": [
+			"ebm00618"
+		]
+	},
+	"R74": {
+		"primary": [
+			"ebm00006",
+			"ebm01026"
+		],
+		"secondary": [
+			"ebm00600",
+			"ebm00624"
+		]
+	},
+	"R75": {
+		"primary": [
+			"ebm00871"
+		]
+	},
+	"R76": {
+		"primary": [
+			"ebm00009"
+		],
+		"secondary": [
+			"ebm00007",
+			"ebm00586"
+		]
+	},
+	"R78": {
+		"primary": [
+			"ebm00129"
+		]
+	},
+	"R80": {
+		"primary": [
+			"ebm00015"
+		]
+	},
+	"R81": {
+		"secondary": [
+			"ebm00011"
+		]
+	},
+	"R83": {
+		"primary": [
+			"ebm00616",
+			"ebm00862",
+			"ebm00875"
+		],
+		"secondary": [
+			"ebm00876"
+		]
+	},
+	"R85": {
+		"primary": [
+			"ebm00994"
+		]
+	},
+	"R87": {
+		"primary": [
+			"ebm00868"
+		]
+	},
+	"R88": {
+		"primary": [
+			"ebm00144"
+		]
+	},
+	"R90": {
+		"secondary": [
+			"ebm00879"
+		]
+	},
+	"R95": {
+		"primary": [
+			"ebm00123"
+		]
+	},
+	"R96": {
+		"primary": [
+			"ebm00118",
+			"ebm00119",
+			"ebm00120",
+			"ebm00614",
+			"ebm01092"
+		],
+		"secondary": [
+			"ebm00612"
+		]
+	},
+	"R97": {
+		"primary": [
+			"ebm00302",
+			"ebm00864"
+		]
+	},
+	"R98": {
+		"primary": [
+			"ebm00114"
+		]
+	},
+	"R99": {
+		"primary": [
+			"ebm00089",
+			"ebm00117",
+			"ebm00124",
+			"ebm00137",
+			"ebm00138",
+			"ebm00140",
+			"ebm00861",
+			"ebm00968"
+		],
+		"secondary": [
+			"ebm00024",
+			"ebm00617"
+		]
+	},
+	"S02": {
+		"primary": [
+			"ebm00649"
+		]
+	},
+	"S03": {
+		"primary": [
+			"ebm00276"
+		]
+	},
+	"S07": {
+		"primary": [
+			"ebm01090"
+		]
+	},
+	"S12": {
+		"primary": [
+			"ebm00922"
+		]
+	},
+	"S16": {
+		"primary": [
+			"ebm01050"
+		],
+		"secondary": [
+			"ebm00637"
+		]
+	},
+	"S18": {
+		"secondary": [
+			"ebm00368"
+		]
+	},
+	"S19": {
+		"secondary": [
+			"ebm00046"
+		]
+	},
+	"S23": {
+		"primary": [
+			"ebm00291"
+		]
+	},
+	"S24": {
+		"primary": [
+			"ebm00528"
+		]
+	},
+	"S29": {
+		"secondary": [
+			"ebm00259",
+			"ebm00313"
+		]
+	},
+	"S70": {
+		"primary": [
+			"ebm00017"
+		],
+		"secondary": [
+			"ebm00604"
+		]
+	},
+	"S71": {
+		"primary": [
+			"ebm00151"
+		]
+	},
+	"S72": {
+		"primary": [
+			"ebm00269"
+		]
+	},
+	"S73": {
+		"primary": [
+			"ebm00270",
+			"ebm01039"
+		]
+	},
+	"S74": {
+		"primary": [
+			"ebm00268"
+		],
+		"secondary": [
+			"ebm00152"
+		]
+	},
+	"S75": {
+		"secondary": [
+			"ebm00267"
+		]
+	},
+	"S76": {
+		"primary": [
+			"ebm00275",
+			"ebm00971"
+		]
+	},
+	"S79": {
+		"secondary": [
+			"ebm00293"
+		]
+	},
+	"S80": {
+		"primary": [
+			"ebm00278",
+			"ebm01121"
+		],
+		"secondary": [
+			"ebm00884"
+		]
+	},
+	"S81": {
+		"primary": [
+			"ebm01123"
+		]
+	},
+	"S82": {
+		"secondary": [
+			"ebm00279"
+		]
+	},
+	"S84": {
+		"primary": [
+			"ebm00274"
+		]
+	},
+	"S85": {
+		"primary": [
+			"ebm00967"
+		]
+	},
+	"S86": {
+		"primary": [
+			"ebm00282"
+		]
+	},
+	"S87": {
+		"primary": [
+			"ebm00646"
+		]
+	},
+	"S88": {
+		"primary": [
+			"ebm00280",
+			"ebm00281",
+			"ebm00284",
+			"ebm01072"
+		]
+	},
+	"S90": {
+		"primary": [
+			"ebm00283"
+		]
+	},
+	"S91": {
+		"secondary": [
+			"ebm00261",
+			"ebm00444"
+		]
+	},
+	"S92": {
+		"primary": [
+			"ebm01126"
+		]
+	},
+	"S94": {
+		"primary": [
+			"ebm00294"
+		]
+	},
+	"S95": {
+		"primary": [
+			"ebm00277"
+		]
+	},
+	"S96": {
+		"primary": [
+			"ebm00285"
+		]
+	},
+	"S98": {
+		"primary": [
+			"ebm00272",
+			"ebm01046"
+		]
+	},
+	"S99": {
+		"primary": [
+			"ebm00153",
+			"ebm00271",
+			"ebm00287",
+			"ebm00289",
+			"ebm00290",
+			"ebm01001",
+			"ebm01038",
+			"ebm01081",
+			"ebm01089",
+			"ebm01091",
+			"ebm01119",
+			"ebm01122"
+		],
+		"secondary": [
+			"ebm00262",
+			"ebm00265",
+			"ebm00273",
+			"ebm00445",
+			"ebm00446"
+		]
+	},
+	"T50": {
+		"secondary": [
+			"ebm00490"
+		]
+	},
+	"T71": {
+		"primary": [
+			"ebm01064"
+		]
+	},
+	"T81": {
+		"secondary": [
+			"ebm00510"
+		]
+	},
+	"T83": {
+		"primary": [
+			"ebm01025"
+		],
+		"secondary": [
+			"ebm00499",
+			"ebm00500"
+		]
+	},
+	"T85": {
+		"primary": [
+			"ebm00513",
+			"ebm00989"
+		]
+	},
+	"T86": {
+		"primary": [
+			"ebm00514"
+		],
+		"secondary": [
+			"ebm00509"
+		]
+	},
+	"T89": {
+		"primary": [
+			"ebm00481",
+			"ebm00991",
+			"ebm01002"
+		],
+		"secondary": [
+			"ebm00493"
+		]
+	},
+	"T90": {
+		"primary": [
+			"ebm00486",
+			"ebm00487",
+			"ebm00489",
+			"ebm00495",
+			"ebm00497"
+		],
+		"secondary": [
+			"ebm00480",
+			"ebm00482",
+			"ebm00492"
+		]
+	},
+	"T91": {
+		"primary": [
+			"ebm00467",
+			"ebm00503",
+			"ebm00518",
+			"ebm00642"
+		],
+		"secondary": [
+			"ebm00800"
+		]
+	},
+	"T92": {
+		"primary": [
+			"ebm00440",
+			"ebm00451"
+		]
+	},
+	"T93": {
+		"primary": [
+			"ebm00103",
+			"ebm00521",
+			"ebm00523",
+			"ebm00638"
+		],
+		"secondary": [
+			"ebm00498"
+		]
+	},
+	"T99": {
+		"primary": [
+			"ebm00193",
+			"ebm00212",
+			"ebm00214",
+			"ebm00501",
+			"ebm00502",
+			"ebm00505",
+			"ebm00506",
+			"ebm00507",
+			"ebm00508",
+			"ebm00511",
+			"ebm00512",
+			"ebm00515",
+			"ebm00516",
+			"ebm00517",
+			"ebm00519",
+			"ebm00520",
+			"ebm00529",
+			"ebm00532",
+			"ebm00641",
+			"ebm00953",
+			"ebm00958"
+		],
+		"secondary": [
+			"ebm00882"
+		]
+	},
+	"U02": {
+		"primary": [
+			"ebm00223",
+			"ebm01020"
+		]
+	},
+	"U04": {
+		"primary": [
+			"ebm00236",
+			"ebm00479",
+			"ebm01019"
+		]
+	},
+	"U06": {
+		"primary": [
+			"ebm00230",
+			"ebm01056"
+		]
+	},
+	"U71": {
+		"primary": [
+			"ebm01005"
+		],
+		"secondary": [
+			"ebm00474"
+		]
+	},
+	"U75": {
+		"primary": [
+			"ebm01098"
+		]
+	},
+	"U76": {
+		"primary": [
+			"ebm00248"
+		]
+	},
+	"U88": {
+		"primary": [
+			"ebm00227",
+			"ebm00231",
+			"ebm01112"
+		],
+		"secondary": [
+			"ebm00036",
+			"ebm00494"
+		]
+	},
+	"U98": {
+		"primary": [
+			"ebm00224",
+			"ebm00233"
+		],
+		"secondary": [
+			"ebm00380",
+			"ebm00639"
+		]
+	},
+	"U99": {
+		"primary": [
+			"ebm00225",
+			"ebm00226"
+		]
+	},
+	"W03": {
+		"primary": [
+			"ebm00557"
+		]
+	},
+	"W10": {
+		"primary": [
+			"ebm00575"
+		]
+	},
+	"W14": {
+		"primary": [
+			"ebm00574"
+		],
+		"secondary": [
+			"ebm00570",
+			"ebm00572",
+			"ebm00576"
+		]
+	},
+	"W71": {
+		"secondary": [
+			"ebm00005"
+		]
+	},
+	"W73": {
+		"primary": [
+			"ebm00988"
+		]
+	},
+	"W78": {
+		"primary": [
+			"ebm00565"
+		]
+	},
+	"W80": {
+		"primary": [
+			"ebm00556"
+		]
+	},
+	"W82": {
+		"primary": [
+			"ebm00558"
+		]
+	},
+	"W84": {
+		"primary": [
+			"ebm00561",
+			"ebm00923"
+		],
+		"secondary": [
+			"ebm00025",
+			"ebm00028",
+			"ebm00559",
+			"ebm00563",
+			"ebm00564",
+			"ebm00950"
+		]
+	},
+	"W90": {
+		"primary": [
+			"ebm00562"
+		]
+	},
+	"W93": {
+		"secondary": [
+			"ebm00560"
+		]
+	},
+	"W94": {
+		"primary": [
+			"ebm01000"
+		]
+	},
+	"W95": {
+		"secondary": [
+			"ebm00566"
+		]
+	},
+	"W99": {
+		"secondary": [
+			"ebm00554",
+			"ebm00555"
+		]
+	},
+	"X01": {
+		"primary": [
+			"ebm00534"
+		]
+	},
+	"X02": {
+		"primary": [
+			"ebm00537"
+		]
+	},
+	"X05": {
+		"primary": [
+			"ebm00535"
+		]
+	},
+	"X08": {
+		"secondary": [
+			"ebm00536"
+		]
+	},
+	"X10": {
+		"primary": [
+			"ebm00539"
+		]
+	},
+	"X16": {
+		"primary": [
+			"ebm00952"
+		]
+	},
+	"X21": {
+		"secondary": [
+			"ebm00541"
+		]
+	},
+	"X31": {
+		"secondary": [
+			"ebm00540"
+		]
+	},
+	"X50": {
+		"secondary": [
+			"ebm00550"
+		]
+	},
+	"X74": {
+		"primary": [
+			"ebm00547"
+		]
+	},
+	"X76": {
+		"primary": [
+			"ebm00543"
+		]
+	},
+	"X77": {
+		"secondary": [
+			"ebm00335"
+		]
+	},
+	"X81": {
+		"primary": [
+			"ebm00997"
+		],
+		"secondary": [
+			"ebm00544"
+		]
+	},
+	"X85": {
+		"primary": [
+			"ebm01096"
+		]
+	},
+	"X86": {
+		"secondary": [
+			"ebm00533"
+		]
+	},
+	"X87": {
+		"primary": [
+			"ebm00552"
+		]
+	},
+	"X92": {
+		"primary": [
+			"ebm00253"
+		],
+		"secondary": [
+			"ebm00546"
+		]
+	},
+	"X99": {
+		"primary": [
+			"ebm00545",
+			"ebm00548",
+			"ebm01088"
+		]
+	},
+	"Y08": {
+		"primary": [
+			"ebm01069"
+		],
+		"secondary": [
+			"ebm00530"
+		]
+	},
+	"Y10": {
+		"secondary": [
+			"ebm00567"
+		]
+	},
+	"Y16": {
+		"secondary": [
+			"ebm00531"
+		]
+	},
+	"Y27": {
+		"secondary": [
+			"ebm00709"
+		]
+	},
+	"Y70": {
+		"secondary": [
+			"ebm00255"
+		]
+	},
+	"Y71": {
+		"secondary": [
+			"ebm00254",
+			"ebm00881"
+		]
+	},
+	"Y72": {
+		"secondary": [
+			"ebm00258"
+		]
+	},
+	"Y73": {
+		"primary": [
+			"ebm00244",
+			"ebm00245"
+		]
+	},
+	"Y76": {
+		"secondary": [
+			"ebm00257"
+		]
+	},
+	"Y77": {
+		"primary": [
+			"ebm00247"
+		]
+	},
+	"Y78": {
+		"primary": [
+			"ebm01099"
+		]
+	},
+	"Y81": {
+		"primary": [
+			"ebm00970"
+		],
+		"secondary": [
+			"ebm00252"
+		]
+	},
+	"Y84": {
+		"secondary": [
+			"ebm00588",
+			"ebm00590"
+		]
+	},
+	"Y85": {
+		"primary": [
+			"ebm00246"
+		]
+	},
+	"Y86": {
+		"primary": [
+			"ebm01060"
+		]
+	},
+	"Y99": {
+		"primary": [
+			"ebm00243",
+			"ebm00251"
+		],
+		"secondary": [
+			"ebm00102",
+			"ebm00249",
+			"ebm00250",
+			"ebm00256"
+		]
+	},
+	"Z05": {
+		"secondary": [
+			"ebm00733",
+			"ebm00841"
+		]
+	},
+	"Z07": {
+		"primary": [
+			"ebm00919"
+		],
+		"secondary": [
+			"ebm00692"
+		]
+	},
+	"Z18": {
+		"primary": [
+			"ebm00924",
+			"ebm01011"
+		]
+	},
+	"Z22": {
+		"secondary": [
+			"ebm00701"
+		]
+	},
+	"Z25": {
+		"primary": [
+			"ebm00698"
+		],
+		"secondary": [
+			"ebm00697",
+			"ebm00699",
+			"ebm00901"
+		]
+	},
+	"Z29": {
+		"primary": [
+			"ebm00909",
+			"ebm00910",
+			"ebm01057"
+		]
+	},
+	"Z31.5": {
+		"primary": [
+			"ebm01058"
+		]
+	},
+	"Z50": {
+		"secondary": [
+			"ebm00339"
+		]
+	}
+}

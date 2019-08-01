@@ -111,7 +111,7 @@ var initDocEditor = function(ctrl){
 		})
 	}
 	ctrl.createDataModelEntity = function(){
-		console.log(123)
+		console.log(conf.dataModelList.parentId, conf.dataModelTemplateId)
 		ctrl.newDataModelEntity(conf.dataModelList.parentId, conf.dataModelTemplateId)
 	}
 	ctrl.newDataModelEntity = function(parentId, dataModelId){
@@ -193,6 +193,7 @@ var initDocEditor = function(ctrl){
 		}
 	}
 	ctrl.setEditDoc = function(dataModelEl){
+		console.log(dataModelEl)
 		ctrl.initEditDoc()
 		ctrl.dataModelEl = dataModelEl
 		el_to_tree(ctrl, dataModelEl)
@@ -275,7 +276,7 @@ function read_dataModelList(ctrl, sql){ readSql({
 		angular.forEach(response.data.list, function(v,k){
 			ctrl.elementsMap[v.doc_id] = v
 		})
-//		console.log(sql, conf.dataModelList.parentId)
+		console.log(ctrl.dataModelList, sql, conf.dataModelList.parentId)
 		if(conf.editDocId){
 			var clinicEl = ctrl.elementsMap[conf.editDocId]
 			if(clinicEl){
