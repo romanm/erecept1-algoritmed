@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app002.js"></script>
+<script src="/f/dev3/icpc2duodecim.js"></script>
+</head>
+<body class="w3-container">
+	<div class="am-max-width-1 w3-card">
+		<div class="w3-container w3-small">
+			<span data-ng-include="'/f/home-link.html'"></span>
+		</div>
+		<table class="w3-container">
+			<tr>
+				<th>icpc2</th>
+				<th>duodecim</th>
+			</tr>
+			<tr data-ng-repeat="(k,v) in ctrl.icp2duodecim">
+				<td>{{k}}</td>
+				<td>
+
+					<div data-ng-if="v.primary" class="w3-border w3-leftbar">
+						<span data-ng-repeat="k2 in v.primary"> <a
+							href="http://guidelines.moz.gov.ua/documents/2918?id={{k2}}">
+								{{k2}}</a>{{$last?'':','}}
+						</span>
+					</div>
+					<div data-ng-if="v.secondary" class="w3-border w3-rightbar">
+						<span class="w3-tiny"> вторинний: </span> <span
+							data-ng-repeat="k2 in v.secondary"> <a
+							href="http://guidelines.moz.gov.ua/documents/2918?id={{k2}}">
+								{{k2}}</a>{{$last?'':','}}
+						</span>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
