@@ -27,21 +27,18 @@
 				<th>duodecim</th>
 			</tr>
 			<tr data-ng-repeat="(k,v) in ctrl.icp2duodecim">
-				<td>{{k}}</td>
+				<td data-ng-class="{'w3-green':k==ctrl.clicked.icpc2}"
+					id="icpc2_{{k}}">{{k}}</td>
 				<td>
-
 					<div data-ng-if="v.primary" class="w3-border w3-leftbar">
-						<span data-ng-repeat="k2 in v.primary"> <a
-							href="http://guidelines.moz.gov.ua/documents/2918?id={{k2}}">
-								{{k2}}</a>{{$last?'':','}}
-						</span>
+						<span data-ng-repeat="protocols in [v.primary]"
+							data-ng-include="'/f/dev3/protocol2icpc2.html'"> </span>
 					</div>
 					<div data-ng-if="v.secondary" class="w3-border w3-rightbar">
-						<span class="w3-tiny"> вторинний: </span> <span
-							data-ng-repeat="k2 in v.secondary"> <a
-							href="http://guidelines.moz.gov.ua/documents/2918?id={{k2}}">
-								{{k2}}</a>{{$last?'':','}}
-						</span>
+						<span class="w3-small"> вторинний: </span> <span
+							data-ng-repeat="protocols in [v.secondary]"
+							data-ng-include="'/f/dev3/protocol2icpc2.html'"> </span>
+
 					</div>
 				</td>
 			</tr>

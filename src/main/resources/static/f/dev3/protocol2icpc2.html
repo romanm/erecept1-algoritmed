@@ -1,0 +1,11 @@
+<span data-ng-repeat="protocol in protocols"> <a
+	href="http://guidelines.moz.gov.ua/documents/2918?id={{protocol}}">
+		<span data-ng-class="{'w3-green':protocol==ctrl.clicked.protocol}">
+			{{protocol}} </span>
+</a> <span data-ng-if="ctrl.embNrs[protocol].length>1" class="w3-tiny">
+		[ <span data-ng-repeat="icpc2 in ctrl.embNrs[protocol]"> <a
+			data-ng-click="ctrl.clicICPC2(protocol, icpc2)"
+			href="#icpc2_{{icpc2}}"> {{icpc2}} </a> {{$last?'':','}}
+	</span> ]
+</span> {{$last?'':','}}
+</span>
