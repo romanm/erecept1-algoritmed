@@ -1,0 +1,17 @@
+<div>
+	<div class="am-b am-uppercase w3-tiny">{{g.name}}</div>
+	<div class="w3-border">
+		<div data-ng-repeat="(k,v) in g.subgroup"
+			data-ng-class="{
+		'w3-light-grey':(k.substring(0,1)=='-'),
+		'w3-green':(k.substring(1,3)<30 && k.substring(0,1)!='-'),
+		'w3-pale-blue':(ctrl.icpc2.color.cyan.codeList.includes(k)),
+		'w3-yellow':(ctrl.icpc2.color.yellow.codeList.includes(k)),
+		'w3-red':(ctrl.icpc2.color.red.codeList.includes(k)),
+		'w3-indigo':(ctrl.icpc2.color.indigo.codeList.includes(k)),
+		'w3-purple':(ctrl.icpc2.color.purple.codeList.includes(k)),
+		}">
+			<span class="am-b"> {{k}} </span> - <span>{{v}}</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app002.js"></script>
+<script src="/f/dev3/icpc2-001.js"></script>
+</head>
+<body class="w3-container">
+	<div class="am-max-width-1 w3-card">
+		<div class="w3-container w3-small">
+			<span data-ng-include="'/f/home-link.html'"></span>
+		</div>
+		<div class="w3-tiny w3-container w3-right-align">
+		ICPC-2 –Українська Міжнародна Класифікація ПМД – 2 Видання
+		</div>
+		<div data-ng-include="'/f/dev3/icpc2-group-color.html'"></div>
+		<div class="w3-row w3-small">
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.Pr]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.A]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.B]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.D]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.F]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.H]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.K]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.L]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.N]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+		</div>
+		<div data-ng-include="'/f/dev3/icpc2-group-color.html'"></div>
+		<div class="w3-row w3-small">
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.P]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.R]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.S]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.T]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.U]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.W]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.X]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+
+			</div>
+			<div class="w3-quarter w3-border">
+				<div data-ng-repeat="g in [ctrl.icpc2.group.Y]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+				<div data-ng-repeat="g in [ctrl.icpc2.group.Z]"
+					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
