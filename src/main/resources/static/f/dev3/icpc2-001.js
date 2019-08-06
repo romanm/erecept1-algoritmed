@@ -24,7 +24,6 @@ var convertICPC2_MCRDB = function(ctrl){
 	angular.forEach(ctrl.db.docRoot.children[1].children[0].children[0].children, function(v){
 		refEls[v.reference] = v
 	})
-	console.log(refEls)
 	angular.forEach(ctrl.db.docRoot.children[1].children[1].children[0].children, function(v){
 		delete v.children_ids
 		v.i18n = refEls[v.doc_id].d_s
@@ -41,21 +40,17 @@ var convertICPC2_MCRDB = function(ctrl){
 
 var readICPC2_MCRDB2 = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287135"
-		readSql({ sql:sql,
-			afterRead:function(response){
-				ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody)
-			}
-		})
+	readSql({ sql:sql, afterRead:function(response){
+		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
+	}})
 }
 
 var readICPC2_MCRDB = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287134"
-		readSql({ sql:sql,
-			afterRead:function(response){
-				ctrl.db = JSON.parse(response.data.list[0].docbody)
-				convertICPC2_MCRDB(ctrl)
-			}
-		})
+	readSql({ sql:sql, afterRead:function(response){
+		ctrl.db = JSON.parse(response.data.list[0].docbody)
+		convertICPC2_MCRDB(ctrl)
+	}})
 }
 
 var insertICPC2_CODE2 = function(ctrl, g){
