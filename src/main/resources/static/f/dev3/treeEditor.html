@@ -22,10 +22,16 @@
 			<span data-ng-include="'/f/home-link.html'"></span>
 		</div>
 		<div class="w3-row">
-			<div class="w3-half w3-border">-- coming soon -- </div>
+			<div class="w3-half w3-border">-- coming soon --</div>
 			<div class="w3-half w3-border">
-				<button class="w3-border" data-ng-click="ctrl.viewJson(request.parameters.rootId)">viewJson</button>
-				<button class="w3-border" data-ng-click="ctrl.saveJson(request.parameters.rootId)">saveJson</button>
+				<div class="w3-tiny">
+					<button class="w3-border"
+						data-ng-click="ctrl.viewJson(request.parameters.rootId)">viewJson</button>
+					<button class="w3-border"
+						data-ng-click="ctrl.readJsonCODE(request.parameters.rootId)">readJsonCODE</button>
+					<button class="w3-border"
+						data-ng-click="ctrl.saveJson(request.parameters.rootId)">saveJson</button>
+				</div>
 				<div>
 					<textarea rows="22" c1ols="" class="w3-tiny am-width-100pr">{{ctrl.stringifyJsonTree}}
 				</textarea>

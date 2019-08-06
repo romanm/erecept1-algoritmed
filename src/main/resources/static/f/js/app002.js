@@ -388,6 +388,7 @@ sql_app.select_doc_l8_sort = function(){
 	") x LEFT JOIN sort ON doc_id=sort_id " +
 	"ORDER BY l, sort"
 }
+
 sql_app.select_doc_l8 = function(){ 
 	return "SELECT 0 l, * FROM doc WHERE doc_id=:rootId \n" +
 	"UNION \n" +

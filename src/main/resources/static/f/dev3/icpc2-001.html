@@ -19,70 +19,17 @@
 <body class="w3-container">
 	<div class="am-max-width-1 w3-card">
 		<div class="w3-container w3-small">
-			<span data-ng-include="'/f/home-link.html'"></span>
+			<span data-ng-include="'/f/home-link.html'"></span> <span
+				class="w3-right "> {{ctrl.viewType}}
+				<button class="w3-btn w3-padding-small"
+					data-ng-click="ctrl.viewType='dev'">dev</button>
+				<button data-ng-click="ctrl.viewType='db'"
+					class="w3-btn w3-padding-small">db</button>
+			</span>
 		</div>
-		<div class="w3-tiny w3-container w3-right-align">
-		ICPC-2 –Українська Міжнародна Класифікація ПМД – 2 Видання
-		</div>
-		<div data-ng-include="'/f/dev3/icpc2-group-color.html'"></div>
-		<div class="w3-row w3-small">
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.Pr]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.A]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.B]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.D]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.F]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.H]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.K]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.L]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.N]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-		</div>
-		<div data-ng-include="'/f/dev3/icpc2-group-color.html'"></div>
-		<div class="w3-row w3-small">
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.P]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.R]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.S]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.T]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.U]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.W]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.X]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-
-			</div>
-			<div class="w3-quarter w3-border">
-				<div data-ng-repeat="g in [ctrl.icpc2.group.Y]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-				<div data-ng-repeat="g in [ctrl.icpc2.group.Z]"
-					data-ng-include="'/f/dev3/icpc2-group.html'"></div>
-			</div>
-		</div>
+		<div class="w3-tiny w3-container w3-right-align">ICPC-2
+			–Українська Міжнародна Класифікація ПМД – 2 Видання</div>
+		<div data-ng-include="'/f/dev3/icpc2-'+ctrl.viewType+'.html'"></div>
 	</div>
 </body>
 </html>
