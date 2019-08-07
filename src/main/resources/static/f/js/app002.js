@@ -322,6 +322,25 @@ var mapElement = function(element, elementsMap){
 }
 
 var sql_app = {}
+
+sql_app.insert_CODE_i18n_sort = function(parentCodeId, code, parentI18nId, i18n, sort, treeLevel){
+	return ("" +
+	sql_app.insert_CODE_i18n(parentCodeId, code, parentI18nId, i18n) +
+	"INSERT INTO sort (sort_id,sort, treeLevel) VALUES (:nextDbId1,:sort,:treeLevel);\n" +
+	"").replace(':sort', sort).replace(':treeLevel', treeLevel)
+}
+sql_app.insert_CODE_i18n = function(parentCodeId, code, parentI18nId, i18n){
+	return "" +
+	"INSERT INTO doc (doc_id,parent,doctype) " +
+	"VALUES (:nextDbId1, " + parentCodeId + ", 18);\n" +
+	"INSERT INTO string (string_id, value) VALUES (:nextDbId1, '" + code + "');\n" +
+	"INSERT INTO doc (doc_id,parent,doctype,reference) " +
+	"VALUES (:nextDbId2, " + parentI18nId + ", 18, :nextDbId1 );\n" +
+	"INSERT INTO string (string_id, value) VALUES (:nextDbId2, '" + i18n.replace(/'/g,"''") + "');\n" +
+//	"INSERT INTO string (string_id, value) VALUES (:nextDbId2, '" + i18n.replace(/'/g,"\'") + "');\n" +
+	""
+}
+
 sql_app.select_i18_ua_of_doc = function(){ 
 	return sql_app.select_i18_ua() + 
 	" AND d1.reference IN (" +

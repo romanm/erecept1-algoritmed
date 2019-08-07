@@ -53,22 +53,6 @@ var readICPC2_MCRDB = function(ctrl){
 	}})
 }
 
-var insertICPC2_CODE2 = function(ctrl, g){
-	console.log(ctrl.icpc2Group[g], ctrl.icpc2.group[g])
-	var parentId = ctrl.icpc2Group[g].doc_id
-	angular.forEach(ctrl.icpc2.group[g].subgroup, function(v,k){
-		if(true||'A01'==k){
-			var sql = sql_app.insert_ICPC2(parentId, k, v)
-			console.log(parentId, sql)
-			writeSql({sql : sql,
-				dataAfterSave:function(response){
-					console.log(response.data)
-				}
-			})
-		}
-	})
-}
-
 var insertICPC2_CODE = function(ctrl){
 	var sql ="SELECT * FROM doc " +
 	"LEFT JOIN string ON string_id=doc_id " +
@@ -86,22 +70,27 @@ var insertICPC2_CODE = function(ctrl){
 	})
 }
 
-sql_app.insert_ICPC2 = function(parentId, k, name){
-	return "" +
-	"INSERT INTO doc (doc_id,parent,doctype) " +
-	"VALUES (:nextDbId1, " + parentId + ", 18);\n" +
-	"INSERT INTO string (string_id, value) VALUES (:nextDbId1, '" + k + "');\n" +
-	"INSERT INTO doc (doc_id,parent,doctype,reference) " +
-	"VALUES (:nextDbId2, 285597, 18, :nextDbId1 );\n" +
-	"INSERT INTO string (string_id, value) VALUES (:nextDbId2, '" + name.replace(/'/g,"''") + "');" +
-	""
+var insertICPC2_CODE2 = function(ctrl, g){
+	console.log(ctrl.icpc2Group[g], ctrl.icpc2.group[g])
+	var parentId = ctrl.icpc2Group[g].doc_id
+	angular.forEach(ctrl.icpc2.group[g].subgroup, function(v,k){
+		if(true||'A01'==k){
+			var sql = sql_app.insert_CODE_i18n(parentId, k, 285597, v)
+			console.log(parentId, sql)
+			writeSql({sql : sql,
+				dataAfterSave:function(response){
+					console.log(response.data)
+				}
+			})
+		}
+	})
 }
 
 var insertICPC2_GROUP = function(ctrl){
 //	console.log(ctrl.icpc2.group)
 	var sqls = ""
 	angular.forEach(ctrl.icpc2.group, function(v,k){
-		var sql = sql_app.insert_ICPC2(285598, k, v.name)
+		var sql = sql_app.insert_CODE_i18n(285598, k, 285597, v.name)
 		if(true||'A'==k){
 			console.log(k,v)
 			console.log(sql)

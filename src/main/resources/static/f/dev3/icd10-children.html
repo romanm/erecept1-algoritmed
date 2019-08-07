@@ -1,0 +1,10 @@
+<div class="w3-container w3-border-left">
+	<div data-ng-repeat="i in e.children">
+		<div class="w3-hover-shadow" data-ng-click="ctrl.clickTree(i)"
+			data-ng-class="{'w3-leftbar w3-container am-b':i.openChildren}">
+			<span class="w3-tiny am-i"> {{i.code}} </span> {{i.i18n}}
+		</div>
+		<div data-ng-repeat="e in [i]" data-ng-if="i.openChildren"
+			data-ng-include="'/f/dev3/icd10-children.html'"></div>
+	</div>
+</div>

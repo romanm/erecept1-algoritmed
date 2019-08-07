@@ -19,10 +19,17 @@
 <body class="w3-container">
 	<div class="am-max-width-1 w3-card">
 		<div class="w3-container w3-small">
-			<span data-ng-include="'/f/home-link.html'"></span> 
+			<span data-ng-include="'/f/home-link.html'"></span>
 		</div>
-		
-		a1
+		<div class="w3-row">
+			<div class="w3-half w3-border">
+				<div data-ng-repeat="e in [ctrl.icd10]"
+					data-ng-include="'/f/dev3/icd10-children.html'"></div>
+			</div>
+			<div class="w3-half w3-border">
+				Пошук: <input class="w3-border">
+			</div>
+		</div>
 	</div>
 </body>
 </html>

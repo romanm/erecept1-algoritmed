@@ -1,10 +1,8 @@
 <div>
-	<div class="am-b am-uppercase w3-tiny"
-	title="{{g.doc_id}}"
-	>{{g.i18n}}</div>
+	<div class="am-b am-uppercase w3-tiny" title="{{g.doc_id}}">{{g.i18n}}</div>
 	<div class="w3-border">
 		<div data-ng-repeat="v in g.children | orderBy : 'd_s'"
-		data-ng-init="k=v.d_s"
+			data-ng-init="k=v.d_s" class="w3-hover-shadow"
 			data-ng-class="{
 		'w3-light-grey':(k.substring(0,1)=='-'),
 		'w3-green':(k.substring(1,3)<30 && k.substring(0,1)!='-'),
