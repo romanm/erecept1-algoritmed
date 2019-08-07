@@ -27,7 +27,15 @@
 					data-ng-include="'/f/dev3/icd10-children.html'"></div>
 			</div>
 			<div class="w3-half w3-border">
-				Пошук: <input class="w3-border">
+			<div class="w3-card">
+				Пошук: <input class="w3-border" data-ng-model="ctrl.seek_icd10_key"
+					data-ng-change="ctrl.seekIcd10()">
+			</div>
+				<div data-ng-repeat="i in ctrl.read_seek_icd10">
+					<div class="w3-hover-shadow">
+						<span class="w3-tiny"> {{i.code}} </span> {{i.i18n}}
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

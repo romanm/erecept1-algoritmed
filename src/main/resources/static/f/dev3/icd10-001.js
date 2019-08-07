@@ -1,7 +1,40 @@
-app.controller('AppCtrl', function($scope, $http) {
+app.controller('AppCtrl', function($scope, $http, $timeout) {
 	var ctrl = this
 	ctrl.page_title = 'icd10-001'
 	initApp($scope, $http, ctrl)
+	
+	var _timeout;
+	ctrl.seekIcd10 = function(){
+		if(_timeout) $timeout.cancel(_timeout);
+		_timeout = $timeout(function() {
+//			console.log('filtering seek - ', ctrl.seek_icd10_key)
+			var seek = "%" + ctrl.seek_icd10_key + "%"
+			var sql = ("SELECT * FROM (" + sql_seek +
+			") x WHERE LOWER(i18n) LIKE LOWER(:seek) " +
+			"OR LOWER(code) LIKE LOWER(:seek) " +
+			"ORDER BY treelevel desc, parent, sort")
+			.replace(/:seek/g,"'" + seek + "'") 
+//			console.log(sql)
+			var sql1 = sql + " LIMIT 100"
+			readSql({ sql:sql1, afterRead:function(response){
+				ctrl.read_seek_icd10 = response.data.list
+				console.log(ctrl.read_seek_icd10)
+			}})
+			_timeout = null;
+		}, 1000);
+	}
+	var sql_seek = "SELECT d1.doc_id, d1.parent, sort, treelevel, s1.value code, s2.value i18n \n" +
+	"FROM doc d1, sort, string s1, doc d2, string s2 \n" +
+	"WHERE d2.parent = 287138 " +
+//			"WHERE d1.parent = " + parentId + " " +
+	"AND d1.doc_id=s1.string_id " +
+	"AND d2.doc_id=s2.string_id " +
+	"AND d1.doc_id=sort_id " +
+	"AND d1.doc_id=d2.reference \n" +
+	""
+//	+ "ORDER BY treelevel, sort "
+	console.log(sql_seek)
+	
 	var rootIcd10Id = 287136
 	ctrl.icd10 = {doc_id:rootIcd10Id, openChildren:true}
 	ctrl.elementsMap[rootIcd10Id] = ctrl.icd10
@@ -13,9 +46,8 @@ app.controller('AppCtrl', function($scope, $http) {
 	}
 //	readWriteICD10_Chapter(ctrl)
 //	readWriteICD10_l4(ctrl)
-	readWriteICD10_l5(ctrl)
+//	readWriteICD10_l5(ctrl)
 })
-
 
 var readWriteICD10_l5 = function(ctrl){
 	var sl = "SELECT s.*, icd_id p_id, t.* FROM doc, sort t,string s, icd " +
