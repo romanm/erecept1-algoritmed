@@ -82,6 +82,7 @@ var readWriteICD10_goroch2 = function(ctrl){
 		})
 	}})
 }
+
 var readWriteICD10_goroch1 = function(ctrl){
 	var sql2 = "SELECT a.*, c.sort_id, treelevel FROM ( \n" +
 	"SELECT substring(icd_10,0,4) icd1, i.* FROM icpc2_icd10 i \n" +

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.9.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app002.js"></script>
+<script src="/f/dev3/icpc2-icd10-relation-001.js"></script>
+</head>
+<body class="w3-container">
+	<div class="am-max-width-1 w3-card">
+		<div class="w3-container w3-small">
+			<span data-ng-include="'/f/home-link.html'"></span>
+		</div>
+		<div class="w3-center">
+			Пошук: <input class="w3-border">
+		</div>
+		<div class="w3-row">
+			<div class="w3-quarter w3-border">
+				<div class="w3-border">
+					<i class="fas fa-arrow-down w3-hover-shadow w3-border"></i> <i
+						class="fas fa-object-group w3-hover-shadow w3-border"></i> <span
+						class="w3-border w3-hover-shadow">ICPC2</span> <span
+						class="w3-border w3-hover-shadow">ICD10</span>
+				</div>
+				<div class="w3-row">
+					<div class="w3-half w3-border">
+						<div class="w3-tiny am-b">Горох</div>
+						<table class="w3-table1">
+							<tr class="w3-tiny">
+								<th>ICPC2</th>
+								<th>ICD10</th>
+							</tr>
+							<tr data-ng-repeat="e in ctrl.icpc2icd10_goroch">
+								<td>{{e.icpc2}}</td>
+								<td>{{e.icd10}}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="w3-half w3-border">
+						<div class="w3-tiny am-b">Оригінал</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="w3-half w3-border">a1</div>
+			<div class="w3-quarter w3-border">a1</div>
+		</div>
+	</div>
+</body>
+</html>
