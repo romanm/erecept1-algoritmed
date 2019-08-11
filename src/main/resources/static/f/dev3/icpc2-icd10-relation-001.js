@@ -2,16 +2,16 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	var ctrl = this
 	ctrl.page_title = 'icpc2-icd10-relation-001'
 	initApp($scope, $http, ctrl)
-//	readWriteICPC2ICD10_goroch1(ctrl)
+	readWriteICPC2ICD10_goroch1(ctrl)
 	readICPC2ICD10_goroch1(ctrl)
 })
 
 var readICPC2ICD10_goroch1 = function(ctrl){
 	console.log(1)
-	var sql = "SELECT d.*, s2.value icpc2, s10.value icd10 FROM doc d,string s2, string s10 \n" +
+	var sql = "SELECT d.*, s2u.value icpc2, s10u.value icd10 FROM doc d,string_u s2u, string_u s10u \n" +
 	"where parent=320730 \n" +
-	"and reference=s2.string_id \n" +
-	"and reference2=s10.string_id " +
+	"and reference=s2u.string_u_id \n" +
+	"and reference2=s10u.string_u_id " +
 	"LIMIT 100"
 	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
@@ -29,10 +29,11 @@ var readWriteICPC2ICD10_goroch1 = function(ctrl){
 	"where icpc2.value=icpc_2 \n" +
 	"and icd10.value=icd_10 "
 	console.log(sql2)
+	if(false)
 	readSql({ sql:sql2, afterRead:function(r){
 		console.log(r.data)
 		angular.forEach(r.data.list, function(v,k){
-			if(k<1){
+			if(true||k<1){
 				var sql = "INSERT INTO doc (parent,reference,reference2) VALUES (320730," +
 						v.icpc2_id +
 						"," +

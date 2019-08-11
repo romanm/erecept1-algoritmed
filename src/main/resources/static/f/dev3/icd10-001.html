@@ -29,7 +29,12 @@
 				</div>
 				<div data-ng-repeat="i in ctrl.read_seek_icd10">
 					<div class="w3-hover-shadow">
-						<span class="w3-tiny"> {{i.code}} </span> {{i.i18n}}
+						<span class="w3-tiny"> 
+						{{i.code}} 
+						<span class="w3-red">
+						{{i.code_d}} 
+						</span>
+						</span> {{i.i18n}}
 					</div>
 				</div>
 			</div>

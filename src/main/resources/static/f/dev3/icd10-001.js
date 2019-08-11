@@ -14,7 +14,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 			"OR LOWER(code) LIKE LOWER(:seek) " +
 			"ORDER BY treelevel desc, parent, sort")
 			.replace(/:seek/g,"'" + seek + "'") 
-//			console.log(sql)
+			console.log(sql)
 			var sql1 = sql + " LIMIT 100"
 			readSql({ sql:sql1, afterRead:function(response){
 				ctrl.read_seek_icd10 = response.data.list
@@ -23,11 +23,11 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 			_timeout = null;
 		}, 1000);
 	}
-	var sql_seek = "SELECT d1.doc_id, d1.parent, sort, treelevel, s1.value code, s2.value i18n \n" +
-	"FROM doc d1, sort, string s1, doc d2, string s2 \n" +
+	var sql_seek = "SELECT d1.doc_id, d1.parent, sort, treelevel, s1u.value code, s2.value i18n \n" +
+	"FROM doc d1, sort, string_u s1u, doc d2, string s2 \n" +
 	"WHERE d2.parent = 287138 " +
 //			"WHERE d1.parent = " + parentId + " " +
-	"AND d1.doc_id=s1.string_id " +
+	"AND d1.doc_id=s1u.string_u_id " +
 	"AND d2.doc_id=s2.string_id " +
 	"AND d1.doc_id=sort_id " +
 	"AND d1.doc_id=d2.reference \n" +
@@ -192,16 +192,29 @@ var readWriteICD10_l2 = function(ctrl){
 	
 }
 var readICD10 = function(ctrl, parentId) {
-	var sql = "SELECT d1.doc_id, d1.parent, sort, treelevel, s1.value code, s2.value i18n \n" +
-	"FROM doc d1, sort, string s1, doc d2, string s2 \n" +
-//	"WHERE d2.parent = 287138 " +
+	var sql = "" +
+	"SELECT d1.doc_id, d1.parent, sort, treelevel,  s1u.value code, s2.value i18n \n" +
+	"FROM doc d1, sort, string_u s1u, doc d2, string s2 \n" +
+//	"WHERE d1.parent = 287136 " +
 	"WHERE d1.parent = " + parentId + " " +
-	"AND d1.doc_id=s1.string_id " +
-	"AND d2.doc_id=s2.string_id " +
-	"AND d1.doc_id=sort_id " +
-	"AND d1.doc_id=d2.reference \n" +
-	"ORDER BY treelevel, sort "
-//console.log(sql, ctrl.elementsMap[parentId])
+	"AND d1.doc_id=s1u.string_u_id AND d2.doc_id=s2.string_id AND d1.doc_id=sort_id AND d1.doc_id=d2.reference \n" +
+	"ORDER BY treelevel, sort " 
+//	"SELECT d1.doc_id, d1.parent, sort, treelevel, s1.value code_d, s1u.value code, s2.value i18n \n" +
+//	"FROM doc d1, sort, string_u s1u, string s1, doc d2, string s2 \n" +
+////	"WHERE d1.parent = 287136 " +
+//	"WHERE d1.parent = " + parentId + " " +
+//	"AND d1.doc_id=s1.string_id AND d1.doc_id=s1u.string_u_id AND d2.doc_id=s2.string_id AND d1.doc_id=sort_id AND d1.doc_id=d2.reference \n" +
+//	"ORDER BY treelevel, sort "
+//	"SELECT d1.doc_id, d1.parent, sort, treelevel, s1.value code, s2.value i18n \n" +
+//	"FROM doc d1, sort, string s1, doc d2, string s2 \n" +
+////	"WHERE d2.parent = 287138 " +
+//	"WHERE d1.parent = " + parentId + " " +
+//	"AND d1.doc_id=s1.string_id " +
+//	"AND d2.doc_id=s2.string_id " +
+//	"AND d1.doc_id=sort_id " +
+//	"AND d1.doc_id=d2.reference \n" +
+//	"ORDER BY treelevel, sort "
+console.log(sql, ctrl.elementsMap[parentId])
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.elementsMap[parentId].children = r.data.list
 		angular.forEach(r.data.list, function(v){

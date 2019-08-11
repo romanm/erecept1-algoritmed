@@ -2,7 +2,9 @@
 	<div data-ng-repeat="i in e.children">
 		<div class="w3-hover-shadow" data-ng-click="ctrl.clickTree(i)"
 			data-ng-class="{'w3-leftbar w3-container am-b':i.openChildren}">
-			<span class="w3-tiny am-i"> {{i.code}} </span> {{i.i18n}}
+			<span class="w3-tiny am-i"> {{i.code}} <span class="w3-red">
+					{{i.code_d}} </span>
+			</span> {{i.i18n}}
 		</div>
 		<div data-ng-repeat="e in [i]" data-ng-if="i.openChildren"
 			data-ng-include="'/f/dev3/icd10-children.html'"></div>
