@@ -323,10 +323,20 @@ var mapElement = function(element, elementsMap){
 
 var sql_app = {}
 
+sql_app.select_icpc2_i18n_values = function(){
+	return "SELECT a.*, s.value i18n FROM ( \n" +
+	sql_app.select_icpc2_i18n() +
+	") a, string s where a.doc_id=s.string_id " +
+	""
+}
+sql_app.select_icpc2_i18n = function(){
+	return "SELECT * FROM doc,string where string_id=reference and parent=285597"
+}
+
 sql_app.insert_CODE_i18n_sort = function(parentCodeId, code, parentI18nId, i18n, sort, treeLevel){
 	return ("" +
 	sql_app.insert_CODE_i18n(parentCodeId, code, parentI18nId, i18n) +
-	"INSERT INTO sort (sort_id,sort, treeLevel) VALUES (:nextDbId1,:sort,:treeLevel);\n" +
+	"INSERT INTO sort (sort_id,sort, treeLevel) VALUES (:nextDbId1,:sort,:treeLevel); \n" +
 	"").replace(':sort', sort).replace(':treeLevel', treeLevel)
 }
 sql_app.insert_CODE_i18n = function(parentCodeId, code, parentI18nId, i18n){

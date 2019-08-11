@@ -1,11 +1,32 @@
-<span data-ng-repeat="protocol in protocols"> <a
-	href="http://guidelines.moz.gov.ua/documents/2918?id={{protocol}}">
-		<span data-ng-class="{'w3-green':protocol==ctrl.clicked.protocol}">
+<span data-ng-repeat="protocol in protocols"> <span
+	class="w3-dropdown-hover"> <span
+		data-ng-class="{'w3-green':protocol==ctrl.clicked.protocol}">
 			{{protocol}} </span>
-</a> <span data-ng-if="ctrl.embNrs[protocol].length>1" class="w3-tiny">
+		<div class="w3-dropdown-content w3-border">
+			<button class="w3-border"
+				data-ng-click="ctrl.clickDuodecimNote(protocol, icpc2Key)">
+				<i class="fas fa-sticky-note"></i> Нотатки
+			</button>
+			<div class="w3-hover-shadow">
+				<a
+					href="http://guidelines.moz.gov.ua/documents/2918?id={{protocol}}">
+					<i class="fas fa-external-link-alt"></i> {{protocol}}
+				</a>
+			</div>
+		</div>
+</span> <span data-ng-if="ctrl.embNrs[protocol].length>1" class="w3-tiny">
 		[ <span data-ng-repeat="icpc2 in ctrl.embNrs[protocol]"> <a
 			data-ng-click="ctrl.clicICPC2(protocol, icpc2)"
 			href="#icpc2_{{icpc2}}"> {{icpc2}} </a> {{$last?'':','}}
 	</span> ]
 </span> {{$last?'':','}}
 </span>
+<div data-ng-if="icpc2Key==ctrl.clicked.icpc2Key">
+	{{ctrl.clicked.protocol}}
+	<div data-ng-repeat=" e in ctrl.embNrs[ctrl.clicked.protocol]">
+		{{e}} - 
+		{{ctrl.clicked.icpc2I18ns[e].i18n}}
+		{{ctrl.clicked.icpc2I18ns['-'+e].i18n}}
+		{{ctrl.clicked.icpc2I18ns[e.replace("*","-")].i18n}}
+		</div>
+</div>

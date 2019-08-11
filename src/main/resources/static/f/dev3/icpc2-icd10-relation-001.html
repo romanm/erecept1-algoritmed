@@ -25,35 +25,71 @@
 			Пошук: <input class="w3-border">
 		</div>
 		<div class="w3-row">
-			<div class="w3-quarter w3-border">
-				<div class="w3-border">
-					<i class="fas fa-arrow-down w3-hover-shadow w3-border"></i> <i
-						class="fas fa-object-group w3-hover-shadow w3-border"></i> <span
-						class="w3-border w3-hover-shadow">ICPC2</span> <span
-						class="w3-border w3-hover-shadow">ICD10</span>
+			<div class="w3-quarter w3-border-right ">
+				<div class="w3-border-bottom w3-center">
+					<i class="fas fa-object-group "></i> <span class="w3-border">
+						<i class="fas fa-arrow-down w3-hover-shadow"></i> <span
+						class="w3-hover-shadow"> ICPC2 </span>
+					</span> &nbsp; <span class="w3-border"> <i
+						class="fas fa-ad w3-hover-shadow"></i> <span
+						class=" w3-hover-shadow">ICD10</span>
+					</span>
 				</div>
-				<div class="w3-row">
-					<div class="w3-half w3-border">
-						<div class="w3-tiny am-b">Горох</div>
+				<div class="w3-row w3-container1">
+					<div class="w3-half w3-border-right">
+						<div class="w3-tiny am-b w3-border-bottom w3-container1">&nbsp;Горох</div>
 						<table class="w3-table1">
 							<tr class="w3-tiny">
 								<th>ICPC2</th>
 								<th>ICD10</th>
 							</tr>
-							<tr data-ng-repeat="e in ctrl.icpc2icd10_goroch">
-								<td>{{e.icpc2}}</td>
-								<td>{{e.icd10}}</td>
+							<tr data-ng-repeat="e in ctrl.icpc2icd10_goroch"
+								class="w3-hover-shadow">
+								<td class="w3-small"><span class="am-b">{{e.icpc2}}</span><sub
+									class="w3-tiny">{{e.cnt}}</sub></td>
+								<td class="w3-tiny">{{e.icd10}} <span>{{e.min_icd10}}<span
+										data-ng-if="e.min_icd10!=e.max_icd10">-{{e.max_icd10}}
+									</span>
+								</span>
+								</td>
+								<td class="w3-tiny"></td>
 							</tr>
 						</table>
 					</div>
-					<div class="w3-half w3-border">
-						<div class="w3-tiny am-b">Оригінал</div>
+					<div class="w3-half w3-border-bottom">
+						<div class="w3-tiny am-b">&nbsp;Оригінал</div>
 					</div>
 				</div>
-
 			</div>
-			<div class="w3-half w3-border1">a1</div>
-			<div class="w3-quarter w3-border">a1</div>
+			<div class="w3-half w3-container">-*-</div>
+			<div class="w3-quarter w3-border-left">
+				<div>
+					<div class="w3-border-bottom w3-hover-shadow">Основне</div>
+					-*-
+				</div>
+				<div>
+					<div class="w3-border-bottom w3-hover-shadow">Різне</div>
+					<div>
+						<a href="/f/dev3/icpc2duodecim.html"> icpc2duodecim </a>
+					</div>
+					<div>
+						<a href="/f/dev3/icpc2-001.html"> icpc2 </a>
+					</div>
+					<div>
+						<a href="/f/dev3/icd10-001.html">icd10</a>
+					</div>
+				</div>
+				<div>
+					<div class="w3-border-bottom w3-hover-shadow">Технічне</div>
+					<div>
+						<a
+							href="http://localhost:8040/f/c4/dm/doc_manager.html?folderId=285584">
+							<i class="fas fa-folder"></i> ICD10, ICPC2
+						</a>
+					</div>
+					-*-
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

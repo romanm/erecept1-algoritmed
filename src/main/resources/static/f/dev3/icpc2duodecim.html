@@ -26,9 +26,9 @@
 				<th>icpc2</th>
 				<th>duodecim</th>
 			</tr>
-			<tr data-ng-repeat="(k,v) in ctrl.icp2duodecim">
-				<td data-ng-class="{'w3-green':k==ctrl.clicked.icpc2}"
-					id="icpc2_{{k}}">{{k}}</td>
+			<tr data-ng-repeat="(icpc2Key,v) in ctrl.icp2duodecim">
+				<td data-ng-class="{'w3-green':icpc2Key==ctrl.clicked.icpc2Key}"
+					id="icpc2_{{icpc2Key}}">{{icpc2Key}}</td>
 				<td>
 					<div data-ng-if="v.primary" class="w3-border w3-leftbar">
 						<span data-ng-repeat="protocols in [v.primary]"
@@ -38,7 +38,6 @@
 						<span class="w3-small"> вторинний: </span> <span
 							data-ng-repeat="protocols in [v.secondary]"
 							data-ng-include="'/f/dev3/protocol2icpc2.html'"> </span>
-
 					</div>
 				</td>
 			</tr>
