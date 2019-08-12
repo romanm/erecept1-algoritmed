@@ -21,12 +21,12 @@
 	</span> ]
 </span> {{$last?'':','}}
 </span>
-<div data-ng-if="icpc2Key==ctrl.clicked.icpc2Key">
+<div data-ng-if="icpc2Key==ctrl.clicked.icpc2Key && protocols.includes(ctrl.clicked.protocol)">
 	{{ctrl.clicked.protocol}}
 	<div data-ng-repeat=" e in ctrl.embNrs[ctrl.clicked.protocol]">
-		{{e}} - 
-		{{ctrl.clicked.icpc2I18ns[e].i18n}}
-		{{ctrl.clicked.icpc2I18ns['-'+e].i18n}}
-		{{ctrl.clicked.icpc2I18ns[e.replace("*","-")].i18n}}
-		</div>
+		{{e}} - {{ctrl.clicked.icpc2I18ns[e].i18n}}
+		{{ctrl.clicked.icpc2I18ns['-'+e].i18n}} <span
+			data-ng-if="e.includes('*')">
+			{{ctrl.clicked.icpc2I18ns[e.replace("*","-")].i18n}} </span>
+	</div>
 </div>
