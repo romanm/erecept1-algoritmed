@@ -49,7 +49,31 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 //	readWriteICD10_l5(ctrl)
 //	readWriteICD10_goroch1(ctrl)
 //	readWriteICD10_goroch2(ctrl)
+//	readWriteICPC2ICD10_original1(ctrl)
 })
+
+var readWriteICPC2ICD10_original1 = function(ctrl){
+	var sql2 = 'SELECT * FROM "ICPC2_ICD10_original"'
+	readSql({ sql:sql2, afterRead:function(r){
+//		console.log(r.data)
+		angular.forEach(r.data.list, function(v,k){
+			if(true||k<1){
+				var sql = ""
+				var sql1 = "INSERT INTO icpc2icd10original2 (icpc2,icd10) " +
+				"VALUES ('" + v.icpc2.trim() + "',':icd10'); \n"
+				console.log(k,v,sql1)
+				var icd10s = v.icd10s.split(';')
+				angular.forEach(icd10s, function(v2,k2){
+					sql += sql1.replace(':icd10',v2.trim())
+				})
+				console.log(sql)
+				writeSql({sql : sql, dataAfterSave:function(response){
+					console.log(k)
+				}})
+			}
+		})
+	}})
+}
 
 /*
 SELECT * FROM icd b

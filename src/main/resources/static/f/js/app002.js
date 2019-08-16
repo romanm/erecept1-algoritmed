@@ -507,3 +507,14 @@ function read_i18_ua_of_doc(ctrl, rootId) {
 	})
 }
 
+var readICPC2_MCRDB2 = function(ctrl){
+	var sql = "SELECT * FROM docbody where docbody_id=287135"
+	readSql({ sql:sql, afterRead:function(response){
+		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
+		console.log(ctrl.db_icpc2)
+	}})
+	ctrl.click_icpc2_color = function(kc){
+		ctrl.db_icpc2.clickColor = kc
+		console.log(kc,ctrl.db_icpc2.color)
+	}
+}

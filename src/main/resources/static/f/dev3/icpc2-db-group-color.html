@@ -1,7 +1,8 @@
 <div class="w3-center">
 	<span class="w3-light-grey w3-border w3-padding-small w3-tiny"> {{ctrl.db_icpc2.group.Pr.i18n}} </span> <span
 		data-ng-repeat="(kc,vc) in ctrl.db_icpc2.color"
-		class="w3-border w3-padding-small w3-tiny"
+		data-ng-click="ctrl.click_icpc2_color(kc,vc)"
+		class="w3-border w3-padding-small w3-tiny w3-hover-shadow"
 		data-ng-class="{
 		'w3-pale-blue':('cyan'==kc),
 		'w3-green':('green'==kc),

@@ -12,8 +12,8 @@ app.controller('AppCtrl', function($scope, $http) {
 //		insertICPC2_CODE(ctrl)
 //		insertICPC2_GROUP(ctrl)
 	})
-	readICPC2_MCRDB2(ctrl)
 //	readICPC2_MCRDB(ctrl)
+	readICPC2_MCRDB2(ctrl)
 })
 
 var convertICPC2_MCRDB = function(ctrl){
@@ -38,12 +38,6 @@ var convertICPC2_MCRDB = function(ctrl){
 	console.log(JSON.stringify(ctrl.db_icpc2).replace(/'/g,"''"))
 }
 
-var readICPC2_MCRDB2 = function(ctrl){
-	var sql = "SELECT * FROM docbody where docbody_id=287135"
-	readSql({ sql:sql, afterRead:function(response){
-		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
-	}})
-}
 
 var readICPC2_MCRDB = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287134"
