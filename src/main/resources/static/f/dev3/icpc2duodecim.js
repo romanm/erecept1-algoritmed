@@ -16,14 +16,7 @@ app.controller('AppCtrl', function($scope, $http) {
 	ctrl.clicICPC2 = function(protocol, icpc2Key){
 		ctrl.clicked.protocol = protocol
 		ctrl.clicked.icpc2Key = icpc2Key
-		console.log(ctrl.clicked, ctrl.embNrs[protocol])
-		var inIcpc2 = JSON.stringify(ctrl.embNrs[protocol])
-		.replace('[','(')
-		.replace(']',')')
-		.replace(/"/g,"'")
-		.replace(/'(\d)/g,"'-$1")
-		.replace(/'(\*)/g,"'-")
-		console.log(inIcpc2)
+		var inIcpc2 = ctrl.listToInSQL(ctrl.embNrs[protocol])
 		var sql = sql_app.select_icpc2_i18n_values() + " AND a.value IN " + inIcpc2
 		console.log(sql)
 		readSql({ sql:sql, afterRead:function(r){

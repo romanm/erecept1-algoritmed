@@ -30,7 +30,57 @@ var initApp = function($scope, $http, ctrl){
 			return (tE.d_s||tE.value) + ' ' + tE.doc_id
 	}
 	ctrl.isArrayDocNode = function(tE){ return array_doctype().includes(tE.doctype) }
+
+	ctrl.listToInSQL = function(list){
+		var inIcpc2 = JSON.stringify(list)
+		.replace('[','(')
+		.replace(']',')')
+		.replace(/"/g,"'")
+		.replace(/'(\d)/g,"'-$1")
+		.replace(/'(\*)/g,"'-")
+//		console.log(list, inIcpc2)
+		return inIcpc2
+	}
 }
+
+var readICPC2_MCRDB2 = function(ctrl){
+	var sql = "SELECT * FROM docbody where docbody_id=287135"
+	readSql({ sql:sql, afterRead:function(response){
+		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
+		console.log(ctrl.db_icpc2)
+		angular.forEach(ctrl.db_icpc2.group, function(v,k){
+			ctrl.elementsMap[v.doc_id] = v
+			angular.forEach(v.children, function(v2,k2){
+				ctrl.elementsMap[v2.doc_id] = v2
+			})
+		})
+//		console.log(ctrl.elementsMap)
+	}})
+	ctrl.click_icpc2_organ = function(kg){
+		console.log(kg, ctrl.db_icpc2.group[kg])
+		if(ctrl.db_icpc2.clickOrgan == kg){
+			delete ctrl.db_icpc2.clickOrgan
+			delete ctrl.db_icpc2.clickOrganObject
+		}else{
+			ctrl.db_icpc2.clickOrgan = kg
+			ctrl.db_icpc2.clickOrganObject = {}
+			ctrl.db_icpc2.clickOrganObject[kg] = ctrl.db_icpc2.group[kg]
+		}
+	}
+	ctrl.click_icpc2_color = function(kc){
+		if(ctrl.db_icpc2.clickColor == kc){
+			delete ctrl.db_icpc2.clickColor
+			delete ctrl.db_icpc2.clickColorObject
+		}else{
+			ctrl.db_icpc2.clickColor = kc
+			ctrl.db_icpc2.clickColorObject = {}
+			ctrl.db_icpc2.clickColorObject[kc] = ctrl.db_icpc2.color[kc]
+			if(ctrl.readICPC2_part)
+				ctrl.readICPC2_part()
+		}
+	}
+}
+
 var array_doctype = function(){ return [32,33,34,35,36,37] }
 
 var initDocEditor = function(ctrl){
@@ -44,7 +94,6 @@ var initDocEditor = function(ctrl){
 		},
 	})
 
-	
 	ctrl.db_obj_counter = 100
 	ctrl.initEditDoc = function(){
 		ctrl.new_obj_counter = 1
@@ -507,14 +556,3 @@ function read_i18_ua_of_doc(ctrl, rootId) {
 	})
 }
 
-var readICPC2_MCRDB2 = function(ctrl){
-	var sql = "SELECT * FROM docbody where docbody_id=287135"
-	readSql({ sql:sql, afterRead:function(response){
-		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
-		console.log(ctrl.db_icpc2)
-	}})
-	ctrl.click_icpc2_color = function(kc){
-		ctrl.db_icpc2.clickColor = kc
-		console.log(kc,ctrl.db_icpc2.color)
-	}
-}

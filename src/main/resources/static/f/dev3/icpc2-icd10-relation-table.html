@@ -1,0 +1,19 @@
+<table class="w3-table1">
+	<tr class="w3-tiny">
+		<th>ICPC2</th>
+		<th>ICD10</th>
+	</tr>
+	<tr data-ng-repeat="e in ctrl[oName]" class="w3-hover-shadow"
+		data-ng-init="icpc2Code=e.icpc2"
+		title="{{e.doc_id==ctrl.eICPC2ICD10relationTable.doc_id}}"
+		data-ng-click="ctrl.clickICPC2ICD10relationTable(e)">
+		<td class="w3-small"
+			data-ng-class="{'w3-border':e.doc_id==ctrl.eICPC2ICD10relationTable.doc_id}"><span
+			data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> <sub
+			class="w3-tiny">{{e.cnt}}</sub></td>
+		<td class="w3-tiny">{{e.icd10}} <span>{{e.min_icd10}}<span
+				data-ng-if="e.min_icd10!=e.max_icd10">-{{e.max_icd10}} </span>
+		</span>
+		</td>
+	</tr>
+</table>

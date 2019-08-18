@@ -1,0 +1,10 @@
+<span class="am-b"
+	data-ng-class="{
+		'w3-light-grey':(icpc2Code.substring(0,1)=='-'),
+		'w3-green':(icpc2Code.substring(1,3)<30 && icpc2Code.substring(0,1)!='-'),
+		'w3-pale-blue':(ctrl.db_icpc2.color.cyan.codeList.includes(icpc2Code)),
+		'w3-yellow':(ctrl.db_icpc2.color.yellow.codeList.includes(icpc2Code)),
+		'w3-red':(ctrl.db_icpc2.color.red.codeList.includes(icpc2Code)),
+		'w3-indigo':(ctrl.db_icpc2.color.indigo.codeList.includes(icpc2Code)),
+		'w3-purple':(ctrl.db_icpc2.color.purple.codeList.includes(icpc2Code)),
+		}">{{e.icpc2}}</span>
