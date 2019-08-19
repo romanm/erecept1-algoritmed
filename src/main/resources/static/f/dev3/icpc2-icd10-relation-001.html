@@ -72,6 +72,8 @@
 					<div data-ng-repeat="icd10 in ctrl.eICPC2ICD10relationTableICD10">
 						{{icd10.icd10}} - {{icd10.i18n}}</div>
 				</div>
+				<div data-ng-if="ctrl.icpc2_organs"
+					data-ng-include="'/f/dev3/icpc2_organs_icd10.html'"></div>
 			</div>
 			<div class="w3-quarter w3-border-left">
 				<div>

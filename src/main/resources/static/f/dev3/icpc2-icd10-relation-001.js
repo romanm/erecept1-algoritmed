@@ -71,17 +71,31 @@ var initICPC2ICD10App = function(ctrl){
 	}
 }
 
-sql_app.selectICPC2ICD10_icpc2 = function(parentId){
-	return "SELECT * FROM ( \n" +
-	"SELECT icpc2, COUNT(*) cnt, min(icpc2int) icpc2int, MIN(doc_id) doc_id, MIN(reference) reference, MIN(icd10) min_icd10, MAX(icd10) max_icd10 FROM ( \n" +
+sql_app.selectICPC2ICD10_icpc2 = function(parentId){ return "" +
+	"SELECT * FROM ( \n" +
+	"SELECT icpc2, COUNT(*) cnt, MIN(icpc2int) icpc2int, MIN(doc_id) doc_id, MIN(reference) reference, MIN(icd10) min_icd10, MAX(icd10) max_icd10 " +
+	"FROM ( \n" +
 	sql_app.selectICPC2ICD10(parentId) +
-	") a GROUP BY icpc2 \n" +
+	" \n) a GROUP BY icpc2 \n" +
 	") a " +
 	""
 }
 
-sql_app.selectICPC2ICD10 = function(parentId){
-	return "" +
+sql_app.selectICPC2_group_ICD10_count = function(parentId){ return "" +
+	"SELECT g, COUNT(g) cnt, MIN(doc_id) doc_id, MIN(reference) reference, MIN(icd10) min_icd10, MAX(icd10) max_icd10 FROM ( \n" +
+	sql_app.selectICPC2_group_ICD10(parentId) +
+	" ORDER BY icd10 " +
+	") a GROUP BY g " +
+	" ORDER BY g "
+}
+
+sql_app.selectICPC2_group_ICD10 = function(parentId){ return "" +
+	"SELECT substring(icpc2,1,1) g, * FROM ( \n" +
+	sql_app.selectICPC2ICD10(parentId) +
+	") a "
+}
+
+sql_app.selectICPC2ICD10 = function(parentId){ return "" +
 	"SELECT d.*, s2u.value icpc2, i2.value icpc2int, s10u.value icd10 " +
 	"FROM doc d,string_u s2u, integer i2, string_u s10u \n" +
 	"WHERE parent = " + parentId +" \n" +

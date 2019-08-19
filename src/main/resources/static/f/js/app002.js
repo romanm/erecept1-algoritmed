@@ -58,6 +58,30 @@ var readICPC2_MCRDB2 = function(ctrl){
 		})
 //		console.log(ctrl.elementsMap)
 	}})
+	ctrl.click_icpc2_organs_sort = function(k){
+//		console.log(k, ctrl.icpc2_organs.sort)
+		var ascDesc = ctrl.icpc2_organs.sort.substring(0,1)
+		if(ctrl.icpc2_organs.sort.includes(k)){
+			ascDesc = ascDesc=='-'?'+':'-'
+			ctrl.icpc2_organs.sort = ascDesc+ctrl.icpc2_organs.sort.substring(1)
+		}else{
+			ctrl.icpc2_organs.sort = ascDesc+k
+		}
+	}
+	ctrl.click_icpc2_organs = function(){
+		if(ctrl.icpc2_organs){
+			delete ctrl.icpc2_organs
+		}else{
+			var sql = sql_app.selectICPC2_group_ICD10_count(320730)
+			console.log(sql, ctrl.db_icpc2.group)
+			readSql({ sql:sql, afterRead:function(response){
+				ctrl.icpc2_organs = {}
+				ctrl.icpc2_organs.sort = '-g'
+					ctrl.icpc2_organs.list = response.data.list
+					console.log(ctrl.icpc2_organs)
+			}})
+		}
+	}
 	ctrl.click_icpc2_organ = function(kg){
 		console.log(kg, ctrl.db_icpc2.group[kg])
 		if(ctrl.db_icpc2.clickOrgan == kg){

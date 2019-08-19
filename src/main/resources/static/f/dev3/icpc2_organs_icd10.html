@@ -1,0 +1,29 @@
+<div>
+	<table>
+		<tr>
+			<th class="w3-border-bottom w3-hover-shadow"
+				data-ng-click="ctrl.click_icpc2_organs_sort(k)"
+				data-ng-repeat="k in ['g','cnt']">{{k}} <i
+				data-ng-if="!ctrl.icpc2_organs.sort.includes(k)"
+				class="fas fa-arrows-alt-v"></i> <span
+				data-ng-if="ctrl.icpc2_organs.sort.includes(k)"> <i
+					data-ng-if="!ctrl.icpc2_organs.sort.includes('+')"
+					class="fas fa-long-arrow-alt-up"></i> <i
+					data-ng-if="!ctrl.icpc2_organs.sort.includes('-')"
+					class="fas fa-long-arrow-alt-down"></i>
+			</span>
+			</th>
+			<th class="w3-border-bottom" data-ng-repeat="k in ['icd10']">{{k}}</th>
+		</tr>
+		<tr
+			data-ng-repeat="g in ctrl.icpc2_organs.list | orderBy:ctrl.icpc2_organs.sort"
+			data-ng-class="{'w3-light-grey':g.g==ctrl.db_icpc2.clickOrgan}"
+			class="w3-hover-shadow">
+			<td>{{g.g}} <span class="w3-tiny">
+					{{ctrl.db_icpc2.group[g.g].i18n}} </span>
+			</td>
+			<td class="w3-border-left">{{g.cnt}}</td>
+			<td class="w3-border-left">{{g.min_icd10}}-{{g.max_icd10}}</td>
+		</tr>
+	</table>
+</div>

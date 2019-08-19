@@ -1,5 +1,8 @@
 <div>
-	:: <span data-ng-repeat="kg in ctrl.db_icpc2.groupKeys | orderBy"
+	<span 
+	class="w3-btn w3-border w3-padding-small"
+		data-ng-click="ctrl.click_icpc2_organs()"> :: </span> <span
+		data-ng-repeat="kg in ctrl.db_icpc2.groupKeys | orderBy"
 		data-ng-init="vg = ctrl.db_icpc2.group[kg]" data-ng-if="kg=='Pr'"
 		data-ng-include="'/f/dev3/icpc2-db-organ-element.html'"></span> <span
 		data-ng-repeat="kg in ctrl.db_icpc2.groupKeys | orderBy"
