@@ -47,7 +47,9 @@ var readICPC2_MCRDB2 = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287135"
 	readSql({ sql:sql, afterRead:function(response){
 		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
+		console.log(Object.keys(ctrl.db_icpc2.group))
 		console.log(ctrl.db_icpc2)
+		ctrl.db_icpc2.groupKeys = Object.keys(ctrl.db_icpc2.group)
 		angular.forEach(ctrl.db_icpc2.group, function(v,k){
 			ctrl.elementsMap[v.doc_id] = v
 			angular.forEach(v.children, function(v2,k2){
@@ -65,6 +67,8 @@ var readICPC2_MCRDB2 = function(ctrl){
 			ctrl.db_icpc2.clickOrgan = kg
 			ctrl.db_icpc2.clickOrganObject = {}
 			ctrl.db_icpc2.clickOrganObject[kg] = ctrl.db_icpc2.group[kg]
+			if(ctrl.readICPC2_part)
+				ctrl.readICPC2_part()
 		}
 	}
 	ctrl.click_icpc2_color = function(kc){

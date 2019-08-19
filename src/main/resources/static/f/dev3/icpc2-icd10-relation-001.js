@@ -6,24 +6,43 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 //	readWriteICPC2ICD10_goroch1(ctrl)
 	readICPC2_MCRDB2(ctrl)
 	ctrl.readICPC2_part = function(){
-		readICPC2ICD10(ctrl, 320730, 'icpc2icd10_goroch') // goroch1
-		readICPC2ICD10(ctrl, 320729, 'icpc2icd10_original') // original
+		console.log(sql_app.selectICPC2ICD10_icpc2(320730))
+		if(ctrl.db_icpc2){
+			var icpc2GroupInSQL = ""
+			if(ctrl.db_icpc2.clickColor){
+				console.log(ctrl.db_icpc2.clickColor)
+				if('green' == ctrl.db_icpc2.clickColor){
+					icpc2GroupInSQL = " icpc2int<30 "
+				}else{
+					icpc2GroupInSQL = " icpc2 IN " + ctrl.listToInSQL(ctrl.db_icpc2.color[ctrl.db_icpc2.clickColor].codeList)
+				}
+			}
+			if(ctrl.db_icpc2.clickOrgan){
+				if(icpc2GroupInSQL.length>0) icpc2GroupInSQL += " AND "
+				icpc2GroupInSQL += " SUBSTRING(icpc2,0,2)='" + ctrl.db_icpc2.clickOrgan + "'"
+			}
+			if(icpc2GroupInSQL.length>0)
+				icpc2GroupInSQL = " WHERE " + icpc2GroupInSQL
+			console.log(icpc2GroupInSQL)
+		}
+		readICPC2ICD10(ctrl, 320730, 'icpc2icd10_goroch', icpc2GroupInSQL) // goroch1
+		readICPC2ICD10(ctrl, 320729, 'icpc2icd10_original', icpc2GroupInSQL) // original
 	}
 	ctrl.readICPC2_part()
 })
 
-var readICPC2ICD10 = function(ctrl, parentId, oName){
+var readICPC2ICD10 = function(ctrl, parentId, oName, icpc2GroupInSQL){
 //	var sql = sql_app.selectICPC2ICD10(parentId) +
 	var sql = sql_app.selectICPC2ICD10_icpc2(parentId)
-	if(ctrl.db_icpc2 && ctrl.db_icpc2.clickColor){
-		var icpc2GroupInSQL = ctrl.listToInSQL(ctrl.db_icpc2.color[ctrl.db_icpc2.clickColor].codeList)
+//	if(ctrl.db_icpc2 && ctrl.db_icpc2.clickColor){
+	if(icpc2GroupInSQL&&icpc2GroupInSQL.length>0){
 //		console.log(ctrl.db_icpc2.clickColor,ctrl.db_icpc2.color[ctrl.db_icpc2.clickColor], icpc2GroupInSQL)
-		sql += "WHERE  icpc2 IN " + icpc2GroupInSQL
+		sql += icpc2GroupInSQL
+//		sql += "WHERE  icpc2 IN " + icpc2GroupInSQL
 	}
 	sql += "" +
 	" ORDER BY cnt DESC" +
 	" LIMIT 100"
-	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl[oName] = r.data.list
 //		console.log(r.data)
@@ -54,7 +73,7 @@ var initICPC2ICD10App = function(ctrl){
 
 sql_app.selectICPC2ICD10_icpc2 = function(parentId){
 	return "SELECT * FROM ( \n" +
-	"SELECT icpc2, COUNT(*) cnt, MIN(doc_id) doc_id, MIN(reference) reference, MIN(icd10) min_icd10, MAX(icd10) max_icd10 FROM ( \n" +
+	"SELECT icpc2, COUNT(*) cnt, min(icpc2int) icpc2int, MIN(doc_id) doc_id, MIN(reference) reference, MIN(icd10) min_icd10, MAX(icd10) max_icd10 FROM ( \n" +
 	sql_app.selectICPC2ICD10(parentId) +
 	") a GROUP BY icpc2 \n" +
 	") a " +
@@ -62,12 +81,13 @@ sql_app.selectICPC2ICD10_icpc2 = function(parentId){
 }
 
 sql_app.selectICPC2ICD10 = function(parentId){
-	return "SELECT d.*, s2u.value icpc2, s10u.value icd10 FROM doc d,string_u s2u, string_u s10u \n" +
-	"WHERE parent = " +
-	parentId +
-	" \n" +
+	return "" +
+	"SELECT d.*, s2u.value icpc2, i2.value icpc2int, s10u.value icd10 " +
+	"FROM doc d,string_u s2u, integer i2, string_u s10u \n" +
+	"WHERE parent = " + parentId +" \n" +
 //	"where parent=320730 \n" +
 	"AND reference=s2u.string_u_id \n" +
+	"AND integer_id=s2u.string_u_id \n" +
 	"AND reference2=s10u.string_u_id "
 }
 
