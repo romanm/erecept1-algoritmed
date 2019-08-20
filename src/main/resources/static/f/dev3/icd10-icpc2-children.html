@@ -1,0 +1,13 @@
+<div class="w3-container w3-border-left">
+	<div data-ng-repeat="icd10 in e.children">
+		<span title="{{icd10.id}}/{{icd10.p}}/{{icd10.openChildren}}"
+			class="w3-hover-shadow"
+			data-ng-click="icd10.openChildren=!icd10.openChildren">
+			{{icd10.v}} </span> <sub title="{{icd10.l}}" class="w3-tiny">
+			{{icd10.count}} <span data-ng-if="icd10.children">
+				({{icd10.children.length}}) </span>
+		</sub> <span class="w3-tiny"> {{icd10.min}}- {{icd10.max}} </span>
+		<div data-ng-repeat="e in [icd10]" data-ng-if="icd10.openChildren"
+			data-ng-include="'/f/dev3/icd10-icpc2-children.html'"></div>
+	</div>
+</div>

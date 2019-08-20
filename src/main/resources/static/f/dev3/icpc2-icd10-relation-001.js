@@ -50,7 +50,13 @@ var readICPC2ICD10 = function(ctrl, parentId, oName, icpc2GroupInSQL){
 }
 
 var initICPC2ICD10App = function(ctrl){
+
 	ctrl.clickICPC2ICD10relationTable=function(e){
+		if(ctrl.eICPC2ICD10relationTable && ctrl.eICPC2ICD10relationTable.doc_id == e.doc_id){
+			delete ctrl.eICPC2ICD10relationTable
+			delete ctrl.eICPC2ICD10relationTableICD10
+			return
+		}
 		ctrl.eICPC2ICD10relationTable = e
 		console.log(e, ctrl.elementsMap[ctrl.eICPC2ICD10relationTable.doc_id])
 		var sql = "SELECT * FROM ( \n" +
@@ -69,6 +75,7 @@ var initICPC2ICD10App = function(ctrl){
 //		console.log(r.data)
 		}})
 	}
+
 }
 
 sql_app.selectICPC2ICD10_icpc2 = function(parentId){ return "" +

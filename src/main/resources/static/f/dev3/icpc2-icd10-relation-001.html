@@ -65,12 +65,32 @@
 				<div>
 					<div class="w3-border" data-ng-if="ctrl.eICPC2ICD10relationTable">
 						> <span data-ng-repeat="e in [ctrl.eICPC2ICD10relationTable]"
-							data-ng-init="icpc2Code=e.icpc2"
-							data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> -
-						{{ctrl.elementsMap[ctrl.eICPC2ICD10relationTable.reference].i18n}}
+							data-ng-init="icpc2Code=e.icpc2" class="w3-hover-shadow"
+							data-ng-click="ctrl.clickICPC2ICD10relationTable(e)"
+							data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> - <span
+							data-ng-click="ctrl.clickICPC2ICD10relationView=!ctrl.clickICPC2ICD10relationView"
+							class="w3-hover-shadow">
+							{{ctrl.elementsMap[ctrl.eICPC2ICD10relationTable.reference].i18n}}
+						</span>
 					</div>
-					<div data-ng-repeat="icd10 in ctrl.eICPC2ICD10relationTableICD10">
-						{{icd10.icd10}} - {{icd10.i18n}}</div>
+					<div data-ng-if="!ctrl.clickICPC2ICD10relationView">
+						<div data-ng-repeat="icd10 in ctrl.eICPC2ICD10relationTableICD10">
+							{{icd10.icd10}} - {{icd10.i18n}}</div>
+					</div>
+					<div data-ng-if="ctrl.icd10_with_ICPC2">
+						<div data-ng-repeat="icd10 in ctrl.icd10_with_ICPC2">
+							<span title="{{icd10.id}}/{{icd10.p}}/{{icd10.openChildren}}"
+								class="w3-hover-shadow"
+								data-ng-click="icd10.openChildren=!icd10.openChildren">
+								{{icd10.v}} </span> <sub title="{{icd10.l}}" class="w3-tiny">
+								{{icd10.count}} <span data-ng-if="icd10.children">
+									({{icd10.children.length}}) </span>
+							</sub> <span class="w3-tiny"> {{icd10.min}}- {{icd10.max}} </span>
+							<div data-ng-repeat="e in [icd10]"
+								data-ng-if="icd10.openChildren"
+								data-ng-include="'/f/dev3/icd10-icpc2-children.html'"></div>
+						</div>
+					</div>
 				</div>
 				<div data-ng-if="ctrl.icpc2_organs"
 					data-ng-include="'/f/dev3/icpc2_organs_icd10.html'"></div>
@@ -91,6 +111,10 @@
 					</div>
 					<div>
 						<a href="/f/dev3/icd10-001.html">icd10</a>
+						<div>
+							<span class="w3-btn w3-border w3-padding-small"
+								data-ng-click="ctrl.click_ICD10_with_ICPC2()"> :: </span>
+						</div>
 					</div>
 				</div>
 				<div>

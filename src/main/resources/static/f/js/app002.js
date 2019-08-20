@@ -1,6 +1,7 @@
 var app = angular.module('myApp', ['ngSanitize']);
 var conf = {dataModelList : {}}
 var exe_fn = {}
+var sql_app = {}
 var initApp = function($scope, $http, ctrl){
 	ctrl.i18 = {}
 	$scope.elementsMap = {}
@@ -107,6 +108,44 @@ var readICPC2_MCRDB2 = function(ctrl){
 				ctrl.readICPC2_part()
 		}
 	}
+	ctrl.click_ICD10_with_ICPC2 = function(){
+		var sql = sql_app.selectICD10_with_ICPC2()
+//		console.log(sql)
+		readSql({ sql:sql, afterRead:function(r){
+			ctrl.icd10_with_ICPC2 = []
+			console.log(r.data)
+			angular.forEach(r.data.list, function(v,k,o){
+				ctrl.elementsMap[v.id] = v
+//				console.log(k,v,ctrl.elementsMap[v.p])
+				if(ctrl.elementsMap[v.p]){
+					if(!ctrl.elementsMap[v.p].children)
+						ctrl.elementsMap[v.p].children = []
+					ctrl.elementsMap[v.p].children.push(v)
+				}else{
+					ctrl.icd10_with_ICPC2.push(v)
+				}
+			})
+			console.log(ctrl.icd10_with_ICPC2)
+		}})
+	}
+}
+
+sql_app.selectICD10_code_level = function(){ return "" +
+	"SELECT parent p, doc_id id, value v, treelevel l " +
+	" FROM string_u, sort, doc where doc_id=sort_id and sort_id=string_u_id and group_id=61"
+}
+sql_app.selectICD10_with_ICPC2 = function(){ return "" +
+	"SELECT v, count(v), min(p) p, min(id) id, min(l) l, min(icpc2), max(icpc2) FROM ( \n" +
+	"SELECT l2.*, a.* FROM (SELECT d.*, value icpc2 FROM doc d,string_u where string_u_id=reference and parent = 320730 ) a \n" +
+	",(" + sql_app.selectICD10_code_level() + ") l0 \n" +
+	",(" + sql_app.selectICD10_code_level() + ") l1 \n" +
+	",(" + sql_app.selectICD10_code_level() + ") l2 \n" +
+	"where l0.id=a.reference2 \n" +
+	"and l0.p=l1.id \n" +
+	"and l1.p=l2.id \n" +
+	"order by icpc2 \n" +
+	") a group by v \n" +
+	"order by l, v"
 }
 
 var array_doctype = function(){ return [32,33,34,35,36,37] }
@@ -397,8 +436,6 @@ var mapElement = function(element, elementsMap){
 	})
 	return elementsMap
 }
-
-var sql_app = {}
 
 sql_app.select_icpc2_i18n_values = function(){
 	return "SELECT a.*, s.value i18n FROM ( \n" +
