@@ -109,10 +109,15 @@ var readICPC2_MCRDB2 = function(ctrl){
 		}
 	}
 	ctrl.click_ICD10_with_ICPC2 = function(){
-		var sql = sql_app.selectICD10_with_ICPC2()
+		if(ctrl.icd10_with_ICPC2){
+			delete ctrl.icd10_with_ICPC2
+			return
+		}
+//		var sql = sql_app.selectICD10_with_ICPC2() + "ORDER BY l, v"
+		var sql = sql_app.selectICD10i18n_with_ICPC2() + "ORDER BY l, v"
 //		console.log(sql)
 		readSql({ sql:sql, afterRead:function(r){
-			ctrl.icd10_with_ICPC2 = []
+			ctrl.icd10_with_ICPC2 = {children:[]}
 			console.log(r.data)
 			angular.forEach(r.data.list, function(v,k,o){
 				ctrl.elementsMap[v.id] = v
@@ -122,7 +127,7 @@ var readICPC2_MCRDB2 = function(ctrl){
 						ctrl.elementsMap[v.p].children = []
 					ctrl.elementsMap[v.p].children.push(v)
 				}else{
-					ctrl.icd10_with_ICPC2.push(v)
+					ctrl.icd10_with_ICPC2.children.push(v)
 				}
 			})
 			console.log(ctrl.icd10_with_ICPC2)
@@ -134,18 +139,24 @@ sql_app.selectICD10_code_level = function(){ return "" +
 	"SELECT parent p, doc_id id, value v, treelevel l " +
 	" FROM string_u, sort, doc where doc_id=sort_id and sort_id=string_u_id and group_id=61"
 }
+sql_app.selectICD10i18n_with_ICPC2 = function(){ return "" +
+	"SELECT a.*, value i18n FROM ( \n" +
+	sql_app.selectICD10_with_ICPC2() +
+	"\n) a " +
+	", (SELECT reference,s.* FROM doc, string s WHERE string_id=doc_id AND parent = 287138) b \n" +
+	"WHERE a.id=b.reference "
+}
 sql_app.selectICD10_with_ICPC2 = function(){ return "" +
 	"SELECT v, count(v), min(p) p, min(id) id, min(l) l, min(icpc2), max(icpc2) FROM ( \n" +
 	"SELECT l2.*, a.* FROM (SELECT d.*, value icpc2 FROM doc d,string_u where string_u_id=reference and parent = 320730 ) a \n" +
 	",(" + sql_app.selectICD10_code_level() + ") l0 \n" +
 	",(" + sql_app.selectICD10_code_level() + ") l1 \n" +
 	",(" + sql_app.selectICD10_code_level() + ") l2 \n" +
-	"where l0.id=a.reference2 \n" +
-	"and l0.p=l1.id \n" +
-	"and l1.p=l2.id \n" +
-	"order by icpc2 \n" +
-	") a group by v \n" +
-	"order by l, v"
+	"WHERE l0.id=a.reference2 \n" +
+	"AND l0.p=l1.id \n" +
+	"AND l1.p=l2.id \n" +
+	"ORDER BY icpc2 \n" +
+	") a GROUP BY v "
 }
 
 var array_doctype = function(){ return [32,33,34,35,36,37] }

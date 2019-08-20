@@ -6,7 +6,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 //	readWriteICPC2ICD10_goroch1(ctrl)
 	readICPC2_MCRDB2(ctrl)
 	ctrl.readICPC2_part = function(){
-		console.log(sql_app.selectICPC2ICD10_icpc2(320730))
+//		console.log(sql_app.selectICPC2ICD10_icpc2(320730))
 		if(ctrl.db_icpc2){
 			var icpc2GroupInSQL = ""
 			if(ctrl.db_icpc2.clickColor){
