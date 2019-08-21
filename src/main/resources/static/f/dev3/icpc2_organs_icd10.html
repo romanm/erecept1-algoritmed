@@ -7,12 +7,12 @@ class="w3-border-top"
 		<tr>
 			<th class="w3-border-bottom w3-hover-shadow"
 				data-ng-click="ctrl.click_icpc2_organs_sort(k)"
-				data-ng-repeat="k in ['g','cnt']">{{k}} <i
+				data-ng-repeat="k in ['g','cnt']">{{k}}<i
 				data-ng-if="!ctrl.icpc2_organs.sort.includes(k)"
-				class="fas fa-arrows-alt-v"></i> <span
-				data-ng-if="ctrl.icpc2_organs.sort.includes(k)"> <i
+				class="fas fa-arrows-alt-v"></i><span
+				data-ng-if="ctrl.icpc2_organs.sort.includes(k)"><i
 					data-ng-if="!ctrl.icpc2_organs.sort.includes('+')"
-					class="fas fa-long-arrow-alt-up"></i> <i
+					class="fas fa-long-arrow-alt-up"></i><i
 					data-ng-if="!ctrl.icpc2_organs.sort.includes('-')"
 					class="fas fa-long-arrow-alt-down"></i>
 			</span>

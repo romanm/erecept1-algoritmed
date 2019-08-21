@@ -1,4 +1,6 @@
-<span data-ng-click="ctrl.click_icpc2_color(kc)"
+<span data-ng-click="ctrl.click_icpc2_color(kc)" title="{{kc}}"
+	> <span
+	data-ng-if="'diagnosis'!=kc"
 	class="w3-border w3-padding-small w3-tiny w3-hover-shadow"
 	data-ng-class="{
 		'w3-green':('green'==kc),
@@ -8,4 +10,7 @@
 		'w3-indigo':('indigo'==kc),
 		'w3-purple':('purple'==kc),
 		}">
-	{{vc.name}} </span>
+		{{vc.name}} </span> <span data-ng-if="'diagnosis'==kc"
+	class="w3-border w3-padding-small w3-tiny w3-hover-shadow"
+	data-ng-include="'/f/dev3/icpc2-db-color-diagnosis-element.html'"></span>
+</span>

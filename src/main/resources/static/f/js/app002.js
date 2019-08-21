@@ -69,18 +69,23 @@ var readICPC2_MCRDB2 = function(ctrl){
 			ctrl.icpc2_organs.sort = ascDesc+k
 		}
 	}
+	ctrl.read_icpc2_organs = function(){
+		var sql = sql_app.selectICPC2_group_ICD10_count(320730, ctrl)
+		console.log(sql, ctrl.db_icpc2.group)
+		readSql({ sql:sql, afterRead:function(response){
+			if(!ctrl.icpc2_organs){
+				ctrl.icpc2_organs = {}
+				ctrl.icpc2_organs.sort = '+g'
+			}
+			ctrl.icpc2_organs.list = response.data.list
+			console.log(ctrl.icpc2_organs)
+		}})
+	}
 	ctrl.click_icpc2_organs = function(){
 		if(ctrl.icpc2_organs){
 			delete ctrl.icpc2_organs
 		}else{
-			var sql = sql_app.selectICPC2_group_ICD10_count(320730)
-			console.log(sql, ctrl.db_icpc2.group)
-			readSql({ sql:sql, afterRead:function(response){
-				ctrl.icpc2_organs = {}
-				ctrl.icpc2_organs.sort = '+g'
-					ctrl.icpc2_organs.list = response.data.list
-					console.log(ctrl.icpc2_organs)
-			}})
+			ctrl.read_icpc2_organs()
 		}
 	}
 	ctrl.click_icpc2_organ = function(kg){
@@ -104,9 +109,9 @@ var readICPC2_MCRDB2 = function(ctrl){
 			ctrl.db_icpc2.clickColor = kc
 			ctrl.db_icpc2.clickColorObject = {}
 			ctrl.db_icpc2.clickColorObject[kc] = ctrl.db_icpc2.color[kc]
-			if(ctrl.readICPC2_part)
-				ctrl.readICPC2_part()
 		}
+		if(ctrl.readICPC2_part)
+			ctrl.readICPC2_part()
 	}
 	ctrl.clickItem_ICD10_with_ICPC2 = function(icd10){
 		ctrl.item_ICD10 = icd10
