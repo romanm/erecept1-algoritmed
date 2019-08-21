@@ -77,7 +77,7 @@ var readICPC2_MCRDB2 = function(ctrl){
 			console.log(sql, ctrl.db_icpc2.group)
 			readSql({ sql:sql, afterRead:function(response){
 				ctrl.icpc2_organs = {}
-				ctrl.icpc2_organs.sort = '-g'
+				ctrl.icpc2_organs.sort = '+g'
 					ctrl.icpc2_organs.list = response.data.list
 					console.log(ctrl.icpc2_organs)
 			}})
