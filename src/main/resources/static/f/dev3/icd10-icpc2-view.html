@@ -1,0 +1,9 @@
+<span> <span
+	title="{{icd10.id}}/{{icd10.p}}/{{icd10.openChildren}}"
+	class="w3-hover-shadow"
+	data-ng-click="ctrl.clickItem_ICD10_with_ICPC2(icd10);icd10.openChildren=!icd10.openChildren">
+		{{icd10.v}} </span> <sub title="{{icd10.l}}" class="w3-tiny">
+		{{icd10.count}} <span data-ng-if="icd10.children">
+			({{icd10.children.length}}) </span>
+</sub> <span class="w3-tiny"> {{icd10.min}}- {{icd10.max}} </span>
+</span>

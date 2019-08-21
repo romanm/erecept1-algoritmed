@@ -108,6 +108,12 @@ var readICPC2_MCRDB2 = function(ctrl){
 				ctrl.readICPC2_part()
 		}
 	}
+	ctrl.clickItem_ICD10_with_ICPC2 = function(icd10){
+		ctrl.item_ICD10 = icd10
+		if(!ctrl.icd10_with_ICPC2){
+			delete ctrl.item_ICD10
+		}
+	}
 	ctrl.click_ICD10_with_ICPC2 = function(){
 		if(ctrl.icd10_with_ICPC2){
 			delete ctrl.icd10_with_ICPC2

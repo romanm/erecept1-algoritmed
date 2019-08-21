@@ -77,6 +77,10 @@
 						<div data-ng-repeat="icd10 in ctrl.eICPC2ICD10relationTableICD10">
 							{{icd10.icd10}} - {{icd10.i18n}}</div>
 					</div>
+					<div data-ng-if="ctrl.item_ICD10" class="w3-border">
+						> <span data-ng-repeat="icd10 in [ctrl.item_ICD10]"
+							data-ng-include="'/f/dev3/icd10-icpc2-view.html'"></span>
+					</div>
 					<div data-ng-if="ctrl.icd10_with_ICPC2">
 						<div data-ng-repeat="e in [ctrl.icd10_with_ICPC2]"
 								data-ng-include="'/f/dev3/icd10-icpc2-children.html'"></div>
