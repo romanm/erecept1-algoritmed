@@ -1,9 +1,9 @@
 <div class="w3-center">
-	<span class="w3-light-grey w3-border w3-padding-small w3-tiny">
+	<i class="fas fa-filter"></i> <span
+		class="w3-light-grey w3-border w3-padding-small w3-tiny">
 		{{ctrl.db_icpc2.group.Pr.i18n}} </span> <span
 		data-ng-repeat="(kc,vc) in ctrl.db_icpc2.color"
-		data-ng-include="'/f/dev3/icpc2-db-color-element.html'"> </span>
-		<span
+		data-ng-include="'/f/dev3/icpc2-db-color-element.html'"> </span> <span
 		data-ng-repeat="kc in ['diagnosis']"
 		data-ng-include="'/f/dev3/icpc2-db-color-element.html'"> </span>
 	<div data-ng-include="'/f/dev3/icpc2-db-group-organ.html'"></div>

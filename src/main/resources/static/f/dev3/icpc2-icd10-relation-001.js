@@ -5,33 +5,9 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initICPC2ICD10App(ctrl)
 //	readWriteICPC2ICD10_goroch1(ctrl)
 	readICPC2_MCRDB2(ctrl)
-	ctrl.icpc2GroupInSQL = function(){
-		var icpc2GroupInSQL = ""
-		if(ctrl.db_icpc2){
-			if(ctrl.db_icpc2.clickColor){
-//				console.log(ctrl.db_icpc2.clickColor)
-				if('green' == ctrl.db_icpc2.clickColor){
-					icpc2GroupInSQL = " icpc2int<30 "
-				}else if('diagnosis' == ctrl.db_icpc2.clickColor){
-					icpc2GroupInSQL = " icpc2int>69 "
-				}else{
-					icpc2GroupInSQL = " icpc2 IN " + 
-					ctrl.listToInSQL(ctrl.db_icpc2.color[ctrl.db_icpc2.clickColor].codeList)
-				}
-			}
-			if(ctrl.db_icpc2.clickOrgan){
-				if(icpc2GroupInSQL.length>0) icpc2GroupInSQL += " AND "
-					icpc2GroupInSQL += " SUBSTRING(icpc2,0,2)='" + ctrl.db_icpc2.clickOrgan + "'"
-			}
-			if(icpc2GroupInSQL.length>0)
-				icpc2GroupInSQL = " WHERE " + icpc2GroupInSQL
-//			console.log(icpc2GroupInSQL)
-		}
-		return icpc2GroupInSQL
-	}
 	ctrl.readICPC2_part = function(){
 //		console.log(sql_app.selectICPC2ICD10_icpc2(320730))
-		var icpc2GroupInSQL = ctrl.icpc2GroupInSQL()
+		var icpc2GroupInSQL = fn_icpc2GroupInSQL(ctrl)
 		readICPC2ICD10(ctrl, 320730, 'icpc2icd10_goroch', icpc2GroupInSQL) // goroch1
 		readICPC2ICD10(ctrl, 320729, 'icpc2icd10_original', icpc2GroupInSQL) // original
 		if(ctrl.icpc2_organs){
@@ -124,7 +100,7 @@ sql_app.selectICPC2ICD10 = function(parentId, ctrl){
 	"AND integer_id=s2u.string_u_id \n" +
 	"AND reference2=s10u.string_u_id " +
 	") a "
-	var icpc2GroupInSQL = ctrl.icpc2GroupInSQL()
+	var icpc2GroupInSQL = fn_icpc2GroupInSQL(ctrl)
 //	console.log(sql, '\n-- :) --\n', icpc2GroupInSQL)
 	return sql + icpc2GroupInSQL
 //	return sql

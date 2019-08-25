@@ -44,7 +44,33 @@ var initApp = function($scope, $http, ctrl){
 	}
 }
 
-var readICPC2_MCRDB2 = function(ctrl){
+//ctrl.icpc2GroupInSQL = function(){
+var fn_icpc2GroupInSQL = function(ctrl){
+	var icpc2GroupInSQL = ""
+	if(ctrl.db_icpc2){
+		if(ctrl.db_icpc2.clickColor){
+//				console.log(ctrl.db_icpc2.clickColor)
+			if('green' == ctrl.db_icpc2.clickColor){
+				icpc2GroupInSQL = " icpc2int<30 "
+			}else if('diagnosis' == ctrl.db_icpc2.clickColor){
+				icpc2GroupInSQL = " icpc2int>69 "
+			}else{
+				icpc2GroupInSQL = " icpc2 IN " + 
+				ctrl.listToInSQL(ctrl.db_icpc2.color[ctrl.db_icpc2.clickColor].codeList)
+			}
+		}
+		if(ctrl.db_icpc2.clickOrgan){
+			if(icpc2GroupInSQL.length>0) icpc2GroupInSQL += " AND "
+				icpc2GroupInSQL += " SUBSTRING(icpc2,0,2)='" + ctrl.db_icpc2.clickOrgan + "'"
+		}
+		if(icpc2GroupInSQL.length>0)
+			icpc2GroupInSQL = " WHERE " + icpc2GroupInSQL
+//			console.log(icpc2GroupInSQL)
+	}
+	return icpc2GroupInSQL
+}
+
+var readICPC2_MCRDB3 = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287135"
 	readSql({ sql:sql, afterRead:function(response){
 		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
@@ -58,7 +84,36 @@ var readICPC2_MCRDB2 = function(ctrl){
 			})
 		})
 //		console.log(ctrl.elementsMap)
+		ctrl.click_icpc2_color = function(kc){
+		console.log(kc)
+			if(ctrl.db_icpc2.clickColor == kc){
+				delete ctrl.db_icpc2.clickColor
+				delete ctrl.db_icpc2.clickColorObject
+			}else{
+				ctrl.db_icpc2.clickColor = kc
+				ctrl.db_icpc2.clickColorObject = {}
+				ctrl.db_icpc2.clickColorObject[kc] = ctrl.db_icpc2.color[kc]
+			}
+			if(ctrl.readICPC2_part)
+				ctrl.readICPC2_part()
+		}
+		ctrl.click_icpc2_organ = function(kg){
+			console.log(kg, ctrl.db_icpc2.group[kg])
+			if(ctrl.db_icpc2.clickOrgan == kg){
+				delete ctrl.db_icpc2.clickOrgan
+				delete ctrl.db_icpc2.clickOrganObject
+			}else{
+				ctrl.db_icpc2.clickOrgan = kg
+				ctrl.db_icpc2.clickOrganObject = {}
+				ctrl.db_icpc2.clickOrganObject[kg] = ctrl.db_icpc2.group[kg]
+				if(ctrl.readICPC2_part)
+					ctrl.readICPC2_part()
+			}
+		}
 	}})
+}
+var readICPC2_MCRDB2 = function(ctrl){
+	readICPC2_MCRDB3(ctrl)
 	ctrl.click_icpc2_organs_sort = function(k){
 //		console.log(k, ctrl.icpc2_organs.sort)
 		var ascDesc = ctrl.icpc2_organs.sort.substring(0,1)
@@ -88,31 +143,7 @@ var readICPC2_MCRDB2 = function(ctrl){
 			ctrl.read_icpc2_organs()
 		}
 	}
-	ctrl.click_icpc2_organ = function(kg){
-		console.log(kg, ctrl.db_icpc2.group[kg])
-		if(ctrl.db_icpc2.clickOrgan == kg){
-			delete ctrl.db_icpc2.clickOrgan
-			delete ctrl.db_icpc2.clickOrganObject
-		}else{
-			ctrl.db_icpc2.clickOrgan = kg
-			ctrl.db_icpc2.clickOrganObject = {}
-			ctrl.db_icpc2.clickOrganObject[kg] = ctrl.db_icpc2.group[kg]
-			if(ctrl.readICPC2_part)
-				ctrl.readICPC2_part()
-		}
-	}
-	ctrl.click_icpc2_color = function(kc){
-		if(ctrl.db_icpc2.clickColor == kc){
-			delete ctrl.db_icpc2.clickColor
-			delete ctrl.db_icpc2.clickColorObject
-		}else{
-			ctrl.db_icpc2.clickColor = kc
-			ctrl.db_icpc2.clickColorObject = {}
-			ctrl.db_icpc2.clickColorObject[kc] = ctrl.db_icpc2.color[kc]
-		}
-		if(ctrl.readICPC2_part)
-			ctrl.readICPC2_part()
-	}
+
 	ctrl.clickItem_ICD10_with_ICPC2 = function(icd10){
 		ctrl.item_ICD10 = icd10
 		if(!ctrl.icd10_with_ICPC2){

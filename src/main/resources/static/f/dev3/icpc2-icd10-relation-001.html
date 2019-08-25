@@ -51,17 +51,7 @@
 				</div>
 			</div>
 			<div class="w3-half w3-container">
-				-*-<span class="w3-border w3-padding-small w3-tiny"
-					data-ng-if="ctrl.db_icpc2.clickColor"> > <span
-					data-ng-repeat="(kc,vc) in ctrl.db_icpc2.clickColorObject"
-					data-ng-include="'/f/dev3/icpc2-db-color-element.html'"> </span>
-				</span> <span class="w3-border w3-padding-small w3-tiny"
-					data-ng-if="ctrl.db_icpc2.clickOrgan"> > <span
-					data-ng-repeat="(kg,vg) in ctrl.db_icpc2.clickOrganObject"
-					data-ng-include="'/f/dev3/icpc2-db-organ-element.html'"> </span>
-					&nbsp;
-					{{ctrl.db_icpc2.clickOrganObject[ctrl.db_icpc2.clickOrgan].i18n}}
-				</span>
+				<div data-ng-include="'/f/dev4/select-filter.html'"></div>
 				<div>
 					<div class="w3-border" data-ng-if="ctrl.eICPC2ICD10relationTable">
 						> <span data-ng-repeat="e in [ctrl.eICPC2ICD10relationTable]"
