@@ -39,24 +39,19 @@
 								data-ng-click="ctrl.click_icpc2_count_sort('cnt')"
 								class="w3-hover-shadow w3-right">cnt</span>
 						</div>
-						<div class="w3-half w3-center">Протоколи</div>
+						<div class="w3-half w3-center w3-border-left">Протоколи</div>
 					</div>
-					<div data-ng-repeat="i2d in ctrl.icpc2duodecims"
+					<div data-ng-repeat="i2d in [ctrl.clickedI2d]"
+						data-ng-if="i2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2"
 						data-ng-init="icpc2Code=i2d.icpc2;e=i2d">
-						<div class="w3-row w3-hover-shadow"
-							data-ng-click="ctrl.clickICPC2Duodecim(i2d)">
-							<div class="w3-half ">
-								<span data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span>
-								{{i2d.icpc2}} - {{i2d.i18n}} <span class="w3-right"
-									data-ng-if="i2d.count>1"> ({{i2d.count}}) &nbsp; </span>
-							</div>
-							<div class="w3-half">
-								{{i2d.min}} <span data-ng-if="i2d.min!=i2d.max"> -
-									{{i2d.max}} </span>
-							</div>
+						<div data-ng-include="'/f/dev4/icpc2duodecim_row.html'"></div>
+						<div data-ng-include="'/f/dev4/icpc2DuodecimIcpc2.html'"></div>
+					</div>
+					<div style="max-height: 400px; overflow: auto;">
+						<div data-ng-repeat="i2d in ctrl.icpc2duodecims"
+							data-ng-init="icpc2Code=i2d.icpc2;e=i2d">
+							<div data-ng-include="'/f/dev4/icpc2duodecim_row.html'"></div>
 						</div>
-						<div data-ng-if="ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2"
-							data-ng-include="'/f/dev4/icpc2DuodecimIcpc2.html'"></div>
 					</div>
 				</div>
 				<div class="w3-third w3-border-left">
