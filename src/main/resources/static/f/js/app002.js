@@ -42,6 +42,29 @@ var initApp = function($scope, $http, ctrl){
 //		console.log(list, inIcpc2)
 		return inIcpc2
 	}
+	
+	ctrl.edProtocol = {}
+	ctrl.edProtocol.saveName = function(){
+		console.log(this)
+	}
+	ctrl.edProtocol.edName = function(o){
+		if(ctrl.edProtocol.o == o){
+			delete ctrl.edProtocol.o
+		}else{
+			ctrl.edProtocol.o = o
+		}
+		console.log(ctrl.edProtocol.o, o)
+	}
+	
+	ctrl.random = {}
+	ctrl.random.edProtocol = {}
+	ctrl.random.edProtocol.diapason = 7
+	ctrl.random.home2 = {}
+	ctrl.random.home2.diapason = 2
+	ctrl.random.newValue = function(name){this[name].value = getRandomInt(this[name].diapason)}
+	angular.forEach(ctrl.random, function(v,k){ ctrl.random.newValue(k)})
+	console.log(ctrl.random)
+
 }
 
 //ctrl.icpc2GroupInSQL = function(){
@@ -672,5 +695,9 @@ function read_i18_ua_of_doc(ctrl, rootId) {
 			})
 		}
 	})
+}
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * Math.floor(max));
 }
 

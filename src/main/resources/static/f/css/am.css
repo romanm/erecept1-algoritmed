@@ -16,6 +16,14 @@ table.am-amk025-table {
 }
 
 @media print {
+	@page {
+		size: A4; 
+		/* DIN A4 standard, Europe 
+		margin: 0;
+		*/
+		margin-right: 0;
+		margin-left: 2em;
+	}
 	.am-no-print, .am-no-print * {
 		display: none !important;
 	}

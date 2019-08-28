@@ -1,0 +1,32 @@
+<span class="w3-dropdown-hover"> <span
+	data-ng-mouseover="ctrl.random.newValue('edProtocol')">
+		{{l.embname}} </span>
+	<div class="w3-dropdown-content w3-card">
+		<div class="w3-hover-shadow">
+			<a href="#"> <span
+				data-ng-repeat="rnd in [ctrl.random.edProtocol.value]"
+				data-ng-switch="rnd"> <i data-ng-switch-when="0"
+					class="fas fa-edit"></i> <i data-ng-switch-when="1"
+					class="far fa-edit"></i> <i data-ng-switch-when="2"
+					class="fas fa-file-word"></i><i data-ng-switch-when="3"
+					class="far fa-file-word"></i><i data-ng-switch-when="4"
+					class="fas fa-pen"></i><i data-ng-switch-when="5"
+					class="fas fa-pen-alt"></i><i data-ng-switch-when="6"
+					class="fas fa-pen-fancy"></i>
+			</span> {{l.embname}}
+			</a>
+		</div>
+		<div class="w3-hover-shadow">
+			<a href="#" data-ng-click="ctrl.edProtocol.edName(l)"> <span>
+					<i class="fas fa-heading"></i>азва
+			</span>
+			</a>
+		</div>
+		<div class="w3-hover-shadow">
+			<a target="_blank"
+				href="http://guidelines.moz.gov.ua/documents/2918?id={{l.embname}}">
+				<i class="fas fa-external-link-alt"></i> {{l.embname}}
+			</a>
+		</div>
+	</div>
+</span>
