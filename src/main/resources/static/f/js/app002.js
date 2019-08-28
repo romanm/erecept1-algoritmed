@@ -23,7 +23,6 @@ var initApp = function($scope, $http, ctrl){
 			then_fn : then_fn,
 			error_fn : params.error_fn,
 	}	}
-
 	ctrl.i18_name = function(tE){
 		if(ctrl.i18[tE.doc_id])
 			return ctrl.i18[tE.doc_id].value
@@ -45,7 +44,23 @@ var initApp = function($scope, $http, ctrl){
 	
 	ctrl.edProtocol = {}
 	ctrl.edProtocol.saveName = function(){
-		console.log(this)
+		if(ctrl.edProtocol.o.protocol_name_id){
+			ctrl.edProtocol.o.sql ="" +
+			"UPDATE string SET value = :protocol_name WHERE string_id=:protocol_name_id;"
+			replaceParams(ctrl.edProtocol.o)
+			writeSql({sql : ctrl.edProtocol.o.sql, dataAfterSave:function(response){
+				console.log(response.data)
+			}})
+		}else{
+			ctrl.edProtocol.o.sql = "" +
+			"INSERT INTO doc (reference, parent, doc_id) VALUES (285578, :protocol_id, :nextDbId1); \n"+
+			"INSERT INTO string (string_id, value) VALUES (:nextDbId1, :protocol_name); \n"
+			replaceParams(ctrl.edProtocol.o)
+			console.log(ctrl.edProtocol)
+			writeSql({sql : ctrl.edProtocol.o.sql, dataAfterSave:function(response){
+				console.log(response.data)
+			}})
+		}
 	}
 	ctrl.edProtocol.edName = function(o){
 		if(ctrl.edProtocol.o == o){
@@ -55,7 +70,7 @@ var initApp = function($scope, $http, ctrl){
 		}
 		console.log(ctrl.edProtocol.o, o)
 	}
-	
+
 	ctrl.random = {}
 	ctrl.random.edProtocol = {}
 	ctrl.random.edProtocol.diapason = 7

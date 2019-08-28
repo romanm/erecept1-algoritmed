@@ -13,14 +13,16 @@
 			<div class="am-b">duodecim</div>
 			<div data-ng-repeat="l in ctrl.clickedI2dList">
 				<span data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
-				<div class="w3-card" data-ng-if="ctrl.edProtocol.o.embname == l.embname">
+				{{l.protocol_name}}
+				<div class="w3-card"
+					data-ng-if="ctrl.edProtocol.o.embname == l.embname">
 					<span class="w3-right w3-btn w3-padding-small"
-						data-ng-click="ctrl.edProtocol.edName(l)">x</span> <span>
-						<i class="fas fa-heading"></i>азва протоколу
+						data-ng-click="ctrl.edProtocol.edName(l)">x</span> <span> <i
+						class="fas fa-heading"></i>азва протоколу
 					</span>
 					<div>
 						<textarea class="w3-border am-width-100pr"
-							data-ng-model="ctrl.edProtocol.o.nameValue"></textarea>
+							data-ng-model="ctrl.edProtocol.o.protocol_name"></textarea>
 					</div>
 					<button data-ng-click="ctrl.edProtocol.saveName()" class="w3-btn">OK</button>
 				</div>

@@ -19,7 +19,7 @@ sql_app.read_ICPC2_i18n = function(){ return "" +
 }
 
 sql_app.read_ICPC2_duodecim_all = "" +
-"SELECT d1.doc_id protocol_id, d2.*, s0.value embname, s2.value icpc2, i2.value icpc2int  \n" +
+"SELECT d1.parent protocol_id, d2.*, s0.value embname, s2.value icpc2, i2.value icpc2int \n" +
 "FROM doc d1, doc d2, integer i2, string_u s2, string_u s0 \n" +
 "WHERE d1.doc_id=d2.parent \n" +
 "AND d1.reference = 352331 \n" +
@@ -78,16 +78,15 @@ var readDuodecimIcpc2_001 = function(ctrl){
 
 var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 	console.log(sql)
-	var sql2 = "SELECT * FROM (SELECT reference, count(*), min(icpc2) icpc2 FROM (" +
-	"SELECT * FROM (" +
-	sql_app.read_ICPC2_duodecim_all  +
-	") a WHERE protocol_id in (SELECT protocol_id FROM (" +
-	sql +
-	")a)" +
-	") a GROUP BY reference " +
+	var sql2 = "" +
+	"SELECT * FROM (SELECT reference, count(*), min(icpc2) icpc2 " +
+	"FROM (SELECT * FROM (" + sql_app.read_ICPC2_duodecim_all +") a " +
+	"WHERE protocol_id IN (SELECT protocol_id " +
+	"FROM (" + sql + ")a)) a " +
+	"GROUP BY reference " +
 	")a, (" + sql_app.read_ICPC2_i18n() + ") b \n" +
 	"WHERE a.reference=icpc2_id " +
-	"ORDER BY icpc2"
+	"ORDER BY icpc2 "
 	console.log(sql2)
 	readSql({ sql:sql2, afterRead:function(r){
 		console.log(r.data.list)
@@ -95,10 +94,17 @@ var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 	}})
 }
 
+sql_app.read_ICPC2_duodecim_protocol_name = "" +
+"SELECT d.parent, doc_id protocol_name_id, value protocol_name \n" +
+"FROM doc d, string " +
+"WHERE doc_id=string_id AND reference= 285578 "
+
 var readAllDuodecimForIcpc2_001 = function(ctrl){
-	var sql = "SELECT * FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + ") a \n"
+	var sql = "SELECT * FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + 
+	") a LEFT JOIN (" + sql_app.read_ICPC2_duodecim_protocol_name +
+	") d3 ON d3.parent = a.protocol_id \n"
 	if(ctrl.clickedI2d){
-		sql += "WHERE reference = " + ctrl.clickedI2d.ref_icpc2
+		sql += "WHERE a.reference = " + ctrl.clickedI2d.ref_icpc2
 	}
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data.list)
@@ -106,3 +112,4 @@ var readAllDuodecimForIcpc2_001 = function(ctrl){
 	}})
 	return sql
 }
+
