@@ -8,10 +8,11 @@ app.controller('AppCtrl', function($scope, $http) {
 		readDuodecimIcpc2_002(ctrl)
 	}
 	ctrl.readICPC2_part = function(){
-		console.log(123)
 		readDuodecimIcpc2_002(ctrl)
 	}
 	readICPC2_MCRDB3(ctrl)
+	readDuodecim_name_count(ctrl)
+	readDuodecim_name_list(ctrl)
 })
 
 sql_app.read_ICPC2_i18n = function(){ return "" +
@@ -19,7 +20,7 @@ sql_app.read_ICPC2_i18n = function(){ return "" +
 }
 
 sql_app.read_ICPC2_duodecim_all = "" +
-"SELECT d1.parent protocol_id, d2.*, s0.value embname, s2.value icpc2, i2.value icpc2int \n" +
+"SELECT d1.parent protocol_id, d2.*, s0.value ebmname, s2.value icpc2, i2.value icpc2int \n" +
 "FROM doc d1, doc d2, integer i2, string_u s2, string_u s0 \n" +
 "WHERE d1.doc_id=d2.parent \n" +
 "AND d1.reference = 352331 \n" +
@@ -41,7 +42,7 @@ sql_app.read_ICPC2_in_duodecim = function(ctrl){
 
 sql_app.read_duodecimIcpc2 = function(ctrl){ 
 	var sql = "SELECT a.*, i18n FROM ( \n" +
-	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(embname), MAX(embname) FROM ( \n" +
+	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname) FROM ( \n" +
 	sql_app.read_ICPC2_in_duodecim(ctrl) +
 	") a GROUP BY icpc2 \n" +
 	") a, (" + sql_app.read_ICPC2_i18n() +") b \n" +
@@ -98,6 +99,37 @@ sql_app.read_ICPC2_duodecim_protocol_name = "" +
 "SELECT d.parent, doc_id protocol_name_id, value protocol_name \n" +
 "FROM doc d, string " +
 "WHERE doc_id=string_id AND reference= 285578 "
+
+sql_app.read_ICPC2_duodecim_protocol_name002 = "" +
+"SELECT a.*, b.doc_id protocol_name_id, protocol_name" +
+", CASE WHEN b.doc_id IS NULL THEN 0 ELSE 1 END with_name FROM ( \n" +
+"SELECT doc_id protocol_id, value ebmname " +
+"FROM doc, string_u WHERE string_u_id=doc_id AND parent= 285581 \n" +
+") a LEFT JOIN (SELECT d.*, value protocol_name FROM doc d,string " +
+"WHERE string_id=doc_id AND reference= 285578 ) b ON b.parent=a.protocol_id \n"
+
+var readDuodecim_name_list = function(ctrl){
+	var sql = "" +
+	"SELECT * FROM (" +
+	sql_app.read_ICPC2_duodecim_protocol_name002 +
+	") a WHERE with_name=1 \n" +
+	" LIMIT 100"
+	console.log(sql)
+	readSql({ sql:sql, afterRead:function(r){
+		console.log(r.data.list)
+		ctrl.duodecim_name_list = r.data.list
+	}})
+	
+}
+var readDuodecim_name_count = function(ctrl){
+	var sql = "" +
+	"SELECT with_name, COUNT(with_name) FROM ( \n" +
+	sql_app.read_ICPC2_duodecim_protocol_name002 +
+	") a GROUP BY with_name "
+	readSql({ sql:sql, afterRead:function(r){
+		ctrl.duodecim_name_count = r.data.list
+	}})
+}
 
 var readAllDuodecimForIcpc2_001 = function(ctrl){
 	var sql = "SELECT * FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + 

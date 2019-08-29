@@ -59,9 +59,9 @@ var calcProtocolNumbers = function(ctrl){
 }
 
 var insertembNrsICPC2 = function(ctrl){
-	var sql = "SELECT a.*, d1.doc_id icpc2_id FROM (SELECT d.*, value embname FROM string_u, doc d " +
+	var sql = "SELECT a.*, d1.doc_id icpc2_id FROM (SELECT d.*, value ebmname FROM string_u, doc d " +
 	"WHERE doc_id=string_u_id AND d.parent = 285581) a \n" +
-	"LEFT JOIN (SELECT * FROM doc WHERE reference= 352331) d1 ON d1.parent = a.doc_id ORDER BY embname"
+	"LEFT JOIN (SELECT * FROM doc WHERE reference= 352331) d1 ON d1.parent = a.doc_id ORDER BY ebmname"
 	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data)
@@ -69,12 +69,12 @@ var insertembNrsICPC2 = function(ctrl){
 		angular.forEach(r.data.list, function(v){
 			if(!v.icpc2_id){
 				if(i<100){
-					var x = ctrl.embNrs[v.embname]
+					var x = ctrl.embNrs[v.ebmname]
 					var y = ctrl.listToInSQL(x)
 					console.log(v, x, y)
 					var sql2 = "SELECT * FROM doc, string_u \n" +
 					"WHERE reference=string_u_id AND parent= 285597 AND value IN " + 
-					ctrl.listToInSQL(ctrl.embNrs[v.embname])
+					ctrl.listToInSQL(ctrl.embNrs[v.ebmname])
 					var sql3 = "INSERT INTO doc (doc_id, reference, parent) " +
 					"VALUES (:nextDbId1, 352331, " + v.doc_id + "); \n"
 					readSql({ sql:sql2, afterRead:function(r2){
