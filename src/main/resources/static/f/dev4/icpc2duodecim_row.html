@@ -2,9 +2,10 @@
 	data-ng-class="{'w3-light-gray':ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2}"
 	data-ng-click="ctrl.clickICPC2Duodecim(i2d)">
 	<div class="w3-half ">
-		<span data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span>
-		 - {{i2d.i18n}} <span class="w3-right"
-			data-ng-if="i2d.count>1"> ({{i2d.count}}) &nbsp; </span>
+		<span data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> - <span
+			ng-bind-html="ctrl.highlight(i2d.i18n, ctrl.seekLogic.seek_value)"></span>
+		<span class="w3-right" data-ng-if="i2d.count>1">
+			({{i2d.count}}) &nbsp; </span>
 	</div>
 	<div class="w3-half w3-border-left">
 		{{i2d.min}} <span data-ng-if="i2d.min!=i2d.max"> - {{i2d.max}}

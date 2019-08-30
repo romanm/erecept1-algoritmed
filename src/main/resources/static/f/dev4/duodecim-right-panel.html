@@ -2,6 +2,7 @@
 	<div data-ng-repeat="l in ctrl.duodecim_name_list"
 		class="w3-hover-shadow">
 		<span class="w3-tiny" data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
-		{{l.protocol_name}}
+		<span
+			ng-bind-html="ctrl.highlight(l.protocol_name, ctrl.seekLogic.seek_value)"></span>
 	</div>
 </div>

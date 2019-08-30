@@ -1,23 +1,20 @@
-app.controller('AppCtrl', function($scope, $http) {
+app.controller('AppCtrl', function($scope, $http, $timeout) {
 	var ctrl = this
 	ctrl.page_title = 'icp2duodecim-DB'
-	initApp($scope, $http, ctrl)
+	initApp($scope, $http, ctrl, $timeout)
 	readDuodecimIcpc2_001(ctrl)
 	ctrl.click_icpc2_count_sort = function(k){
 		ctrl.icpc2_sort = k
 		readDuodecimIcpc2_002(ctrl)
 	}
-	ctrl.readICPC2_part = function(){
-		readDuodecimIcpc2_002(ctrl)
-	}
 	readICPC2_MCRDB3(ctrl)
 	readDuodecim_name_count(ctrl)
 	readDuodecim_name_list(ctrl)
+	ctrl.seekLogic.seek_engine = function(){
+		readDuodecim_name_list(ctrl)
+		readDuodecimIcpc2_002(ctrl)
+	}
 })
-
-sql_app.read_ICPC2_i18n = function(){ return "" +
-	"SELECT value i18n, reference icpc2_id FROM doc,string s where string_id=doc_id and parent= 285597"
-}
 
 sql_app.read_ICPC2_duodecim_all = "" +
 "SELECT d1.parent protocol_id, d2.*, s0.value ebmname, s2.value icpc2, i2.value icpc2int \n" +
@@ -40,18 +37,32 @@ sql_app.read_ICPC2_in_duodecim = function(ctrl){
 	return sql
 }
 
+sql_app.read_ICPC2_i18n = function(ctrl){ 
+	var sql = "" +
+	"SELECT value i18n, reference icpc2_id FROM doc,string s \n" +
+	"WHERE string_id=doc_id AND parent= 285597"
+	if(ctrl.seekLogic.seek_value){
+		console.log(ctrl.seekLogic.seek_value)
+		sql +=" AND LOWER(value) LIKE LOWER('%" +
+		ctrl.seekLogic.seek_value +
+		"%')"
+	}
+	return sql
+}
+
 sql_app.read_duodecimIcpc2 = function(ctrl){ 
 	var sql = "SELECT a.*, i18n FROM ( \n" +
 	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname) FROM ( \n" +
 	sql_app.read_ICPC2_in_duodecim(ctrl) +
 	") a GROUP BY icpc2 \n" +
-	") a, (" + sql_app.read_ICPC2_i18n() +") b \n" +
+	") a, (" + sql_app.read_ICPC2_i18n(ctrl) +") b \n" +
 	"WHERE b.icpc2_id=a.ref_icpc2 "
 	if(ctrl.icpc2_sort){
 		if('cnt'==ctrl.icpc2_sort){
 			sql += "ORDER BY count DESC"
 		}
 	}
+	console.log(sql)
 	return sql
 }
 
@@ -88,7 +99,7 @@ var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 	")a, (" + sql_app.read_ICPC2_i18n() + ") b \n" +
 	"WHERE a.reference=icpc2_id " +
 	"ORDER BY icpc2 "
-	console.log(sql2)
+//	console.log(sql2)
 	readSql({ sql:sql2, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dICPC2List = r.data.list
@@ -112,11 +123,17 @@ var readDuodecim_name_list = function(ctrl){
 	var sql = "" +
 	"SELECT * FROM (" +
 	sql_app.read_ICPC2_duodecim_protocol_name002 +
-	") a WHERE with_name=1 \n" +
-	" LIMIT 100"
-	console.log(sql)
+	") a WHERE with_name=1 \n"
+	if(ctrl.seekLogic.seek_value){
+		console.log(ctrl.seekLogic.seek_value)
+		sql +=" AND LOWER(protocol_name) LIKE LOWER('%" +
+		ctrl.seekLogic.seek_value +
+		"%')"
+	}
+	sql +=" LIMIT 100"
+//	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
-		console.log(r.data.list)
+//		console.log(r.data.list)
 		ctrl.duodecim_name_list = r.data.list
 	}})
 	

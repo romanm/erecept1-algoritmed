@@ -2,7 +2,7 @@ var app = angular.module('myApp', ['ngSanitize']);
 var conf = {dataModelList : {}}
 var exe_fn = {}
 var sql_app = {}
-var initApp = function($scope, $http, ctrl){
+var initApp = function($scope, $http, ctrl, $timeout){
 	ctrl.i18 = {}
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap
@@ -80,6 +80,27 @@ var initApp = function($scope, $http, ctrl){
 	angular.forEach(ctrl.random, function(v,k){ ctrl.random.newValue(k)})
 	console.log(ctrl.random)
 
+	initSeekLogic(ctrl, $timeout)
+
+}
+
+var initSeekLogic = function(ctrl, $timeout){
+	var _timeout_of_seek
+	ctrl.seekLogic = {}
+	ctrl.seekLogic.seek_value
+	ctrl.seekLogic.seek_fn = function(){
+		if(_timeout_of_seek) $timeout.cancel(_timeout_of_seek);
+		_timeout_of_seek = $timeout(function() {
+			console.log(ctrl.seekLogic.seek_value)
+			if(ctrl.seekLogic.seek_engine)
+				ctrl.seekLogic.seek_engine()
+		}, 1000)
+	}
+	ctrl.highlight = function(text, search){
+		if (!text) return
+		if (!search) return text;
+		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
+	}
 }
 
 //ctrl.icpc2GroupInSQL = function(){
@@ -112,8 +133,8 @@ var readICPC2_MCRDB3 = function(ctrl){
 	var sql = "SELECT * FROM docbody where docbody_id=287135"
 	readSql({ sql:sql, afterRead:function(response){
 		ctrl.db_icpc2 = JSON.parse(response.data.list[0].docbody.replace(/''/g,"'"))
-		console.log(Object.keys(ctrl.db_icpc2.group))
-		console.log(ctrl.db_icpc2)
+//		console.log(Object.keys(ctrl.db_icpc2.group))
+//		console.log(ctrl.db_icpc2)
 		ctrl.db_icpc2.groupKeys = Object.keys(ctrl.db_icpc2.group)
 		angular.forEach(ctrl.db_icpc2.group, function(v,k){
 			ctrl.elementsMap[v.doc_id] = v
@@ -132,8 +153,9 @@ var readICPC2_MCRDB3 = function(ctrl){
 				ctrl.db_icpc2.clickColorObject = {}
 				ctrl.db_icpc2.clickColorObject[kc] = ctrl.db_icpc2.color[kc]
 			}
-			if(ctrl.readICPC2_part)
-				ctrl.readICPC2_part()
+			if(ctrl.seekLogic.seek_engine)
+				ctrl.seekLogic.seek_engine()
+
 		}
 		ctrl.click_icpc2_organ = function(kg){
 			console.log(kg, ctrl.db_icpc2.group[kg])
@@ -144,9 +166,9 @@ var readICPC2_MCRDB3 = function(ctrl){
 				ctrl.db_icpc2.clickOrgan = kg
 				ctrl.db_icpc2.clickOrganObject = {}
 				ctrl.db_icpc2.clickOrganObject[kg] = ctrl.db_icpc2.group[kg]
-				if(ctrl.readICPC2_part)
-					ctrl.readICPC2_part()
 			}
+			if(ctrl.seekLogic.seek_engine)
+				ctrl.seekLogic.seek_engine()
 		}
 	}})
 }

@@ -13,7 +13,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 			") x WHERE LOWER(i18n) LIKE LOWER(:seek) " +
 			"OR LOWER(code) LIKE LOWER(:seek) " +
 			"ORDER BY treelevel desc, parent, sort")
-			.replace(/:seek/g,"'" + seek + "'") 
+			.replace(/:seek/g,"'" + seek + "'")
 			console.log(sql)
 			var sql1 = sql + " LIMIT 100"
 			readSql({ sql:sql1, afterRead:function(response){

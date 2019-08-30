@@ -18,15 +18,18 @@
 </head>
 <body class="w3-container">
 	<div class="am-max-width-1 w3-card">
-		<div class="w3-container w3-small am-no-print">
+		<div class="w3-container w3-small am-no-print w3-display-container">
 			<span data-ng-include="'/f/home-link.html'"></span> <span
 				data-ng-include="'/f/dev4/top-menu1.html'"></span>
 		</div>
 		<div class="w3-center w3-border-bottom1">
-		Пошук: <input class="w3-border"> 
+			Пошук: <input class="w3-border"
+			data-ng-change="ctrl.seekLogic.seek_fn()"
+			data-ng-model="ctrl.seekLogic.seek_value"
+			>
 		</div>
 		<div class="w3-container">
-		<!-- 
+			<!-- 
 			<div data-ng-include="'/f/dev3/icpc2-db-group-color.html'"></div>
 		 -->
 			<div class="w3-row">
@@ -55,9 +58,11 @@
 					</div>
 				</div>
 				<div class="w3-third w3-border-left am-no-print">
-					<div class="w3-container">
-						 ICPC2
+					<div class="w3-container w3-small">
+						<i class="fas fa-bars"></i> <a
+							href="/f/dev3/icpc2-icd10-relation-001.html"> ICPC2-ICD10 </a>
 					</div>
+					<div class="w3-container">ICPC2</div>
 					<div data-ng-include="'/f/dev3/icpc2-db-group-color.html'"></div>
 					<div class="w3-container">
 						DUODECIM
