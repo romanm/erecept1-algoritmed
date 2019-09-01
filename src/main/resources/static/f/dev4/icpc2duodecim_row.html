@@ -7,8 +7,8 @@
 		<span class="w3-right" data-ng-if="i2d.count>1">
 			({{i2d.count}}) &nbsp; </span>
 	</div>
-	<div class="w3-half w3-border-left">
+	<div class="w3-half w3-border-left">&nbsp;
 		{{i2d.min}} <span data-ng-if="i2d.min!=i2d.max"> - {{i2d.max}}
-		</span>
+		</span> <span data-ng-if="top_bar" class="w3-right w3-hover-shadow"> x </span>
 	</div>
 </div>

@@ -25,8 +25,10 @@ sql_app.read_ICPC2_duodecim_all = "" +
 "AND d2.reference=s2.string_u_id \n" +
 "AND d2.reference=i2.integer_id \n"
 
-sql_app.read_ICPC2_in_duodecim = function(ctrl){ 
+sql_app.read_ICPC2_in_duodecim = function(ctrl, allSeek){ 
 	var sql = sql_app.read_ICPC2_duodecim_all
+	if(allSeek)
+		return sql
 	var icpc2GroupInSQL = fn_icpc2GroupInSQL(ctrl)
 	if(icpc2GroupInSQL&&icpc2GroupInSQL.length>0){
 		sql = "SELECT * FROM (" +
@@ -54,10 +56,10 @@ sql_app.read_ICPC2_i18n = function(ctrl){
 	return sql
 }
 
-sql_app.read_duodecimIcpc2 = function(ctrl){ 
+sql_app.read_duodecimIcpc2 = function(ctrl, allSeek){ 
 	var sql = "SELECT a.*, i18n FROM ( \n" +
 	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname) " +
-	"FROM ( \n" +sql_app.read_ICPC2_in_duodecim(ctrl) +") a " +
+	"FROM ( \n" +sql_app.read_ICPC2_in_duodecim(ctrl, allSeek) +") a " +
 	"GROUP BY icpc2 \n" +
 	") a, (" + sql_app.read_ICPC2_i18n(ctrl) +") b \n" +
 	"WHERE b.icpc2_id=a.ref_icpc2 "
@@ -70,25 +72,45 @@ sql_app.read_duodecimIcpc2 = function(ctrl){
 	return sql
 }
 
+var readDuodecimIcpc2_add001 = function(ctrl, ref_icpc2){
+	if(ctrl.icpc2duodecims.ref_icpc2[ref_icpc2])
+		return
+	var sql = sql_app.read_duodecimIcpc2(ctrl, true)
+	sql += "AND a.ref_icpc2=" + ref_icpc2
+	console.log(sql)
+	readSql({ sql:sql, afterRead:function(r){
+		console.log(r.data)
+		var v = r.data.list[0]
+		ctrl.icpc2duodecims.list.unshift(v)
+		ctrl.icpc2duodecims.ref_icpc2[v.ref_icpc2] = v
+	}})
+}
+
 var readDuodecimIcpc2_002 = function(ctrl){
 	var sql = sql_app.read_duodecimIcpc2(ctrl)
 	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
-		ctrl.icpc2duodecims = r.data.list
+		ctrl.icpc2duodecims = {}
+		ctrl.icpc2duodecims.ref_icpc2 = {}
+		ctrl.icpc2duodecims.list = r.data.list
 		console.log(r.data)
+		angular.forEach(ctrl.icpc2duodecims.list, function(v){
+			ctrl.icpc2duodecims.ref_icpc2[v.ref_icpc2] = v
+		})
 	}})
 }
 
 var readDuodecimIcpc2_001 = function(ctrl){
 	readDuodecimIcpc2_002(ctrl)
-	ctrl.clickICPC2Duodecim = function(i2d){
+	ctrl.clickICPC2Duodecim = function(i2d, allSeek){
 		if(ctrl.clickedI2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2){
 			delete ctrl.clickedI2d
 		}else{
 			ctrl.clickedI2d = i2d
+			readDuodecimIcpc2_add001(ctrl, i2d.ref_icpc2)
 		}
 		console.log(i2d)
-		var sql = readAllDuodecimForIcpc2_001(ctrl)
+		var sql = readAllDuodecimForIcpc2_001(ctrl, allSeek)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
 }
@@ -153,8 +175,8 @@ var readDuodecim_name_count = function(ctrl){
 	}})
 }
 
-var readAllDuodecimForIcpc2_001 = function(ctrl){
-	var sql = "SELECT a.reference ref_icpc2, a.* FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + 
+var readAllDuodecimForIcpc2_001 = function(ctrl, allSeek){
+	var sql = "SELECT a.reference ref_icpc2, a.*, protocol_name FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl, allSeek) + 
 	") a LEFT JOIN (" + sql_app.read_ICPC2_duodecim_protocol_name +
 	") d3 ON d3.parent = a.protocol_id \n"
 	if(ctrl.clickedI2d){
