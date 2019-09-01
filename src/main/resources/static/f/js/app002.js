@@ -90,6 +90,9 @@ var initSeekLogic = function(ctrl, $timeout){
 	var _timeout_of_seek
 	ctrl.seekLogic = {}
 	ctrl.seekLogic.seek_value
+	ctrl.seekLogic.seek_remove = function(){
+		delete ctrl.seekLogic.seek_value
+	}
 	ctrl.seekLogic.seek_fn = function(){
 		if(_timeout_of_seek) $timeout.cancel(_timeout_of_seek);
 		_timeout_of_seek = $timeout(function() {

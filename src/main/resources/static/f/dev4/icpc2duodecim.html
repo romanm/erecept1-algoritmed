@@ -30,9 +30,6 @@
 			>
 		</div>
 		<div class="w3-container">
-			<!-- 
-			<div data-ng-include="'/f/dev3/icpc2-db-group-color.html'"></div>
-		 -->
 			<div class="w3-row">
 				<div class="w3-twothird w3-border-top1">
 					<div data-ng-include="'/f/dev4/select-filter.html'"></div>
@@ -45,13 +42,16 @@
 						</div>
 						<div class="w3-half w3-center w3-border-left">Протоколи</div>
 					</div>
+
 					<div data-ng-repeat="i2d in [ctrl.clickedI2d]"
 						data-ng-if="i2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2"
 						data-ng-init="icpc2Code=i2d.icpc2;e=i2d">
 						<div data-ng-include="'/f/dev4/icpc2duodecim_row.html'"></div>
 						<div data-ng-include="'/f/dev4/icpc2DuodecimIcpc2.html'"></div>
 					</div>
-					<div style="max-height: 400px; overflow: auto;">
+					
+					<div 
+					data-ng-style="{'max-height':!ctrl.clickedI2d?'84vh':'38vh', 'overflow':'auto'}">
 						<div data-ng-repeat="i2d in ctrl.icpc2duodecims"
 							data-ng-init="icpc2Code=i2d.icpc2;e=i2d">
 							<div data-ng-include="'/f/dev4/icpc2duodecim_row.html'"></div>

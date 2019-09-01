@@ -37,10 +37,14 @@ sql_app.read_ICPC2_in_duodecim = function(ctrl){
 	return sql
 }
 
-sql_app.read_ICPC2_i18n = function(ctrl){ 
+sql_app.read_ICPC2_i18n_without_seek = function(ctrl){ 
 	var sql = "" +
 	"SELECT value i18n, reference icpc2_id FROM doc,string s \n" +
 	"WHERE string_id=doc_id AND parent= 285597"
+	return sql
+}
+sql_app.read_ICPC2_i18n = function(ctrl){ 
+	var sql = sql_app.read_ICPC2_i18n_without_seek(ctrl)
 	if(ctrl.seekLogic.seek_value){
 		console.log(ctrl.seekLogic.seek_value)
 		sql +=" AND LOWER(value) LIKE LOWER('%" +
@@ -97,7 +101,7 @@ var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 	"WHERE protocol_id IN (SELECT protocol_id " +
 	"FROM (" + sql + ")a)) a " +
 	"GROUP BY reference " +
-	")a, (" + sql_app.read_ICPC2_i18n(ctrl) + ") b \n" +
+	")a, (" + sql_app.read_ICPC2_i18n_without_seek(ctrl) + ") b \n" +
 	"WHERE a.reference=icpc2_id " +
 	"ORDER BY icpc2 "
 	console.log(sql2)

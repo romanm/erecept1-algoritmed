@@ -1,32 +1,41 @@
 <div class="w3-card">
 	<div class="w3-row">
 		<div class="w3-half">
-			<div class="am-b">ICPC2</div>
-			<div data-ng-repeat="l in ctrl.clickedI2dICPC2List"
-			class="w3-hover-shadow"
-			data-ng-click="ctrl.clickICPC2Duodecim(l)"
-				data-ng-init="e=l">
-				<span class="w3-tiny"
-					data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> -
-				{{l.i18n}}
+			<div class="am-b w3-border-bottom w3-border-right"
+			>ICPC2</div>
+			<div style="max-height: 40vh; overflow: auto;"
+			class="w3-border-right"
+			>
+				<div data-ng-repeat="l in ctrl.clickedI2dICPC2List"
+					class="w3-hover-shadow" data-ng-click="ctrl.clickICPC2Duodecim(l)"
+					data-ng-init="e=l;icpc2Code=e.icpc2;">
+					<span class="w3-tiny"
+						data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> -
+					{{l.i18n}}
+				</div>
 			</div>
 		</div>
-		<div class="w3-half w3-container">
-			<div class="am-b">duodecim</div>
-			<div data-ng-repeat="l in ctrl.clickedI2dList">
-				<span data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
-				{{l.protocol_name}}
-				<div class="w3-card"
-					data-ng-if="ctrl.edProtocol.o.ebmname == l.ebmname">
-					<span class="w3-right w3-btn w3-padding-small"
-						data-ng-click="ctrl.edProtocol.edName(l)">x</span> <span> <i
-						class="fas fa-heading"></i>азва протоколу
-					</span>
-					<div>
-						<textarea class="w3-border am-width-100pr"
-							data-ng-model="ctrl.edProtocol.o.protocol_name"></textarea>
+		<div class="w3-half ">
+			<div class="w3-border-bottom">
+				<div class="am-b w3-container">duodecim</div>
+			</div>
+			<div style="height: 40vh; overflow: auto;" class="w3-container">
+				<div data-ng-repeat="l in ctrl.clickedI2dList">
+					<span data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
+					{{l.protocol_name}}
+					<div class="w3-card"
+						data-ng-if="ctrl.edProtocol.o.ebmname == l.ebmname">
+						<span class="w3-right w3-btn w3-padding-small"
+							data-ng-click="ctrl.edProtocol.edName(l)">x</span> <span>
+							<i class="fas fa-heading"></i>азва протоколу
+						</span>
+						<div>
+							<textarea class="w3-border am-width-100pr"
+								data-ng-model="ctrl.edProtocol.o.protocol_name"></textarea>
+						</div>
+						<button data-ng-click="ctrl.edProtocol.saveName()" class="w3-btn">OK</button>
 					</div>
-					<button data-ng-click="ctrl.edProtocol.saveName()" class="w3-btn">OK</button>
+					<p data-ng-if="$last">&nbsp;</p>
 				</div>
 			</div>
 		</div>

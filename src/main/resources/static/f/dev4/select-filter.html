@@ -9,5 +9,9 @@
 		data-ng-include="'/f/dev3/icpc2-db-organ-element.html'"> </span>
 		&nbsp;
 		{{ctrl.db_icpc2.clickOrganObject[ctrl.db_icpc2.clickOrgan].i18n}}
+	</span> <span class="w3-border" data-ng-if="ctrl.seekLogic.seek_value">
+		> <span
+		data-ng-click="ctrl.seekLogic.seek_remove()"
+		> {{ctrl.seekLogic.seek_value}} </span>
 	</span>
 </div>
