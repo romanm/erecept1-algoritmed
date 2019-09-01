@@ -52,9 +52,9 @@ sql_app.read_ICPC2_i18n = function(ctrl){
 
 sql_app.read_duodecimIcpc2 = function(ctrl){ 
 	var sql = "SELECT a.*, i18n FROM ( \n" +
-	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname) FROM ( \n" +
-	sql_app.read_ICPC2_in_duodecim(ctrl) +
-	") a GROUP BY icpc2 \n" +
+	"SELECT icpc2, MIN(reference) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname) " +
+	"FROM ( \n" +sql_app.read_ICPC2_in_duodecim(ctrl) +") a " +
+	"GROUP BY icpc2 \n" +
 	") a, (" + sql_app.read_ICPC2_i18n(ctrl) +") b \n" +
 	"WHERE b.icpc2_id=a.ref_icpc2 "
 	if(ctrl.icpc2_sort){
@@ -62,12 +62,13 @@ sql_app.read_duodecimIcpc2 = function(ctrl){
 			sql += "ORDER BY count DESC"
 		}
 	}
-	console.log(sql)
+//	console.log(sql)
 	return sql
 }
 
 var readDuodecimIcpc2_002 = function(ctrl){
 	var sql = sql_app.read_duodecimIcpc2(ctrl)
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.icpc2duodecims = r.data.list
 		console.log(r.data)
@@ -77,29 +78,29 @@ var readDuodecimIcpc2_002 = function(ctrl){
 var readDuodecimIcpc2_001 = function(ctrl){
 	readDuodecimIcpc2_002(ctrl)
 	ctrl.clickICPC2Duodecim = function(i2d){
-		console.log(i2d)
 		if(ctrl.clickedI2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2){
 			delete ctrl.clickedI2d
 		}else{
 			ctrl.clickedI2d = i2d
 		}
+		console.log(i2d)
 		var sql = readAllDuodecimForIcpc2_001(ctrl)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
 }
 
 var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
-	console.log(sql)
+//	console.log(sql)
 	var sql2 = "" +
-	"SELECT * FROM (SELECT reference, count(*), min(icpc2) icpc2 " +
+	"SELECT a.reference ref_icpc2, * FROM (SELECT reference, count(*), min(icpc2) icpc2 " +
 	"FROM (SELECT * FROM (" + sql_app.read_ICPC2_duodecim_all +") a " +
 	"WHERE protocol_id IN (SELECT protocol_id " +
 	"FROM (" + sql + ")a)) a " +
 	"GROUP BY reference " +
-	")a, (" + sql_app.read_ICPC2_i18n() + ") b \n" +
+	")a, (" + sql_app.read_ICPC2_i18n(ctrl) + ") b \n" +
 	"WHERE a.reference=icpc2_id " +
 	"ORDER BY icpc2 "
-//	console.log(sql2)
+	console.log(sql2)
 	readSql({ sql:sql2, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dICPC2List = r.data.list
@@ -149,12 +150,13 @@ var readDuodecim_name_count = function(ctrl){
 }
 
 var readAllDuodecimForIcpc2_001 = function(ctrl){
-	var sql = "SELECT * FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + 
+	var sql = "SELECT a.reference ref_icpc2, a.* FROM (" + sql_app.read_ICPC2_in_duodecim(ctrl) + 
 	") a LEFT JOIN (" + sql_app.read_ICPC2_duodecim_protocol_name +
 	") d3 ON d3.parent = a.protocol_id \n"
 	if(ctrl.clickedI2d){
 		sql += "WHERE a.reference = " + ctrl.clickedI2d.ref_icpc2
 	}
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dList = r.data.list

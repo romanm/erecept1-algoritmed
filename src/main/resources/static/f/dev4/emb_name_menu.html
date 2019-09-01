@@ -5,17 +5,9 @@
 	style="min-width: 200px;"
 	>
 		<div class="w3-hover-shadow">
-			<a href="#"> <span
-				data-ng-repeat="rnd in [ctrl.random.edProtocol.value]"
-				data-ng-switch="rnd"> <i data-ng-switch-when="0"
-					class="fas fa-edit"></i> <i data-ng-switch-when="1"
-					class="far fa-edit"></i> <i data-ng-switch-when="2"
-					class="fas fa-file-word"></i><i data-ng-switch-when="3"
-					class="far fa-file-word"></i><i data-ng-switch-when="4"
-					class="fas fa-pen"></i><i data-ng-switch-when="5"
-					class="fas fa-pen-alt"></i><i data-ng-switch-when="6"
-					class="fas fa-pen-fancy"></i>
-			</span> Редактор протокола
+			<a href="/f/dev5/protocol-editor.html?id={{l.protocol_id}}"> <span
+				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> Редактор
+				протокола
 			</a>
 		</div>
 		<div class="w3-hover-shadow">

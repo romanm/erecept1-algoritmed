@@ -6,6 +6,7 @@ var initApp = function($scope, $http, ctrl, $timeout){
 	ctrl.i18 = {}
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap
+	ctrl.referencesMap = {}
 	ctrl.new_obj_list = []
 	
 	build_request($scope)
@@ -59,6 +60,7 @@ var initApp = function($scope, $http, ctrl, $timeout){
 			console.log(ctrl.edProtocol)
 			writeSql({sql : ctrl.edProtocol.o.sql, dataAfterSave:function(response){
 				console.log(response.data)
+				ctrl.edProtocol.o.protocol_name_id = response.data.nextDbId1
 			}})
 		}
 	}
@@ -539,7 +541,7 @@ function replaceParams(params){
 			}
 		}
 	})
-	return params.sql
+	return params
 }
 
 var mapElement = function(element, elementsMap){
@@ -606,9 +608,11 @@ sql_app.select_doc_l8_nodes= function(){
 	sql_app.select_content_nodes() +
 	"\n) n WHERE t.doc_id=n.doc_id"
 }
-sql_app.select_content_nodes = function(){ 
-	return "SELECT doc_id, s.value d_s FROM doc d " +
-	"LEFT JOIN string s ON d.doc_id=s.string_id "
+sql_app.select_content_nodes = function(){ return "" +
+	"SELECT doc_id, s.value d_s, su.value d_su, sur.value d_sur FROM doc d \n" +
+	"LEFT JOIN string s ON d.doc_id=s.string_id \n" +
+	"LEFT JOIN string_u su ON d.doc_id=su.string_u_id \n" +
+	"LEFT JOIN string_u sur ON d.reference=sur.string_u_id "
 }
 sql_app.select_doc_id_l8 = function(){ 
 	return "SELECT doc_id FROM (" + sql_app.select_doc_l8() + ") x"
