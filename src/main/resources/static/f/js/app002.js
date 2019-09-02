@@ -129,8 +129,8 @@ var fn_icpc2GroupInSQL = function(ctrl){
 		}
 		if(icpc2GroupInSQL.length>0)
 			icpc2GroupInSQL = " WHERE " + icpc2GroupInSQL
-//			console.log(icpc2GroupInSQL)
 	}
+//	console.log(icpc2GroupInSQL)
 	return icpc2GroupInSQL
 }
 

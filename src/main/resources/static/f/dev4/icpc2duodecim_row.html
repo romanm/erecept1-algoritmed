@@ -1,6 +1,6 @@
 <div class="w3-row w3-hover-shadow"
 	data-ng-class="{'w3-light-gray':ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2}"
-	data-ng-click="ctrl.clickICPC2Duodecim(i2d)">
+	data-ng-click="ctrl.clickICPC2Duodecim(i2d, true)">
 	<div class="w3-half ">
 		<span data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> - <span
 			ng-bind-html="ctrl.highlight(i2d.i18n, ctrl.seekLogic.seek_value)"></span>
