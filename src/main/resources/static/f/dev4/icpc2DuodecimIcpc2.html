@@ -21,8 +21,8 @@
 			</div>
 			<div style="height: 40vh; overflow: auto;" class="w3-container">
 				<div data-ng-repeat="l in ctrl.clickedI2dList">
-					<span data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
-					{{l.protocol_name}}
+					<span data-ng-include="'/f/dev4/emb_name_menu.html'"></span> <span
+						ng-bind-html="ctrl.highlight(l.protocol_name, ctrl.seekLogic.seek_value)"></span>
 					<div class="w3-card"
 						data-ng-if="ctrl.edProtocol.o.ebmname == l.ebmname">
 						<span class="w3-right w3-btn w3-padding-small"
