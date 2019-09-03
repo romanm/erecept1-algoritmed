@@ -123,8 +123,12 @@ sql_app.read_duodecimIcpc2 = function(ctrl, allSeek){
 var readDuodecimIcpc2_add001 = function(ctrl, ref_icpc2){
 	if(ctrl.icpc2duodecims.ref_icpc2[ref_icpc2])
 		return
-	var sql = sql_app.read_duodecimIcpc2(ctrl, true)
-	sql += "AND a.ref_icpc2=" + ref_icpc2
+	//var sql = sql_app.read_duodecimIcpc2(ctrl, true)
+	//sql += "AND a.ref_icpc2=" + ref_icpc2
+	var sql = sql_app.read_duodecimIcpc2_003(ctrl, true)
+	sql = "SELECT * FROM (" +
+	sql +
+	") a WHERE a.ref_icpc2 ="+ref_icpc2
 	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data)
@@ -142,7 +146,7 @@ var readDuodecimIcpc2_003 = function(ctrl){
 var readDuodecimIcpc2_002 = function(ctrl){
 	var sql = sql_app.read_duodecimIcpc2_003(ctrl)
 	//var sql = sql_app.read_duodecimIcpc2(ctrl)
-//	console.log(sql)
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.icpc2duodecims = {}
 		ctrl.icpc2duodecims.ref_icpc2 = {}
@@ -164,7 +168,8 @@ var readDuodecimIcpc2_001 = function(ctrl){
 			readDuodecimIcpc2_add001(ctrl, i2d.ref_icpc2)
 		}
 		console.log(i2d)
-		var sql = readAllDuodecimForIcpc2_001(ctrl, allSeek)
+		var sql = readAllDuodecimForIcpc2_003(ctrl, allSeek)
+		//var sql = readAllDuodecimForIcpc2_001(ctrl, allSeek)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
 }
@@ -227,6 +232,26 @@ var readDuodecim_name_count = function(ctrl){
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.duodecim_name_count = r.data.list
 	}})
+}
+
+var readAllDuodecimForIcpc2_003 = function(ctrl, allSeek){
+	var sql = "" +
+	"SELECT a.*, a.reference ref_icpc2, su2.value ebmname, protocol_name, su1.value icpc2, i1.value icpc2int \n" +
+	"FROM string_u su1, integer i1, string_u su2, ( \n" +
+	"SELECT d1.*, d2.parent protocol_id FROM \n" +
+	"doc d1 , doc d2 \n" +
+	"WHERE d1.parent=d2.doc_id \n" +
+	") a LEFT JOIN (SELECT d.parent, doc_id protocol_name_id, value protocol_name \n" +
+	"FROM doc d, string WHERE doc_id=string_id AND reference= 285578 ) d3 ON d3.parent = a.protocol_id \n" +
+	"WHERE su1.string_u_id=a.reference AND i1.integer_id=a.reference \n" +
+	"AND su2.string_u_id=a.protocol_id \n" +
+	"AND reference=" + ctrl.clickedI2d.ref_icpc2
+	console.log(sql)
+	readSql({ sql:sql, afterRead:function(r){
+		console.log(r.data.list)
+		ctrl.clickedI2dList = r.data.list
+	}})
+	return sql
 }
 
 var readAllDuodecimForIcpc2_001 = function(ctrl, allSeek){

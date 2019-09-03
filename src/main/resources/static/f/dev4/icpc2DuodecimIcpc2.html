@@ -1,17 +1,16 @@
 <div class="w3-card">
 	<div class="w3-row">
 		<div class="w3-half">
-			<div class="am-b w3-border-bottom w3-border-right"
-			>ICPC2</div>
+			<div class="am-b w3-border-bottom w3-border-right">ICPC2</div>
 			<div style="max-height: 40vh; overflow: auto;"
-			class="w3-border-right"
-			>
+				class="w3-border-right">
 				<div data-ng-repeat="l in ctrl.clickedI2dICPC2List"
-					class="w3-hover-shadow" data-ng-click="ctrl.clickICPC2Duodecim(l, true)"
+					class="w3-hover-shadow"
+					data-ng-click="ctrl.clickICPC2Duodecim(l, true)"
 					data-ng-init="e=l;icpc2Code=e.icpc2;">
 					<span class="w3-tiny"
-						data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> -
-					{{l.i18n}}
+						data-ng-include="'/f/dev3/icpc2-code-colored.html'"></span> - <span
+						ng-bind-html="ctrl.highlight(l.i18n, ctrl.seekLogic.seek_value)"></span>
 				</div>
 			</div>
 		</div>
