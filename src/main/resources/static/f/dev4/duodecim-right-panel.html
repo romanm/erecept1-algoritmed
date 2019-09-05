@@ -1,12 +1,8 @@
-<div class="w3-container"
-style="max-height: 68vh; overflow: auto;"
->
-	<div data-ng-repeat="l in ctrl.duodecim_name_list"
-		class="w3-hover-shadow">
+<div class="w3-container" style="max-height: 68vh; overflow: auto;">
+	<div data-ng-repeat="l in ctrl.duodecim_name_list">
 		<span class="w3-tiny" data-ng-include="'/f/dev4/emb_name_menu.html'"></span>
-		<span
+		<span data-ng-click="ctrl.clickDuodecim(l)" class="w3-hover-shadow"
 			ng-bind-html="ctrl.highlight(l.protocol_name, ctrl.seekLogic.seek_value)"></span>
 	</div>
-	<p>&nbsp;
-	</p>
+	<p>&nbsp;</p>
 </div>
