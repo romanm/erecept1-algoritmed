@@ -2,12 +2,12 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	var ctrl = this
 	ctrl.page_title = 'icp2duodecim-DB'
 	initApp($scope, $http, ctrl, $timeout)
-	
+
 	readDuodecimIcpc2_002(ctrl)
 	readICPC2_MCRDB3(ctrl)
 	readDuodecim_name_count(ctrl)
 	readDuodecim_name_list(ctrl)
-	
+
 	ctrl.click_icpc2_count_sort = function(k){
 		ctrl.icpc2_sort = k
 		readDuodecimIcpc2_002(ctrl)
@@ -16,23 +16,25 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 		readDuodecim_name_list(ctrl)
 		readDuodecimIcpc2_002(ctrl)
 	}
+
 	ctrl.clickICPC2Duodecim = function(i2d, allSeek){
 		if(ctrl.clickedI2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2){
 			delete ctrl.clickedI2d
 		}else{
 			ctrl.clickedI2d = i2d
-			readDuodecimIcpc2_add001(ctrl, i2d.ref_icpc2)
+			if(i2d.ref_icpc2)
+				readDuodecimIcpc2_add001(ctrl, i2d.ref_icpc2)
 		}
-		console.log(i2d)
-		var sql = readAllDuodecimForIcpc2_003(ctrl, allSeek)
-		//var sql = readAllDuodecimForIcpc2_001(ctrl, allSeek)
+		var sql = "SELECT "+i2d.protocol_id + " protocol_id "
+		if(i2d.icpc2){
+			sql = readAllDuodecimForIcpc2_003(ctrl, allSeek)
+		}else{
+			ctrl.clickedI2dList = [i2d]
+		}
+		console.log(i2d, sql)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
-	ctrl.clickDuodecim = function(l){
-		var sql = "SELECT "+l.protocol_id
-		console.log(l, sql)
-		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
-	}
+
 })
 
 sql_app.read_ICPC2_duodecim_all = "" +
@@ -145,8 +147,7 @@ var readDuodecimIcpc2_add001 = function(ctrl, ref_icpc2){
 	//var sql = sql_app.read_duodecimIcpc2(ctrl, true)
 	//sql += "AND a.ref_icpc2=" + ref_icpc2
 	var sql = sql_app.read_duodecimIcpc2_003(ctrl, true)
-	sql = "SELECT * FROM (" +
-	sql +
+	sql = "SELECT * FROM (" + sql +
 	") a WHERE a.ref_icpc2 ="+ref_icpc2
 	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
@@ -180,7 +181,7 @@ var readDuodecimIcpc2_002 = function(ctrl){
 var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 //	console.log(sql)
 	var sql2 = "" +
-	"SELECT a.reference ref_icpc2, * FROM (SELECT reference, count(*), min(icpc2) icpc2 " +
+	"SELECT a.reference ref_icpc2, * FROM (SELECT reference, count(*), MIN(icpc2) icpc2 " +
 	"FROM (SELECT * FROM (" + sql_app.read_ICPC2_duodecim_all +") a " +
 	"WHERE protocol_id IN (SELECT protocol_id " +
 	"FROM (" + sql + ")a)) a " +
@@ -249,7 +250,7 @@ var readAllDuodecimForIcpc2_003 = function(ctrl, allSeek){
 	"WHERE su1.string_u_id=a.reference AND i1.integer_id=a.reference \n" +
 	"AND su2.string_u_id=a.protocol_id \n" +
 	"AND reference=" + ctrl.clickedI2d.ref_icpc2
-	//console.log(sql)
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dList = r.data.list
