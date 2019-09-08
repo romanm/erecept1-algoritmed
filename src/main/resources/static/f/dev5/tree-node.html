@@ -1,0 +1,15 @@
+<div>
+	<div class="w3-hover-shadow">
+		<span data-ng-if="ctrl.elementsMap[n.reference]" class="w3-small">
+			{{ctrl.elementsMap[n.reference].d_s}}: </span> {{n.d_su}} {{n.d_s}}
+		{{n.d_sur}}
+		<span class="w3-small">
+			{{ctrl.referencesMap[n.reference].value}}
+		</span>
+	</div>
+	<div data-ng-if="n.children" class="w3-container w3-border-left">
+		<div data-ng-repeat="n in n.children"
+			data-ng-init="nr=ctrl.elementsMap[n.reference]"
+			data-ng-include="'/f/dev5/tree-node.html'"></div>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+<div>
+	<div class="w3-hover-shadow">
+		<span title="{{n.doc_id}}"> <span
+			data-ng-if="!n.d_su&&!n.d_s&&!n.d_sur"> {{n.doc_id}} </span>
+			{{n.d_su}} {{n.d_s}} {{n.d_sur}}
+		</span>
+	</div>
+	<div data-ng-if="n.children" class="w3-container w3-border-left">
+		<div data-ng-repeat="n in n.children"
+			data-ng-include="'/f/dev5/tree-node-r.html'"></div>
+	</div>
+</div>

@@ -10,7 +10,7 @@ var initApp = function($scope, $http, ctrl, $timeout){
 	ctrl.new_obj_list = []
 	
 	build_request($scope)
-	console.log($scope.request.parameters)
+//	console.log($scope.request.parameters)
 	ctrl.request = $scope.request
 	$scope.openUrl = function(url){
 		console.log(url)
@@ -716,7 +716,8 @@ function Exe_fn($scope, $http){
 
 function build_request($scope){
 	$scope.request={};
-	console.log($scope.request, window.location)
+//	console.log($scope.request, window.location)
+	console.log($scope.request)
 	$scope.request.hostname = window.location.hostname
 	$scope.request.getDbConfigHostname = function(){
 		if('localhost'!=$scope.request.hostname){

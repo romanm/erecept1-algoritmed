@@ -17,6 +17,13 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 		readDuodecimIcpc2_002(ctrl)
 	}
 
+	ctrl.clickICPC2DuodecimOne = function(i2d){
+		console.log(i2d)
+		ctrl.clickedI2d = i2d
+		ctrl.clickedI2dList = [i2d]
+		var sql = "SELECT "+i2d.protocol_id + " protocol_id "
+		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
+	}
 	ctrl.clickICPC2Duodecim = function(i2d, allSeek){
 		if(ctrl.clickedI2d && ctrl.clickedI2d.ref_icpc2 == i2d.ref_icpc2){
 			delete ctrl.clickedI2d
@@ -25,12 +32,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 			if(i2d.ref_icpc2)
 				readDuodecimIcpc2_add001(ctrl, i2d.ref_icpc2)
 		}
-		var sql = "SELECT "+i2d.protocol_id + " protocol_id "
-		if(i2d.icpc2){
-			sql = readAllDuodecimForIcpc2_003(ctrl, allSeek)
-		}else{
-			ctrl.clickedI2dList = [i2d]
-		}
+		var sql = readAllDuodecimForIcpc2_003(ctrl, allSeek)
 //		console.log(i2d, sql)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
