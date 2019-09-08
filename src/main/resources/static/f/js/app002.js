@@ -716,7 +716,15 @@ function Exe_fn($scope, $http){
 
 function build_request($scope){
 	$scope.request={};
-	console.log($scope.request)
+	console.log($scope.request, window.location)
+	$scope.request.hostname = window.location.hostname
+	$scope.request.getDbConfigHostname = function(){
+		if('localhost'!=$scope.request.hostname){
+			return $scope.request.hostname
+		}else{
+			return $scope.request.hostname+':8040'
+		}
+	}
 	$scope.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
 	$scope.request.parameters={};
 	if(window.location.search.split('?')[1]){

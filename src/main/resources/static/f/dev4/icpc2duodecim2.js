@@ -31,7 +31,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 		}else{
 			ctrl.clickedI2dList = [i2d]
 		}
-		console.log(i2d, sql)
+//		console.log(i2d, sql)
 		readAllICPC2ForIcpc2_Duodecim_001(ctrl, sql)
 	}
 
@@ -189,7 +189,7 @@ var readAllICPC2ForIcpc2_Duodecim_001 = function(ctrl, sql){
 	")a, (" + sql_app.read_ICPC2_i18n_without_seek(ctrl) + ") b \n" +
 	"WHERE a.reference=icpc2_id " +
 	"ORDER BY icpc2 "
-	console.log(sql2)
+//	console.log(sql2)
 	readSql({ sql:sql2, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dICPC2List = r.data.list
@@ -250,7 +250,7 @@ var readAllDuodecimForIcpc2_003 = function(ctrl, allSeek){
 	"WHERE su1.string_u_id=a.reference AND i1.integer_id=a.reference \n" +
 	"AND su2.string_u_id=a.protocol_id \n" +
 	"AND reference=" + ctrl.clickedI2d.ref_icpc2
-	console.log(sql)
+//	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		console.log(r.data.list)
 		ctrl.clickedI2dList = r.data.list
