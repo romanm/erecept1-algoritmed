@@ -108,7 +108,10 @@ sql_app.read_ICPC2_in_duodecim_003 = function(ctrl, allSeek){
 		console.log(ctrl.seekLogic.seek_value)
 		sql = "SELECT * FROM " +
 		"(" + sql + ") a " +
-		"WHERE LOWER(protocol_name||' '||i18n) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
+		"WHERE LOWER(ebmname) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%') \n"
+		"OR LOWER(protocol_name) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%') \n"
+		"OR LOWER(i18n) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%') \n"
+//		"WHERE LOWER(min||' '||protocol_name||' '||i18n) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
 	}
 	//console.log(ctrl.icpc2_sort , '\n', sql , '\n', icpc2GroupInSQL)
 	return sql
@@ -116,9 +119,10 @@ sql_app.read_ICPC2_in_duodecim_003 = function(ctrl, allSeek){
 
 sql_app.read_duodecimIcpc2_003 = function(ctrl, allSeek){ 
 	var sql = "" +
-	"SELECT icpc2, MIN(ref_icpc2) ref_icpc2, COUNT(*) count, MIN(ebmname), MAX(ebmname), MIN(i18n) i18n \n" +
-	"FROM (" + sql_app.read_ICPC2_in_duodecim_003(ctrl, allSeek) + ") a " +
-	"GROUP BY icpc2 "
+	"SELECT icpc2, MIN(ref_icpc2) ref_icpc2, COUNT(*) count, MIN(ebmname) min, MAX(ebmname), MIN(i18n) i18n \n" +
+	"FROM (" + sql_app.read_ICPC2_in_duodecim_003(ctrl, allSeek) + ") a "
+	sql +=" GROUP BY icpc2 "
+	sql =" SELECT * FROM (" + sql +") a "
 	if(ctrl.icpc2_sort){
 		if('cnt'==ctrl.icpc2_sort){
 			sql += "ORDER BY count DESC"
@@ -168,7 +172,7 @@ var readDuodecimIcpc2_003 = function(ctrl){
 var readDuodecimIcpc2_002 = function(ctrl){
 	var sql = sql_app.read_duodecimIcpc2_003(ctrl)
 	//var sql = sql_app.read_duodecimIcpc2(ctrl)
-	//console.log(sql)
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.icpc2duodecims = {}
 		ctrl.icpc2duodecims.ref_icpc2 = {}

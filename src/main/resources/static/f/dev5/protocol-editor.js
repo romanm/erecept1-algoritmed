@@ -7,7 +7,44 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 })
 
 var initPage = function(ctrl){
+	ctrl.protocolDataModelR = {}
+	ctrl.protocolDataModelR.addElement = function(n){
+		if(!ctrl.referencesMap[n.parent]){
+			var sql = "INSERT INTO doc (doc_id, reference, parent) " +
+			"VALUES (:nextDbId1, " +n.doc_id +", " +ctrl.protocol.doc_id +");\n" +
+			"INSERT INTO sort (sort_id, treelevel) VALUES (:nextDbId1, 1);\n"
+			sql += "SELECT * FROM (" + sql_app.select_content_nodes() +
+			") a, doc d " +
+			"WHERE d.doc_id=a.doc_id AND a.doc_id = :nextDbId1 ;"
+			writeSql({sql : sql, dataAfterSave:function(r){
+				var ne = r.data.list2[0]
+				ctrl.protocol.children.unshift(ne)
+			}})
+		}
+	}
+	ctrl.protocolDataModelR.openMenu = function(n){
+		if(this.openedMenu == n){
+			delete this.openedMenu
+			return
+		}
+		this.openedMenu = n
+	}
 	ctrl.protocolParts = {}
+	ctrl.protocolParts.openItem_359215 = function(){
+		ctrl.seekLogic.seek_engine = function(){
+			console.log(this, ctrl.seekLogic.seek_value)
+		}
+	}
+	ctrl.protocolParts.clickItem = function(n){
+		if(this.openedItem == n){
+			delete this.openedItem
+			return
+		}
+		this.openedItem = n
+		console.log(n, n.reference)
+		if(ctrl.protocolParts['openItem_'+n.reference])
+			ctrl.protocolParts['openItem_'+n.reference]()
+	}
 	ctrl.protocolParts.list = ['Симптоми','Хронологія дій','Діф.діагностика', 'Tex.дані']
 	ctrl.protocolParts.openPartNr = function(nr){
 		ctrl.protocolParts.openedPart = ctrl.protocolParts.list[nr]
