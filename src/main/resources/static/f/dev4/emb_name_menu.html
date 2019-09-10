@@ -1,6 +1,6 @@
 <span class="w3-dropdown-hover"> <span
-	data-ng-mouseover="ctrl.random.newValue('edProtocol')">
-		{{l.ebmname}} </span>
+	data-ng-mouseover="ctrl.random.newValue('edProtocol')"> <span
+		ng-bind-html="ctrl.highlight(l.ebmname, ctrl.seekLogic.seek_value)"></span></span>
 	<div class="w3-dropdown-content w3-card" style="min-width: 200px;">
 		<div class="w3-hover-shadow">
 			<a target="_blank"

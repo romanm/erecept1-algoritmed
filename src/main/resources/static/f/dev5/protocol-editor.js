@@ -7,6 +7,11 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 })
 
 var initPage = function(ctrl){
+
+	ctrl.clickICPC2DuodecimOne = function(i2d){
+		console.log(i2d)
+	}
+
 	ctrl.protocolDataModelR = {}
 	ctrl.protocolDataModelR.addElement = function(n){
 		if(!ctrl.referencesMap[n.parent]){
@@ -33,6 +38,7 @@ var initPage = function(ctrl){
 	ctrl.protocolParts.openItem_359215 = function(){
 		ctrl.seekLogic.seek_engine = function(){
 			console.log(this, ctrl.seekLogic.seek_value)
+			readDuodecim_list(ctrl)
 		}
 	}
 	ctrl.protocolParts.clickItem = function(n){
@@ -56,6 +62,28 @@ var initPage = function(ctrl){
 		ctrl.protocolParts.openedPartNr = ctrl.protocolParts.list.indexOf(pp)
 	}
 }
+
+var readDuodecim_list = function(ctrl){
+	var sql = "" +
+	"SELECT * FROM (" +
+	sql_app.read_ICPC2_duodecim_protocol_name002 +
+	") a \n"
+//	") a WHERE with_name=1 \n"
+	if(ctrl.seekLogic.seek_value){
+		console.log(ctrl.seekLogic.seek_value)
+		sql +=" WHERE (" +
+		"LOWER(protocol_name) LIKE LOWER('%" +ctrl.seekLogic.seek_value +"%')" +
+		"OR LOWER(ebmname) LIKE LOWER('%" +ctrl.seekLogic.seek_value +"%')" +
+		")"
+	}
+	sql +=" LIMIT 100"
+	console.log(sql)
+	readSql({ sql:sql, afterRead:function(r){
+//		console.log(r.data.list)
+		ctrl.duodecim_name_list = r.data.list
+	}})
+}
+
 
 var list2tree = function(ctrl, r, objectName){
 //	console.log(r.data.list)

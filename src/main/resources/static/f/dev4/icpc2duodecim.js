@@ -150,21 +150,22 @@ var readDuodecim_name_list = function(ctrl){
 	var sql = "" +
 	"SELECT * FROM (" +
 	sql_app.read_ICPC2_duodecim_protocol_name002 +
-	") a WHERE with_name=1 \n"
+	") a WHERE true \n"
+//	") a WHERE with_name=1 \n"
 	if(ctrl.seekLogic.seek_value){
 		console.log(ctrl.seekLogic.seek_value)
 		sql +=" AND LOWER(protocol_name) LIKE LOWER('%" +
 		ctrl.seekLogic.seek_value +
 		"%')"
 	}
-	sql +=" LIMIT 100"
-//	console.log(sql)
+	sql +=" order by with_name DESC LIMIT 100"
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 //		console.log(r.data.list)
 		ctrl.duodecim_name_list = r.data.list
 	}})
-	
 }
+
 var readDuodecim_name_count = function(ctrl){
 	var sql = "" +
 	"SELECT with_name, COUNT(with_name) FROM ( \n" +

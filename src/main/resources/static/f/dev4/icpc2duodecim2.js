@@ -172,7 +172,7 @@ var readDuodecimIcpc2_003 = function(ctrl){
 var readDuodecimIcpc2_002 = function(ctrl){
 	var sql = sql_app.read_duodecimIcpc2_003(ctrl)
 	//var sql = sql_app.read_duodecimIcpc2(ctrl)
-	console.log(sql)
+//	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 		ctrl.icpc2duodecims = {}
 		ctrl.icpc2duodecims.ref_icpc2 = {}
@@ -207,33 +207,27 @@ sql_app.read_ICPC2_duodecim_protocol_name = "" +
 "FROM doc d, string " +
 "WHERE doc_id=string_id AND reference= 285578 "
 
-sql_app.read_ICPC2_duodecim_protocol_name002 = "" +
-"SELECT a.*, b.doc_id protocol_name_id, protocol_name" +
-", CASE WHEN b.doc_id IS NULL THEN 0 ELSE 1 END with_name FROM ( \n" +
-"SELECT doc_id protocol_id, value ebmname " +
-"FROM doc, string_u WHERE string_u_id=doc_id AND parent= 285581 \n" +
-") a LEFT JOIN (SELECT d.*, value protocol_name FROM doc d,string " +
-"WHERE string_id=doc_id AND reference= 285578 ) b ON b.parent=a.protocol_id \n"
-
 var readDuodecim_name_list = function(ctrl){
 	var sql = "" +
 	"SELECT * FROM (" +
 	sql_app.read_ICPC2_duodecim_protocol_name002 +
-	") a WHERE with_name=1 \n"
+	") a WHERE true \n"
+//	") a WHERE with_name=1 \n"
 	if(ctrl.seekLogic.seek_value){
 		console.log(ctrl.seekLogic.seek_value)
-		sql +=" AND LOWER(protocol_name) LIKE LOWER('%" +
-		ctrl.seekLogic.seek_value +
-		"%')"
+		sql +=" AND (" +
+		"LOWER(protocol_name) LIKE LOWER('%" +ctrl.seekLogic.seek_value +"%')" +
+		"OR LOWER(ebmname) LIKE LOWER('%" +ctrl.seekLogic.seek_value +"%')" +
+		")"
 	}
-	sql +=" LIMIT 100"
-//	console.log(sql)
+	sql +=" ORDER BY with_name DESC LIMIT 100"
+	console.log(sql)
 	readSql({ sql:sql, afterRead:function(r){
 //		console.log(r.data.list)
 		ctrl.duodecim_name_list = r.data.list
 	}})
-	
 }
+
 var readDuodecim_name_count = function(ctrl){
 	var sql = "" +
 	"SELECT with_name, COUNT(with_name) FROM ( \n" +

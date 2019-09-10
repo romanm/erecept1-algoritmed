@@ -693,6 +693,14 @@ sql_app.amk025_template = function(){
 	"WHERE d1.doc_id=docbody_id AND d2.doc_id=d1.parent AND d2.doctype IN (6,17) AND d1.reference=:jsonId"
 }
 
+sql_app.read_ICPC2_duodecim_protocol_name002 = "" +
+"SELECT a.*, b.doc_id protocol_name_id, protocol_name" +
+", CASE WHEN b.doc_id IS NULL THEN 0 ELSE 1 END with_name FROM ( \n" +
+"SELECT doc_id protocol_id, value ebmname " +
+"FROM doc, string_u WHERE string_u_id=doc_id AND parent= 285581 \n" +
+") a LEFT JOIN (SELECT d.*, value protocol_name FROM doc d,string " +
+"WHERE string_id=doc_id AND reference= 285578 ) b ON b.parent=a.protocol_id \n"
+
 function Exe_fn($scope, $http){
 	this.httpGet=function(progr_am){
 		if(progr_am.error_fn)
