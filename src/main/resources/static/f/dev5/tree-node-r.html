@@ -13,6 +13,11 @@
 		data-ng-click="ctrl.protocolDataModelR.addElement(n)"
 		class="w3-border" data-ng-if="!ctrl.referencesMap[n.doc_id]">додати
 			елемент</button>
+		<button 
+		data-ng-click="ctrl.protocolDataModelR.addElement(n)"
+		class="w3-border" data-ng-if="[359215].includes(n.parent)">додати
+			елемент</button>
+		
 	</div>
 	<div data-ng-if="n.children" class="w3-container w3-border-left">
 		<div data-ng-repeat="n in n.children"
