@@ -2,13 +2,14 @@
 	<div class="w3-hover-shadow"
 		data-ng-click="ctrl.protocolDataModelR.openMenu(n)">
 		<span title="{{n.doc_id}}"> <span
-			data-ng-if="!n.d_su&&!n.d_s&&!n.d_sur"> {{n.doc_id}} </span>
-			{{n.d_su}} {{n.d_s}} {{n.d_sur}}
+			data-ng-if="!n.d_su&&!n.d_sur&&!n.d_s&&!n.d_sr"> {{n.doc_id}} </span>
+			{{n.d_su}} {{n.d_sur}} {{n.d_s}} {{n.d_sr}}
 		</span>
 	</div>
 	<div class="w3-card"
 		data-ng-if="ctrl.protocolDataModelR.openedMenu.doc_id==n.doc_id">
 		<i class="fas fa-bars"></i>
+			<!-- 
 		<button 
 		data-ng-click="ctrl.protocolDataModelR.addElement(n)"
 		class="w3-border" data-ng-if="!ctrl.referencesMap[n.doc_id]">додати
@@ -17,7 +18,9 @@
 		data-ng-click="ctrl.protocolDataModelR.addElement(n)"
 		class="w3-border" data-ng-if="[359215].includes(n.parent)">додати
 			елемент</button>
-		
+			 -->
+		<button data-ng-click="ctrl.protocolDataModelR.addElement(n)"
+			class="w3-border">додати елемент</button>
 	</div>
 	<div data-ng-if="n.children" class="w3-container w3-border-left">
 		<div data-ng-repeat="n in n.children"

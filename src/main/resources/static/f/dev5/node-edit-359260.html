@@ -1,0 +1,11 @@
+<div>
+	<div class="w3-border-bottom">
+		Пошук: <input class="w3-border"
+			data-ng-change="ctrl.seekLogic.seek_fn()"
+			data-ng-model="ctrl.seekLogic.seek_value">
+	</div>
+	<div class="w3-container">
+		<div data-ng-click="ctrl.protocolParts.symptomNameClick(e)"
+			class="w3-hover-shadow" data-ng-repeat="e in ctrl.symptom_list">{{e.d_s}}</div>
+	</div>
+</div>

@@ -6,8 +6,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	readProtocol(ctrl)
 })
 
-var startPartNr = 3
 var startPartNr = 2
+var startPartNr = 3
 
 sql_app.insertNode_prl = function(params){ 
 	var sql = "" +
@@ -55,17 +55,23 @@ var initPage = function(ctrl){
 					insertNewNode(r.data.list2[0], ctrl.protocolParts.openedItem)
 				}})
 			}else{
-				alert('Вибраний елемент призначений тільки для діф.д/з елемента.')
+				alert('Вибраний структурний елемент призначений тільки для діф.д/з елемента.')
 			}
 		}else{
 			alert('Не вибраний елемент протоколу для редактування.')
 		}
 	}
 	ctrl.protocolDataModelR.addElement = function(n){
+		console.log(n
+			, ctrl.referencesMap[n.parent]
+		, ctrl.referencesMap[n.doc_id]
+		)
 		if(ctrl.protocolDataModelR['addElement_'+n.parent]){
 			ctrl.protocolDataModelR['addElement_'+n.parent](n)
 		}else
-		if(!ctrl.referencesMap[n.parent]){
+//		if(!ctrl.referencesMap[n.doc_id])
+		{
+//			if(!ctrl.referencesMap[n.parent]){
 			var sql = sql_app.insertNode_prl({reference:n.doc_id, parent:ctrl.protocol.doc_id, treelevel:1})
 			writeSql({sql : sql, dataAfterSave:function(r){
 				var ne = r.data.list2[0]
@@ -115,6 +121,26 @@ var initPage = function(ctrl){
 		writeSql({sql : sql, dataAfterSave:function(r){
 			insertNewNode(r.data.list2[0], parent_e)
 		}})
+	}
+	ctrl.protocolParts.openItem_359260 = function(){
+		ctrl.protocolParts.symptomNameClick = function(e){
+			console.log(e)
+			readSql({ sql:sql+e.doc_id, afterRead:function(r){
+				console.log(r.data.list)
+			}})
+		}
+		ctrl.seekLogic.seek_engine = function(){
+			console.log(this, ctrl.seekLogic.seek_value, sql)
+			readSql({ sql:sql+"359247", afterRead:function(r){
+//				console.log(r.data.list)
+				ctrl.symptom_list = r.data.list
+			}})
+		}
+		var sql = "" +
+		"SELECT * FROM doc d, (" +
+		""+sql_app.select_content_nodes()+
+		") n \n" +
+		"WHERE n.doc_id=d.doc_id AND parent="
 	}
 	ctrl.protocolParts.openItem_359215 = function(){
 		ctrl.seekLogic.seek_engine = function(){
@@ -193,7 +219,8 @@ var readProtocol = function(ctrl){
 	params_dataModel.sql += " ORDER BY l"
 	readSql({ sql:params_dataModel.sql, afterRead:function(r){
 		list2tree(ctrl, r, 'protocolDataModel')
-		console.log(ctrl.protocolDataModel, ctrl.elementsMap)
+		console.log('protocolDataModel',ctrl.protocolDataModel)
+//		console.log(ctrl.protocolDataModel, ctrl.elementsMap, params_dataModel.sql)
 	}})
 	var params = replaceParams({sql:sql, rootId:ctrl.request.parameters.id})
 	params.sql += " ORDER BY l"
@@ -230,7 +257,7 @@ var readProtocol = function(ctrl){
 		var sql_icpc2_i18n = "SELECT * FROM doc,string \n" +
 		"WHERE string_id=doc_id AND parent= 285597 \n" +
 		"AND reference IN " + ctrl.listToInSQL(icpc2_list)
-		console.log(icpc2_list, sql_icpc2_i18n)
+		//console.log(icpc2_list, sql_icpc2_i18n)
 		readSql({ sql:sql_icpc2_i18n, afterRead:function(r2){
 			angular.forEach(r2.data.list, function(v2,k2){
 				console.log(v2)

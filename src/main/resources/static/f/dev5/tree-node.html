@@ -4,8 +4,8 @@
 		data-ng-click="ctrl.protocolParts.clickItem(n)">
 		<span data-ng-if="!n.reference&&!n.d_s"> {{n.doc_id}} </span> <span
 			data-ng-if="ctrl.elementsMap[n.reference]" class="w3-small">
-			{{ctrl.elementsMap[n.reference].d_s}}: </span> {{n.d_su}} {{n.d_s}}
-		{{n.d_sur}} <span class="w3-small">
+			{{ctrl.elementsMap[n.reference].d_sr}}{{ctrl.elementsMap[n.reference].d_s}}:
+		</span> {{n.d_su}} {{n.d_s}} {{n.d_sur}} <span class="w3-small">
 			{{ctrl.referencesMap[n.reference].value}} {{n.protocol_name}} </span>
 	</div>
 	<div class="w3-card"

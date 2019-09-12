@@ -612,9 +612,11 @@ sql_app.select_doc_l8_nodes= function(){
 	"\n) n WHERE t.doc_id=n.doc_id"
 }
 sql_app.select_content_nodes = function(){ return "" +
-	"SELECT doc_id, s.value d_s, s.string_id d_s_id, su.value d_su, sur.value d_sur FROM doc d \n" +
+	"SELECT doc_id, s.value d_s, sr.value d_sr, s.string_id d_s_id, su.value d_su, sur.value d_sur \n" +
+	"FROM doc d \n" +
 	"LEFT JOIN string s ON d.doc_id=s.string_id \n" +
 	"LEFT JOIN string_u su ON d.doc_id=su.string_u_id \n" +
+	"LEFT JOIN string sr ON d.reference=sr.string_id \n" +
 	"LEFT JOIN string_u sur ON d.reference=sur.string_u_id "
 }
 sql_app.select_doc_id_l8 = function(){ 
