@@ -7,6 +7,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 })
 
 var startPartNr = 3
+var startPartNr = 2
 
 sql_app.insertNode_prl = function(params){ 
 	var sql = "" +

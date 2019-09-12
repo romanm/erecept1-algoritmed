@@ -1,11 +1,16 @@
 <div>
 
 	<div data-ng-repeat=" e in ctrl.referencesMap[359215].children">
-		<a href="/f/dev5/protocol-editor.html?id={{e.reference}}">
-			{{e.d_sur}}</a> - {{e.protocol_name}}
+		<span class="w3-tiny"
+			data-ng-repeat="e in e.children | filter : {reference:359231}">
+			{{elementsMap[e.reference].d_s}} </span> <span class="w3-tiny"
+			data-ng-repeat="e in e.children | filter : {reference:359232}">
+			{{elementsMap[e.reference].d_s}} </span> <a
+			href="/f/dev5/protocol-editor.html?id={{e.reference}}">
+			{{e.d_sur}}</a> - {{e.protocol_name}} {{e.d_s}}
 	</div>
 	<div
 		class="w3-panel w3-pale-blue w3-leftbar w3-rightbar w3-border-blue">
-		Використовувати Тех.данні - діф.діагностика для підключеня нових
+		Використовувати Тех.данні - діф.діагностика для підключеня і редакції нових
 		протоколів.</div>
 </div>
