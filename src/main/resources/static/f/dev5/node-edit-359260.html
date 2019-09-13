@@ -5,7 +5,31 @@
 			data-ng-model="ctrl.seekLogic.seek_value">
 	</div>
 	<div class="w3-container">
-		<div data-ng-click="ctrl.protocolParts.symptomNameClick(e)"
-			class="w3-hover-shadow" data-ng-repeat="e in ctrl.symptom_list">{{e.d_s}}</div>
+		<div data-ng-repeat="e in ctrl.symptom_list">
+			<div data-ng-click="ctrl.protocolParts.symptomNameClick(e)"
+				class="w3-hover-shadow">
+				<span
+					ng-bind-html="ctrl.highlight(e.d_s, ctrl.seekLogic.seek_value)"></span>
+				<span data-ng-if="e.children">: <span
+					data-ng-repeat="e2 in e.children">
+						{{e2.d_s}}{{e2.d_sr}}{{e2.d_sr2}}{{$last?'.':', '}}</span>
+				</span>
+			</div>
+			<div class="w3-card"
+				data-ng-if="ctrl.protocolParts.openedSymptom == e">
+				<i class="fas fa-bars"></i> <i
+					title="додати в протокол"
+					data-ng-click="ctrl.protocolParts.symptomNameAdd()"
+					class="w3-btn far fa-plus-square"></i> <i
+					title="копія і редагуваня"
+					data-ng-click="ctrl.protocolParts.symptomNameCopy()"
+					class="w3-btn far fa-copy"></i> <span
+					class="w3-btn"
+					title="редагувати"
+					data-ng-repeat="edpv in ['value2']"
+					data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span>
+				<div>a1</div>
+			</div>
+		</div>
 	</div>
 </div>

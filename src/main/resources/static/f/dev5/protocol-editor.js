@@ -123,24 +123,38 @@ var initPage = function(ctrl){
 		}})
 	}
 	ctrl.protocolParts.openItem_359260 = function(){
+		ctrl.protocolParts.symptomNameCopy = function(){
+			console.log(ctrl.protocolParts.openedSymptom)
+		}
+		ctrl.protocolParts.symptomNameAdd = function(){
+			console.log(ctrl.protocolParts.openedSymptom)
+		}
 		ctrl.protocolParts.symptomNameClick = function(e){
-			console.log(e)
-			readSql({ sql:sql+e.doc_id, afterRead:function(r){
-				console.log(r.data.list)
+			if(ctrl.protocolParts.openedSymptom == e){
+				delete ctrl.protocolParts.openedSymptom
+				return
+			}
+			ctrl.random.newValue('edProtocol','value2')
+			ctrl.protocolParts.openedSymptom = e
+			var sql = sql_read_node.replace(":parent",e.doc_id)
+//			console.log(ctrl.protocolParts.openedSymptom, sql2)
+			readSql({ sql:sql, afterRead:function(r){
+				e.children = r.data.list
 			}})
 		}
 		ctrl.seekLogic.seek_engine = function(){
-			console.log(this, ctrl.seekLogic.seek_value, sql)
-			readSql({ sql:sql+"359247", afterRead:function(r){
+//			console.log(this, ctrl.seekLogic.seek_value, sql_read_node)
+			readSql({ sql:sql_read_node.replace(":parent","359247"), afterRead:function(r){
 //				console.log(r.data.list)
 				ctrl.symptom_list = r.data.list
 			}})
 		}
-		var sql = "" +
+		var sql_read_node = "" +
 		"SELECT * FROM doc d, (" +
 		""+sql_app.select_content_nodes()+
 		") n \n" +
-		"WHERE n.doc_id=d.doc_id AND parent="
+		"WHERE n.doc_id=d.doc_id AND parent=:parent \n" +
+		"order by sort"
 	}
 	ctrl.protocolParts.openItem_359215 = function(){
 		ctrl.seekLogic.seek_engine = function(){
@@ -216,7 +230,8 @@ var list2tree = function(ctrl, r, objectName, fn_extra){
 var readProtocol = function(ctrl){
 	var sql = sql_app.select_doc_l8_nodes() //+" ORDER BY l "
 	var params_dataModel = replaceParams({sql:sql, rootId:285570})
-	params_dataModel.sql += " ORDER BY l"
+	params_dataModel.sql += " ORDER BY l, sort"
+		//console.log(params_dataModel.sql)
 	readSql({ sql:params_dataModel.sql, afterRead:function(r){
 		list2tree(ctrl, r, 'protocolDataModel')
 		console.log('protocolDataModel',ctrl.protocolDataModel)
@@ -248,7 +263,6 @@ var readProtocol = function(ctrl){
 			//console.log(sql_dif_protocol_name, in_dif_protocol, in_dif_protocol.length)
 			readSql({ sql:sql_dif_protocol_name, afterRead:function(r2){
 				angular.forEach(r2.data.list, function(v2,k2){
-					//console.log(v2)
 					ctrl.referencesMap[v2.doc_id].protocol_name = v2.protocol_name
 //				ctrl.referencesMap[v2.reference] = v2
 				})
@@ -260,7 +274,6 @@ var readProtocol = function(ctrl){
 		//console.log(icpc2_list, sql_icpc2_i18n)
 		readSql({ sql:sql_icpc2_i18n, afterRead:function(r2){
 			angular.forEach(r2.data.list, function(v2,k2){
-				console.log(v2)
 				ctrl.referencesMap[v2.reference] = v2
 			})
 		}})

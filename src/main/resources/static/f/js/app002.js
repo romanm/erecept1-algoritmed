@@ -78,7 +78,10 @@ var initApp = function($scope, $http, ctrl, $timeout){
 	ctrl.random.edProtocol.diapason = 7
 	ctrl.random.home2 = {}
 	ctrl.random.home2.diapason = 2
-	ctrl.random.newValue = function(name){this[name].value = getRandomInt(this[name].diapason)}
+	ctrl.random.newValue = function(name, valueName){
+		if(!valueName) valueName = 'value'
+		this[name][valueName] = getRandomInt(this[name].diapason)
+	}
 	angular.forEach(ctrl.random, function(v,k){ ctrl.random.newValue(k)})
 	console.log(ctrl.random)
 
@@ -612,11 +615,13 @@ sql_app.select_doc_l8_nodes= function(){
 	"\n) n WHERE t.doc_id=n.doc_id"
 }
 sql_app.select_content_nodes = function(){ return "" +
-	"SELECT doc_id, s.value d_s, sr.value d_sr, s.string_id d_s_id, su.value d_su, sur.value d_sur \n" +
+	"SELECT doc_id, o.sort, s.value d_s, sr.value d_sr, s.string_id d_s_id, sr2.value d_sr2, su.value d_su, sur.value d_sur \n" +
 	"FROM doc d \n" +
+	"LEFT JOIN sort o ON d.doc_id=o.sort_id \n" +
 	"LEFT JOIN string s ON d.doc_id=s.string_id \n" +
 	"LEFT JOIN string_u su ON d.doc_id=su.string_u_id \n" +
 	"LEFT JOIN string sr ON d.reference=sr.string_id \n" +
+	"LEFT JOIN string sr2 ON d.reference2=sr2.string_id \n" +
 	"LEFT JOIN string_u sur ON d.reference=sur.string_u_id "
 }
 sql_app.select_doc_id_l8 = function(){ 
