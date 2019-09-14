@@ -9,26 +9,43 @@
 			<div data-ng-click="ctrl.protocolParts.symptomNameClick(e)"
 				class="w3-hover-shadow">
 				<span
-					ng-bind-html="ctrl.highlight(e.d_s, ctrl.seekLogic.seek_value)"></span>
-				<span data-ng-if="e.children">: <span
-					data-ng-repeat="e2 in e.children">
-						{{e2.d_s}}{{e2.d_sr}}{{e2.d_sr2}}{{$last?'.':', '}}</span>
+					ng-bind-html="ctrl.highlight(e.d_s, ctrl.seekLogic.seek_value)"></span><span
+					data-ng-if="e.children">: <span
+					data-ng-repeat="e2 in e.children"> {{e2.d_s}}{{e2.d_sr2}}<span
+						class="w3-tiny"> {{e2.d_sr}}</span>{{$last?'.':', '}}
+				</span>
 				</span>
 			</div>
 			<div class="w3-card"
 				data-ng-if="ctrl.protocolParts.openedSymptom == e">
-				<i class="fas fa-bars"></i> <i
-					title="додати в протокол"
-					data-ng-click="ctrl.protocolParts.symptomNameAdd()"
-					class="w3-btn far fa-plus-square"></i> <i
-					title="копія і редагуваня"
-					data-ng-click="ctrl.protocolParts.symptomNameCopy()"
-					class="w3-btn far fa-copy"></i> <span
-					class="w3-btn"
-					title="редагувати"
-					data-ng-repeat="edpv in ['value2']"
-					data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span>
-				<div>a1</div>
+				<div class="w3-border-bottom">
+					<i class="fas fa-bars"></i> <i title="додати в протокол"
+						data-ng-click="ctrl.protocolParts.symptomNameInsert()"
+						class="w3-btn far fa-plus-square"></i> <i
+						title="копія і редагуваня"
+						data-ng-click="ctrl.protocolParts.symptomNameCopy()"
+						data-ng-class="{'w3-green':ctrl.protocolParts.symptomEdPart == 'copy'}"
+						class="w3-btn far fa-copy"></i> <span class="w3-btn"
+						data-ng-click="ctrl.protocolParts.symptomNameEdit()"
+						data-ng-class="{'w3-green':ctrl.protocolParts.symptomEdPart == 'edit'}"
+						title="редагувати" data-ng-repeat="edpv in ['value2']"
+						data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <i
+						class="w3-btn fas fa-plus" title="новий симптом"></i>
+				</div>
+				<div data-ng-repeat="edE in [ctrl.protocolParts.openedSymptom]">
+					{{edE.d_s}} <span
+						data-ng-if="'copy'==ctrl.protocolParts.symptomEdPart">
+						{{ctrl.protocolParts.ts}} {{ctrl.protocolParts.symptomEdPart}} </span>
+					<div class="w3-container w3-border-left" data-ng-if="edE.children">
+						<div data-ng-repeat="edE2 in edE.children">
+							{{edE2.d_s}} <span data-ng-if="edE2.reference2"> --
+								{{edE2.d_sr2}} </span> <span class="w3-tiny"> :{{edE2.d_sr}} </span>
+						</div>
+					</div>
+				</div>
+				<!-- 
+				<div class="w3-code w3-tiny">{{ctrl.protocolParts.openedSymptom}}</div>
+				 -->
 			</div>
 		</div>
 	</div>

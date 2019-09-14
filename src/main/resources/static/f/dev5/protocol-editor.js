@@ -9,12 +9,19 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 var startPartNr = 2
 var startPartNr = 3
 
-sql_app.insertNode_prl = function(params){ 
-	var sql = "" +
+sql_app.insertNode_prl_nr = function(params){ 
+	if(!params.nextDbId) params.nextDbId=1
+	var sql = ("" +
 	"INSERT INTO doc (doc_id, reference, parent) " +
-	"VALUES (:nextDbId1, " +params.reference +", " +params.parent +");\n" +
-	"INSERT INTO sort (sort_id, treelevel) VALUES (:nextDbId1, " + params.treelevel +");\n"
-	sql += "SELECT * FROM (" + sql_app.select_content_nodes() +
+	"VALUES (:nextDbId, " +params.reference +", " +params.parent +");\n" +
+	"INSERT INTO sort (sort_id, treelevel) VALUES (:nextDbId, " + params.treelevel +");\n" +
+	"").replace(/:nextDbId/g,':nextDbId'+params.nextDbId)
+	return sql
+}
+sql_app.insertNode_prl = function(params){ 
+	var sql = sql_app.insertNode_prl_nr(params)
+	sql += "" +
+	"SELECT * FROM (" + sql_app.select_content_nodes() +
 	") a, doc d " +
 	"WHERE d.doc_id=a.doc_id AND a.doc_id = :nextDbId1 ;"
 	return sql
@@ -123,11 +130,21 @@ var initPage = function(ctrl){
 		}})
 	}
 	ctrl.protocolParts.openItem_359260 = function(){
-		ctrl.protocolParts.symptomNameCopy = function(){
-			console.log(ctrl.protocolParts.openedSymptom)
+		ctrl.protocolParts.symptomNameInsert = function(){
+			var params = {parent:ctrl.protocolParts.openedItem.doc_id, reference:ctrl.protocolParts.openedSymptom.doc_id, treelevel:ctrl.protocolParts.openedItem.l+1}
+			console.log(params, ctrl.protocolParts.openedSymptom, ctrl.protocolParts)
+			writeSql({sql : sql_app.insertNode_prl(params), dataAfterSave:function(r){
+				insertNewNode(r.data.list2[0], ctrl.protocolParts.openedItem)
+			}})
 		}
-		ctrl.protocolParts.symptomNameAdd = function(){
-			console.log(ctrl.protocolParts.openedSymptom)
+		ctrl.protocolParts.symptomNameCopy = function(){
+			ctrl.protocolParts.ts = new Date().toISOString().substring(0,19).replace('T',' ')
+			ctrl.protocolParts.symptomEdPart = 'copy'
+			console.log(ctrl.protocolParts.openedSymptom, ctrl.protocolParts)
+		}
+		ctrl.protocolParts.symptomNameEdit = function(){
+			ctrl.protocolParts.symptomEdPart = 'edit'
+			console.log(ctrl.protocolParts.openedSymptom, ctrl.protocolParts)
 		}
 		ctrl.protocolParts.symptomNameClick = function(e){
 			if(ctrl.protocolParts.openedSymptom == e){
@@ -214,7 +231,8 @@ var list2tree = function(ctrl, r, objectName, fn_extra){
 			ctrl.referencesMap[v.reference] = v
 		}
 		if(0==k){
-			ctrl[objectName] = v
+			if(objectName)
+				ctrl[objectName] = v
 		}else if(ctrl.elementsMap[v.parent]){
 			if(!ctrl.elementsMap[v.parent].children)
 				ctrl.elementsMap[v.parent].children = []
@@ -234,23 +252,37 @@ var readProtocol = function(ctrl){
 		//console.log(params_dataModel.sql)
 	readSql({ sql:params_dataModel.sql, afterRead:function(r){
 		list2tree(ctrl, r, 'protocolDataModel')
-		console.log('protocolDataModel',ctrl.protocolDataModel)
+//		console.log('protocolDataModel',ctrl.protocolDataModel)
 //		console.log(ctrl.protocolDataModel, ctrl.elementsMap, params_dataModel.sql)
 	}})
 	var params = replaceParams({sql:sql, rootId:ctrl.request.parameters.id})
 	params.sql += " ORDER BY l"
 	//console.log(params.sql)
 	readSql({ sql:params.sql, afterRead:function(r){
-		var icpc2_list = [], dif_protocol_list = []
+		var icpc2_list = [], dif_protocol_list = [], symptom_list = []
 		list2tree(ctrl, r, 'protocol', function(v,k){
 			if(ctrl.elementsMap[v.parent]){
 				if(352331==ctrl.elementsMap[v.parent].reference){
 					icpc2_list.push(v.reference)
 				}else
+				if(359260==ctrl.elementsMap[v.parent].reference){
+					symptom_list.push(v.doc_id)
+				}else
 				if(359215==ctrl.elementsMap[v.parent].reference){
 					dif_protocol_list.push(v.reference)
 				}
 			}
+		})
+		angular.forEach(symptom_list, function(s_id){
+			var params_dataModel = replaceParams({sql:sql_app.select_doc_l8_nodes(), rootId:ctrl.elementsMap[s_id].reference})
+			params_dataModel.sql += " ORDER BY l, sort"
+			readSql({ sql:params_dataModel.sql, afterRead:function(r){
+				list2tree(ctrl, r)
+				console.log(
+					ctrl.elementsMap[ctrl.elementsMap[s_id].reference]
+					, ctrl.elementsMap[s_id].reference
+				)
+			}})
 		})
 		var in_dif_protocol = ctrl.listToInSQL(dif_protocol_list)
 		if(in_dif_protocol.length > 2){

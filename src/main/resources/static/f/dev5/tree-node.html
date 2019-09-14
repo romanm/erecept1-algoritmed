@@ -5,18 +5,24 @@
 		<span data-ng-if="!n.reference&&!n.d_s"> {{n.doc_id}} </span> <span
 			data-ng-if="ctrl.elementsMap[n.reference]" class="w3-small">
 			{{ctrl.elementsMap[n.reference].d_sr}}{{ctrl.elementsMap[n.reference].d_s}}:
-		</span> {{n.d_su}} {{n.d_s}} {{n.d_sur}} <span class="w3-small">
-			{{ctrl.referencesMap[n.reference].value}} {{n.protocol_name}} </span>
+		</span><span class="w3-tiny w3-right"
+			data-ng-if="!n.d_su&&!n.d_sur&&!n.d_s&&!n.d_sr">
+			({{n.doc_id}}) </span> {{n.d_su}} {{n.d_s}} {{n.d_sr}} {{n.d_sur}} <span
+			class="w3-small"> {{ctrl.referencesMap[n.reference].value}}
+			{{n.protocol_name}} </span> <span
+			data-ng-include="'/f/dev5/node-view-'+ctrl.elementsMap[n.parent].reference+'.html'"></span>
 	</div>
 	<div class="w3-card"
 		data-ng-if="ctrl.protocolParts.openedItem.doc_id==n.doc_id">
-		<i class="fas fa-bars"></i> <i class="w3-btn far fa-comment"
-		data--ng-click="ctrl.protocolParts.addNodeNote(n)"
-			title="Нотатки"></i>
+		<div class="w3-border-bottom">
+			<i class="fas fa-bars"></i> <i class="w3-btn far fa-comment"
+				data--ng-click="ctrl.protocolParts.addNodeNote(n)" title="Нотатки"></i>
+		</div>
 		<div data-ng-include="'/f/dev5/node-edit-'+n.reference+'.html'"></div>
 		<div data-ng-if="n.doc_id==ctrl.protocolParts.nodeNoteEl.doc_id">
 			<textarea rows="1" class="am-width-100pr" data-ng-model="n.d_s"></textarea>
-			<button data-ng-click="ctrl.protocolParts.saveNodeNoteEl()" class="w3-btn">OK</button>
+			<button data-ng-click="ctrl.protocolParts.saveNodeNoteEl()"
+				class="w3-btn">OK</button>
 		</div>
 	</div>
 	<div data-ng-if="n.children" class="w3-container w3-border-left">
