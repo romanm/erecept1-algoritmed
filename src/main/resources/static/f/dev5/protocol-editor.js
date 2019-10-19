@@ -11,11 +11,19 @@ var startPartNr = 3
 
 sql_app.insertNode_prl_nr = function(params){ 
 	if(!params.nextDbId) params.nextDbId=1
-	var sql = ("" +
-	"INSERT INTO doc (doc_id, reference, parent) " +
-	"VALUES (:nextDbId, " +params.reference +", " +params.parent +");\n" +
-	"INSERT INTO sort (sort_id, treelevel) VALUES (:nextDbId, " + params.treelevel +");\n" +
-	"").replace(/:nextDbId/g,':nextDbId'+params.nextDbId)
+	if(!params.reference2) params.reference2='null'
+	var sql = "" +
+	"INSERT INTO doc (doc_id, reference, reference2, parent) " +
+	"VALUES (:nextDbId, " +params.reference +", " +params.reference2 +", " +params.parent +");\n" 
+	if(params.treelevel){
+		sql += "INSERT INTO sort (sort_id, treelevel) VALUES (:nextDbId, " + params.treelevel +");\n"
+	}
+	if(params.d_s){
+		sql += "" +
+		"INSERT INTO string (string_id, value) " +
+		"VALUES (:nextDbId, '" + params.d_s + "');\n"
+	}
+	sql = sql.replace(/:nextDbId/g,':nextDbId'+params.nextDbId)
 	return sql
 }
 sql_app.insertNode_prl = function(params){ 
@@ -140,7 +148,17 @@ var initPage = function(ctrl){
 		ctrl.protocolParts.symptomNameCopy = function(){
 			ctrl.protocolParts.ts = new Date().toISOString().substring(0,19).replace('T',' ')
 			ctrl.protocolParts.symptomEdPart = 'copy'
-			console.log(ctrl.protocolParts.openedSymptom, ctrl.protocolParts)
+			var params = {parent:ctrl.protocolParts.openedSymptom.doc_id, reference:'null', treelevel:2
+				, d_s:ctrl.protocolParts.ts+' '+ctrl.protocolParts.openedSymptom.d_s}
+			console.log(params, ctrl.protocolParts.openedSymptom, ctrl.protocolParts)
+			var nextDbId = 1
+			angular.forEach(ctrl.protocolParts.openedSymptom.children, function(v){
+				var params2 = {nextDbId:nextDbId, reference:v.reference}
+				if(v.reference2) params2.reference2 = v.reference2
+				if(v.d_s) params2.d_s = ctrl.protocolParts.ts+' '+v.d_s
+				console.log(params2, v)
+				nextDbId++ 
+			})
 		}
 		ctrl.protocolParts.symptomNameEdit = function(){
 			ctrl.protocolParts.symptomEdPart = 'edit'

@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'java'
 }
 
@@ -19,11 +19,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	runtimeOnly 'com.h2database:h2:1.4.199'
+	runtimeOnly 'com.h2database:h2:1.4.200'
+	//runtimeOnly 'com.h2database:h2:1.4.199'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	//compile 'org.webjars:font-awesome:4.7.0'
 	compile 'org.webjars:font-awesome:5.10.1'
-	compile 'org.webjars:angularjs:1.7.7'
+	compile 'org.webjars:angularjs:1.7.8'
+	compile 'net.sourceforge.plantuml:plantuml:1.2019.11'
 }

@@ -10,9 +10,9 @@
 <link rel="stylesheet" href="/f/css/am.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
 	type="image/x-icon">
-<script src="/webjars/angularjs/1.7.7/angular.min.js"></script>
-<script src="/webjars/angularjs/1.7.7/angular-sanitize.min.js"></script>
-<script src="/webjars/angularjs/1.7.7/i18n/angular-locale_uk.js"></script>
+<script src="/webjars/angularjs/1.7.8/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.8/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.8/i18n/angular-locale_uk.js"></script>
 <script src="/f/js/app002.js"></script>
 <script src="/f/dev4/icpc2duodecim.js"></script>
 </head>
@@ -50,8 +50,8 @@
 						</div>
 						<div class="w3-half w3-center w3-border-left">Протоколи</div>
 					</div>
-					<div 
-					data-ng-style="{'max-height':!ctrl.clickedI2d?'84vh':'38vh', 'overflow':'auto'}">
+					<div
+						data-ng-style="{'max-height':!ctrl.clickedI2d?'84vh':'38vh', 'overflow':'auto'}">
 						<div data-ng-repeat="i2d in ctrl.icpc2duodecims.list"
 							data-ng-init="icpc2Code=i2d.icpc2;e=i2d">
 							<div data-ng-include="'/f/dev4/icpc2duodecim_row.html'"></div>
