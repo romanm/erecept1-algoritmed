@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.10.1/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<style>
+#div1, #div2 {
+	float: left;
+	width: 100px;
+	height: 35px;
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid black;
+}
+</style>
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.8/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.8/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.8/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/app002.js"></script>
+<script src="/f/dev5/drug-and-drop/dd001.js"></script>
+</head>
+<body class="w3-container">
+	<div class="am-max-width-1 w3-card">
+		<div class="w3-container w3-small am-no-print w3-display-container">
+			<span data-ng-include="'/f/home-link.html'"></span> <span
+				data-ng-repeat="edpv in ['value']"
+				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
+				class="am-b"> {{ctrl.referencesMap[285578].d_s}} </span> <span
+				class="w3-green" data-ng-if="ctrl.drag_item"> drag-start: <i
+				class="fas fa-braille"></i> {{ctrl.drag_item}} - click <i
+				class="fas fa-braille" title="drug & drop"></i> my to drop.
+			</span>
+		</div>
+		<div class="w3-container">
+			<div class="w3-row">
+				<div class="w3-half">
+					<div class="w3-hover-shadow"
+						data-ng-mouseover="ctrl.mouseover_item=m"
+						data-ng-repeat="m in ctrl.men">
+						{{m}} <span data-ng-if="ctrl.mouseover_item==m"> <span
+							data-ng-repeat="o in [{n:m,a:'men'}]"
+							data-ng-include="'/f/dev5/drug-and-drop/drugAndDropAnkor.html'"></span>
+						</span>
+					</div>
+				</div>
+				<div class="w3-half">
+					<div class="w3-hover-shadow"
+						data-ng-mouseover="ctrl.mouseover_item=w"
+						data-ng-repeat="w in ctrl.women">
+						{{w}} <span data-ng-if="ctrl.mouseover_item==w"> <span
+							data-ng-repeat="o in [{n:w,a:'women'}]"
+							data-ng-include="'/f/dev5/drug-and-drop/drugAndDropAnkor.html'"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="w3-container">
+			<div class="w3-border" id="div1" ondrop="pageApp.drop(event)"
+				ondragover="allowDrop(event)">
+				<img src="/f/img/img_w3slogo.gif" draggable="true"
+					ondragstart="drag(event)" id="drag1" width="88" height="31">
+			</div>
+
+			<div class="w3-border" id="div2" ondrop="pageApp.drop(event)"
+				ondragover="allowDrop(event)"></div>
+		</div>
+	</div>
+</body>
+</html>
