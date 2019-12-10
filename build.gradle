@@ -25,7 +25,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	//compile 'org.webjars:font-awesome:4.7.0'
-	implementation 'org.webjars:font-awesome:5.10.1'
+//	implementation 'org.webjars:font-awesome:5.10.1'
+	implementation 'org.webjars:font-awesome:5.11.2'
 	implementation 'org.webjars:angularjs:1.7.9'
 	implementation 'org.webjars.bower:angular-jwt:0.1.11'
 	implementation 'net.sourceforge.plantuml:plantuml:1.2019.11'
