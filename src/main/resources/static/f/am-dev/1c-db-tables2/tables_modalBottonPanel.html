@@ -1,0 +1,11 @@
+<div>
+	<div ng-if="pageVar.rowKey==-1">
+		Додати: <a href="#"
+			ng-class="{'am-b':!pageVar.o.folderObjectType||pageVar.o.folderObjectType=='table'}"
+			ng-click="pageVar.o.addFolderObjectType('table')"> таблицю</a> | <a
+			href="#" ng-class="{'am-b':pageVar.o.folderObjectType=='doc'}"
+			ng-click="pageVar.o.addFolderObjectType('doc')"> документ </a> | <a
+			href="#" ng-class="{'am-b':pageVar.o.folderObjectType=='datadictionary'}"
+			ng-click="pageVar.o.addFolderObjectType('datadictionary')"> словник </a>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+<table data-ng-repeat="o in [oo]" class="am-width-100pr">
+	<tr class="w3-tiny w3-gray">
+		<td class="w3-left am-b"><span
+			class="w3-tiny w3-dropdown-hover w3-hover-shadow "> ☰
+				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+					style="left: -5px; width: 180px">
+					<div>
+						<a href="#" ng-click="pageVar.addRow(o)" title="Додати запис"
+							class="w3-button"><i class="fa fa-plus"></i></a>
+					</div>
+				</div>
+		</span> Документи</td>
+		<th>Т</th>
+	</tr>
+	<tr data-ng-repeat="tr in o.list" data-ng-init="isTable=tr.doctype==1">
+		<td class="w3-hover-shadow" data-ng-cut="cp.cut(tr)"
+			title="{{tr.doc_id}}"><span class="w3-tiny"
+			data-ng-class="{'w3-green':tr.doc_id==request.parameters.tableId}">
+				☰ </span> <a data-ng-if="isTable"
+			href="/f/c4/j2c_table_editor.html?tableId={{tr.doc_id}}">
+				{{tr.value}}</a> <a data-ng-if="!isTable"
+			href="/f/c4/j2c_json_editor.html?jsonId={{tr.doc_id}}">
+				{{tr.value}}</a> <span class="w3-tiny" style="vertical-align: sub;">
+				({{tr.doc_id}}) </span></td>
+		<td class="w3-tiny w3-border w3-border-white w3-hover-border-gray">
+			<a href="?folderId={{tr.parent}}"
+			class="w3-hover-shadow w3-hover-light-gray"
+			> <i class="fa fa-folder-o"
+				aria-hidden="true"></i></a> {{tr.doctype}}
+		</td>
+	</tr>
+</table>

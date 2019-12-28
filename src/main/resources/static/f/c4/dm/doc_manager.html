@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
+<head>
+<title>{{pageVar.pageName}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon" />
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/am-ris001.js"></script>
+<script src="/f/c4/init_j2c_json_editor.js"></script>
+<script src="/f/c4/dm/doc_manager.js"></script>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+</head>
+<body>
+	<div ng-include="'/f/c4/page_top_button_bar.html'"></div>
+	<div class="w3-card" style="margin-bottom: 10px">
+		<div class="w3-container">
+			<span class="w3-tiny am-b">менеджер документів</span>
+		</div>
+	</div>
+	<div class="w3-row-padding">
+		<div class="w3-half ">
+			<div class="w3-tiny">☰</div>
+			<div ng-repeat="oo in [folders]" class="w3-card"
+				ng-include="'/f/c4/dm/folders.html'"></div>
+			<!-- 
+			<div ng-repeat="oo in [folders]" class="w3-card"
+				ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
+				 -->
+		</div>
+		<div class="w3-half w3-container">
+			<div class="w3-tiny">☰</div>
+			<div ng-repeat="oo in [tables]" class="w3-card"
+				ng-include="'/f/c4/dm/documents.html'"></div>
+			<!-- 
+			<div ng-repeat="oo in [tables]" class="w3-card"
+				ng-include="'/f/am-dev/1c-db-tables2/tableJ2C.html'"></div>
+				 -->
+		</div>
+	</div>
+
+	<div ng-style="pageVar.ngStyleModal" class="w3-modal">
+		<div class="w3-modal-content"
+			ng-include="'/f/am-dev/1c-db-tables2/tableJ2C_edit_row.html'">
+		</div>
+	</div>
+
+</body>
+</html>

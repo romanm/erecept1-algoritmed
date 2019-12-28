@@ -1,0 +1,24 @@
+<div class="w3-row w3-light-grey am-p-margin">
+	<div class="w3-col w3-container  " style="width: 20%">
+		<p>
+			<a ng-if="pageVar.pageParent"
+				href="{{pageVar.pageParent.url}}{{pageVar.pageParent.params()}}"
+				class=" w3-btn w3-padding-small w3-border w3-round-xxlarge w3-hover-shadow">
+				<i class="fa fa-arrow-up w3-large" aria-hidden="true"></i>
+			</a> 
+			<a href="/"
+				class=" w3-btn w3-border w3-padding-small w3-round-large w3-hover-shadow">
+				<i class="fa fa-home w3-large" aria-hidden="true"></i>
+			</a>
+		</p>
+	</div>
+	<div class="w3-col  w3-center" style="width: 60%">
+		<p>
+			<span class="w3-small"> {{pageVar.pageName}} </span>
+			{{doc_data_workdata.docHead.value}}
+		</p>
+	</div>
+	<div class="w3-col w3-container w3-right-align" style="width: 20%">
+		<span ng-include="'/f/login-link.html'"> </span>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+<div class="w3-container">
+	<div class="w3-row-padding w3-border-bottom">
+		<div class="w3-col m3 l3 s3 ">
+			<button class="w3-border" data-ng-click="pageVar.o.saveUpdate()">OK</button>
+			<button class="w3-border"
+				data-ng-click="pageVar.ngStyleModal={display:'none'}">Cancel</button>
+		</div>
+		<div class="w3-col m9 l9 s9 ">
+			<div data-ng-include="pageVar.o.ngIncludes.modalBottonPanel"></div>
+			<!-- 
+			<div data-ng-include="'/f/am-dev/1c-db-tables2/tables_modalBottonPanel.html'"></div>
+			 -->
+		</div>
+	</div>
+
+	<span data-ng-click="pageVar.ngStyleModal={display:'none'}"
+		class="w3-button w3-display-topright">&times;</span>
+	<p data-ng-if="!pageVar.rowKey">Не вибрані дані для редагування.</p>
+	<div data-ng-if="pageVar.rowKey">
+		<div>
+			<span data-ng-if="folders.selectedObj"> Папка:
+				{{folders.selectedObj.folderName}} </span>
+		</div>
+		<div data-ng-repeat="(ck,cv) in pageVar.o.col_keys" data-ng-switch="ck"
+			data-ng-init="
+		colTypeO = create_tables.colMap[ck.split('col_')[1]];
+		ct_timestamp = colTypeO.fieldtype_id==4;
+		">
+			<b class="w3-small" title="{{ck}}">{{cv}}:</b> <span
+				data-ng-if="pageVar.o.no_edit.indexOf(ck)>=0">
+				{{pageVar.rowObj[ck]}} </span>
+			<div data-ng-switch-when="fieldtype">
+				{{pageVar.rowObj[ck]}} <select data-ng-model="pageVar.rowObj[ck+'_id']"
+					style="width: 100%;" class="w3-border">
+					<option value="{{v1.string_id}}"
+						data-ng-selected="pageVar.rowObj[ck+'_id']==v1[ck+'_id']"
+						data-ng-repeat="v1 in table_types.list">{{v1.value}}</option>
+				</select>
+				<div data-ng-if="pageVar.rowObj[ck]=='constraint'">
+					table <input style="width: 100%;"
+						data-ng-model="pageVar.rowObj.reference2" class="w3-border">
+				</div>
+			</div>
+			<div data-ng-switch-default>
+				<input style="width: 100%;" data-ng-model="pageVar.rowObj[ck]"
+					data-ng-change="pageVar.validate_change[colTypeO.fieldtype](ck)"
+					data-ng-if="pageVar.o.no_edit.indexOf(ck)<0 && !ct_timestamp"
+					class="w3-border"> 
+				<input style="width: 100%;"
+					data-ng-model="pageVar.rowObj[ck+'_ed']"
+					data-ng-change="pageVar.validate_change[colTypeO.fieldtype](ck+'_ed')"
+					data-ng-if="pageVar.o.no_edit.indexOf(ck)<0 && ct_timestamp"
+					class="w3-border">
+				<div class="w3-red w3-tiny" title="{{pageVar.rowObj[ck]}}"
+					data-ng-if="pageVar.validate_change.rowObj[ck+'_ed']">
+					{{pageVar.validate_change.rowObj[ck+'_ed']}}</div>
+			</div>
+		</div>
+		<!-- 
+		<div class="w3-code">{{pageVar.rowObj}}</div>
+		<div class="w3-code">{{pageVar.rowObj.column_id}}
+			{{create_tables.interpretationRows[pageVar.rowObj.column_id]}}</div>
+		<div class="w3-code">{{pageVar.o.col_keys}}</div>
+		 -->
+&nbsp;
+	</div>
+</div>

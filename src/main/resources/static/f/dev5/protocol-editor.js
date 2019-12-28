@@ -310,7 +310,7 @@ var readProtocol = function(ctrl){
 			"LEFT JOIN (SELECT * FROM doc,string WHERE doc_id=string_id) d2 ON d2.parent=d1.doc_id AND d2.reference=285578 \n" +
 			"  WHERE d1.doc_id \n" +
 			" IN " + in_dif_protocol
-			//console.log(sql_dif_protocol_name, in_dif_protocol, in_dif_protocol.length)
+			console.log(sql_dif_protocol_name, in_dif_protocol, in_dif_protocol.length)
 			readSql({ sql:sql_dif_protocol_name, afterRead:function(r2){
 				angular.forEach(r2.data.list, function(v2,k2){
 					ctrl.referencesMap[v2.doc_id].protocol_name = v2.protocol_name
@@ -321,7 +321,7 @@ var readProtocol = function(ctrl){
 		var sql_icpc2_i18n = "SELECT * FROM doc,string \n" +
 		"WHERE string_id=doc_id AND parent= 285597 \n" +
 		"AND reference IN " + ctrl.listToInSQL(icpc2_list)
-		//console.log(icpc2_list, sql_icpc2_i18n)
+		console.log(icpc2_list, sql_icpc2_i18n)
 		readSql({ sql:sql_icpc2_i18n, afterRead:function(r2){
 			angular.forEach(r2.data.list, function(v2,k2){
 				ctrl.referencesMap[v2.reference] = v2
