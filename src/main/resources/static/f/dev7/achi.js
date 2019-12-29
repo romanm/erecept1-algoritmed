@@ -39,9 +39,8 @@ function initAchi(ctrl) {
 
 	ctrl.seekLogic.seek_engine = function(){
 		console.log(ctrl.seekLogic.seek_value)
-		var sql = ctrl.seek_sql + " WHERE n10 LIKE '%" +
-		ctrl.seekLogic.seek_value +
-		"%'"
+		var sql = ctrl.seek_sql 
+			+ " WHERE n10 LIKE '%" + ctrl.seekLogic.seek_value + "%'"
 		console.log(sql)
 		read_seek(ctrl, sql)
 	}
@@ -62,6 +61,12 @@ function readL1(ctrl) {
 	ctrl.l1_fn.click_row = function(l1){
 		ctrl.l1_fn.filters.l1 = l1
 		console.log(ctrl.l1_fn, l1)
+// seek ACHI with filter
+		console.log(ctrl.seekLogic.seek_value)
+		var sql = ctrl.seek_sql 
+			+ " WHERE l0_id = " + l1.l0_id 
+		console.log(sql)
+		read_seek(ctrl, sql)
 	}
 	ctrl.l1_fn.click_head = function(h){
 		if(!ctrl.l1_order.includes(h)){
