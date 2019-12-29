@@ -16,30 +16,34 @@
 </head>
 <body>
 	<div class="w3-container">
-		<div>ACHI</div>
+		<div class="w3-border-bottom">
+			<span data-ng-include="'/f/home-link.html'" class="w3-small1"></span>
+		</div>
+		
 		<div class="w3-row">
-			<div class="w3-half">a1</div>
+			<div class="w3-half w3-rightbar w3-border-white">
+				<div class="w3-right w3-tiny">a2</div>
+				<div class="w3-border-bottom w3-center">
+					Пошук: <input class="w3-border"
+						data-ng-change="ctrl.seekLogic.seek_fn()"
+						data-ng-model="ctrl.seekLogic.seek_value"> <i
+						class="fas fa-search"></i>
+				</div>
+				<div data-ng-include="'/f/dev7/archi-seek.html'"></div>
+			</div>
 			<div class="w3-half w3-border-left">
-				<div class="w3-row">
-					<div  class="w3-col w3-right w3-hover-shadow" style="width:10px">x</div>
-					<div data-ng-repeat="(k,n1_head) in ctrl.n1_head"
-					data-ng-click="ctrl.n1_fn.click_head(k)"
-					>
-						<div data-ng-if="!$last" class="w3-col w3-gray w3-border w3-hover-shadow" style="{{n1_head.style}}">{{n1_head.n}}</div>
-						<div data-ng-if="$last" class="w3-rest w3-gray w3-border w3-hover-shadow">{{n1_head.n}}</div>
+				<div class="w3-border-bottom">
+					<div class="w3-small">
+						<i class="fas fa-filter"></i> <span> <span class="w3-tiny">
+								<span class="w3-dropdown-hover">
+									{{ctrl.l1_fn.filters.l1.l1s}}
+									<div class="w3-dropdown-content w3-card">a2</div>
+							</span>
+						</span> {{ctrl.l1_fn.filters.l1.n2}}
+						</span>
 					</div>
 				</div>
-				<div style="max-height: 35vh; overflow: auto;" class="w3-border-bottom">
-				<div data-ng-repeat="n1 in ctrl.n1" class="w3-row w3-hover-shadow">
-					<div data-ng-repeat="(k,n1_head) in ctrl.n1_head"
-						data-ng-init="nh_last=$last">
-						<div data-ng-if="!nh_last" class="w3-col" style="{{n1_head.style}}">
-						{{k=='n1'?n1.n1s:n1[k]}}
-						</div>
-						<div data-ng-if="nh_last" class="w3-rest ">{{n1[k]}}</div>
-					</div>
-				</div>
-				</div>
+				<div data-ng-include="'/f/dev7/archi-class.html'"></div>
 			</div>
 		</div>
 	</div>
