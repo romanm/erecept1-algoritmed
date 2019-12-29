@@ -1,0 +1,78 @@
+<div class=" w3-container">
+	<div class="w3-row">
+		<div class="w3-half w13-container">
+			<div class="">
+				<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">☰
+					&nbsp; 
+					<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+						style="left: -5px">
+						<a href="#" class="w3-bar-item w3-button"
+							ng-click="oo.openEditElement(oo.tableRoot.docRoot)"><i
+							class="fa fa-pencil-square-o"></i> Змінити</a> <a href="#"
+							ng-click="doc_data.addElement(oo.tableRoot.docRoot)"
+							class="w3-bar-item w3-button"><i class="fa fa-plus"></i>
+							Додати запис</a> <a href="#"
+							ng-click="oo.minusElement(oo.tableRoot.docRoot)"
+							class="w3-bar-item w3-button"><i class="fa fa-minus"></i>
+							Видалити запис</a>
+					</div>
+				</span>
+				{{oo.docHead.value}}
+			</div>
+			<div ng-repeat="elParent in [oo.tableRoot.docRoot]"
+				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
+		</div>
+		<div class="w3-half w3-card">
+			<div class="w3-tiny w3-border-bottom">
+				<!-- ☰ -->
+				<a href="#" class="w3-btn  w3-padding-small"
+					data-ng-click="pageVar.config.openDatadictionary()"> <i
+					class="fa fa-th-list" aria-hidden="true"></i> Словник даних
+				</a> <a href="#" class="w3-btn  w3-padding-small"
+					ng-click="pageVar.config.viewConfigPart='json_view'"> <i
+					class="fa fa-wrench" aria-hidden="true"></i> json_create_table
+				</a>
+				<a href="#" class="w3-btn  w3-padding-small"
+					ng-click="pageVar.config.viewConfigPart='element_type'"> <i
+					class="fa fa-wrench" aria-hidden="true"></i> element_type
+				</a>
+			</div>
+			<div
+				data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_'+pageVar.config.viewConfigPart+'.html'"></div>
+		</div>
+	</div>
+
+	<div data-ng-style="changeElement.ngStyleModal" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container">
+				<span data-ng-click="changeElement.ngStyleModal={display:'none'}"
+					class="w3-button w3-display-topright">&times;</span>
+				<div class="w3-row-padding w3-border-bottom">
+					<div class="w3-col m4 l4 s4 ">
+						<button class="w3-border"
+							data-ng-click="changeElement.saveUpdate()">OK запис</button>
+						<button class="w3-border"
+							ng-click="changeElement.ngStyleModal={display:'none'}">Cancel</button>
+					</div>
+					<div class="w3-col m8 l8 s8 ">
+						<div data-ng-include="pageVar.o.ngIncludes.modalBottonPanel"></div>
+					</div>
+				</div>
+				Назва: <input data-ng-model="changeElement.name"
+					class="w3-border w13-right">
+				<div class="w3-tiny w3-code">
+				a1 {{changeElement}} a1
+				</div>
+				<div>
+					JSON Element:
+					<div>
+						<textarea rows="10" class="am-width-100pr ng-binding ng-scope"
+							data-ng-change="changeElement.changeJSON()"
+							data-ng-model="changeElement.docbody"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

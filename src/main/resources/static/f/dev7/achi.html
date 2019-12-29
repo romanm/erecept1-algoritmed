@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico" type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/f/js/app002.js"></script>
+<script src="/f/dev7/achi.js"></script>
+</head>
+<body>
+	<div class="w3-container">
+		<div>ACHI</div>
+		<div class="w3-row">
+			<div class="w3-half">a1</div>
+			<div class="w3-half w3-border-left">
+				<div class="w3-row">
+					<div  class="w3-col w3-right w3-hover-shadow" style="width:10px">x</div>
+					<div data-ng-repeat="(k,n1_head) in ctrl.n1_head"
+					data-ng-click="ctrl.n1_fn.click_head(k)"
+					>
+						<div data-ng-if="!$last" class="w3-col w3-gray w3-border w3-hover-shadow" style="{{n1_head.style}}">{{n1_head.n}}</div>
+						<div data-ng-if="$last" class="w3-rest w3-gray w3-border w3-hover-shadow">{{n1_head.n}}</div>
+					</div>
+				</div>
+				<div style="max-height: 35vh; overflow: auto;" class="w3-border-bottom">
+				<div data-ng-repeat="n1 in ctrl.n1" class="w3-row w3-hover-shadow">
+					<div data-ng-repeat="(k,n1_head) in ctrl.n1_head"
+						data-ng-init="nh_last=$last">
+						<div data-ng-if="!nh_last" class="w3-col" style="{{n1_head.style}}">
+						{{k=='n1'?n1.n1s:n1[k]}}
+						</div>
+						<div data-ng-if="nh_last" class="w3-rest ">{{n1[k]}}</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

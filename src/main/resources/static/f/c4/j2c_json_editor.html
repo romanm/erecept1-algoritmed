@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
+<title>{{request.parameters.jsonId}} - {{doc_data_workdata.docHead.value}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon" />
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk.js"></script>
+<script src="/f/js/am-ris001.js"></script>
+<script src="/f/c4/init_j2c_json_editor.js"></script>
+<script src="/f/c5/init_j2c_json2table.js"></script>
+<script src="/f/c4/j2c_json_editor.js"></script>
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<body>
+	<div ng-include="'/f/c4/page_top_button_bar.html'"></div>
+	<div class="w3-container" style="margin-bottom: 5px">
+		<span class="w3-tiny"
+			data-ng-switch="doc_data_workdata.tableRoot.doctype"> <span
+			class="am-b w3-tiny"> <span data-ng-switch-when="6">словник</span>
+				<span data-ng-switch-when="17">шаблон</span>
+		</span> <span class="w3-tiny "> JSON-editor </span> <a href="#"
+			data-ng-repeat="tab1 in ['edit','test']"
+			class="w3-btn w3-padding-small"
+			data-ng-class="{'w3-border-top w3-border-blue-gray':pageVar.config.viewDocPart==tab1}"
+			data-ng-click="pageVar.config.viewDocPart=tab1"> <i
+				class="fa fa-th-list" aria-hidden="true"></i> {{tab1}}
+		</a> <span class="w3-tiny ">Table-interface</span> <a href="#"
+			data-ng-repeat="tab1 in ['table_structur','table_data']"
+			class="w3-btn w3-padding-small"
+			data-ng-class="{'w3-border-top w3-border-blue-gray':pageVar.config.viewDocPart==tab1}"
+			data-ng-click="pageVar.config.viewDocPart=tab1"> <i
+				class="fa fa-th-list" aria-hidden="true"></i> {{tab1}}
+		</a>
+		</span>
+	</div>
+	<div class="w3-container w3-card"
+		data-ng-include="'/r/h/n2/c5/json2table_'+pageVar.config.viewDocPart"></div>
+	<div class="w3-card" ng-repeat="oo in [doc_data_workdata]">
+		<div data-ng-if="pageVar.config.viewDocPart=='test'"
+			class="w3-container" data-ng-include="'/r/h/n2/doc_220_view001'"></div>
+		<div
+			data-ng-if="pageVar.config.viewDocPart=='edit'||!pageVar.config.viewDocPart"
+			data-ng-include="'/f/am-dev/1c-db-tables2/doc_17.html'"></div>
+	</div>
+	<div class="w3-tiny" data-ng-if="doc_links.list[0]">
+		links: <span data-ng-repeat="l in doc_links.list"> <a
+			class="w3-hover-shadow" href="{{l.value}}"> {{l.value}} </a>,
+		</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<ul class="am-ul">
+	<li ng-repeat="el in elParent.children | filter : elParent.seekInChildren">
+		<div class="w3-hover-shadow" 
+		data-ng-paste="cp.paste(el)"
+		data-ng-cut="cp.cut(el)"
+		data-ng-click="cp.clickTree(el)"
+		data-ng-copy="cp.copy(el, 'this_document')"
+		>
+			<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">
+				<span> <span data-ng-if="!el.children"> ☰ </span> <span
+						data-ng-if="el.children"> &nbsp;
+						<i class="fa fa-ellipsis-v" data-ng-if="el.isClosedTree"
+						aria-hidden="true"></i>
+						<i class="fa fa-ellipsis-h" data-ng-if="!el.isClosedTree"
+						aria-hidden="true"></i>
+						 &nbsp;
+					</span>
+					<span class="w3-tiny">{{el.doc_id}}</span>
+				</span>
+				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+					style="left: -5px; width: 180px">
+					<div>
+						<a href="#" ng-click="doc_data.upElement(el)" title="догори"
+							class="w13-bar-item w3-button"><i class="fa fa-sort-asc"></i></a>
+						<a href="#" ng-click="doc_data.downElement(el)" title="донизу"
+							class="w13-bar-item w3-button"><i class="fa fa-sort-desc"></i></a>
+						| <a href="#" ng-click="doc_data.addElement(el)"
+							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+						<a href="#" ng-click="doc_data.minusElement(el)"
+							title="Видалити запис" class="w3-button"><i
+							class="fa fa-minus"></i></a>
+					</div>
+					<a href="#" class="w3-bar-item w3-button"
+						data-ng-click="changeElement.openDialog(el)"><i
+						class="fa fa-pencil-square-o"></i> Змінити</a>
+					<div>
+						<a href="#" ng-click="doc_data.upElement(el)" title="копія"
+							class="w13-bar-item w3-button"><i class="fa fa-copy"></i></a> <a
+							href="#" ng-click="doc_data.cutElement(el)" title="вирізка"
+							class="w13-bar-item w3-button"><i class="fa fa-cut"></i></a> <a
+							href="#" ng-click="doc_data.pasteElement(el)" title="вставка"
+							class="w13-bar-item w3-button"><i class="fa fa-paste"></i></a>
+					</div>
+				</div>
+			</span> <span class=""> {{el.value}} 
+			<span
+				class="w3-blue">
+				 {{el.s_u}} </span> 
+				 {{el.vreal}} <span data-ng-if="el.string_reference"> - <span
+					class="w3-tiny">{{el.reference}}</span> {{el.string_reference}} <span
+					class="w3-blue">{{el.s_u_reference}}</span></span> <span data-ng-if="el.inn_reference2"
+				data-ng-bind-html="highlight(el.inn_reference2, elParent.seekInChildren)"></span>
+				<span data-ng-if="el.string_reference2"> -- <span
+					class="w3-tiny"> {{el.reference2}} </span> {{el.string_reference2}}
+			</span> <sub class="w3-tiny"
+				title="{{doctypes_level2.map[el.doctype].p1_doctype
+				}}.{{doctypes_level2.map[el.doctype].doctype}} {{el.doc_id}}">[{{el.doctype}}]
+			</sub> <span data-ng-if="el.reference"> <span class="am-b"
+					data-ng-if="complex_types.map[el.reference]">
+						{{complex_types.map[el.reference].complex_type_name}}: <a
+						class="w3-tiny"
+						href="/f/c4/j2c_json_editor.html?jsonId={{el.reference-1}}"><i
+							class="fa fa-external-link"></i></a>
+				</span> {{datadictionary.elementsMap[el.reference].value}} <span
+					class="am-i" data-ng-if="!datadictionary.elementsMap[el.reference]">
+						<span
+						data-ng-if="!doc_data_workdata.elementsMap[el.reference].children 
+						&& 'DataDictionary'!=doc_data_workdata.elementsMap[doc_data_workdata.elementsMap[el.reference].parent].value">
+							{{doc_data_workdata.elementsMap[doc_data_workdata.elementsMap[el.reference].parent].value}}
+					</span> {{doc_data_workdata.elementsMap[el.reference].value}}
+				</span> <!-- 
+					<span
+					data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"
+					data-ng-repeat="dd_el in [datadictionary.elementsMap[el.reference], complex_types.map[el.reference]]"></span>
+					 --> <span
+					data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"
+					data-ng-repeat="dd_el in [complex_types.map[el.reference]]"></span>
+					<span
+					data-ng-include="'/f/am-dev/1c-db-tables2/doc_17_dd_el_values.html'"
+					data-ng-repeat="dd_el in [datadictionary.elementsMap[el.reference]]"></span>
+			</span>
+			</span>
+		</div>
+		<div ng-if="!el.isClosedTree && el.children">
+			<input class="w3-border" 
+			data-ng-model="el.seekInChildren"
+			data-ng-if="el.children.length>100">
+			{{el.seekInChildren}}
+			<div ng-repeat="elParent in [el]"
+				ng-include="'/f/am-dev/1c-db-tables2/doc_element.html'"></div>
+		</div>
+	</li>
+</ul>

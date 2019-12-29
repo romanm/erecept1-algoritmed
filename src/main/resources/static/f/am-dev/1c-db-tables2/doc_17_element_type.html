@@ -1,0 +1,34 @@
+<div>
+	<div class="w3-row">
+		<div class="w3-half">
+			<div class="w3-tiny w3-blue-grey">Primitive Types</div>
+			<table>
+				<tr class="w3-hover-shadow" data-ng-copy="cp.copy(element_type, 'primitive_type')"
+					data-ng-repeat="element_type in element_types.list">
+					<td>{{element_type.doctype }}{{element_type.doctype2?'.':''
+						}}{{element_type.doctype2}}</td>
+					<td>{{element_type.doctype_id
+						}}{{element_type.doctype2_id?'.':'' }}{{element_type.doctype2_id}}</td>
+					<td>{{element_type.parent_id}}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="w3-half">
+			<div class="w3-tiny w3-blue-grey">Complex Types</div>
+			<table>
+				<tr class="w3-hover-shadow" data-ng-copy="cp.copy(complex_type, 'complex_type')"
+					data-ng-repeat="complex_type in complex_types.list">
+					<td>{{complex_type.complex_type_name}}</td>
+					<td>{{complex_type.doc_id}}</td>
+					<td class="w3-tiny"><a
+						href="/f/c4/j2c_json_editor.html?jsonId={{complex_type.parent}}"><i
+							class="fa fa-external-link" aria-hidden="true"></i></a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="w3-tiny">
+		<a href="https://www.hl7.org/fhir/datatypes.html"> Datatypes -
+			FHIR v4.0.0 </a>
+	</div>
+</div>
