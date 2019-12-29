@@ -56,6 +56,9 @@ function read_seek(ctrl, sql) {
 }
 
 function readL1(ctrl) {
+	ctrl.l1_fn.remove_filter = function(v){
+		delete ctrl[v+'_fn'].filters[v]
+	}
 	ctrl.l1_fn.click_row = function(l1){
 		ctrl.l1_fn.filters.l1 = l1
 		console.log(ctrl.l1_fn, l1)
