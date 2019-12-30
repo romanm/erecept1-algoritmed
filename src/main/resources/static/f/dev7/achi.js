@@ -6,7 +6,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initAchi(ctrl)
 	console.log(123, ctrl.page_title)
 	readL1(ctrl)
-//	read1(ctrl)
+//	read2(ctrl)
 })
 
 function readL1_go(ctrl, sql) {
@@ -34,7 +34,7 @@ function initAchi(ctrl) {
 
 	ctrl.seek_sql = "SELECT * FROM achi_ukr_eng2_3"
 		ctrl.l1_sql = "SELECT *, split_part(l1s, ' ',2)::int l1 FROM " +
-		"(SELECT l0_id , count(*) cnt, min(n1) l1s, min(n2) n2 FROM achi_ukr_eng2_3 group by l0_id) a "
+		"(SELECT l1_id , count(*) cnt, min(n1) l1s, min(n2) n2 FROM achi_ukr_eng2_3 group by l1_id) a "
 	read_seek(ctrl, ctrl.seek_sql)
 
 	ctrl.seekLogic.seek_engine = function(){
@@ -64,7 +64,7 @@ function readL1(ctrl) {
 // seek ACHI with filter
 		console.log(ctrl.seekLogic.seek_value)
 		var sql = ctrl.seek_sql 
-			+ " WHERE l0_id = " + l1.l0_id 
+			+ " WHERE l1_id = " + l1.l1_id 
 		console.log(sql)
 		read_seek(ctrl, sql)
 	}
@@ -89,12 +89,41 @@ function readL1(ctrl) {
 	readL1_go(ctrl, ctrl.l1_sql) 
 }
 
+var sql_read1 = "SELECT * FROM (" +
+"SELECT l0_id , COUNT(*) cnt, MIN(n1) l1 FROM achi_ukr_eng2_3 " +
+"WHERE l0_id IS NOT NULL GROUP BY l0_id ) a " +
+"WHERE cnt=1"
+
+var sql_read2 = "SELECT * FROM (SELECT l2_id , COUNT(*) cnt, MIN(n4) l2, min(l1_id) l1_id " +
+	" FROM achi_ukr_eng2_3 WHERE l2_id IS NOT NULL GROUP BY l2_id ) a " +
+	" WHERE cnt=1 "
+console.log(sql_read2)
+
+function write2_1(ctrl,v){
+	v.l2_1 = v.l2.replace(/'/g,"''")
+	console.log(v)
+	v.sql = "UPDATE achi_ukr_eng2_3 SET l2_id=:l2_id WHERE n4=:l2_1"
+	v.dataAfterSave = function(response){
+		console.log(response.data, v.sql)
+	}
+	writeSql(v)
+}
+
+function read2(ctrl) {
+	readSql({sql: sql_read2, afterRead:function(response){
+		ctrl.r1 = response.data.list
+		console.log(ctrl.r1)
+		angular.forEach(ctrl.r1, function(v,k){ if(k<20){
+			console.log(k,v)
+			v.k=k
+			write2_1(ctrl,v)
+		}})
+	}})
+}
+
 function read1(ctrl) {
 	readSql({
-		sql:"SELECT * FROM (" +
-		"SELECT l0_id , COUNT(*) cnt, MIN(n1) l1 FROM achi_ukr_eng2_3 " +
-		"WHERE l0_id IS NOT NULL GROUP BY l0_id ) a " +
-		"WHERE cnt=1",
+		sql: sql_read1,
 		afterRead:function(response){
 			ctrl.r1 = response.data.list
 			console.log(ctrl.r1)
@@ -102,14 +131,14 @@ function read1(ctrl) {
 				if(k==0){
 					console.log(k,v)
 					v.k=k
-					read2(ctrl,v)
+					read1_2(ctrl,v)
 				}
 			})
 		}
 	})
 }
 
-function read2(ctrl,v){
+function read1_2(ctrl,v){
 	console.log(v)
 	v.sql = "UPDATE achi_ukr_eng2_3 SET l0_id=:l0_id WHERE l1=:l1"
 	v.dataAfterSave = function(response){

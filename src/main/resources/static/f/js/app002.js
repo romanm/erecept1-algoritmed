@@ -42,7 +42,7 @@ var initApp = function($scope, $http, ctrl, $timeout){
 //		console.log(list, inIcpc2)
 		return inIcpc2
 	}
-	
+
 	ctrl.edProtocol = {}
 	ctrl.edProtocol.saveName = function(){
 		if(ctrl.edProtocol.o.protocol_name_id){

@@ -31,9 +31,9 @@ public class Db1Rest extends DbCommon{
 			,HttpServletRequest request
 			,Principal principal
 		){
-		logger.info("\n\n--35----- "
+		logger.info("\n--35---Post-- "
 				+ "/r/url_sql_read_db1"
-				+ "\n SQL = \n"+data.get("sql")
+				+ " SQL = \n"+data.get("sql")
 //				+ "\n" + data
 				);
 		executeSqlBlock.executeSql(data);
