@@ -1,5 +1,5 @@
 <div>
-	<div class="w3-row">
+	<div class="w3-row w3-small am-b">
 		<div class="w3-col w3-right w3-hover-shadow" style="width: 10px"
 			data-ng-click="ctrl.l1_fn.close=!ctrl.l1_fn.close">
 			<i class="{{ctrl.l1_fn.close?'fas':'far'}} fa-window-maximize"></i>
@@ -13,15 +13,17 @@
 				class="w3-rest w3-gray w3-border w3-hover-shadow">{{l1_head.n}}</div>
 		</div>
 	</div>
-	<div style="max-height: 35vh; overflow: auto;"
+	<div style="max-height: 25vh; overflow: auto;"
 		data-ng-if="!ctrl.l1_fn.close" class="w3-border-bottom">
 		<div data-ng-repeat="l1 in ctrl.l1" class="w3-row w3-hover-shadow"
+		data-ng-class="{'w3-green':ctrl.l1_fn.filters.l1.l1_id==l1.l1_id}"
 			data-ng-click="ctrl.l1_fn.click_row(l1)">
 			<div data-ng-repeat="(k,l1_head) in ctrl.l1_head"
 				data-ng-init="nh_last=$last">
-				<div data-ng-if="!nh_last" class="w3-col" data-ng-style="l1_head.style">
+				<div data-ng-if="!nh_last" class="w3-col w3-small" data-ng-style="l1_head.style">
 					{{k=='l1'?l1.l1s:l1[k]}}</div>
-				<div data-ng-if="nh_last" class="w3-rest ">{{l1[k]}}</div>
+				<div data-ng-if="nh_last" class="w3-rest ">
+					{{l1[k]}}</div>
 			</div>
 		</div>
 	</div>
