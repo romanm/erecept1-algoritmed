@@ -1,0 +1,31 @@
+<div>
+	<div class="w3-row w3-small am-b">
+		<div class="w3-col w3-right w3-hover-shadow" style="width: 10px"
+			data-ng-click="ctrl.l1_fn.close=!ctrl.l1_fn.close">
+			<i class="{{ctrl.l1_fn.close?'fas':'far'}} fa-window-maximize"></i>
+		</div>
+		<div data-ng-repeat="(k,v_head) in ctrl.l1_head"
+			data-ng-click="ctrl.l1_fn.click_head(k)">
+			<div data-ng-if="!$last"
+				class="w3-col w3-gray w3-border w3-hover-shadow"
+				data-ng-style="v_head.style">{{v_head.n}}</div>
+			<div data-ng-if="$last"
+				class="w3-rest w3-gray w3-border w3-hover-shadow">
+				<div class="w3-right w3-tiny">1&nbsp;</div>
+				{{v_head.n}}</div>
+		</div>
+	</div>
+
+	<div style="max-height: 25vh; overflow: auto;"
+		data-ng-if="!ctrl.l1_fn.close" class="w3-border-bottom">
+		<div data-ng-repeat="v in ctrl.l1" class="w3-row w3-hover-shadow">
+			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.cnt.style">
+				{{v.cnt}}</div>
+			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.l0.style">
+				{{v.l0s}}</div>
+			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.n3.style">
+				{{v.n3}}</div>
+			<div class="w3-rest ">{{v.n4}}</div>
+		</div>
+	</div>
+</div>

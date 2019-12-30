@@ -17,41 +17,42 @@
 <body>
 	<div class="w3-container">
 		<div class="w3-border-bottom">
-			<span data-ng-include="'/f/home-link.html'" class="w3-small1"></span>
+			<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
 		</div>
 		<div class="w3-border-bottom">
 			<i class="fas fa-ambulance"></i>
 		</div>
 		<div class="w3-row">
 			<div class="w3-half w3-rightbar w3-border-white">
-				<div class="w3-right w3-tiny">a2</div>
+				<div class="w3-right w3-tiny">b4</div>
 				<div class="w3-border-bottom w13-center">
 					Пошук: <input class="w3-border"
 						data-ng-change="ctrl.seekLogic.seek_fn()"
 						data-ng-model="ctrl.seekLogic.seek_value"> <i
 						class="fas fa-search"></i>
 				</div>
-				<div data-ng-include="'/f/dev7/archi-seek.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-seek.html'"></div>
 			</div>
 			<div class="w3-half w3-border-left">
 				<div class="w3-border-bottom">
 					<div class="w3-small">
 						<i class="fas fa-filter"></i> <span> <span class="w3-tiny">
 								<span class="w3-dropdown-hover">
-									{{ctrl.l1_fn.filters.l1.l1s}}
+									{{ctrl.l0_fn.filters.l0.l0s}}
 									<div class="w3-dropdown-content w3-card">
 										<a title="Видалити" class="w3-button"
-											data-ng-click="ctrl.l1_fn.remove_filter('l1')">
+											data-ng-click="ctrl.l0_fn.remove_filter('l0')">
 											<i class="fas fa-trash "></i>
 										</a>
 									</div>
 							</span>
-						</span> {{ctrl.l1_fn.filters.l1.n2}}
+						</span> {{ctrl.l0_fn.filters.l0.n2}}
 						</span>
 					</div>
 				</div>
-				<div data-ng-include="'/f/dev7/archi-class.html'"></div>
-				<div data-ng-include="'/f/dev7/archi-topology.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-class.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-anatomy.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-typology.html'"></div>
 			</div>
 		</div>
 	</div>

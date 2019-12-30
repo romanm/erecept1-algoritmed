@@ -5,23 +5,25 @@
 				class="w3-col w3-gray w3-border w3-hover-shadow"
 				data-ng-style="val.style">{{val.n}}</div>
 			<div data-ng-if="$last"
-				class="w3-rest w3-gray w3-border w3-hover-shadow">{{val.n}}</div>
+				class="w3-rest w3-gray w3-border w3-hover-shadow">
+				<div class="w3-right w3-tiny">4&nbsp;</div>
+				{{val.n}}</div>
 		</div>
 	</div>
 	<div style="max-height: 85vh; overflow: auto;"
 		data-ng-if="!ctrl.seek_fn.close" class="w3-border-bottom">
-		<div data-ng-repeat="l1 in ctrl.seek_achi"
+		<div data-ng-repeat="l0 in ctrl.seek_achi"
 			class="w3-row w3-hover-shadow"
-			data-ng-click="ctrl.l1_fn.click_row(l1)">
+			data-ng-click="ctrl.l0_fn.click_row(l0)">
 			<a href="#">
 				<div data-ng-repeat="(k,val) in ctrl.achi_seek_head"
 					data-ng-init="nh_last=$last">
 					<div data-ng-if="!nh_last" class="w3-col w3-small"
 						data-ng-style="val.style">
-						{{l1[k]}} <span class="w3-tiny">[{{l1.n7}}]</span>
+						{{l0[k]}} <span class="w3-tiny">[{{l0.n7}}]</span>
 					</div>
 					<div data-ng-if="nh_last" class="w3-rest "
-						ng-bind-html="ctrl.highlight(l1[k], ctrl.seekLogic.seek_value)">
+						ng-bind-html="ctrl.highlight(l0[k], ctrl.seekLogic.seek_value)">
 					</div>
 				</div>
 			</a>
