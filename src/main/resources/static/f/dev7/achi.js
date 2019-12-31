@@ -8,7 +8,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	console.log('--',ctrl.page_title,'--')
 //	read2(ctrl)
 	read_dataObject(ctrl, 'seek_achi', ctrl.seek_sql) 
-	read_dataObject(ctrl, 'l0', ctrl.l0_sql)
+	read_dataObject(ctrl, 'l0', ctrl.l0_sql + " ORDER BY class_nr")
 	read_dataObject(ctrl, 'l1', ctrl.l1_sql, 122, true)
 })
 
@@ -32,7 +32,7 @@ function initAchi(ctrl) {
 	}
 	ctrl.l0_head = {
 		cnt:{n:'∑', style:{'width':'35px'}},
-		l0:{n:'№', style:{'width':'55px'}},
+		class_nr:{n:'№', style:{'width':'55px'}},
 		n2:{n:'Клас'},
 	}
 
@@ -45,12 +45,17 @@ function initAchi(ctrl) {
 
 	ctrl.seek_sql = "SELECT * FROM achi_ukr_eng2_3"
 //ctrl.l0_sql = "SELECT l0_id , count(*) cnt, min(l0) l0, min(n2) n2 FROM achi_ukr_eng2_3 group by l0_id"
-	ctrl.l0_sql = "SELECT *, SPLIT_PART(l0s, ' ',2)::INT l0 FROM " +
-		"(SELECT l0_id , COUNT(*) cnt, MIN(n1) l0s, MIN(n2) n2 FROM achi_ukr_eng2_3 GROUP BY l0_id) a "
+//	ctrl.l0_sql = "SELECT *, SPLIT_PART(l0s, ' ',2)::INT l0 FROM " +
+//		"(SELECT l0_id , COUNT(*) cnt, MIN(n1) l0s, MIN(n2) n2 FROM achi_ukr_eng2_3 GROUP BY l0_id) a "
+	ctrl.l0_sql = "SELECT l0_id , COUNT(*) cnt, min(class_nr) class_nr, MIN(n1) l0s, MIN(n2) n2 FROM achi_ukr_eng2_3 GROUP BY l0_id"
 	ctrl.l1_sql = "SELECT *, SPLIT_PART(l0s, ' ',2)::INT l0 FROM ( " +
 		"SELECT l1_id, COUNT(*) cnt, MIN(n1) l0s, MIN(n3) n3, MIN(n4) n4, MIN(l0_id) l0_id FROM achi_ukr_eng2_3 GROUP BY l1_id" +
 		") a"
-//	console.log(ctrl.l1_sql)
+	ctrl.l1_sql = "SELECT COUNT(*) cnt, n3, class_nr, MIN(n1) l0s, MIN(l1_id) l1_id, MIN(n4) n4, MIN(l0_id) l0_id " +
+		"FROM achi_ukr_eng2_3 " +
+		"GROUP BY n3, class_nr " +
+		"order by n3, class_nr"
+	console.log(ctrl.l1_sql)
 	initl0(ctrl)
 }
 

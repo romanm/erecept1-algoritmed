@@ -23,7 +23,7 @@
 			<div data-ng-repeat="(k,l0_head) in ctrl.l0_head"
 				data-ng-init="nh_last=$last">
 				<div data-ng-if="!nh_last" class="w3-col w3-small" data-ng-style="l0_head.style">
-					{{k=='l0'?l0.l0s:l0[k]}}</div>
+					{{k=='class_nr'?l0.l0s:l0[k]}}</div>
 				<div data-ng-if="nh_last" class="w3-rest ">
 					{{l0[k]}}</div>
 			</div>
