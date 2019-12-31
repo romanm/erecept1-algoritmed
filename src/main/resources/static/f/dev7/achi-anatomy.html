@@ -11,14 +11,15 @@
 				data-ng-style="v_head.style">{{v_head.n}}</div>
 			<div data-ng-if="$last"
 				class="w3-rest w3-gray w3-border w3-hover-shadow">
-				<div class="w3-right w3-tiny">1&nbsp;</div>
+				<div class="w3-right w3-tiny">1<sup>р</sup>&nbsp;</div>
 				{{v_head.n}}</div>
 		</div>
 	</div>
 
 	<div style="max-height: 25vh; overflow: auto;"
 		data-ng-if="!ctrl.l1_fn.close" class="w3-border-bottom">
-		<div data-ng-repeat="v in ctrl.l1" class="w3-row w3-hover-shadow">
+		<div data-ng-repeat="v in ctrl.l1" class="w3-row w3-hover-shadow"
+					data-ng-click="ctrl.l1_fn.click_row(v)">
 			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.cnt.style">
 				{{v.cnt}}</div>
 			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.l0.style">

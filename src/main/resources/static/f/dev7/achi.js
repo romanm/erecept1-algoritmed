@@ -7,14 +7,12 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initAchi(ctrl)
 	console.log('--',ctrl.page_title,'--')
 //	read2(ctrl)
-	read_dataObject(ctrl, 'seek_achi', ctrl.seek_sql) 
-	read_dataObject(ctrl, 'l0', ctrl.l0_sql + " ORDER BY class_nr")
-	read_dataObject(ctrl, 'l1', ctrl.l1_sql, 122, true)
+	read_dataObject(ctrl, 'seek_achi', sql_app.seek_sql) 
+	read_dataObject(ctrl, 'l0', sql_app.l0_sql + " ORDER BY class_nr")
+	read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122, true)
 })
 
 function initAchi(ctrl) {
-	ctrl.l0_fn = {}
-	ctrl.l0_fn.filters = {}
 	ctrl.achi_seek_head = {
 		n9:{n:'Код', style:{'width':'100px'}},
 		n8:{n:'ACHI'},
@@ -37,29 +35,54 @@ function initAchi(ctrl) {
 	}
 
 	ctrl.seekLogic.seek_engine = function(){
-		var sql = ctrl.seek_sql 
+		var sql = sql_app.seek_sql 
 			+ " WHERE n10 LIKE '%" + ctrl.seekLogic.seek_value + "%'"
 		console.log(ctrl.seekLogic.seek_value, sql)
 		read_dataObject(ctrl, 'seek_achi', sql)
 	}
-
-	ctrl.seek_sql = "SELECT * FROM achi_ukr_eng2_3"
-//ctrl.l0_sql = "SELECT l0_id , count(*) cnt, min(l0) l0, min(n2) n2 FROM achi_ukr_eng2_3 group by l0_id"
-//	ctrl.l0_sql = "SELECT *, SPLIT_PART(l0s, ' ',2)::INT l0 FROM " +
-//		"(SELECT l0_id , COUNT(*) cnt, MIN(n1) l0s, MIN(n2) n2 FROM achi_ukr_eng2_3 GROUP BY l0_id) a "
-	ctrl.l0_sql = "SELECT l0_id , COUNT(*) cnt, min(class_nr) class_nr, MIN(n1) l0s, MIN(n2) n2 FROM achi_ukr_eng2_3 GROUP BY l0_id"
-	ctrl.l1_sql = "SELECT *, SPLIT_PART(l0s, ' ',2)::INT l0 FROM ( " +
-		"SELECT l1_id, COUNT(*) cnt, MIN(n1) l0s, MIN(n3) n3, MIN(n4) n4, MIN(l0_id) l0_id FROM achi_ukr_eng2_3 GROUP BY l1_id" +
-		") a"
-	ctrl.l1_sql = "SELECT COUNT(*) cnt, n3, class_nr, MIN(n1) l0s, MIN(l1_id) l1_id, MIN(n4) n4, MIN(l0_id) l0_id " +
-		"FROM achi_ukr_eng2_3 " +
-		"GROUP BY n3, class_nr " +
-		"order by n3, class_nr"
-	console.log(ctrl.l1_sql)
+	console.log(sql_app.l1_sql)
 	initl0(ctrl)
+	initl1(ctrl)
+}
+
+sql_app.seek_sql	= "" +
+	"SELECT * FROM achi_ukr_eng2_3"
+sql_app.l0_sql		= "" +
+	"SELECT l0_id, COUNT(*) cnt, MIN(class_nr) class_nr, MIN(n1) l0s, MIN(n2) n2 " +
+	"FROM achi_ukr_eng2_3 " +
+	"GROUP BY l0_id"
+sql_app.l1_sql			= "" +
+	"SELECT COUNT(*) cnt, n3, class_nr, MIN(n1) l0s, MIN(l1_id) l1_id, MIN(n4) n4, MIN(l0_id) l0_id " +
+	"FROM achi_ukr_eng2_3 " +
+	"GROUP BY n3, class_nr " +
+	"ORDER BY n3, class_nr"
+
+function initl1(ctrl) {
+	ctrl.l1_fn = {}
+	ctrl.l1_fn.filters = {}
+	ctrl.l1_fn.click_row = function(l1){
+		if(ctrl.l1_fn.filters.l1 && l1.l1_id == ctrl.l1_fn.filters.l1.l1_id){
+			ctrl.l1_fn.remove_filter('l1')
+			return
+		}
+		ctrl.l1_fn.filters.l1 = l1
+		console.log(ctrl.l1_fn, l1)
+// seek ACHI with filter
+		console.log(ctrl.seekLogic.seek_value)
+		var sql_seek_achi = sql_app.seek_sql + " WHERE l1_id = " + l1.l1_id
+		console.log(sql_seek_achi)
+		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
+		console.log('l1\n', sql_app.l1_sql)
+		var sql_l1 = "" +
+		"SELECT * FROM (" + sql_app.l1_sql + ")a WHERE l1_id="+l1.l1_id
+		read_dataObject(ctrl, 'l1', sql_l1)
+	}
 }
 
 function initl0(ctrl) {
+	ctrl.l0_fn = {}
+	ctrl.l0_fn.filters = {}
+
 	ctrl.l0_fn.click_head = function(h){
 		if(!ctrl.l0_order.includes(h)){
 			ctrl.l0_order = h
@@ -70,26 +93,32 @@ function initl0(ctrl) {
 				ctrl.l0_order = h
 			}
 		}
-		var sql = "SELECT * FROM (" + ctrl.l0_sql + ") a ORDER BY "+ctrl.l0_order
+		var sql = "SELECT * FROM (" + sql_app.l0_sql + ") a ORDER BY "+ctrl.l0_order
 //	console.log(h, ctrl.l0_order.includes(h), sql)
 		read_dataObject(ctrl, 'l0', sql) 
 	}
+
 	ctrl.l0_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
+		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
 	}
 
 	ctrl.l0_fn.click_row = function(l0){
 		if(ctrl.l0_fn.filters.l0 && l0.l0_id == ctrl.l0_fn.filters.l0.l0_id){
-			delete ctrl.l0_fn.filters.l0
+			ctrl.l0_fn.remove_filter('l0')
 			return
 		}
 		ctrl.l0_fn.filters.l0 = l0
 		console.log(ctrl.l0_fn, l0)
 // seek ACHI with filter
 		console.log(ctrl.seekLogic.seek_value)
-		var sql = ctrl.seek_sql + " WHERE l0_id = " + l0.l0_id
-		console.log(sql)
-		read_dataObject(ctrl, 'seek_achi', sql)
+		var sql_seek_achi = sql_app.seek_sql + " WHERE l0_id = " + l0.l0_id
+		console.log(sql_seek_achi)
+		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
+		console.log('l1\n', sql_app.l1_sql)
+		var sql_l1 = "" +
+		"SELECT * FROM (" + sql_app.l1_sql + ")a WHERE l0_id="+l0.l0_id
+		read_dataObject(ctrl, 'l1', sql_l1)
 	}
 
 	ctrl.l0_order = ""
