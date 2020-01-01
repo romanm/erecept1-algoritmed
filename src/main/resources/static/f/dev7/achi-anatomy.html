@@ -19,6 +19,7 @@
 	<div style="max-height: 25vh; overflow: auto;"
 		data-ng-if="!ctrl.l1_fn.close" class="w3-border-bottom">
 		<div data-ng-repeat="v in ctrl.l1" class="w3-row w3-hover-shadow"
+				data-ng-class="{'w3-green':ctrl.l1_fn.filters.l1.l1_id==v.l1_id}"
 					data-ng-click="ctrl.l1_fn.click_row(v)">
 			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.cnt.style">
 				{{v.cnt}}</div>

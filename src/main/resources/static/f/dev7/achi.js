@@ -70,12 +70,11 @@ function initl1(ctrl) {
 // seek ACHI with filter
 		console.log(ctrl.seekLogic.seek_value)
 		var sql_seek_achi = sql_app.seek_sql + " WHERE l1_id = " + l1.l1_id
-		console.log(sql_seek_achi)
 		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
-		console.log('l1\n', sql_app.l1_sql)
-		var sql_l1 = "" +
-		"SELECT * FROM (" + sql_app.l1_sql + ")a WHERE l1_id="+l1.l1_id
-		read_dataObject(ctrl, 'l1', sql_l1)
+	}
+	ctrl.l1_fn.remove_filter = function(v){
+		delete ctrl[v+'_fn'].filters[v]
+//		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
 	}
 }
 
@@ -100,10 +99,12 @@ function initl0(ctrl) {
 
 	ctrl.l0_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
+		delete ctrl.l1_fn.filters.l1
 		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
 	}
 
 	ctrl.l0_fn.click_row = function(l0){
+		delete ctrl.l1_fn.filters.l1
 		if(ctrl.l0_fn.filters.l0 && l0.l0_id == ctrl.l0_fn.filters.l0.l0_id){
 			ctrl.l0_fn.remove_filter('l0')
 			return

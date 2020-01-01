@@ -36,17 +36,30 @@
 			<div class="w3-half w3-border-left">
 				<div class="w3-border-bottom">
 					<div class="w3-small">
-						<i class="fas fa-filter"></i> <span> <span class="w3-tiny">
+						<i class="fas fa-filter"></i> 
+						<span
+						data-ng-if="!ctrl.l1_fn.filters.l1"
+						> <span class="w3-tiny">
 								<span class="w3-dropdown-hover">
 									{{ctrl.l0_fn.filters.l0.l0s}}
 									<div class="w3-dropdown-content w3-card">
 										<a title="Видалити" class="w3-button"
-											data-ng-click="ctrl.l0_fn.remove_filter('l0')">
-											<i class="fas fa-trash "></i>
+											data-ng-click="ctrl.l0_fn.remove_filter('l0')"> <i
+											class="fas fa-trash "></i>
 										</a>
 									</div>
 							</span>
 						</span> {{ctrl.l0_fn.filters.l0.n2}}
+						</span> <span data-ng-if="ctrl.l1_fn.filters.l1">| <span
+							class="w3-dropdown-hover w3-tiny">
+								{{ctrl.l1_fn.filters.l1.l0s}}
+								<div class="w3-dropdown-content w3-card">
+									<a title="Видалити" class="w3-button"
+										data-ng-click="ctrl.l1_fn.remove_filter('l1')"> <i
+										class="fas fa-trash "></i>
+									</a>
+								</div>
+						</span> {{ctrl.l1_fn.filters.l1.n4}}
 						</span>
 					</div>
 				</div>
