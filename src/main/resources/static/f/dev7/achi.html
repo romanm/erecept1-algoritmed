@@ -24,18 +24,26 @@
 		</div>
 		<div class="w3-row">
 			<div class="w3-half w3-rightbar w3-border-white">
-				<div class="w3-right w3-tiny">b4</div>
+				<div class="w3-right w3-tiny">{{ctrl.seek_achi_cnt[0].count}}
+				</div>
 				<div class="w3-border-bottom w13-center">
 					Пошук: <input class="w3-border"
 						data-ng-change="ctrl.seekLogic.seek_fn()"
 						data-ng-model="ctrl.seekLogic.seek_value"> <i
-						class="fas fa-search"></i>
+						class="fas fa-search w3-btn"
+						data-ng-click="ctrl.seekLogic.seek_engine()"
+						></i>
+						<i class="fas fa-minus w3-btn"
+						data-ng-click="ctrl.seek_clean()"
+						></i>
 				</div>
 				<div data-ng-include="'/f/dev7/achi-seek.html'"></div>
 			</div>
 			<div class="w3-half w3-border-left">
 				<div class="w3-border-bottom">
-					<div class="w3-small">
+					<div class="w3-small"
+					style="height: 5vh"
+					>
 						<i class="fas fa-filter"></i> 
 						<span
 						data-ng-if="!ctrl.l1_fn.filters.l1"
@@ -63,9 +71,9 @@
 						</span>
 					</div>
 				</div>
-				<div data-ng-include="'/f/dev7/achi-class.html'"></div>
-				<div data-ng-include="'/f/dev7/achi-anatomy.html'"></div>
 				<div data-ng-include="'/f/dev7/achi-typology.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-anatomy.html'"></div>
+				<div data-ng-include="'/f/dev7/achi-class.html'"></div>
 			</div>
 		</div>
 	</div>

@@ -7,7 +7,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initAchi(ctrl)
 	console.log('--',ctrl.page_title,'--')
 //	read2(ctrl)
-	read_dataObject(ctrl, 'seek_achi', sql_app.seek_sql) 
+	read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
+	read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl)) 
 	read_dataObject(ctrl, 'l0', sql_app.l0_sql + " ORDER BY class_nr")
 	read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122, true)
 })
@@ -15,7 +16,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 function initAchi(ctrl) {
 	ctrl.achi_seek_head = {
 		n9:{n:'Код', style:{'width':'100px'}},
-		n8:{n:'ACHI'},
+		n10:{n:'ACHI'},
 	}
 	ctrl.l2_head = {
 		cnt:{n:'∑', style:{'width':'35px'}},
@@ -34,15 +35,52 @@ function initAchi(ctrl) {
 		n2:{n:'Клас'},
 	}
 
+	ctrl.seek_clean = function(){
+		ctrl.seekLogic.seek_value = null
+		read_dataObject(ctrl, 'seek_achi', sql_app.seek_sql) 
+		read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122, true)
+	}
 	ctrl.seekLogic.seek_engine = function(){
-		var sql = sql_app.seek_sql 
-			+ " WHERE n10 LIKE '%" + ctrl.seekLogic.seek_value + "%'"
-		console.log(ctrl.seekLogic.seek_value, sql)
-		read_dataObject(ctrl, 'seek_achi', sql)
+		//var sql_seek_achi = sql_app.seek_sql 
+		var sql_seek_achi = "" +
+			"SELECT * FROM (" + sql_app.seek_achi(ctrl) + ") a " +
+			" WHERE LOWER(n10) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
+//		console.log(ctrl.seekLogic.seek_value, sql_seek_achi, sql_app.l1_sql)
+		console.log(sql_seek_achi)
+		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
+		var sql_l1 = "SELECT * FROM (" +
+		sql_app.l1_sql +
+				")a  WHERE LOWER(n4) LIKE LOWER('%" +
+				ctrl.seekLogic.seek_value +
+				"%')"
+		read_dataObject(ctrl, 'l1', sql_l1, 122, true)
 	}
 	console.log(sql_app.l1_sql)
 	initl0(ctrl)
 	initl1(ctrl)
+}
+
+sql_app.seek_achi	= function(ctrl){
+	var sql = sql_app.seek_sql
+	if(ctrl.l1_fn.filters.l1){
+		sql += " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
+	}else
+	if(ctrl.l0_fn.filters.l0){
+		sql += " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
+	}
+	return sql
+}
+
+sql_app.seek_achi_cnt	= function(ctrl){
+	var sql = sql_app.seek_sql
+	if(ctrl.l1_fn.filters.l1){
+		sql += " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
+	}else
+	if(ctrl.l0_fn.filters.l0){
+		sql += " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
+	}
+	sql = "SELECT count(*) FROM (" +sql +") a"
+	return sql
 }
 
 sql_app.seek_sql	= "" +
@@ -68,12 +106,14 @@ function initl1(ctrl) {
 		ctrl.l1_fn.filters.l1 = l1
 		console.log(ctrl.l1_fn, l1)
 // seek ACHI with filter
-		console.log(ctrl.seekLogic.seek_value)
-		var sql_seek_achi = sql_app.seek_sql + " WHERE l1_id = " + l1.l1_id
-		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
+		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
+		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
 	}
 	ctrl.l1_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
+		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
+		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
+//		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
 //		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
 	}
 }
@@ -101,6 +141,8 @@ function initl0(ctrl) {
 		delete ctrl[v+'_fn'].filters[v]
 		delete ctrl.l1_fn.filters.l1
 		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
+		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
+		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
 	}
 
 	ctrl.l0_fn.click_row = function(l0){
@@ -112,10 +154,8 @@ function initl0(ctrl) {
 		ctrl.l0_fn.filters.l0 = l0
 		console.log(ctrl.l0_fn, l0)
 // seek ACHI with filter
-		console.log(ctrl.seekLogic.seek_value)
-		var sql_seek_achi = sql_app.seek_sql + " WHERE l0_id = " + l0.l0_id
-		console.log(sql_seek_achi)
-		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
+		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
+		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
 		console.log('l1\n', sql_app.l1_sql)
 		var sql_l1 = "" +
 		"SELECT * FROM (" + sql_app.l1_sql + ")a WHERE l0_id="+l0.l0_id
@@ -190,6 +230,6 @@ function read_dataObject(ctrl, dataObjectName, sql, limit, printObject) {
 	readSql({sql:sql, afterRead:function(response){
 		ctrl[dataObjectName] = response.data.list
 		if(printObject)
-			console.log(ctrl[dataObjectName], sql)
+			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)
 	}})
 }

@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<div style="max-height: 25vh; overflow: auto;"
+	<div style="height: 18vh; overflow: auto;"
 		data-ng-if="!ctrl.l1_fn.close" class="w3-border-bottom">
 		<div data-ng-repeat="v in ctrl.l1" class="w3-row w3-hover-shadow"
 				data-ng-class="{'w3-green':ctrl.l1_fn.filters.l1.l1_id==v.l1_id}"
@@ -27,7 +27,9 @@
 				{{v.l0s}}</div>
 			<div class="w3-col w3-small" data-ng-style="ctrl.l1_head.n3.style">
 				{{v.n3}}</div>
-			<div class="w3-rest ">{{v.n4}}</div>
+			<div class="w3-rest "
+				ng-bind-html="ctrl.highlight(v.n4
+				, ctrl.seekLogic.seek_value)"></div>
 		</div>
 	</div>
 </div>
