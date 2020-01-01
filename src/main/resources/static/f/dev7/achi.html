@@ -41,14 +41,10 @@
 			</div>
 			<div class="w3-half w3-border-left">
 				<div class="w3-border-bottom">
-					<div class="w3-small"
-					style="height: 5vh"
-					>
-						<i class="fas fa-filter"></i> 
-						<span
-						data-ng-if="!ctrl.l1_fn.filters.l1"
-						> <span class="w3-tiny">
-								<span class="w3-dropdown-hover">
+					<div class="w3-small" style="height: 5vh">
+						<i class="fas fa-filter"></i> <span
+							data-ng-if="!ctrl.l1_fn.filters.l1"> <span
+							class="w3-tiny"> <span class="w3-dropdown-hover">
 									{{ctrl.l0_fn.filters.l0.l0s}}
 									<div class="w3-dropdown-content w3-card">
 										<a title="Видалити" class="w3-button"
@@ -67,10 +63,22 @@
 										class="fas fa-trash "></i>
 									</a>
 								</div>
-						</span> {{ctrl.l1_fn.filters.l1.n4}}
+						</span> 
+						{{ctrl.l1_fn.filters.l1.n4}}
+						</span> <span data-ng-if="ctrl.l2_fn.filters.l2"> <span
+							class="w3-dropdown-hover w3-tiny"> Тип:
+								{{ctrl.l2_fn.filters.l2.n5}}
+								<div class="w3-dropdown-content w3-card">
+									<a title="Видалити" class="w3-button"
+										data-ng-click="ctrl.l2_fn.remove_filter()"> <i
+										class="fas fa-trash "></i>
+									</a>
+								</div>
+						</span> {{ctrl.l2_fn.filters.l2.n6}}
 						</span>
 					</div>
 				</div>
+				<div data-ng-include="'/f/dev7/achi-block.html'"></div>
 				<div data-ng-include="'/f/dev7/achi-typology.html'"></div>
 				<div data-ng-include="'/f/dev7/achi-anatomy.html'"></div>
 				<div data-ng-include="'/f/dev7/achi-class.html'"></div>

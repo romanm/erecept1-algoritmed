@@ -3,6 +3,7 @@ var conf = {dataModelList : {}}
 var exe_fn = {}
 var sql_app = {}
 var initApp = function($scope, $http, ctrl, $timeout){
+	sql_app.ctrl = ctrl
 	ctrl.i18 = {}
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap

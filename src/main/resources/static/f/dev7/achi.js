@@ -6,17 +6,23 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initApp($scope, $http, ctrl, $timeout)
 	initAchi(ctrl)
 	console.log('--',ctrl.page_title,'--')
-//	read2(ctrl)
 	read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
 	read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl)) 
 	read_dataObject(ctrl, 'l0', sql_app.l0_sql + " ORDER BY class_nr")
-	read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122, true)
+	read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122)
+	read_dataObject(ctrl, 'l2', sql_app.l2_sql())
+//	read_l2(ctrl)
 })
 
 function initAchi(ctrl) {
 	ctrl.achi_seek_head = {
 		n9:{n:'Код', style:{'width':'100px'}},
 		n10:{n:'ACHI'},
+	}
+	ctrl.l3_head = {
+		cnt:{n:'∑', style:{'width':'35px'}},
+		n7:{n:'№', style:{'width':'25px'}},
+		n8:{n:'Вісь блоків'},
 	}
 	ctrl.l2_head = {
 		cnt:{n:'∑', style:{'width':'35px'}},
@@ -38,7 +44,7 @@ function initAchi(ctrl) {
 	ctrl.seek_clean = function(){
 		ctrl.seekLogic.seek_value = null
 		read_dataObject(ctrl, 'seek_achi', sql_app.seek_sql) 
-		read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122, true)
+		read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122 )
 	}
 	ctrl.seekLogic.seek_engine = function(){
 		//var sql_seek_achi = sql_app.seek_sql 
@@ -48,16 +54,14 @@ function initAchi(ctrl) {
 //		console.log(ctrl.seekLogic.seek_value, sql_seek_achi, sql_app.l1_sql)
 		console.log(sql_seek_achi)
 		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
-		var sql_l1 = "SELECT * FROM (" +
-		sql_app.l1_sql +
-				")a  WHERE LOWER(n4) LIKE LOWER('%" +
-				ctrl.seekLogic.seek_value +
-				"%')"
+		var sql_l1 = "SELECT * FROM (" + sql_app.l1_sql +
+				")a WHERE LOWER(n4) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
 		read_dataObject(ctrl, 'l1', sql_l1, 122, true)
+		read_dataObject(ctrl, 'l2', sql_app.l2_sql(ctrl.seekLogic.seek_value))
 	}
-	console.log(sql_app.l1_sql)
-	initl0(ctrl)
-	initl1(ctrl)
+	init_l0(ctrl)
+	init_l1(ctrl)
+	init_l2(ctrl)
 }
 
 sql_app.seek_achi	= function(ctrl){
@@ -94,8 +98,35 @@ sql_app.l1_sql			= "" +
 	"FROM achi_ukr_eng2_3 " +
 	"GROUP BY n3, class_nr " +
 	"ORDER BY n3, class_nr"
+sql_app.l2_sql			= function(seek_value){
+	var sql = "" +
+	"SELECT * FROM (" +
+	"SELECT *, CASE WHEN n5=0 THEN 100 ELSE n5 END n5s " +
+	"FROM (" +
+	"SELECT COUNT(*) cnt, l2_id, MIN(n5) n5, MIN(n6) n6 " +
+	"FROM achi_ukr_eng2_3 WHERE l2_id IS NOT NULL GROUP BY l2_id" +
+	") a" +
+	") a " 
+	if(seek_value){
+		sql += " WHERE LOWER(n6) LIKE LOWER('%" + seek_value + "%')"
+	}
+	sql +="ORDER BY n5s"
+	return sql
+}
 
-function initl1(ctrl) {
+function init_l2(ctrl) {
+	ctrl.l2_fn = {}
+	ctrl.l2_fn.filters = {}
+	ctrl.l2_fn.remove_filter = function(){
+		console.log(ctrl.l2_fn.filters.l2)
+		delete ctrl.l2_fn.filters.l2
+	}
+	ctrl.l2_fn.click_row = function(v){
+		ctrl.l2_fn.filters.l2 = v
+		console.log(ctrl.l2_fn.filters)
+	}
+}
+function init_l1(ctrl) {
 	ctrl.l1_fn = {}
 	ctrl.l1_fn.filters = {}
 	ctrl.l1_fn.click_row = function(l1){
@@ -118,7 +149,7 @@ function initl1(ctrl) {
 	}
 }
 
-function initl0(ctrl) {
+function init_l0(ctrl) {
 	ctrl.l0_fn = {}
 	ctrl.l0_fn.filters = {}
 
@@ -171,11 +202,39 @@ var sql_read1 = "SELECT * FROM (" +
 "WHERE l0_id IS NOT NULL GROUP BY l0_id ) a " +
 "WHERE cnt=1"
 
-var sql_read2 = "SELECT * FROM (SELECT l1_id , COUNT(*) cnt, MIN(n4) l1, min(l0_id) l0_id " +
+var sql_read2 = "SELECT * FROM (SELECT l1_id, COUNT(*) cnt, MIN(n4) l1, MIN(l0_id) l0_id " +
 	" FROM achi_ukr_eng2_3 WHERE l1_id IS NOT NULL GROUP BY l1_id ) a " +
 	" WHERE cnt=1 "
 //console.log(sql_read2)
 
+var sql_read_l2 = "" +
+	"SELECT * FROM (" +
+	"SELECT COUNT(*) cnt, l2_id, MIN(n6) n6 " +
+	"FROM achi_ukr_eng2_3 " +
+	"WHERE l2_id IS NOT NULL GROUP BY l2_id" +
+	") a WHERE cnt=1"
+
+function read_l2(ctrl) {
+	readSql({sql: sql_read_l2, afterRead:function(response){
+		ctrl.r1 = response.data.list
+		console.log(ctrl.r1)
+		angular.forEach(ctrl.r1, function(v,k){ if(k<111){
+			console.log(k,v)
+			v.k=k
+			write_l2_1(ctrl,v)
+		}})
+	}})
+}
+
+function write_l2_1(ctrl,v){
+	v.n6_1 = v.n6.replace(/'/g,"''")
+	v.sql = "UPDATE achi_ukr_eng2_3 SET l2_id=:l2_id WHERE n6=:n6_1"
+	console.log(v)
+	v.dataAfterSave = function(response){
+		console.log(response.data, v.sql)
+	}
+	writeSql(v)
+}
 function write2_1(ctrl,v){
 	v.l1_1 = v.l1.replace(/'/g,"''")
 	console.log(v)

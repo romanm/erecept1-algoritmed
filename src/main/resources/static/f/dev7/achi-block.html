@@ -1,0 +1,22 @@
+<div>
+	<div class="w3-row w3-small am-b">
+		<div class="w3-col w3-right w3-hover-shadow" style="width: 10px"
+			data-ng-click="ctrl.l3_close=!ctrl.l3_close">
+			<i class="{{ctrl.l3_close?'fas':'far'}} fa-window-maximize"></i>
+		</div>
+		<div data-ng-repeat="(k,v_head) in ctrl.l3_head"
+			data-ng-click="ctrl.l3_click_head(k)">
+			<div data-ng-if="!$last"
+				class="w3-col w3-gray w3-border w3-hover-shadow"
+				data-ng-style="v_head.style">{{v_head.n}}</div>
+			<div data-ng-if="$last"
+				class="w3-rest w3-gray w3-border w3-hover-shadow">
+				<div class="w3-right w3-tiny">
+					3<sup>р</sup>&nbsp;
+				</div>
+				{{v_head.n}}
+			</div>
+		</div>
+	</div>
+	a1
+</div>
