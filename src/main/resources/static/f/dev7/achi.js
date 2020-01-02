@@ -10,7 +10,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_dataObject('l0', sql_app.l0_sql + " ORDER BY class_nr")
 	read_dataObject('l1', sql_app.l1_sql(), 122)
 	read_dataObject('l2', sql_app.l2_sql())
-//	read_l2(ctrl)
+	read_dataObject('l3', sql_app.l3_sql(), 1500, true)
+//	read_l3(ctrl)
 })
 
 function initAchi() {
@@ -19,8 +20,8 @@ function initAchi() {
 		n10:{n:'ACHI'},
 	}
 	ctrl.l3_head = {
-		cnt:{n:'∑', style:{'width':'35px'}},
-		n7:{n:'№', style:{'width':'25px'}},
+		cnt:{n:'∑', style:{'width':'25px'}},
+		n7:{n:'№', style:{'width':'35px'}},
 		n8:{n:'Вісь блоків'},
 	}
 	ctrl.l2_head = {
@@ -90,7 +91,7 @@ sql_app.seek_sql	= "" +
 sql_app.l0_sql		= "" +
 	"SELECT l0_id, COUNT(*) cnt, MIN(class_nr) class_nr, MIN(n1) l0s, MIN(n2) n2 " +
 	"FROM achi_ukr_eng2_3 " +
-	"GROUP BY l0_id"
+	"GROUP BY l0_id "
 
 sql_app.l1_sql			= function(seek_value) {
 	var sql1 = sql_app.seek_sql
@@ -106,13 +107,31 @@ sql_app.l1_sql			= function(seek_value) {
 console.log(sql)
 	return sql
 }
+
+sql_app.l3_sql			= function(seek_value){
+	var sql = "" +
+	"SELECT COUNT(*) cnt, l3_id, MIN(n7) n7, MIN(n8) n8 FROM " +
+	"(SELECT * FROM achi_ukr_eng2_3 WHERE l3_id IS NOT NULL) a " +
+	" GROUP BY l3_id " +
+	" ORDER BY n7 "
+	return sql
+}
+
 sql_app.l2_sql			= function(seek_value){
+	var sql1 = sql_app.seek_sql
+	if(ctrl.l1_fn.filters.l1){
+		sql1 += " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
+	}else
+	if(ctrl.l0_fn.filters.l0){
+		sql1 += " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
+	}
 	var sql = "" +
 	"SELECT * FROM (" +
 	"SELECT *, CASE WHEN n5=0 THEN 100 ELSE n5 END n5s " +
 	"FROM (" +
 	"SELECT COUNT(*) cnt, l2_id, MIN(n5) n5, MIN(n6) n6 " +
-	"FROM achi_ukr_eng2_3 WHERE l2_id IS NOT NULL GROUP BY l2_id" +
+	"FROM (" + sql1 + ") a " +
+	"WHERE l2_id IS NOT NULL GROUP BY l2_id" +
 	") a" +
 	") a " 
 	if(seek_value){
@@ -150,13 +169,13 @@ function init_l1() {
 // seek ACHI with filter
 		read_dataObject('seek_achi', sql_app.seek_achi()) 
 		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
+		read_dataObject('l2', sql_app.l2_sql(), 122)
 	}
 	ctrl.l1_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
 		read_dataObject('seek_achi', sql_app.seek_achi()) 
 		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
-//		read_dataObject('seek_achi', sql_seek_achi)
-//		read_dataObject('l1', sql_app.l1_sql)
+		read_dataObject('l2', sql_app.l2_sql(), 122)
 	}
 }
 
@@ -225,6 +244,38 @@ var sql_read_l2 = "" +
 	"WHERE l2_id IS NOT NULL GROUP BY l2_id" +
 	") a WHERE cnt=1"
 
+function read_l3(ctrl) {
+	var sql = "SELECT * FROM (" +
+	"SELECT COUNT(*) cnt, l3_id, MIN(n7) n7, MIN(n8) n8 " +
+	"FROM (SELECT * FROM achi_ukr_eng2_3 WHERE l3_id IS NOT NULL " +
+	"AND l3_id NOT IN ( " +
+	"SELECT l3_id FROM ( " +
+	"SELECT count(*) cnt, n7, min(l3_id) l3_id FROM achi_ukr_eng2_3 " +
+	"group by n7 " +
+	") a where cnt=1" +
+	") ) a " +
+	"GROUP BY l3_id  ORDER BY n7  LIMIT 1500 " +
+	")a where cnt=1"
+	console.log(sql)
+	readSql({sql: sql, afterRead:function(response){
+		ctrl.r1 = response.data.list
+		console.log(ctrl.r1)
+		angular.forEach(ctrl.r1, function(v,k){ if(k<111){
+			console.log(k,v)
+			v.k=k
+			write_l3_1(ctrl,v)
+		}})
+	}})
+}
+function write_l3_1(ctrl,v){
+	v.sql = "UPDATE achi_ukr_eng2_3 SET l3_id=:l3_id WHERE n7=:n7"
+	console.log(v)
+	v.dataAfterSave = function(response){
+		console.log(response.data, v.sql)
+	}
+	writeSql(v)
+}
+
 function read_l2(ctrl) {
 	readSql({sql: sql_read_l2, afterRead:function(response){
 		ctrl.r1 = response.data.list
@@ -236,7 +287,6 @@ function read_l2(ctrl) {
 		}})
 	}})
 }
-
 function write_l2_1(ctrl,v){
 	v.n6_1 = v.n6.replace(/'/g,"''")
 	v.sql = "UPDATE achi_ukr_eng2_3 SET l2_id=:l2_id WHERE n6=:n6_1"

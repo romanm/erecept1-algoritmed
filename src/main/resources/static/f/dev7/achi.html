@@ -42,7 +42,8 @@
 			<div class="w3-half w3-border-left">
 				<div class="w3-border-bottom">
 					<div class="w3-small" style="height: 5vh">
-						<i class="fas fa-filter"></i> <span
+						<i class="fas fa-filter"></i> 
+						<span
 							data-ng-if="ctrl.l2_fn.filters.l2">| <span
 							class="w3-dropdown-hover w3-tiny"> Тип:
 								{{ctrl.l2_fn.filters.l2.n5}}
@@ -53,7 +54,8 @@
 									</a>
 								</div>
 						</span> {{ctrl.l2_fn.filters.l2.n6}}
-						</span> <span data-ng-if="!ctrl.l1_fn.filters.l1"> <span
+						</span> 
+						<span data-ng-if="!ctrl.l1_fn.filters.l1 && ctrl.l0_fn.filters.l0"> <span
 							class="w3-tiny"> <span class="w3-dropdown-hover">
 									{{ctrl.l0_fn.filters.l0.l0s}}:
 									<div class="w3-dropdown-content w3-card">
@@ -64,7 +66,8 @@
 									</div>
 							</span>
 						</span> {{ctrl.l0_fn.filters.l0.n2}}
-						</span> <span data-ng-if="ctrl.l1_fn.filters.l1">| <span
+						</span> 
+						<span data-ng-if="ctrl.l1_fn.filters.l1">| <span
 							class="w3-dropdown-hover w3-tiny"> Локалізація:
 								{{ctrl.l1_fn.filters.l1.l0s}}
 								<div class="w3-dropdown-content w3-card">

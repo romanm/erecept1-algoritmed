@@ -18,5 +18,18 @@
 			</div>
 		</div>
 	</div>
-	a1
+	<div style="height: 20vh; overflow: auto;"
+		data-ng-if="!ctrl.l2_close" class="w3-border-bottom">
+		<div data-ng-repeat="v in ctrl.l3" class="w3-row w3-hover-shadow"
+				data-ng-class="{'w3-green':ctrl.l3_fn.filters.l3.l3_id==v.l3_id}"
+					data-ng-click="ctrl.l3_fn.click_row(v)">
+			<div class="w3-col w3-small" data-ng-style="ctrl.l3_head.cnt.style">
+				{{v.cnt}}</div>
+			<div class="w3-col w3-small" data-ng-style="ctrl.l3_head.n7.style">
+				{{v.n7}}</div>
+			<div class="w3-rest "
+				ng-bind-html="ctrl.highlight(v.n8
+				, ctrl.seekLogic.seek_value)"></div>
+		</div>
+	</div>
 </div>
