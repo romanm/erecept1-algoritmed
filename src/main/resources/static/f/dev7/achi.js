@@ -1,20 +1,19 @@
-var app = angular.module('myApp', ['ngSanitize']);
 app.controller('AppCtrl', function($scope, $http, $timeout) {
-	var ctrl = this
+	ctrl = this
 	ctrl.page_title = 'ACHI'
 	ctrl.page_title = 'АКМІ'
-	initApp($scope, $http, ctrl, $timeout)
-	initAchi(ctrl)
+	initApp($scope, $http, $timeout)
+	initAchi()
 	console.log('--',ctrl.page_title,'--')
-	read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
-	read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl)) 
-	read_dataObject(ctrl, 'l0', sql_app.l0_sql + " ORDER BY class_nr")
-	read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122)
-	read_dataObject(ctrl, 'l2', sql_app.l2_sql())
+	read_dataObject('seek_achi', sql_app.seek_achi()) 
+	read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt()) 
+	read_dataObject('l0', sql_app.l0_sql + " ORDER BY class_nr")
+	read_dataObject('l1', sql_app.l1_sql(), 122)
+	read_dataObject('l2', sql_app.l2_sql())
 //	read_l2(ctrl)
 })
 
-function initAchi(ctrl) {
+function initAchi() {
 	ctrl.achi_seek_head = {
 		n9:{n:'Код', style:{'width':'100px'}},
 		n10:{n:'ACHI'},
@@ -43,47 +42,46 @@ function initAchi(ctrl) {
 
 	ctrl.seek_clean = function(){
 		ctrl.seekLogic.seek_value = null
-		read_dataObject(ctrl, 'seek_achi', sql_app.seek_sql) 
-		read_dataObject(ctrl, 'l1', sql_app.l1_sql, 122 )
+		read_dataObject('seek_achi', sql_app.seek_sql) 
+		read_dataObject('l1', sql_app.l1_sql(), 122 )
 	}
 	ctrl.seekLogic.seek_engine = function(){
 		//var sql_seek_achi = sql_app.seek_sql 
 		var sql_seek_achi = "" +
 			"SELECT * FROM (" + sql_app.seek_achi(ctrl) + ") a " +
 			" WHERE LOWER(n10) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
-//		console.log(ctrl.seekLogic.seek_value, sql_seek_achi, sql_app.l1_sql)
 		console.log(sql_seek_achi)
-		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
-		var sql_l1 = "SELECT * FROM (" + sql_app.l1_sql +
+		read_dataObject('seek_achi', sql_seek_achi)
+		var sql_l1 = "SELECT * FROM (" + sql_app.l1_sql() +
 				")a WHERE LOWER(n4) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
-		read_dataObject(ctrl, 'l1', sql_l1, 122, true)
-		read_dataObject(ctrl, 'l2', sql_app.l2_sql(ctrl.seekLogic.seek_value))
+		read_dataObject('l1', sql_l1, 122, true)
+		read_dataObject('l2', sql_app.l2_sql(ctrl.seekLogic.seek_value))
 	}
-	init_l0(ctrl)
-	init_l1(ctrl)
-	init_l2(ctrl)
+	init_l0()
+	init_l1()
+	init_l2()
 }
 
-sql_app.seek_achi	= function(ctrl){
+sql_app.seek_achi	= function(){
 	var sql = sql_app.seek_sql
+	var sql1 = ""
 	if(ctrl.l1_fn.filters.l1){
-		sql += " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
+		sql1 = " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
 	}else
 	if(ctrl.l0_fn.filters.l0){
-		sql += " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
+		sql1 = " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
 	}
+	if(ctrl.l2_fn.filters.l2){
+		sql1 += sql1.includes("WHERE")?" AND ":" WHERE"
+		sql1 += " l2_id = " + ctrl.l2_fn.filters.l2.l2_id
+	}
+	sql += sql1
+	console.log(sql1, '\n', sql)
 	return sql
 }
 
-sql_app.seek_achi_cnt	= function(ctrl){
-	var sql = sql_app.seek_sql
-	if(ctrl.l1_fn.filters.l1){
-		sql += " WHERE l1_id = " + ctrl.l1_fn.filters.l1.l1_id
-	}else
-	if(ctrl.l0_fn.filters.l0){
-		sql += " WHERE l0_id = " + ctrl.l0_fn.filters.l0.l0_id
-	}
-	sql = "SELECT count(*) FROM (" +sql +") a"
+sql_app.seek_achi_cnt	= function(){
+	var sql = "SELECT count(*) FROM (" + sql_app.seek_achi() +") a"
 	return sql
 }
 
@@ -93,11 +91,21 @@ sql_app.l0_sql		= "" +
 	"SELECT l0_id, COUNT(*) cnt, MIN(class_nr) class_nr, MIN(n1) l0s, MIN(n2) n2 " +
 	"FROM achi_ukr_eng2_3 " +
 	"GROUP BY l0_id"
-sql_app.l1_sql			= "" +
+
+sql_app.l1_sql			= function(seek_value) {
+	var sql1 = sql_app.seek_sql
+	if(ctrl.l2_fn.filters.l2){
+		sql1 += sql1.includes("WHERE")?" AND ":" WHERE"
+		sql1 += " l2_id = " + ctrl.l2_fn.filters.l2.l2_id
+	}
+	var sql ="" +
 	"SELECT COUNT(*) cnt, n3, class_nr, MIN(n1) l0s, MIN(l1_id) l1_id, MIN(n4) n4, MIN(l0_id) l0_id " +
-	"FROM achi_ukr_eng2_3 " +
+	"FROM (" + sql1 + ") a " +
 	"GROUP BY n3, class_nr " +
 	"ORDER BY n3, class_nr"
+console.log(sql)
+	return sql
+}
 sql_app.l2_sql			= function(seek_value){
 	var sql = "" +
 	"SELECT * FROM (" +
@@ -114,7 +122,7 @@ sql_app.l2_sql			= function(seek_value){
 	return sql
 }
 
-function init_l2(ctrl) {
+function init_l2() {
 	ctrl.l2_fn = {}
 	ctrl.l2_fn.filters = {}
 	ctrl.l2_fn.remove_filter = function(){
@@ -124,9 +132,12 @@ function init_l2(ctrl) {
 	ctrl.l2_fn.click_row = function(v){
 		ctrl.l2_fn.filters.l2 = v
 		console.log(ctrl.l2_fn.filters)
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
+		read_dataObject('l1', sql_app.l1_sql(), 122)
 	}
 }
-function init_l1(ctrl) {
+function init_l1() {
 	ctrl.l1_fn = {}
 	ctrl.l1_fn.filters = {}
 	ctrl.l1_fn.click_row = function(l1){
@@ -137,19 +148,19 @@ function init_l1(ctrl) {
 		ctrl.l1_fn.filters.l1 = l1
 		console.log(ctrl.l1_fn, l1)
 // seek ACHI with filter
-		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
-		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
 	}
 	ctrl.l1_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
-		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
-		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
-//		read_dataObject(ctrl, 'seek_achi', sql_seek_achi)
-//		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
+//		read_dataObject('seek_achi', sql_seek_achi)
+//		read_dataObject('l1', sql_app.l1_sql)
 	}
 }
 
-function init_l0(ctrl) {
+function init_l0() {
 	ctrl.l0_fn = {}
 	ctrl.l0_fn.filters = {}
 
@@ -165,15 +176,15 @@ function init_l0(ctrl) {
 		}
 		var sql = "SELECT * FROM (" + sql_app.l0_sql + ") a ORDER BY "+ctrl.l0_order
 //	console.log(h, ctrl.l0_order.includes(h), sql)
-		read_dataObject(ctrl, 'l0', sql) 
+		read_dataObject('l0', sql) 
 	}
 
 	ctrl.l0_fn.remove_filter = function(v){
 		delete ctrl[v+'_fn'].filters[v]
 		delete ctrl.l1_fn.filters.l1
-		read_dataObject(ctrl, 'l1', sql_app.l1_sql)
-		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
-		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
+		read_dataObject('l1', sql_app.l1_sql())
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
 	}
 
 	ctrl.l0_fn.click_row = function(l0){
@@ -185,12 +196,12 @@ function init_l0(ctrl) {
 		ctrl.l0_fn.filters.l0 = l0
 		console.log(ctrl.l0_fn, l0)
 // seek ACHI with filter
-		read_dataObject(ctrl, 'seek_achi', sql_app.seek_achi(ctrl)) 
-		read_dataObject(ctrl, 'seek_achi_cnt', sql_app.seek_achi_cnt(ctrl))
-		console.log('l1\n', sql_app.l1_sql)
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
+		console.log('l1\n', sql_app.l1_sql())
 		var sql_l1 = "" +
-		"SELECT * FROM (" + sql_app.l1_sql + ")a WHERE l0_id="+l0.l0_id
-		read_dataObject(ctrl, 'l1', sql_l1)
+		"SELECT * FROM (" + sql_app.l1_sql() + ")a WHERE l0_id="+l0.l0_id
+		read_dataObject('l1', sql_l1)
 	}
 
 	ctrl.l0_order = ""
@@ -258,20 +269,15 @@ function read2(ctrl) {
 }
 
 function read1(ctrl) {
-	readSql({
-		sql: sql_read1,
-		afterRead:function(response){
-			ctrl.r1 = response.data.list
-			console.log(ctrl.r1)
-			angular.forEach(ctrl.r1, function(v,k){
-				if(k==0){
-					console.log(k,v)
-					v.k=k
-					read1_2(ctrl,v)
-				}
-			})
-		}
-	})
+	readSql({ sql: sql_read1, afterRead:function(response){
+		ctrl.r1 = response.data.list
+		console.log(ctrl.r1)
+		angular.forEach(ctrl.r1, function(v,k){ if(k==0){
+			console.log(k,v)
+			v.k=k
+			read1_2(ctrl,v)
+		}})
+	}})
 }
 
 function read1_2(ctrl,v){
@@ -283,7 +289,7 @@ function read1_2(ctrl,v){
 	writeSql(v)
 }
 
-function read_dataObject(ctrl, dataObjectName, sql, limit, printObject) {
+function read_dataObject(dataObjectName, sql, limit, printObject) {
 	if(!limit) limit = 100
 	sql += " LIMIT "+limit
 	readSql({sql:sql, afterRead:function(response){

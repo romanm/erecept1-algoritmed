@@ -11,7 +11,7 @@
 <link rel="shortcut icon" href="/f/img/algoritmed.ico" type="image/x-icon">
 <script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
 <script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
-<script src="/f/js/app002.js"></script>
+<script src="/f/js/app003.js"></script>
 <script src="/f/dev7/achi.js"></script>
 </head>
 <body>
@@ -43,29 +43,7 @@
 				<div class="w3-border-bottom">
 					<div class="w3-small" style="height: 5vh">
 						<i class="fas fa-filter"></i> <span
-							data-ng-if="!ctrl.l1_fn.filters.l1"> <span
-							class="w3-tiny"> <span class="w3-dropdown-hover">
-									{{ctrl.l0_fn.filters.l0.l0s}}
-									<div class="w3-dropdown-content w3-card">
-										<a title="Видалити" class="w3-button"
-											data-ng-click="ctrl.l0_fn.remove_filter('l0')"> <i
-											class="fas fa-trash "></i>
-										</a>
-									</div>
-							</span>
-						</span> {{ctrl.l0_fn.filters.l0.n2}}
-						</span> <span data-ng-if="ctrl.l1_fn.filters.l1">| <span
-							class="w3-dropdown-hover w3-tiny">
-								{{ctrl.l1_fn.filters.l1.l0s}}
-								<div class="w3-dropdown-content w3-card">
-									<a title="Видалити" class="w3-button"
-										data-ng-click="ctrl.l1_fn.remove_filter('l1')"> <i
-										class="fas fa-trash "></i>
-									</a>
-								</div>
-						</span> 
-						{{ctrl.l1_fn.filters.l1.n4}}
-						</span> <span data-ng-if="ctrl.l2_fn.filters.l2"> <span
+							data-ng-if="ctrl.l2_fn.filters.l2">| <span
 							class="w3-dropdown-hover w3-tiny"> Тип:
 								{{ctrl.l2_fn.filters.l2.n5}}
 								<div class="w3-dropdown-content w3-card">
@@ -75,6 +53,27 @@
 									</a>
 								</div>
 						</span> {{ctrl.l2_fn.filters.l2.n6}}
+						</span> <span data-ng-if="!ctrl.l1_fn.filters.l1"> <span
+							class="w3-tiny"> <span class="w3-dropdown-hover">
+									{{ctrl.l0_fn.filters.l0.l0s}}:
+									<div class="w3-dropdown-content w3-card">
+										<a title="Видалити" class="w3-button"
+											data-ng-click="ctrl.l0_fn.remove_filter('l0')"> <i
+											class="fas fa-trash "></i>
+										</a>
+									</div>
+							</span>
+						</span> {{ctrl.l0_fn.filters.l0.n2}}
+						</span> <span data-ng-if="ctrl.l1_fn.filters.l1">| <span
+							class="w3-dropdown-hover w3-tiny"> Локалізація:
+								{{ctrl.l1_fn.filters.l1.l0s}}
+								<div class="w3-dropdown-content w3-card">
+									<a title="Видалити" class="w3-button"
+										data-ng-click="ctrl.l1_fn.remove_filter('l1')"> <i
+										class="fas fa-trash "></i>
+									</a>
+								</div>
+						</span> {{ctrl.l1_fn.filters.l1.n4}}
 						</span>
 					</div>
 				</div>
