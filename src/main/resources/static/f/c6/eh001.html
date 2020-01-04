@@ -26,23 +26,18 @@
 				data-ng-click="ctrl.set_choice_doc(d)"
 				data-ng-class="{'w3-green':ctrl.choice_doc.doc_id==d.doc_id}"
 				class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>
-					{{d.value}}
-			</a></span>
+					{{d.s1value}}
+			</a>&nbsp;</span>
 		</div>
-		<div data-ng-if="ctrl.choice_doc" >
-			<div class="w3-row w3-small w3-border-bottom">
-				<div class="w3-col " style="width: 120px">
-					<i class="far fa-file"></i> <span class=" am-b">{{ctrl.choice_doc.value}}</span>
+		<div data-ng-if="ctrl.choice_doc">
+			<div class="w3-row">
+				<div class="w3-half w3-container">
+					<div data-ng-include="'/f/c6/doc_model.html'"></div>
 				</div>
-				<div class="w3-rest w3-border-left">
-				<span class="w3-text-blue">
-					&nbsp; <i class="fas fa-tools"></i> <i class="fas fa-terminal"></i>
-				</span>
-					<div class="w3-btn" data-ng-click="ctrl.alert('btn')">btn</div>
+				<div class="w3-half">
+					<div data-ng-include="'/f/c6/doc_data.html'"></div>
 				</div>
 			</div>
-			<div data-ng-repeat="children in [ctrl.choice_doc.children]"
-				data-ng-include="'/f/c6/doc_children.html'"></div>
 		</div>
 	</div>
 </body>

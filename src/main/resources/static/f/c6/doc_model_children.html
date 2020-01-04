@@ -1,0 +1,14 @@
+<div data-ng-repeat="d in children">
+	<div>
+		<a class="w3-hover-shadow" href="#"
+			data-ng-click="ctrl.read_children(d);ctrl.children_close(d)">
+			{{d.s1value }} <span class="w3-tiny a1m-b">[{{d.doc_id}}]</span>
+		</a>&nbsp; <sup data-ng-if="d.children && d.children_close"
+			class="w3-tiny am-b">[{{d.children.length}}]</sup>
+		<div data-ng-if="d.children && !d.children_close"
+			class="w3-border-left w3-container">
+			<div data-ng-repeat="children in [d.children]"
+				data-ng-include="'/f/c6/doc_model_children.html'"></div>
+		</div>
+	</div>
+</div>
