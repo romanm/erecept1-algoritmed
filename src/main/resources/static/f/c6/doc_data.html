@@ -3,7 +3,9 @@
 	<div data-ng-repeat="d in ctrl.doc_rows" class="">
 		<div data-ng-click="ctrl.click_data_row(d);ctrl.children_close(d)"
 			class="w3-hover-opacity w3-hover-shadow">
-			<span class="w3-tiny"> {{d.doc_id}} </span>
+			<span class="w3-tiny"> {{d.doc_id}} </span> <span
+				data-ng-repeat="c in ctrl.doc_data_shortView['_'+d.reference]">
+				| {{d['s_'+c+'_value']}} </span>
 		</div>
 		<div data-ng-if="d.children && !d.children_close"
 			class="w3-container w3-border-left">

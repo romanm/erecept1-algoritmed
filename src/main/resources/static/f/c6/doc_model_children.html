@@ -1,10 +1,19 @@
 <div data-ng-repeat="d in children">
 	<div>
-		<a class="w3-hover-shadow" href="#"
+		<span class="w3-tiny"> <span data-ng-if="!d.children">☰</span>
+			<span data-ng-if="d.children"> <i class="fas fa-ellipsis-h"
+				data-ng-if="d.children && !d.children_close"></i> <span
+				data-ng-if="d.children && d.children_close"> <i
+					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
+			</span>
+		</span> [{{d.doc_id}}]
+		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.read_children(d);ctrl.children_close(d)">
-			{{d.s1value }} <span class="w3-tiny a1m-b">[{{d.doc_id}}]</span>
-		</a>&nbsp; <sup data-ng-if="d.children && d.children_close"
-			class="w3-tiny am-b">[{{d.children.length}}]</sup>
+			{{d.s1value }} </a>&nbsp; <sup
+			data-ng-if="d.children && d.children_close" class="w3-tiny am-b">[{{d.children.length}}]</sup> <span
+			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_doc.doc_id].includes(d.doc_id)">
+			<i class="fas fa-check"></i>
+		</span>
 		<div data-ng-if="d.children && !d.children_close"
 			class="w3-border-left w3-container">
 			<div data-ng-repeat="children in [d.children]"
