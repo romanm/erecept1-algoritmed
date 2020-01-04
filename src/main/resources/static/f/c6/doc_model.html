@@ -1,0 +1,18 @@
+<div>
+	<div class="w3-row w3-small w3-border-bottom">
+		<div class="w3-col " style="width: 130px">
+			<i class="far fa-file"></i> <span class=" am-b">{{ctrl.choice_doc.s1value}}</span>
+			<div class="w3-right w3-tiny">
+				{{ctrl.choice_doc.children.length}}</div>
+			<div>_</div>
+		</div>
+		<div class="w3-rest w3-border-left">
+			<span class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i>
+				<i class="fas fa-terminal"></i>
+			</span>
+			<div class="w3-btn" data-ng-click="ctrl.alert('btn')">btn</div>
+		</div>
+	</div>
+	<div data-ng-repeat="children in [ctrl.choice_doc.children]"
+		data-ng-include="'/f/c6/doc_model_children.html'"></div>
+</div>

@@ -1,0 +1,26 @@
+<div>
+	<div class="w3-tiny am-b">doc_data</div>
+	<div data-ng-repeat="d in ctrl.doc_rows" class="">
+		<div data-ng-click="ctrl.click_data_row(d);ctrl.children_close(d)"
+			class="w3-hover-opacity w3-hover-shadow">
+			<span class="w3-tiny"> {{d.doc_id}} </span>
+		</div>
+		<div data-ng-if="d.children && !d.children_close"
+			class="w3-container w3-border-left">
+			<div data-ng-repeat="dm2 in ctrl.choice_doc.children"
+				class="w3-hover-shadow" data-ng-if="d.cols[dm2.doc_id]"
+				data-ng-init="d2=d.cols[dm2.doc_id]" title="{{d.doc_id}}">
+				<span class="w3-tiny"> <span class="am-b">
+						{{dm2.s1value}} </span> <sup>[{{d2.reference}}]</sup>
+				</span>
+				<div>{{d2.s1value}}</div>
+			</div>
+			<!-- 
+			---
+			<div data-ng-repeat="d2 in d.children" class="w3-hover-shadow">
+				<span class="w3-tiny"> {{d2.reference}} </span> {{d2.s1value}}
+			</div>
+				 -->
+		</div>
+	</div>
+</div>
