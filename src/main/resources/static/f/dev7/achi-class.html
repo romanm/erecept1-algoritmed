@@ -5,14 +5,25 @@
 			<i class="{{ctrl.l0_fn.close?'fas':'far'}} fa-window-maximize"></i>
 		</div>
 		<div data-ng-repeat="(k,l0_head) in ctrl.l0_head"
-			data-ng-click="ctrl.l0_fn.click_head(k)">
+			data-ng-click="ctrl.l0_click_head(k)">
 			<div data-ng-if="!$last"
-				class="w3-col w3-gray w3-border w3-hover-shadow"
+				data-ng-class="{
+		'w3-green':ctrl.l0_order.includes(k),
+		'w3-gray':!ctrl.l0_order.includes(k),
+		}"
+				class="w3-col w3-border w3-hover-shadow"
 				data-ng-style="l0_head.style">{{l0_head.n}}</div>
 			<div data-ng-if="$last"
-				class="w3-rest w3-gray w3-border w3-hover-shadow">
-				<div class="w3-right w3-tiny">0<sup>р</sup>&nbsp;</div>
-				{{l0_head.n}}</div>
+				data-ng-class="{
+		'w3-green':ctrl.l0_order.includes(k),
+		'w3-gray':!ctrl.l0_order.includes(k),
+		}"
+				class="w3-rest w3-border w3-hover-shadow">
+				<div class="w3-right w3-tiny">
+					0<sup>р</sup>&nbsp;
+				</div>
+				{{l0_head.n}}
+			</div>
 		</div>
 	</div>
 	<div style="max-height: 10vh; overflow: auto;"

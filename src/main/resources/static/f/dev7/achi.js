@@ -61,6 +61,7 @@ function initAchi() {
 	init_l0()
 	init_l1()
 	init_l2()
+	init_l3()
 }
 
 sql_app.seek_achi	= function(){
@@ -104,7 +105,9 @@ sql_app.l1_sql			= function(seek_value) {
 	"FROM (" + sql1 + ") a " +
 	"GROUP BY n3, class_nr " +
 	"ORDER BY n3, class_nr"
-console.log(sql)
+	//console.log(sql)
+
+	
 	return sql
 }
 
@@ -141,14 +144,40 @@ sql_app.l2_sql			= function(seek_value){
 	return sql
 }
 
+function init_l3() {
+	ctrl.l3_order = ""
+	ctrl.l3_click_head = function(h){
+		if(!ctrl.l3_order.includes(h)){
+			ctrl.l3_order = h
+		}else{
+			if(!ctrl.l3_order.includes('DESC')){
+				ctrl.l3_order += ' DESC'
+			}else{
+				ctrl.l3_order = h
+			}
+		}
+		var sql = "SELECT * FROM (" + sql_app.l3_sql() + ") a ORDER BY "+ctrl.l3_order
+//		console.log(h, ctrl.l0_order.includes(h), sql)
+		console.log(ctrl.l3_order)
+		read_dataObject('l3', sql) 
+	}
+
+}
+
 function init_l2() {
 	ctrl.l2_fn = {}
 	ctrl.l2_fn.filters = {}
 	ctrl.l2_fn.remove_filter = function(){
 		console.log(ctrl.l2_fn.filters.l2)
 		delete ctrl.l2_fn.filters.l2
+		read_dataObject('seek_achi', sql_app.seek_achi()) 
+		read_dataObject('seek_achi_cnt', sql_app.seek_achi_cnt())
 	}
 	ctrl.l2_fn.click_row = function(v){
+		if(ctrl.l2_fn.filters.l2 && v.l2_id == ctrl.l2_fn.filters.l2.l2_id){
+			ctrl.l2_fn.remove_filter('l2')
+			return
+		}
 		ctrl.l2_fn.filters.l2 = v
 		console.log(ctrl.l2_fn.filters)
 		read_dataObject('seek_achi', sql_app.seek_achi()) 
@@ -183,7 +212,7 @@ function init_l0() {
 	ctrl.l0_fn = {}
 	ctrl.l0_fn.filters = {}
 
-	ctrl.l0_fn.click_head = function(h){
+	ctrl.l0_click_head = function(h){
 		if(!ctrl.l0_order.includes(h)){
 			ctrl.l0_order = h
 		}else{
@@ -195,6 +224,7 @@ function init_l0() {
 		}
 		var sql = "SELECT * FROM (" + sql_app.l0_sql + ") a ORDER BY "+ctrl.l0_order
 //	console.log(h, ctrl.l0_order.includes(h), sql)
+		console.log(ctrl.l3_order)
 		read_dataObject('l0', sql) 
 	}
 

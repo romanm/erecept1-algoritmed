@@ -7,10 +7,18 @@
 		<div data-ng-repeat="(k,v_head) in ctrl.l3_head"
 			data-ng-click="ctrl.l3_click_head(k)">
 			<div data-ng-if="!$last"
-				class="w3-col w3-gray w3-border w3-hover-shadow"
+			data-ng-class="{
+		'w3-green':ctrl.l3_order.includes(k),
+		'w3-gray':!ctrl.l3_order.includes(k),
+		}"
+				class="w3-col w3-border w3-hover-shadow"
 				data-ng-style="v_head.style">{{v_head.n}}</div>
 			<div data-ng-if="$last"
-				class="w3-rest w3-gray w3-border w3-hover-shadow">
+			data-ng-class="{
+		'w3-green':ctrl.l3_order.includes(k),
+		'w3-gray':!ctrl.l3_order.includes(k),
+		}"
+				class="w3-rest w3-border w3-hover-shadow">
 				<div class="w3-right w3-tiny">
 					3<sup>р</sup>&nbsp;
 				</div>
