@@ -369,12 +369,3 @@ function read1_2(ctrl,v){
 	writeSql(v)
 }
 
-function read_dataObject(dataObjectName, sql, limit, printObject) {
-	if(!limit) limit = 100
-	sql += " LIMIT "+limit
-	readSql({sql:sql, afterRead:function(response){
-		ctrl[dataObjectName] = response.data.list
-		if(printObject)
-			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)
-	}})
-}

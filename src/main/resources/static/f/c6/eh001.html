@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/f/js/app003.js"></script>
+<script src="/f/c6/eh001.js"></script>
+</head>
+<body>
+	<div class="w3-container">
+		<div class="w3-border-bottom">
+			<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
+		</div>
+		<div class="w3-border-bottom">
+			<span class="w3-small am-b"> docs </span> <span
+				data-ng-repeat=" d in ctrl.docs"> | <a href="#"
+				data-ng-click="ctrl.set_choice_doc(d)"
+				data-ng-class="{'w3-green':ctrl.choice_doc.doc_id==d.doc_id}"
+				class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>
+					{{d.value}}
+			</a></span>
+		</div>
+		<div data-ng-if="ctrl.choice_doc" >
+			<div class="w3-row w3-small w3-border-bottom">
+				<div class="w3-col " style="width: 120px">
+					<i class="far fa-file"></i> <span class=" am-b">{{ctrl.choice_doc.value}}</span>
+				</div>
+				<div class="w3-rest w3-border-left">
+				<span class="w3-text-blue">
+					&nbsp; <i class="fas fa-tools"></i> <i class="fas fa-terminal"></i>
+				</span>
+					<div class="w3-btn" data-ng-click="ctrl.alert('btn')">btn</div>
+				</div>
+			</div>
+			<div data-ng-repeat="children in [ctrl.choice_doc.children]"
+				data-ng-include="'/f/c6/doc_children.html'"></div>
+		</div>
+	</div>
+</body>
+</html>

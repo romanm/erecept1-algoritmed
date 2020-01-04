@@ -84,7 +84,7 @@ var initApp = function($scope, $http, $timeout){
 		this[name][valueName] = getRandomInt(this[name].diapason)
 	}
 	angular.forEach(ctrl.random, function(v,k){ ctrl.random.newValue(k)})
-	console.log(ctrl.random)
+//	console.log(ctrl.random)
 
 	initSeekLogic(ctrl, $timeout)
 
@@ -770,3 +770,18 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
 }
 
+function read_dataObject(dataObjectName, sql, limit, printObject) {
+	if(!limit) limit = 100
+	sql += " LIMIT "+limit
+	readSql({sql:sql, afterRead:function(response){
+		ctrl[dataObjectName] = response.data.list
+		if(printObject)
+			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)
+	}})
+}
+
+function read_dataObject2(sql, afterRead, limit) {
+	if(!limit) limit = 100
+	sql += " LIMIT "+limit
+	readSql({sql:sql, afterRead:function(response){afterRead(response)}})
+}
