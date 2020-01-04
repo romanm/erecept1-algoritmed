@@ -1,7 +1,10 @@
 <div>
 	<div class="w3-row w3-small w3-border-bottom">
 		<div class="w3-col " style="width: 130px">
-			<i class="far fa-file"></i> <span class=" am-b">{{ctrl.choice_doc.s1value}}</span>
+			<span
+				data-ng-repeat="edpv in ['value']"
+				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span>
+			<span class=" am-b">{{ctrl.choice_doc.s1value}}</span>
 			<div class="w3-right w3-tiny">
 				{{ctrl.choice_doc.children.length}}</div>
 			<div>_</div>
