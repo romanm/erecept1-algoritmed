@@ -770,6 +770,19 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
 }
 
+function read_mergeList(dataObjectName, sql, limit, printObject) {
+	if(!limit) limit = 100
+	sql += " LIMIT "+limit
+	readSql({sql:sql, afterRead:function(response){
+		if(!ctrl[dataObjectName])
+			ctrl[dataObjectName] = []
+		ctrl[dataObjectName] = ctrl[dataObjectName].concat(response.data.list)
+		console.log(response.data.list, ctrl[dataObjectName])
+		if(printObject)
+			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)
+	}})
+}
+
 function read_dataObject(dataObjectName, sql, limit, printObject) {
 	if(!limit) limit = 100
 	sql += " LIMIT "+limit
@@ -780,7 +793,7 @@ function read_dataObject(dataObjectName, sql, limit, printObject) {
 	}})
 }
 
-function read_dataObject2(sql, afterRead, limit) {
+function read_dataObject2fn(sql, afterRead, limit) {
 	if(!limit) limit = 100
 	sql += " LIMIT "+limit
 	readSql({sql:sql, afterRead:function(response){afterRead(response)}})

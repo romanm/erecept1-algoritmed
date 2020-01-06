@@ -1,7 +1,8 @@
 var initEh001 = function() {
 	ctrl.click_data_row = function(d){if(!d.children){
-		console.log(d)
-		read_dataObject2(sql_app.obj_with_parent(d.doc_id)
+		var sql = sql_app.obj_with_parent(d.doc_id)
+		console.log(d, sql)
+		read_dataObject2fn(sql
 				, function(response){ if(response.data.list.length>0){
 			d.children = response.data.list
 			d.cols = {}
@@ -11,7 +12,7 @@ var initEh001 = function() {
 		}})
 	}}
 	ctrl.read_rows_at_reference = function(reference){
-		read_dataObject2(sql_app.obj_with_reference(reference), function(response){
+		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
 			ctrl.doc_rows = response.data.list
 		})
 	}
@@ -49,7 +50,7 @@ var initEh001 = function() {
 	}
 	ctrl.read_children = function(d){
 		if(!d.children){
-			read_dataObject2(sql_app.obj_with_parent(d.doc_id), function(response){
+			read_dataObject2fn(sql_app.obj_with_parent(d.doc_id), function(response){
 				if(response.data.list.length>0){
 					d.children = response.data.list
 				}
@@ -65,7 +66,7 @@ var initEh001 = function() {
 		"WHERE d1.parent=:parent \n" +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent)
-//		console.log(sql)
+		console.log(sql)
 		return sql
 	}
 	ctrl.set_choice_doc = function(d){
@@ -83,7 +84,9 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.page_title = 'eh001'
 	initApp($scope, $http, $timeout)
 	initEh001()
-	read_dataObject('docs', sql_app.obj_with_parent(115800))
-	ctrl.set_choice_doc({doc_id: 115827, s1value:'legal_entitie'})
+	read_mergeList('docs', sql_app.obj_with_parent(115800))
+	read_mergeList('docs', sql_app.obj_with_parent(285594))
+//	read_dataObject('docs', sql_app.obj_with_parent(115800))
+	ctrl.set_choice_doc({doc_id:285598, s1value:'legal_entitie'})
 })
 
