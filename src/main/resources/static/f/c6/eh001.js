@@ -48,19 +48,15 @@ var initEh001 = function() {
 			d.children_close = !d.children_close
 		}
 	}
-	ctrl.read_children = function(d){
-		if(!d.children){
-			if(d.i18n_parent)
-				var sql = sql_app.obj_with_parent_i18n(d.doc_id, d.i18n_parent)
-				else
-					var sql = sql_app.obj_with_parent(d.doc_id)
-			read_dataObject2fn(sql, function(response){
-				if(response.data.list.length>0){
-					d.children = response.data.list
-				}
-			})
-		}
-	}
+	ctrl.read_children = function(d){ if(!d.children){
+		if(ctrl.choice_doc.i18n_parent)
+			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc.i18n_parent)
+			else
+				var sql = sql_app.obj_with_parent(d.doc_id)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+		}})
+	}	}
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
 		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id FROM doc d1 " +
