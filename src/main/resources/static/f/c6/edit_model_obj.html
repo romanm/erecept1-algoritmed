@@ -1,0 +1,17 @@
+<div class="w3-border w3-border-green w3-leftbar"
+	data-ng-if="ctrl.edit_obj.doc_id==d.doc_id">
+	<div class="w3-border-bottom">
+		&nbsp;
+		<div class="w3-right w3-green">
+			&nbsp; <i class="fas fa-edit"></i> Редагувати
+		</div>
+		<span class="w3-btn w3-padding-small"
+			data-ng-click="ctrl.save_model_i18n()"> OK </span>
+	</div>
+	<div class="w3-container">
+		<textarea class="w3-border" data-ng-model="d.i18n"></textarea>
+
+		<a class="w3-btn w3-padding-small" href="#"
+			data-ng-click="ctrl.save_model_i18n()"> OK </a>
+	</div>
+</div>

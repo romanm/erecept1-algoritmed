@@ -1,7 +1,9 @@
 <div data-ng-repeat="d in children">
 	<div>
-		<span class="w3-tiny"> <span data-ng-if="!d.children">☰</span>
-			<span data-ng-if="d.children"> <i class="fas fa-ellipsis-h"
+		<span class="w3-tiny"
+			data-ng-class="{'w3-green':ctrl.choice_obj.doc_id==d.doc_id}">
+			<span data-ng-if="!d.children">☰</span> <span data-ng-if="d.children">
+				<i class="fas fa-ellipsis-h"
 				data-ng-if="d.children && !d.children_close"></i> <span
 				data-ng-if="d.children && d.children_close"> <i
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
@@ -10,11 +12,12 @@
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.read_children(d);ctrl.children_close(d)">
 			{{d.s1value }} <span data-ng-if="d.i18n"> - {{d.i18n}} </span>
-		</a>&nbsp; <sup
-			data-ng-if="d.children && d.children_close" class="w3-tiny am-b">[{{d.children.length}}]</sup> <span
+		</a>&nbsp; <sup data-ng-if="d.children && d.children_close"
+			class="w3-tiny am-b">[{{d.children.length}}]</sup> <span
 			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_doc.doc_id].includes(d.doc_id)">
 			<i class="fas fa-check"></i>
 		</span>
+		<div data-ng-include="'/f/c6/edit_model_obj.html'"></div>
 		<div data-ng-if="d.children && !d.children_close"
 			class="w3-border-left w3-container">
 			<div data-ng-repeat="children in [d.children]"
