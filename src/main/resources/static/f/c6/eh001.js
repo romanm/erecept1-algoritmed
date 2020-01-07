@@ -50,12 +50,31 @@ var initEh001 = function() {
 	}
 	ctrl.read_children = function(d){
 		if(!d.children){
-			read_dataObject2fn(sql_app.obj_with_parent(d.doc_id), function(response){
+			if(d.i18n_parent)
+				var sql = sql_app.obj_with_parent_i18n(d.doc_id, d.i18n_parent)
+				else
+					var sql = sql_app.obj_with_parent(d.doc_id)
+			read_dataObject2fn(sql, function(response){
 				if(response.data.list.length>0){
 					d.children = response.data.list
 				}
 			})
 		}
+	}
+	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
+		var sql = "\n" +
+		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id FROM doc d1 " +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id " +
+		"LEFT JOIN string s2 ON d1.reference = s2.string_id " +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id " +
+		"left join (SELECT reference i18n_ref, doc_id i18n_id,  value i18n FROM doc " +
+		"left join string s1 on s1.string_id=doc_id " +
+		"where parent = :i18n_parent ) i18n on i18n_ref=doc_id " +
+		"WHERE d1.parent=:parent " +
+		"ORDER BY sort "
+		sql = sql.replace(':parent', parent).replace(':i18n_parent', i18n_parent)
+		console.log(sql)
+		return sql
 	}
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
@@ -69,7 +88,11 @@ var initEh001 = function() {
 		console.log(sql)
 		return sql
 	}
+	ctrl.doc_i18n_parent = {}
+	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.set_choice_doc = function(d){
+		if(ctrl.doc_i18n_parent['_'+d.doc_id])
+			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
 		ctrl.choice_doc = d
 		ctrl.read_children(d)
 		ctrl.read_rows_at_reference(d.doc_id)
