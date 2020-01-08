@@ -8,7 +8,7 @@
 				data-ng-if="d.children && d.children_close"> <i
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
-		</span> [{{d.doc_id}}]
+		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.read_children(d);ctrl.children_close(d)">
 			{{d.s1value }} <span data-ng-if="d.i18n"> - {{d.i18n}} </span>

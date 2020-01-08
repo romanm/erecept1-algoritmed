@@ -1,16 +1,22 @@
 var initEh001 = function() {
-	ctrl.click_data_row = function(d){if(!d.children){
-		var sql = sql_app.obj_with_parent(d.doc_id)
-		console.log(d, sql)
-		read_dataObject2fn(sql
-				, function(response){ if(response.data.list.length>0){
-			d.children = response.data.list
-			d.cols = {}
-			angular.forEach(d.children, function(v){
-				d.cols[v.reference] = v
-			})
-		}})
-	}}
+	ctrl.click_data_row = function(d){
+		ctrl.data_row = d
+		if(!d.children){
+			var sql = sql_app.obj_with_parent(d.doc_id)
+			console.log(d, sql)
+			read_dataObject2fn(sql
+			, function(response){ if(response.data.list.length>0){
+				d.children = response.data.list
+				d.cols = {}
+				angular.forEach(d.children, function(v){
+					d.cols[v.reference] = v
+				})
+			}})
+		}
+	}
+	function data_row_model_data(){
+		
+	}
 	ctrl.read_rows_at_reference = function(reference){
 		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
 			ctrl.doc_rows = response.data.list
@@ -43,9 +49,12 @@ var initEh001 = function() {
 		}
 		return sql
 	}
-	ctrl.children_close = function(d){ if(d.children){
-		d.children_close = !d.children_close
-	} }
+	ctrl.children_close = function(d){ 
+		if(d.children){
+			console.log(d)
+			d.children_close = !d.children_close
+		}
+	}
 	ctrl.read_children = function(d){ 
 		ctrl.choice_obj = d
 		if(!d.children){
@@ -124,6 +133,9 @@ var initEh001 = function() {
 			console.log(ctrl.edit_obj, so, ctrl.choice_doc, so.sql)
 			writeSql(so)
 		}
+	}
+	ctrl.log = function(v){
+		console.log(v, '\n -- log')
 	}
 	ctrl.alert = function(v){
 		alert(v+' click')
