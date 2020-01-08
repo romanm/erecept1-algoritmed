@@ -35,13 +35,13 @@
 		</div>
 		<div data-ng-if="ctrl.choice_doc">
 			<div class="w3-row">
-				<div class="w3-half w3-container">
+				<div class="w3-col " data-ng-style="ctrl.style.model_data_row">
 					<div data-ng-if="ctrl.data_row && !ctrl.data_row.children_close "
 						data-ng-include="'/f/c6/data_editor.html'"></div>
 					<div data-ng-if="!ctrl.data_row || ctrl.data_row.children_close "
 						data-ng-include="'/f/c6/doc_model.html'"></div>
 				</div>
-				<div class="w3-half">
+				<div class="w3-rest w3-border-left">
 					<div data-ng-include="'/f/c6/doc_data.html'"></div>
 				</div>
 			</div>

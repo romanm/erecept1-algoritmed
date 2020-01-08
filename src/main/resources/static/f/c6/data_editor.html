@@ -1,0 +1,30 @@
+<div>
+	<div class="w3-row w3-small w3-border-bottom">
+		<div class="w3-col " style="width: 130px">
+			<span data-ng-repeat="edpv in ['value']"
+				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
+				class=" am-b"> data_editor </span>
+			<div class="w3-right w3-tiny">
+				{{ctrl.choice_doc.children.length}}</div>
+			<div>_</div>
+		</div>
+		<div class="w3-rest w3-border-left">
+			<i class="fas fa-caret-left w3-btn w3-right w3-medium"
+				data-ng-click="ctrl.style.width_min('model_data_row')"></i> <span
+				class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i> <i
+				class="fas fa-terminal"></i>
+			</span>
+			<div class="w3-btn "
+				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_obj.doc_id}"
+				data-ng-click="ctrl.click_edit_obj()" title="Зберегти">
+				<i class="fas fa-save"></i>
+			</div>
+		</div>
+	</div>
+	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
+			<div data-ng-repeat="children in [ctrl.choice_doc.children]"
+				data-ng-include="'/f/c6/data_editor_input.html'"></div>
+		<p>&nbsp;</p>
+	</div>
+	_
+</div>

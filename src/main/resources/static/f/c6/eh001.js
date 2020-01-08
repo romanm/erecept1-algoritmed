@@ -14,13 +14,41 @@ var initEh001 = function() {
 			}})
 		}
 	}
-	function data_row_model_data(){
-		
-	}
 	ctrl.read_rows_at_reference = function(reference){
 		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
 			ctrl.doc_rows = response.data.list
+			if(!ctrl.data_row && ctrl.request.parameters.row){
+				angular.forEach(ctrl.doc_rows, function(v){ if(ctrl.request.parameters.row==v.doc_id){
+					console.log(v)
+					ctrl.click_data_row(v)
+				}})
+			}
 		})
+	}
+	ctrl.style ={}
+	ctrl.style.model_data_row ={width:'40%'}
+	ctrl.style.width_max = function(obj_name){
+		console.log(ctrl.style, obj_name)
+		var o = ctrl.style[obj_name], v = o.width.replace('%','')
+		if(v<80) v = v*1+10
+		o.width = v+'%'
+	}
+	ctrl.style.width_min = function(obj_name){
+		var o = ctrl.style[obj_name], v = o.width.replace('%','')
+		if(v>20) v -= 10
+		o.width = v+'%'
+	}
+	ctrl.data_input_valid = {}
+	ctrl.data_input_invalid_html = {}
+	ctrl.data_input_valid._115791 = function() {//[115791] i edrpou - Код ЄДРПОУ
+		if(!ctrl.data_row.cols || !ctrl.data_row.cols[115791])
+			return true
+		var v = ctrl.data_row.cols[115791].s1value.match(/^[0-9]{8}$/)
+//		console.log(ctrl.data_row.cols[115791].s1value, v!=null)
+		return v!=null
+	}
+	ctrl.data_input_invalid_html._115791 = function() {
+		return "<span class='w3-tiny am-b w3-text-red'>помилка: має бути число з 8 цифр</span>"
 	}
 	ctrl.doc_data_shortView = {}
 	ctrl.doc_data_shortView._115827 = [115783]
@@ -111,6 +139,9 @@ var initEh001 = function() {
 		}
 		ctrl.edit_obj = ctrl.choice_obj
 		console.log(ctrl.choice_obj)
+	}
+	ctrl.save_data = function(d){
+		console.log(d)
 	}
 	ctrl.save_model_i18n = function(){
 		if(ctrl.edit_obj.i18n_id){

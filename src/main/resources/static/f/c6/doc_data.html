@@ -1,14 +1,22 @@
 <div>
-	<div class="w3-tiny am-b">doc_data table</div>
+	<div class="w3-tiny am-b">
+		<i class="fas fa-caret-right w3-btn w3-medium"
+			data-ng-click="ctrl.style.width_max('model_data_row')"></i>
+		&nbsp;doc_data table
+	</div>
 	<div data-ng-repeat="d in ctrl.doc_rows" class="">
 		<div data-ng-click="ctrl.click_data_row(d); ctrl.children_close(d)"
+			data-ng-class="{'w3-border-top w3-border-green':d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id}"
 			class="w3-hover-opacity w3-hover-shadow">
-			<span class="w3-tiny"> {{d.doc_id}} </span> <span
+			<span data-ng-class="{'w3-green':ctrl.data_row.doc_id==d.doc_id}">
+				<span class="w3-tiny"> {{d.doc_id}} </span>
+			</span> <span
 				data-ng-repeat="c in ctrl.doc_data_shortView['_'+d.reference]">
 				| {{d['s_'+c+'_value']}} </span>
 		</div>
-		<div data-ng-if="d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id"
-			class="w3-container w3-border-left">
+		<div
+			data-ng-if="d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id"
+			class="w3-container w3-leftbar w3-border-bottom w3-border-green">
 			<div data-ng-repeat="dm2 in ctrl.choice_doc.children"
 				class="w3-hover-shadow" data-ng-if="d.cols[dm2.doc_id]"
 				data-ng-init="d2=d.cols[dm2.doc_id]" title="{{d.doc_id}}">

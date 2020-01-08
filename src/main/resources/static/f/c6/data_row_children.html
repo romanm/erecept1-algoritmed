@@ -1,9 +1,0 @@
-<div data-ng-repeat="d in children">
-	<div>
-		<span class="w3-small am-b"> {{d.i18n}} <span
-			data-ng-if="!d.i18n"> {{d.s1value}} </span>
-		</span> <span class="w3-tiny"> {{d.doc_id}} </span>
-	</div>
-	<textarea class="w3-border" data-ng-blur="ctrl.log(ctrl.data_row.cols[d.doc_id])"
-		data-ng-model="ctrl.data_row.cols[d.doc_id].s1value"></textarea>
-</div>
