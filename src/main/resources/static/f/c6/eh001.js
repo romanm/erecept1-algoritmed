@@ -112,7 +112,7 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value FROM doc d1 \n" +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
@@ -140,25 +140,47 @@ var initEh001 = function() {
 		ctrl.edit_obj = ctrl.choice_obj
 		console.log(ctrl.choice_obj)
 	}
-	ctrl.save_data = function(d){
-		console.log(d)
-	}
+	ctrl.update_data = function(d){if(d && d.doc_id){
+		var so = { s1value : d.s1value, string_id : d.doc_id,
+		dataAfterSave : function(response) {
+			console.log(d, response.data, so)
+		},}
+		so.sql = "UPDATE string SET value=:s1value WHERE string_id=:string_id"
+		console.log(d, so)
+		writeSql(so)
+	}}
+	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
+		console.log(d.doctype, d, ctrl.data_row)
+		var so = { parent: ctrl.data_row.doc_id, reference : d.doc_id,
+		dataAfterSave : function(response) {
+			console.log(d, response.data, so)
+			var adn = {}
+			adn.doc_id = response.data.nextDbId1
+			adn.reference = d.doc_id
+			ctrl.data_row.children.push(adn)
+			ctrl.data_row.cols[d.doc_id] = adn
+		},}
+		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+		if(d.doctype==22){
+			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1);\n"
+		}
+		console.log(so)
+		writeSql(so)
+	}}
 	ctrl.save_model_i18n = function(){
 		if(ctrl.edit_obj.i18n_id){
 			var so = { i18n : ctrl.edit_obj.i18n, i18n_id : ctrl.edit_obj.i18n_id,
-				dataAfterSave : function(response){
-					console.log(ctrl.edit_obj, response.data, so)
-				},
-			}
+			dataAfterSave : function(response){
+				console.log(ctrl.edit_obj, response.data, so)
+			},}
 			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
 			writeSql(so)
 		}else if(ctrl.choice_doc.i18n_parent){
 			var so = {parent:ctrl.choice_doc.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
-				dataAfterSave : function(response){
-					console.log(ctrl.edit_obj, response.data, so)
-					ctrl.edit_obj.i18n_id = response.data.nextDbId1
-				},
-			}
+			dataAfterSave : function(response){
+				console.log(ctrl.edit_obj, response.data, so)
+				ctrl.edit_obj.i18n_id = response.data.nextDbId1
+			},}
 			so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference);\n"
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
 			console.log(ctrl.edit_obj, so, ctrl.choice_doc, so.sql)
