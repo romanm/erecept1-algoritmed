@@ -20,7 +20,7 @@
 				data-ng-model="ctrl.data_row.cols[d.doc_id].s1value">
 		</div>
 		<div data-ng-switch-default>
-			<div data-ng-if="d.reference">
+			<div data-ng-if="d.reference && ctrl.menu_list_count[d.reference]>0">
 				<div data-ng-if="ctrl.menu_list_count[d.reference]<20">
 					<select class="w3-border am-width-100pr"
 						data-ng-focus="ctrl.insert_reference_node(d)"

@@ -281,7 +281,6 @@ var initEh001 = function() {
 	}
 }
 
-
 function seek_pologove (){
 	ctrl.seek_pologove = {}
 	ctrl.seek_pologove.pattern = ':seek_like'
