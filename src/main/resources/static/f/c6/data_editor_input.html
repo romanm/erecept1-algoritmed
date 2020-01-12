@@ -2,8 +2,8 @@
 	<div>
 		<span class="w3-small am-b"> {{d.i18n}} <span
 			data-ng-if="!d.i18n"> {{d.s1value}} </span>
-		</span> <span class="w3-tiny"> {{d.doc_id}} <span
-			data-ng-include="'/f/c6/doctype_short.html'"></span>
+		</span> <span class="w3-tiny"> {{d.doc_id}} <sup> -
+				{{d.reference}} </sup> <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 		</span>
 	</div>
 	<div data-ng-switch="d.doctype"
@@ -20,11 +20,24 @@
 				data-ng-model="ctrl.data_row.cols[d.doc_id].s1value">
 		</div>
 		<div data-ng-switch-default>
-			<sub class="w3-tiny"> -TODO- </sub>
-			<textarea rows="1" class="w3-border am-width-100pr"
-				data-ng-focus="ctrl.insert_reference_node(d)"
-				data-ng-blur="ctrl.update_data(ctrl.data_row.cols[d.doc_id])"
-				data-ng-model="ctrl.data_row.cols[d.doc_id].s1value"></textarea>
+			<div data-ng-if="d.reference">
+				<div data-ng-if="ctrl.menu_list_count[d.reference]<20">
+					<select class="w3-border am-width-100pr"
+						data-ng-focus="ctrl.insert_reference_node(d)"
+						data-ng-change="ctrl.update_reference2(ctrl.data_row.cols[d.doc_id])"
+						data-ng-model="ctrl.data_row.cols[d.doc_id].reference2"
+						data-ng-options="item.doc_id as (item.i18n) for item in ctrl.elementsMap[d.reference]">
+						<option value="">-- пусто --</option>
+					</select>
+				</div>
+			</div>
+			<div data-ng-if="!d.reference">
+				<sub class="w3-tiny"> -TODO- </sub>
+				<textarea rows="1" class="w3-border am-width-100pr"
+					data-ng-focus="ctrl.insert_reference_node(d)"
+					data-ng-blur="ctrl.update_data(ctrl.data_row.cols[d.doc_id])"
+					data-ng-model="ctrl.data_row.cols[d.doc_id].s1value"></textarea>
+			</div>
 		</div>
 		<div data-ng-show="!ctrl.data_input_valid['_'+d.doc_id]()"
 			data-ng-bind-html="ctrl.data_input_invalid_html['_'+d.doc_id]()">

@@ -1,12 +1,16 @@
 <div>
 	<div class="w3-row w3-small w3-border-bottom">
-		<div class="w3-col " style="width: 130px">
+		<div class="w3-col" style="width: 130px">
 			<span data-ng-repeat="edpv in ['value']"
 				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
 				class=" am-b"> data_editor </span>
 			<div class="w3-right w3-tiny">
 				{{ctrl.choice_doc.children.length}}</div>
-			<div>_</div>
+			<div>
+				<span class="w3-tiny"> {{ctrl.choice_doc.doc_id}} </span> <span
+					data-ng-if="ctrl.data_row" class="w3-tiny">>
+					{{ctrl.data_row.doc_id}} </span>
+			</div>
 		</div>
 		<div class="w3-rest w3-border-left">
 			<i class="fas fa-caret-left w3-btn w3-right w3-medium"

@@ -9,22 +9,25 @@
 			</span>
 			<div class="w3-right w3-tiny">
 				{{ctrl.choice_doc.children.length}}</div>
-			<div>_</div>
+			<div>
+				<span class="w3-tiny"> {{ctrl.choice_doc.doc_id}} </span>
+			</div>
 		</div>
 		<div class="w3-rest w3-border-left">
 			<i class="fas fa-caret-left w3-btn w3-right w3-medium"
-					data-ng-click="ctrl.style.width_min('model_data_row')"></i>
-			<span class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i>
-				<i class="fas fa-terminal"></i>
+				data-ng-click="ctrl.style.width_min('model_data_row')"></i> <span
+				class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i> <i
+				class="fas fa-terminal"></i>
 			</span>
 			<div class="w3-btn"
-			data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_obj.doc_id}"
-			data-ng-click="ctrl.click_edit_obj()"
-				title="Редагувати">
+				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_obj.doc_id}"
+				data-ng-click="ctrl.click_edit_obj()" title="Редагувати">
 				<i class="fas fa-edit"></i>
 			</div>
 		</div>
 	</div>
-	<div data-ng-repeat="children in [ctrl.choice_doc.children]"
-		data-ng-include="'/f/c6/doc_model_children.html'"></div>
+	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
+		<div data-ng-repeat="children in [ctrl.choice_doc.children]"
+			data-ng-include="'/f/c6/doc_model_children.html'"></div>
+	</div>
 </div>

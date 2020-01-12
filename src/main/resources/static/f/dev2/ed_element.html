@@ -1,11 +1,14 @@
 <div>
 	<div data-ng-repeat="tE in ptE.children"
 		data-ng-init="isSelect = ctrl.isSelectEl(tE)">
-		<span class="w3-small am-b"> {{ctrl.i18_name(tE)}}: </span><span
+		<span class="w3-small am-b"> {{ctrl.i18_name(tE)}}: </span>
+		<sup class="w3-tiny">[{{tE.doc_id}}]</sup>
+		<span
 			class="w3-right w3-hover-shadow" data-ng-click="ctrl.addArrayEl(tE)"
 			data-ng-if="ctrl.isArray(tE)">+ </span>
 
 		<div data-ng-if="isSelect">
+		a1
 			<select class="w3-border am-width-100pr"
 				data-ng-focus="ctrl.focus_field(tE)"
 				data-ng-disabled="ctrl.disabled_field(tE)"

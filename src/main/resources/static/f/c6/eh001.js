@@ -1,17 +1,58 @@
+app.controller('AppCtrl', function($scope, $http, $timeout) {
+	ctrl = this
+	ctrl.page_title = 'eh001'
+	initApp($scope, $http, $timeout)
+	initEh001()
+	read_mergeList('docs', sql_app.obj_with_parent(115800))
+	read_mergeList('docs', sql_app.obj_with_parent(285594))
+	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
+//	read_dataObject('docs', sql_app.obj_with_parent(115800))
+	ctrl.set_choice_doc({doc_id: 115827, s1value:'legal_entitie'})
+
+//	seek_pologove ()
+	
+})
+
+var read_data_for_data_editor = function(d) {
+	if(ctrl.data_editor_opened()){
+		if(!ctrl.menu_list_count)
+			ctrl.menu_list_count = {}
+		console.log('read_data_for_data_editor', d)
+		angular.forEach(d.children, function(v){ if(v.reference){
+			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
+			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
+//			console.log(v.reference, sql2)
+			read_dataObject2fn(sql2, function(response){ if(response.data.list.length>0){
+				ctrl.menu_list_count[v.reference] = response.data.list[0].count
+				if(ctrl.menu_list_count[v.reference]>0){
+					if(ctrl.menu_list_count[v.reference]<20){
+						read_dataObject2fn(sql, function(response2){
+							ctrl.elementsMap[v.reference] = response2.data.list
+						})
+					}
+				}
+			}})
+		}})
+		console.log(ctrl.menu_list_count)
+	}
+}
+
 var initEh001 = function() {
 	ctrl.click_data_row = function(d){
 		ctrl.data_row = d
 		if(!d.children){
 			var sql = sql_app.obj_with_parent(d.doc_id)
-			console.log(d, sql)
-			read_dataObject2fn(sql
-			, function(response){ if(response.data.list.length>0){
+			//console.log(d, sql)
+			read_dataObject2fn(sql , function(response){ if(response.data.list.length>0){
 				d.children = response.data.list
 				d.cols = {}
 				angular.forEach(d.children, function(v){
 					d.cols[v.reference] = v
 				})
-			}})
+				var data_model = ctrl.elementsMap[d.reference]
+				read_data_for_data_editor(data_model)
+			}
+			})
 		}
 	}
 	ctrl.read_rows_at_reference = function(reference){
@@ -19,7 +60,6 @@ var initEh001 = function() {
 			ctrl.doc_rows = response.data.list
 			if(!ctrl.data_row && ctrl.request.parameters.row){
 				angular.forEach(ctrl.doc_rows, function(v){ if(ctrl.request.parameters.row==v.doc_id){
-					console.log(v)
 					ctrl.click_data_row(v)
 				}})
 			}
@@ -48,7 +88,9 @@ var initEh001 = function() {
 		return v!=null
 	}
 	ctrl.data_input_invalid_html._115791 = function() {
-		return "<span class='w3-tiny am-b w3-text-red'>помилка: має бути число з 8 цифр</span>"
+		return "<span class='w3-tiny am-b w3-text-red'>" +
+					"помилка: має бути число з 8 цифр" +
+				"</span>"
 	}
 	ctrl.doc_data_shortView = {}
 	ctrl.doc_data_shortView._115827 = [115783]
@@ -58,7 +100,7 @@ var initEh001 = function() {
 		"SELECT d.* FROM doc d " +
 		"WHERE :reference IN (d.reference) "
 		sql = sql.replace(':reference', reference)
-		console.log(sql, reference, ctrl.doc_data_shortView)
+//		console.log(sql, reference, ctrl.doc_data_shortView)
 		var sv = ctrl.doc_data_shortView['_'+reference]
 		if(sv){
 			var lf_sqls=' doc d \n', lf_cols=' d.* '
@@ -73,9 +115,13 @@ var initEh001 = function() {
 //			console.log(lf_sqls, lf_cols)
 			sql = sql.replace(' doc d ', lf_sqls)
 			sql = sql.replace(' d.* ', lf_cols)
-			console.log(sql)
+//			console.log(sql)
 		}
 		return sql
+	}
+	ctrl.data_editor_opened = function(){ 
+		var data_editor_open = ctrl.data_row && !ctrl.data_row.children_close
+		return data_editor_open
 	}
 	ctrl.children_close = function(d){ 
 		if(d.children){
@@ -83,31 +129,60 @@ var initEh001 = function() {
 			d.children_close = !d.children_close
 		}
 	}
-	ctrl.read_children = function(d){ 
+	ctrl.read_children = function(d){
 		ctrl.choice_obj = d
-		if(!d.children){
+		if(!d.children) {
 			if(ctrl.choice_doc.i18n_parent)
 				var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc.i18n_parent)
 				else
 					var sql = sql_app.obj_with_parent(d.doc_id)
+					
+//			console.log(sql)
 			read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
 				d.children = response.data.list
 			}})
 		}
 	}
+	sql_app.select_i18n= function(left_join_ref, i18n_parent){
+		var sql = "" +
+		"SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
+		"LEFT JOIN string s1 ON s1.string_id=doc_id \n" +
+		"WHERE parent = :i18n_parent "
+		if(left_join_ref){
+			sql = "LEFT JOIN (" +sql +") i18n ON i18n_ref=:left_join_ref"
+			sql = sql.replace(":left_join_ref", left_join_ref)
+		}
+		if(i18n_parent){
+			sql = sql.replace(":i18n_parent", i18n_parent)
+		}
+		return sql
+	}
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id FROM doc d1 " +
-		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id " +
-		"LEFT JOIN string s2 ON d1.reference = s2.string_id " +
-		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id " +
-		"LEFT JOIN (SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc " +
-		"LEFT JOIN string s1 ON s1.string_id=doc_id " +
-		"WHERE parent = :i18n_parent) i18n ON i18n_ref=doc_id " +
+		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		sql_app.select_i18n("d1.doc_id") + " \n"+
+//		"LEFT JOIN (SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
+//		"LEFT JOIN string s1 ON s1.string_id=doc_id \n" +
+//		"WHERE parent = :i18n_parent) i18n ON i18n_ref=d1.doc_id \n" +
 		"WHERE d1.parent=:parent " +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent).replace(':i18n_parent', i18n_parent)
-		//console.log(sql)
+//		console.log(sql)
+		return sql
+	}
+	sql_app.obj_with_doc_id= function(doc_id){
+		var sql = "\n" +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"WHERE d1.doc_id = :doc_id \n" +
+		"ORDER BY sort "
+		sql = sql.replace(':doc_id', doc_id)
+//		console.log(sql)
 		return sql
 	}
 	sql_app.obj_with_parent= function(parent){
@@ -116,7 +191,7 @@ var initEh001 = function() {
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
-		"WHERE d1.parent=:parent \n" +
+		"WHERE d1.parent = :parent \n" +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent)
 //		console.log(sql)
@@ -125,12 +200,15 @@ var initEh001 = function() {
 	ctrl.doc_i18n_parent = {}
 	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.doc_i18n_parent._115827 = 367318
+	ctrl.doc_i18n_parent._115920 = 115924
 	ctrl.set_choice_doc = function(d){
 		if(ctrl.doc_i18n_parent['_'+d.doc_id])
 			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
 		ctrl.choice_doc = d
 		ctrl.read_children(d)
 		ctrl.read_rows_at_reference(d.doc_id)
+		ctrl.elementsMap[d.doc_id] = d
+		read_data_for_data_editor(d)
 	}
 	ctrl.click_edit_obj = function(){
 		if(ctrl.edit_obj && ctrl.edit_obj.doc_id == ctrl.choice_obj.doc_id){
@@ -139,6 +217,14 @@ var initEh001 = function() {
 		}
 		ctrl.edit_obj = ctrl.choice_obj
 		console.log(ctrl.choice_obj)
+	}
+	ctrl.update_reference2 = function(d){
+		d.sql = "UPDATE doc set reference2=:reference2 where doc_id=:doc_id"
+		d.dataAfterSave = function(response) {
+			console.log(response)
+		}
+		console.log(d)
+		writeSql(d)
 	}
 	ctrl.update_data = function(d){if(d && d.doc_id){
 		var so = { s1value : d.s1value, string_id : d.doc_id,
@@ -195,14 +281,51 @@ var initEh001 = function() {
 	}
 }
 
-app.controller('AppCtrl', function($scope, $http, $timeout) {
-	ctrl = this
-	ctrl.page_title = 'eh001'
-	initApp($scope, $http, $timeout)
-	initEh001()
-	read_mergeList('docs', sql_app.obj_with_parent(115800))
-	read_mergeList('docs', sql_app.obj_with_parent(285594))
-//	read_dataObject('docs', sql_app.obj_with_parent(115800))
-	ctrl.set_choice_doc({doc_id: 115827, s1value:'legal_entitie'})
-})
+
+function seek_pologove (){
+	ctrl.seek_pologove = {}
+	ctrl.seek_pologove.pattern = ':seek_like'
+	ctrl.seek_pologove.pattern_keys = function(pattern_list) {
+		return Object.keys(pattern_list)
+	}
+	ctrl.seek_pologove.val = 'O91'
+	ctrl.seek_pologove.sql = "" +
+		"SELECT COUNT(*) FROM (" +
+		"SELECT EXTRACT(year FROM vipisaniy) y, * " +
+		"\n FROM pologove2019" +
+		") a " +
+		"\n WHERE y=2019" +
+		" AND (icd10_1 LIKE ':seek_like'" +
+		" OR icd10_2 LIKE ':seek_like'" +
+		" OR icd10_3 LIKE ':seek_like'" +
+		" )"
+	ctrl.seek_pologove.seek = function(){
+		ctrl.seek_pologove.pattern_list = {}
+		var sp_sc = this.sql.split(':')
+		console.log(sp_sc)
+		angular.forEach(sp_sc, function(v,k){ if(k>0){
+			var w = v.split(' ')[0]
+			.replace("'",'')
+//			.replace("%",'')
+			console.log(w, v)
+			ctrl.seek_pologove.pattern_list[w] = k
+		}})
+		console.log(ctrl.seek_pologove.pattern_list
+		,		ctrl.seek_pologove.pattern_keys(ctrl.seek_pologove.pattern_list).length
+		)
+		if(ctrl.seek_pologove.pattern_keys(ctrl.seek_pologove.pattern_list).length==0){
+			this.sql1 = this.sql
+		}else{
+			angular.forEach(ctrl.seek_pologove.pattern_list, function(v,k){
+				console.log(k)
+				ctrl.seek_pologove.sql1 = ctrl.seek_pologove.sql.split(':'+k).join(ctrl.seek_pologove.val+'%')
+			})
+		}
+		console.log(this.sql1)
+		read_dataObject2fn(this.sql1 , function(response){
+			ctrl.seek_pologove.result = response.data.list
+		})
+	}
+	ctrl.seek_pologove.seek()
+}
 

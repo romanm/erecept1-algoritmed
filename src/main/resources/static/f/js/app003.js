@@ -733,7 +733,7 @@ function Exe_fn($scope, $http){
 function build_request($scope){
 	$scope.request={};
 //	console.log($scope.request, window.location)
-	console.log($scope.request)
+//	console.log($scope.request)
 	$scope.request.hostname = window.location.hostname
 	$scope.request.getDbConfigHostname = function(){
 		if('localhost'!=$scope.request.hostname){
@@ -777,7 +777,7 @@ function read_mergeList(dataObjectName, sql, limit, printObject) {
 		if(!ctrl[dataObjectName])
 			ctrl[dataObjectName] = []
 		ctrl[dataObjectName] = ctrl[dataObjectName].concat(response.data.list)
-		console.log(response.data.list, ctrl[dataObjectName])
+//		console.log(response.data.list, ctrl[dataObjectName])
 		if(printObject)
 			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)
 	}})
