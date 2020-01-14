@@ -50,7 +50,9 @@ function initAchi() {
 		//var sql_seek_achi = sql_app.seek_sql 
 		var sql_seek_achi = "" +
 			"SELECT * FROM (" + sql_app.seek_achi(ctrl) + ") a " +
-			" WHERE LOWER(n10) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')"
+			" WHERE LOWER(n10) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')" +
+			" OR LOWER(n9) LIKE LOWER('%" + ctrl.seekLogic.seek_value + "%')" +
+					""
 		console.log(sql_seek_achi)
 		read_dataObject('seek_achi', sql_seek_achi)
 		var sql_l1 = "SELECT * FROM (" + sql_app.l1_sql() +

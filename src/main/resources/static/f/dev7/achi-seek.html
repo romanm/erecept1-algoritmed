@@ -20,7 +20,9 @@
 					data-ng-init="nh_last=$last">
 					<div data-ng-if="!nh_last" class="w3-col w3-small"
 						data-ng-style="val.style">
-						{{l0[k]}} <span class="w3-tiny">[{{l0.n7}}]</span>
+						<span
+						ng-bind-html="ctrl.highlight(l0[k], ctrl.seekLogic.seek_value)"
+						></span><span class="w3-tiny">[{{l0.n7}}]</span>
 					</div>
 					<div data-ng-if="nh_last" class="w3-rest "
 						ng-bind-html="ctrl.highlight(l0[k], ctrl.seekLogic.seek_value)">

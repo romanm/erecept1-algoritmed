@@ -14,7 +14,7 @@
 			{{d.s1value }} <span data-ng-if="d.i18n"> - {{d.i18n}} </span>
 		</a>&nbsp; <sup data-ng-if="d.children && d.children_close"
 			class="w3-tiny am-b">[{{d.children.length}}]</sup> <span
-			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_doc.doc_id].includes(d.doc_id)">
+			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_doc_model.doc_id].includes(d.doc_id)">
 			<i class="fas fa-check"></i>
 		</span>
 		<div data-ng-include="'/f/c6/edit_model_obj.html'"></div>

@@ -5,9 +5,9 @@
 				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
 				class=" am-b"> data_editor </span>
 			<div class="w3-right w3-tiny">
-				{{ctrl.choice_doc.children.length}}</div>
+				{{ctrl.choice_doc_model.children.length}}</div>
 			<div>
-				<span class="w3-tiny"> {{ctrl.choice_doc.doc_id}} </span> <span
+				<span class="w3-tiny"> {{ctrl.choice_doc_model.doc_id}} </span> <span
 					data-ng-if="ctrl.data_row" class="w3-tiny">>
 					{{ctrl.data_row.doc_id}} </span>
 			</div>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
-			<div data-ng-repeat="children in [ctrl.choice_doc.children]"
+			<div data-ng-repeat="c in [[ctrl.choice_doc_model, ctrl.data_row]]"
 				data-ng-include="'/f/c6/data_editor_input.html'"></div>
 		<p>&nbsp;</p>
 	</div>

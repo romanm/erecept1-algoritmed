@@ -7,18 +7,19 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
 //	read_dataObject('docs', sql_app.obj_with_parent(115800))
-	ctrl.set_choice_doc({doc_id: 115827, s1value:'legal_entitie'})
+	ctrl.set_choice_doc_model({doc_id: 115827, s1value:'legal_entitie'})
 
 //	seek_pologove ()
 	
 })
 
 var read_data_for_data_editor = function(d) {
-	if(ctrl.data_editor_opened()){
+	if(d && ctrl.data_editor_opened()){
 		if(!ctrl.menu_list_count)
 			ctrl.menu_list_count = {}
-		console.log('read_data_for_data_editor', d)
-		angular.forEach(d.children, function(v){ if(v.reference){
+		console.log('read_data_for_data_editor', d, d.children)
+		angular.forEach(d.children, function(v){ 
+			if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
 			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
 //			console.log(v.reference, sql2)
@@ -37,23 +38,51 @@ var read_data_for_data_editor = function(d) {
 	}
 }
 
+var read_children2 = function(d) {
+	if(!d.children) {
+		if(ctrl.choice_doc_model.i18n_parent)
+			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc_model.i18n_parent)
+			else
+				var sql = sql_app.obj_with_parent(d.doc_id)
+//		console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			angular.forEach(d.children, function(v){
+				if(v.cnt_child>0){
+					console.log(v)
+					read_children2(v)
+				}
+			})
+		}})
+	}
+}
+
+var read_children = function(d) {
+	if(d && !d.children){
+		var sql = sql_app.obj_with_parent(d.doc_id)
+		console.log(d, d.doc_id, sql)
+		read_dataObject2fn(sql , function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			d.cols = {}
+			angular.forEach(d.children, function(v){
+				d.cols[v.reference] = v
+				if(v.cnt_child>0){
+//					var sql2 = sql_app.obj_with_parent(v.doc_id)
+//					console.log(v.doc_id, v.cnt_child, v.reference, sql2)
+					read_children(v)
+				}
+			})
+			var data_model = ctrl.elementsMap[d.reference]
+			read_data_for_data_editor(data_model)
+		}
+		})
+	}
+}
+
 var initEh001 = function() {
 	ctrl.click_data_row = function(d){
 		ctrl.data_row = d
-		if(!d.children){
-			var sql = sql_app.obj_with_parent(d.doc_id)
-			//console.log(d, sql)
-			read_dataObject2fn(sql , function(response){ if(response.data.list.length>0){
-				d.children = response.data.list
-				d.cols = {}
-				angular.forEach(d.children, function(v){
-					d.cols[v.reference] = v
-				})
-				var data_model = ctrl.elementsMap[d.reference]
-				read_data_for_data_editor(data_model)
-			}
-			})
-		}
+		read_children(d)
 	}
 	ctrl.read_rows_at_reference = function(reference){
 		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
@@ -131,17 +160,9 @@ var initEh001 = function() {
 	}
 	ctrl.read_children = function(d){
 		ctrl.choice_obj = d
-		if(!d.children) {
-			if(ctrl.choice_doc.i18n_parent)
-				var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc.i18n_parent)
-				else
-					var sql = sql_app.obj_with_parent(d.doc_id)
-					
-//			console.log(sql)
-			read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
-				d.children = response.data.list
-			}})
-		}
+		read_children2 (d)
+
+	
 	}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
 		var sql = "" +
@@ -159,14 +180,16 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id FROM doc d1 \n" +
+		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id, cnt_child  " +
+		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
-		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
-		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		sql_app.select_i18n("d1.doc_id") + " \n"+
 //		"LEFT JOIN (SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
 //		"LEFT JOIN string s1 ON s1.string_id=doc_id \n" +
 //		"WHERE parent = :i18n_parent) i18n ON i18n_ref=d1.doc_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
 		"WHERE d1.parent=:parent " +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent).replace(':i18n_parent', i18n_parent)
@@ -175,10 +198,12 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_doc_id= function(doc_id){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id FROM doc d1 \n" +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, cnt_child  " +
+		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
-		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
 		"WHERE d1.doc_id = :doc_id \n" +
 		"ORDER BY sort "
 		sql = sql.replace(':doc_id', doc_id)
@@ -187,10 +212,12 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id FROM doc d1 \n" +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, cnt_child " +
+		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
 		"WHERE d1.parent = :parent \n" +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent)
@@ -201,10 +228,10 @@ var initEh001 = function() {
 	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._115920 = 115924
-	ctrl.set_choice_doc = function(d){
+	ctrl.set_choice_doc_model = function(d){
 		if(ctrl.doc_i18n_parent['_'+d.doc_id])
 			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
-		ctrl.choice_doc = d
+		ctrl.choice_doc_model = d
 		ctrl.read_children(d)
 		ctrl.read_rows_at_reference(d.doc_id)
 		ctrl.elementsMap[d.doc_id] = d
@@ -223,7 +250,6 @@ var initEh001 = function() {
 		d.dataAfterSave = function(response) {
 			console.log(response)
 		}
-		console.log(d)
 		writeSql(d)
 	}
 	ctrl.update_data = function(d){if(d && d.doc_id){
@@ -235,6 +261,12 @@ var initEh001 = function() {
 		console.log(d, so)
 		writeSql(so)
 	}}
+	ctrl.insert_list_element = function(dt, da){
+		console.log(dt, da, dt.doc_id, da.cols[dt.doc_id])
+	}
+	ctrl.insert_reference_node2 = function(d, da){
+		console.log(d, da)
+	}
 	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
 		console.log(d.doctype, d, ctrl.data_row)
 		var so = { parent: ctrl.data_row.doc_id, reference : d.doc_id,
@@ -261,15 +293,15 @@ var initEh001 = function() {
 			},}
 			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
 			writeSql(so)
-		}else if(ctrl.choice_doc.i18n_parent){
-			var so = {parent:ctrl.choice_doc.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
+		}else if(ctrl.choice_doc_model.i18n_parent){
+			var so = {parent:ctrl.choice_doc_model.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
 			dataAfterSave : function(response){
 				console.log(ctrl.edit_obj, response.data, so)
 				ctrl.edit_obj.i18n_id = response.data.nextDbId1
 			},}
 			so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference);\n"
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
-			console.log(ctrl.edit_obj, so, ctrl.choice_doc, so.sql)
+			console.log(ctrl.edit_obj, so, ctrl.choice_doc_model, so.sql)
 			writeSql(so)
 		}
 	}
