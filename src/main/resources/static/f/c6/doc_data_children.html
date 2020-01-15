@@ -6,7 +6,9 @@
 				data-ng-if="!dm2.i18n"> {{dm2.s1value}} </span> {{dm2.i18n}}
 		</span>&nbsp;<sub>{{d2.doc_id}}</sub> <sup>{{d2.reference}}</sup>
 		</span>
-		<div>{{d2.s1value}}</div>
+		<div>{{d2.s1value}}
+		{{d2.dt1value}}
+		</div>
 		<div class="w3-container w3-border-left" data-ng-if="d2.children">
 			<div data-ng-repeat="c in [[dm2, d2]]"
 				data-ng-include="'/f/c6/doc_data_children.html'"></div>

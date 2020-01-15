@@ -47,7 +47,9 @@ var read_children2 = function(d) {
 //		console.log(sql)
 		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
 			d.children = response.data.list
+			d.cols = {}
 			angular.forEach(d.children, function(v){
+				d.cols[v.reference] = v
 				if(v.cnt_child>0){
 					console.log(v)
 					read_children2(v)
@@ -60,15 +62,14 @@ var read_children2 = function(d) {
 var read_children = function(d) {
 	if(d && !d.children){
 		var sql = sql_app.obj_with_parent(d.doc_id)
-		console.log(d, d.doc_id, sql)
+		//console.log(d, d.doc_id, sql)
 		read_dataObject2fn(sql , function(response){ if(response.data.list.length>0){
 			d.children = response.data.list
 			d.cols = {}
 			angular.forEach(d.children, function(v){
 				d.cols[v.reference] = v
 				if(v.cnt_child>0){
-//					var sql2 = sql_app.obj_with_parent(v.doc_id)
-//					console.log(v.doc_id, v.cnt_child, v.reference, sql2)
+					console.log(v)
 					read_children(v)
 				}
 			})
@@ -154,15 +155,12 @@ var initEh001 = function() {
 	}
 	ctrl.children_close = function(d){ 
 		if(d.children){
-			console.log(d)
 			d.children_close = !d.children_close
 		}
 	}
 	ctrl.read_children = function(d){
 		ctrl.choice_obj = d
 		read_children2 (d)
-
-	
 	}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
 		var sql = "" +
@@ -180,9 +178,10 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, i18n, i18n_id, cnt_child  " +
+		"SELECT d1.*, sort, s1.value s1value, dt1.value dt1value, i18n, i18n_id, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		sql_app.select_i18n("d1.doc_id") + " \n"+
 //		"LEFT JOIN (SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
@@ -198,9 +197,10 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_doc_id= function(doc_id){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, cnt_child  " +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
 		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
@@ -212,9 +212,10 @@ var initEh001 = function() {
 	}
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, cnt_child " +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
 		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
@@ -252,11 +253,18 @@ var initEh001 = function() {
 		}
 		writeSql(d)
 	}
-	ctrl.update_data_date = function(d){
+	ctrl.update_data_date = function(d){if(d && d.s1value){
 		var dt = new Date(Date.parse(d.s1value))
 		dt.setHours(12)
 		console.log(dt.toISOString(), d)
-	}
+		var so = { dt1value : dt.toISOString(), date_id : d.doc_id,
+			dataAfterSave : function(response) {
+				console.log(d, response.data, so)
+			},}
+		so.sql = "UPDATE date SET value=:dt1value WHERE date_id=:date_id"
+			console.log(d, so)
+			writeSql(so)
+	}}
 	ctrl.update_data = function(d){if(d && d.doc_id){
 		var so = { s1value : d.s1value, string_id : d.doc_id,
 		dataAfterSave : function(response) {
@@ -269,26 +277,35 @@ var initEh001 = function() {
 	ctrl.insert_list_element = function(dt, da){
 		console.log(dt, da, dt.doc_id, da.cols[dt.doc_id])
 	}
-	ctrl.insert_reference_node2 = function(d, da){
-		console.log(d, da)
-	}
-	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
-		console.log(d.doctype, d, ctrl.data_row)
-		var so = { parent: ctrl.data_row.doc_id, reference : d.doc_id,
+	ctrl.insert_reference_node2 = function(d, cda){
+		console.log(d, cda)
+		if(!cda.cols || !cda.cols[d.doc_id]){
+		var so = { parent: cda.doc_id, reference : d.doc_id,
 		dataAfterSave : function(response) {
 			console.log(d, response.data, so)
 			var adn = {}
 			adn.doc_id = response.data.nextDbId1
+			adn.parent = cda.doc_id
 			adn.reference = d.doc_id
-			ctrl.data_row.children.push(adn)
-			ctrl.data_row.cols[d.doc_id] = adn
+			if(!cda.children)
+				cda.children = []
+			cda.children.push(adn)
+			if(!cda.cols)
+				cda.cols = {}
+			cda.cols[d.doc_id] = adn
 		},}
 		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+		if(d.doctype==26){
+			so.sql += "INSERT INTO date (date_id) VALUES (:nextDbId1);\n"
+		}else
 		if(d.doctype==22){
 			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1);\n"
 		}
-		console.log(so)
+		console.log(so, so.sql)
 		writeSql(so)
+	}}
+	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
+		ctrl.insert_reference_node2(d, ctrl.data_row.cols)
 	}}
 	ctrl.save_model_i18n = function(){
 		if(ctrl.edit_obj.i18n_id){
@@ -316,14 +333,14 @@ var initEh001 = function() {
 	ctrl.alert = function(v){
 		alert(v+' click')
 	}
+	ctrl.keys = function(o) {if(o){
+		return Object.keys(o)
+	}}
 }
 
 function seek_pologove (){
 	ctrl.seek_pologove = {}
 	ctrl.seek_pologove.pattern = ':seek_like'
-	ctrl.seek_pologove.pattern_keys = function(pattern_list) {
-		return Object.keys(pattern_list)
-	}
 	ctrl.seek_pologove.val = 'O91'
 	ctrl.seek_pologove.sql = "" +
 		"SELECT COUNT(*) FROM (" +
