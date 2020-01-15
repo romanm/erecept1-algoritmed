@@ -252,6 +252,11 @@ var initEh001 = function() {
 		}
 		writeSql(d)
 	}
+	ctrl.update_data_date = function(d){
+		var dt = new Date(Date.parse(d.s1value))
+		dt.setHours(12)
+		console.log(dt.toISOString(), d)
+	}
 	ctrl.update_data = function(d){if(d && d.doc_id){
 		var so = { s1value : d.s1value, string_id : d.doc_id,
 		dataAfterSave : function(response) {

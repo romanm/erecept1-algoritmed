@@ -1,12 +1,13 @@
-<div data-ng-repeat="d in c[0].children">
+<div data-ng-repeat="d in c.dt.children"
+data-ng-init="da=c.da.cols[d.doc_id]"
+>
 	<div class="w3-display-container"
-		data-ng-repeat="v in [{obj_with_child:d.doctype==18 && d.cnt_child && !c[1].cols[d.doc_id]}]">
+		data-ng-repeat="v in [{obj_with_child:d.doctype==18 && d.cnt_child && !da}]">
 		<div
-			data-ng-if="v.obj_with_child || (d.doctype>31 && !c[1].cols[d.doc_id])">
+			data-ng-if="v.obj_with_child || (d.doctype>31 && !da)">
 			<div class="w3-hover-shadow"
 				data-ng-click="ctrl.insert_reference_node2(d, c[1])">
 				Додати: <span data-ng-include="'/f/c6/data_type_name.html'"></span>
-				{{d.doctype>31}} {{!c[1].cols[d.doc_id]}}
 			</div>
 		</div>
 		<div>
@@ -23,36 +24,48 @@
 		<div data-ng-switch-when="22">
 			<textarea rows="1" class="w3-border am-width-100pr"
 				data-ng-focus="ctrl.insert_reference_node(d)"
-				data-ng-blur="ctrl.update_data(c[1].cols[d.doc_id])"
-				data-ng-model="c[1].cols[d.doc_id].s1value"></textarea>
+				data-ng-blur="ctrl.update_data(da)"
+				data-ng-model="da.s1value"></textarea>
+		</div>
+		<div data-ng-switch-when="26">
+		Дата
+			<input type="date" class="w3-border"
+				data-ng-focus="ctrl.insert_reference_node(d)"
+				data-ng-blur="ctrl.update_data_date(da)" data-ng-model="da.s1value">
 		</div>
 		<div data-ng-switch-when="23">
 			<input class="w3-border am-width-100pr"
 				data-ng-focus="ctrl.insert_reference_node(d)"
-				data-ng-model="c[1].cols[d.doc_id].s1value">
+				data-ng-model="da.s1value">
 		</div>
 		<div data-ng-switch-default>
 			<div data-ng-if="d.reference && ctrl.menu_list_count[d.reference]>0">
 				<div data-ng-if="ctrl.menu_list_count[d.reference]<20">
 					<select class="w3-border am-width-100pr"
 						data-ng-focus="ctrl.insert_reference_node(d)"
-						data-ng-change="ctrl.update_reference2(c[1].cols[d.doc_id])"
-						data-ng-model="c[1].cols[d.doc_id].reference2"
+						data-ng-change="ctrl.update_reference2(da)"
+						data-ng-model="da.reference2"
 						data-ng-options="item.doc_id as (item.i18n) for item in ctrl.elementsMap[d.reference]">
 						<option value="">-- пусто --</option>
 					</select>
 				</div>
 			</div>
-			<div data-ng-if="!d.reference">
+			<div data-ng-if="!d.reference && false">
 				<sub class="w3-tiny"> -TODO- </sub>
 				<textarea rows="1" class="w3-border am-width-100pr"
 					data-ng-focus="ctrl.insert_reference_node(d)"
-					data-ng-blur="ctrl.update_data(c[1].cols[d.doc_id])"
-					data-ng-model="c[1].cols[d.doc_id].s1value"></textarea>
+					data-ng-blur="ctrl.update_data(da)"
+					data-ng-model="da.s1value"></textarea>
 			</div>
 		</div>
 		<div data-ng-show="!ctrl.data_input_valid['_'+d.doc_id]()"
 			data-ng-bind-html="ctrl.data_input_invalid_html['_'+d.doc_id]()">
 		</div>
+	</div>
+	<div data-ng-if="d.cnt_child" class="w3-container w3-border-left">
+		<div data-ng-repeat="c in [{dt:d, da:da}]"
+			data-ng-include="'/f/c6/data_editor_input.html'"></div>
+		<!-- 
+	 -->
 	</div>
 </div>

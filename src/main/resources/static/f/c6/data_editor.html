@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
-			<div data-ng-repeat="c in [[ctrl.choice_doc_model, ctrl.data_row]]"
+			<div data-ng-repeat="c in [{dt:ctrl.choice_doc_model, da:ctrl.data_row}]"
 				data-ng-include="'/f/c6/data_editor_input.html'"></div>
 		<p>&nbsp;</p>
 	</div>

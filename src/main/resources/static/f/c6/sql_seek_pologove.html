@@ -1,0 +1,32 @@
+<div class="w3-border">
+	SQL
+	<textarea rows="5" cols="55" class="w3-tiny"
+		data-ng-model="ctrl.seek_pologove.sql"></textarea>
+	<!-- 
+	<div>{{ctrl.seek_pologove.pattern}}</div>
+ -->
+	<div>{{ctrl.seek_pologove.pattern_keys(ctrl.seek_pologove.pattern_list).join()}}</div>
+	<input class="w3-border" data-ng-blur="ctrl.seek_pologove.seek()"
+		data-ng-model="ctrl.seek_pologove.val">
+	<button class="w3-btn w3-border"
+		data-ng-click="ctrl.seek_pologove.seek()">SEEK</button>
+	<div class="w3-border w3-tiny">{{ctrl.seek_pologove.sql1}}</div>
+	<table>
+		<thead>
+			<tr class=" w3-tiny">
+				<th class="w3-border-bottom"
+					data-ng-repeat="(k,v) in ctrl.seek_pologove.result[0]">{{k}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="r in ctrl.seek_pologove.result">
+				<td 
+				class="w3-border-right"
+				data-ng-repeat="(k,v) in r">{{v}}</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- 
+	<div class="w3-code w3-tiny">{{ctrl.seek_pologove.result}}</div>
+	 -->
+</div>
