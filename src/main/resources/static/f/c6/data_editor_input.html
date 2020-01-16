@@ -28,7 +28,7 @@
 				data-ng-blur="ctrl.update_data(da)" data-ng-model="da.s1value"></textarea>
 		</div>
 		<div data-ng-switch-when="26">
-			Дата <input type="date" class="w3-border"
+			Дата <input type="date" class="w3-border" value="{{da.dt1value}}"
 				data-ng-focus="ctrl.insert_reference_node2(d, c.da)"
 				data-ng-blur="ctrl.update_data_date(da)" data-ng-model="da.s1value">
 		</div>

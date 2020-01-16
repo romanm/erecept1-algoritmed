@@ -38,47 +38,32 @@ var read_data_for_data_editor = function(d) {
 	}
 }
 
-var read_children2 = function(d) {
+var read_children = function(d) {
 	if(!d.children) {
 		if(ctrl.choice_doc_model.i18n_parent)
 			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc_model.i18n_parent)
 			else
 				var sql = sql_app.obj_with_parent(d.doc_id)
 //		console.log(sql)
-		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
-			d.children = response.data.list
-			d.cols = {}
-			angular.forEach(d.children, function(v){
-				d.cols[v.reference] = v
-				if(v.cnt_child>0){
-					console.log(v)
-					read_children2(v)
-				}
-			})
-		}})
-	}
-}
-
-var read_children = function(d) {
-	if(d && !d.children){
-		var sql = sql_app.obj_with_parent(d.doc_id)
-		//console.log(d, d.doc_id, sql)
-		read_dataObject2fn(sql , function(response){ if(response.data.list.length>0){
-			d.children = response.data.list
-			d.cols = {}
-			angular.forEach(d.children, function(v){
-				d.cols[v.reference] = v
-				if(v.cnt_child>0){
-					console.log(v)
-					read_children(v)
-				}
-			})
-			var data_model = ctrl.elementsMap[d.reference]
-			read_data_for_data_editor(data_model)
-		}
+		read_dataObject2fn(sql, function(response){ 
+			set_read_children(response, d)
 		})
 	}
 }
+
+var set_read_children = function(response, d) { if(response.data.list.length>0){
+	d.children = response.data.list
+	d.cols = {}
+	angular.forEach(d.children, function(v){
+		d.cols[v.reference] = v
+		if(v.cnt_child>0){
+//			console.log(v)
+			read_children(v)
+		}
+	})
+	var data_model = ctrl.elementsMap[d.reference]
+	read_data_for_data_editor(data_model)
+}}
 
 var initEh001 = function() {
 	ctrl.click_data_row = function(d){
@@ -160,7 +145,7 @@ var initEh001 = function() {
 	}
 	ctrl.read_children = function(d){
 		ctrl.choice_obj = d
-		read_children2 (d)
+		read_children(d)
 	}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
 		var sql = "" +
@@ -255,15 +240,16 @@ var initEh001 = function() {
 	}
 	ctrl.update_data_date = function(d){if(d && d.s1value){
 		var dt = new Date(Date.parse(d.s1value))
-		dt.setHours(12)
+		dt.setDate(dt.getDate()+1)
+		d.dt1value = dt.toISOString().split('T')[0]
 		console.log(dt.toISOString(), d)
 		var so = { dt1value : dt.toISOString(), date_id : d.doc_id,
-			dataAfterSave : function(response) {
-				console.log(d, response.data, so)
-			},}
+		dataAfterSave : function(response) {
+			console.log(d, response.data, so)
+		},}
 		so.sql = "UPDATE date SET value=:dt1value WHERE date_id=:date_id"
-			console.log(d, so)
-			writeSql(so)
+//		console.log(d, so)
+		writeSql(so)
 	}}
 	ctrl.update_data = function(d){if(d && d.doc_id){
 		var so = { s1value : d.s1value, string_id : d.doc_id,
