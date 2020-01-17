@@ -70,6 +70,13 @@ var initEh001 = function() {
 		ctrl.data_row = d
 		read_children(d)
 	}
+	ctrl.children_close = function(d){ 
+		if(d.children_close === undefined){
+			d.children_close = false
+		}else{
+			d.children_close = !d.children_close
+		}
+	}
 	ctrl.read_rows_at_reference = function(reference){
 		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
 			ctrl.doc_rows = response.data.list
@@ -81,7 +88,7 @@ var initEh001 = function() {
 		})
 	}
 	ctrl.style ={}
-	ctrl.style.model_data_row ={width:'40%'}
+	ctrl.style.model_data_row ={width:'50%'}
 	ctrl.style.width_max = function(obj_name){
 		console.log(ctrl.style, obj_name)
 		var o = ctrl.style[obj_name], v = o.width.replace('%','')
@@ -137,11 +144,6 @@ var initEh001 = function() {
 	ctrl.data_editor_opened = function(){ 
 		var data_editor_open = ctrl.data_row && !ctrl.data_row.children_close
 		return data_editor_open
-	}
-	ctrl.children_close = function(d){ 
-		if(d.children){
-			d.children_close = !d.children_close
-		}
 	}
 	ctrl.read_children = function(d){
 		ctrl.choice_obj = d
@@ -223,6 +225,48 @@ var initEh001 = function() {
 		ctrl.elementsMap[d.doc_id] = d
 		read_data_for_data_editor(d)
 	}
+	ctrl.doc_data_parent = {}
+	ctrl.doc_data_parent._115827 = 285460
+	ctrl.create_doc = function(){
+		var doc_data_parent = ctrl.doc_data_parent['_'+ctrl.choice_doc_model.doc_id]
+		var so = {parent:doc_data_parent, reference:ctrl.choice_doc_model.doc_id,
+		dataAfterSave : function(response) {
+			console.log(response.data)
+		},}
+		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference)"
+		console.log(ctrl.choice_doc_model, doc_data_parent, so, so.sql)
+		writeSql(so)
+	}
+	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
+		ctrl.insert_reference_node2(d, ctrl.data_row.cols)
+	}}
+	ctrl.insert_reference_node2 = function(d, cda){
+		console.log(d, cda)
+		if(!cda.cols || !cda.cols[d.doc_id]){
+		var so = { parent: cda.doc_id, reference : d.doc_id,
+		dataAfterSave : function(response) {
+			console.log(d, response.data, so)
+			var adn = {}
+			adn.doc_id = response.data.nextDbId1
+			adn.parent = cda.doc_id
+			adn.reference = d.doc_id
+			if(!cda.children)
+				cda.children = []
+			cda.children.push(adn)
+			if(!cda.cols)
+				cda.cols = {}
+			cda.cols[d.doc_id] = adn
+		},}
+		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+		if(d.doctype==26){
+			so.sql += "INSERT INTO date (date_id) VALUES (:nextDbId1);\n"
+		}else
+		if(d.doctype==22){
+			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1);\n"
+		}
+		console.log(so, so.sql)
+		writeSql(so)
+	}}
 	ctrl.click_edit_obj = function(){
 		if(ctrl.edit_obj && ctrl.edit_obj.doc_id == ctrl.choice_obj.doc_id){
 			delete ctrl.edit_obj
@@ -263,36 +307,6 @@ var initEh001 = function() {
 	ctrl.insert_list_element = function(dt, da){
 		console.log(dt, da, dt.doc_id, da.cols[dt.doc_id])
 	}
-	ctrl.insert_reference_node2 = function(d, cda){
-		console.log(d, cda)
-		if(!cda.cols || !cda.cols[d.doc_id]){
-		var so = { parent: cda.doc_id, reference : d.doc_id,
-		dataAfterSave : function(response) {
-			console.log(d, response.data, so)
-			var adn = {}
-			adn.doc_id = response.data.nextDbId1
-			adn.parent = cda.doc_id
-			adn.reference = d.doc_id
-			if(!cda.children)
-				cda.children = []
-			cda.children.push(adn)
-			if(!cda.cols)
-				cda.cols = {}
-			cda.cols[d.doc_id] = adn
-		},}
-		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
-		if(d.doctype==26){
-			so.sql += "INSERT INTO date (date_id) VALUES (:nextDbId1);\n"
-		}else
-		if(d.doctype==22){
-			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1);\n"
-		}
-		console.log(so, so.sql)
-		writeSql(so)
-	}}
-	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
-		ctrl.insert_reference_node2(d, ctrl.data_row.cols)
-	}}
 	ctrl.save_model_i18n = function(){
 		if(ctrl.edit_obj.i18n_id){
 			var so = { i18n : ctrl.edit_obj.i18n, i18n_id : ctrl.edit_obj.i18n_id,

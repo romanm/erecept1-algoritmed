@@ -31,7 +31,7 @@
 		data-ng-class="{'w3-border w3-border-red':ctrl.data_input_valid['_'+d.doc_id] && !ctrl.data_input_valid['_'+d.doc_id]()}">
 		<div data-ng-switch-when="22">
 			<textarea rows="1" class="w3-border am-width-100pr"
-				data-ng-focus="ctrl.insert_reference_node(d)"
+				data-ng-focus="ctrl.insert_reference_node2(d, c.da)"
 				data-ng-blur="ctrl.update_data(da)" data-ng-model="da.s1value"></textarea>
 		</div>
 		<div data-ng-switch-when="26">

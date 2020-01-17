@@ -1,8 +1,33 @@
-<div>
-	<div class="w3-tiny am-b w3-light-gray w3-border-bottom" style=" height: 37px;">
-		<i class="fas fa-caret-right w3-btn w3-medium"
-			data-ng-click="ctrl.style.width_max('model_data_row')"></i>
-		&nbsp;doc_data table
+<div style="margin-left: 2px">
+	<div class="w3-row w3-light-gray w3-border-bottom"
+		style="height: 37px;">
+		<div class="w3-tiny am-b w3-col" style="width: 140px">
+			<i class="fas fa-caret-right w3-btn w3-medium"
+				data-ng-click="ctrl.style.width_max('model_data_row')"></i>
+			&nbsp;doc_data table
+		</div>
+		<div class="w3-rest w3-border-left">
+			<i 
+			title="Створити"
+			data-ng-click="ctrl.create_doc()"
+			class="w3-btn w3-ripple far fa-file"></i>
+		</div>
+	</div>
+	<div>
+		<div data-ng-click="ctrl.children_close(ctrl.data_row)"
+			class="w3-hover-shadow w3-container w3-light-gray w3-border-top w3-border-bottom w3-border-green">
+			<span class="w3-green"> <span class="w3-tiny">
+					{{ctrl.data_row.doc_id}} </span>
+			</span> <span
+				data-ng-repeat="c in ctrl.doc_data_shortView['_'+ctrl.data_row.reference]">
+				| {{ctrl.data_row['s_'+c+'_value']}} </span>
+		</div>
+		<div class="w3-container w3-leftbar w3-border-bottom w3-border-green"
+			style="height: 30vh; overflow: auto;"
+			data-ng-if="!ctrl.data_row.children_close">
+			<div data-ng-repeat="c in [[ctrl.choice_doc_model, ctrl.data_row]]"
+				data-ng-include="'/f/c6/doc_data_children.html'"></div>
+		</div>
 	</div>
 	<div data-ng-repeat="d in ctrl.doc_rows">
 		<div data-ng-click="ctrl.click_data_row(d); ctrl.children_close(d)"
@@ -13,14 +38,12 @@
 			</span> <span data-ng-repeat="c in ctrl.doc_data_shortView['_'+d.reference]">
 				| {{d['s_'+c+'_value']}} </span>
 		</div>
+		<!-- 
 		<div
 			data-ng-if="d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id"
 			class="w3-container w3-leftbar w3-border-bottom w3-border-green">
-			<div data-ng-repeat="c in [[ctrl.choice_doc_model, ctrl.data_row]]"
-				data-ng-include="'/f/c6/doc_data_children.html'"></div>
+			
 		</div>
+		 -->
 	</div>
-	<!-- 
-	<div data-ng-include="'/f/c6/sql_seek_pologove.html'"></div>
-	 -->
 </div>
