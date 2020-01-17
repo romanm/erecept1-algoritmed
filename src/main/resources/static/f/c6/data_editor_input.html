@@ -14,10 +14,17 @@
 				class="w3-tiny"> <sub data-ng-if="da.doc_id">({{da.doc_id}})</sub>
 			</span>
 		</div>
-		<div class="w3-tiny w3-padding-small w3-btn w3-display-topright"
-			data-ng-if="d.doctype>31"
-			data-ng-click="ctrl.insert_list_element(d, c[1])">
-			<i class="w3-small far fa-plus-square"></i>
+		<div class="w3-tiny w3-display-topright" data-ng-if="d.cnt_child>0">
+			<span class="w3-btn w3-padding-small"
+				data-ng-click="d.close=!d.close"> <span data-ng-if="d.close">
+					{{d.cnt_child}} <i class="fas fa-window-maximize "></i>
+			</span> <i data-ng-if="!d.close" class="far fa-window-maximize "></i>
+			</span>
+		</div>
+		<div class="w3-tiny w3-display-topright" data-ng-if="d.doctype>31">
+			<i class="w3-btn w3-padding-small w3-small far fa-plus-square"
+				data-ng-click="ctrl.insert_list_element(d, c[1])"></i> <i
+				class="w3-btn w3-padding-small fa-window-maximize far"></i>
 		</div>
 	</div>
 	<div data-ng-switch="d.doctype"
@@ -60,7 +67,7 @@
 			data-ng-bind-html="ctrl.data_input_invalid_html['_'+d.doc_id]()">
 		</div>
 	</div>
-	<div data-ng-if="d.cnt_child" class="w3-container w3-border-left">
+	<div data-ng-if="d.cnt_child && !d.close" class="w3-container w3-border-left">
 		<div data-ng-repeat="c in [{dt:d, da:da}]"
 			data-ng-include="'/f/c6/data_editor_input.html'"></div>
 	</div>

@@ -1,12 +1,12 @@
 <div>
-	<div class="w3-tiny am-b">
+	<div class="w3-tiny am-b w3-light-gray w3-border-bottom" style=" height: 37px;">
 		<i class="fas fa-caret-right w3-btn w3-medium"
 			data-ng-click="ctrl.style.width_max('model_data_row')"></i>
 		&nbsp;doc_data table
 	</div>
 	<div data-ng-repeat="d in ctrl.doc_rows">
 		<div data-ng-click="ctrl.click_data_row(d); ctrl.children_close(d)"
-			data-ng-class="{'w3-border-top w3-border-bottom w3-border-green':d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id}"
+			data-ng-class="{'w3-light-gray w3-border-top w3-border-bottom w3-border-green':d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id}"
 			class="w3-hover-opacity w3-hover-shadow w3-container">
 			<span data-ng-class="{'w3-green':ctrl.data_row.doc_id==d.doc_id}">
 				<span class="w3-tiny"> {{d.doc_id}} </span>
