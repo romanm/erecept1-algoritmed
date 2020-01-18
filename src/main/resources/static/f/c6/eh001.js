@@ -28,9 +28,10 @@ var read_data = function() {
 			var d = response.data.list[0]
 			console.log(d)
 			ctrl.choice_data_model_id = d.reference
+			set_doc_i18n_parent (d, d.reference)
 			ctrl.data_row = d
 			read_children(d)
-	}})
+		}})
 }
 
 var read_data_for_data_editor = function(d) {
@@ -81,25 +82,35 @@ var read_children = function(d) {
 	}
 }
 
+var set_doc_i18n_parent = function(d, data_model_id){
+	if(ctrl.doc_i18n_parent['_'+data_model_id])
+		d.i18n_parent = ctrl.doc_i18n_parent['_'+data_model_id]
+	ctrl.choice_data_model = d
+}
+
 var initEh001 = function() {
 	ctrl.after_mergeList = function (response){
 		angular.forEach(response.data.list, function(v){
 			if(v.doc_id==ctrl.choice_data_model_id){
-				set_choice_data_model(v)
+				set_choice_data_model(v, v.doc_id)
 			}
 		})
 	}
 
-	var set_choice_data_model = function(d){
-		if(ctrl.doc_i18n_parent['_'+d.doc_id])
-			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
-		ctrl.choice_data_model = d
+	var set_choice_data_model = function(d, data_model_id){
+		set_doc_i18n_parent (d, data_model_id)
 		read_model_children(d)
 		read_rows_at_reference(d.doc_id)
 		return
 		ctrl.elementsMap[d.doc_id] = d
 		read_data_for_data_editor(d)
 	}
+	
+	ctrl.doc_i18n_parent = {}
+	ctrl.doc_i18n_parent._285598 = 285597
+	ctrl.doc_i18n_parent._115827 = 367318
+	ctrl.doc_i18n_parent._115920 = 115924
+
 	var read_model_children = function(d){
 		ctrl.choice_data_model_obj = d
 		read_children(d)
@@ -113,10 +124,6 @@ var initEh001 = function() {
 		ctrl.data_model_edit_obj = ctrl.choice_data_model_obj
 		console.log(ctrl.choice_data_model_obj)
 	}
-	ctrl.doc_i18n_parent = {}
-	ctrl.doc_i18n_parent._285598 = 285597
-	ctrl.doc_i18n_parent._115827 = 367318
-	ctrl.doc_i18n_parent._115920 = 115924
 
 
 	ctrl.click_data_row = function(d){
