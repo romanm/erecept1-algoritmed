@@ -26,7 +26,7 @@
 		</div>
 		<div class="w3-border-bottom">
 			<span class="w3-small am-b"> docs </span> <span
-				data-ng-repeat=" d in ctrl.docs"> | <a href="#"
+				data-ng-repeat=" d in ctrl.docs"> | <a href="?doc={{d.doc_id}}"
 				data-ng-click="ctrl.set_choice_doc_model(d)"
 				data-ng-class="{'w3-green':ctrl.choice_doc_model.doc_id==d.doc_id}"
 				class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>

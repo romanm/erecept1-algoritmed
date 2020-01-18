@@ -776,6 +776,11 @@ function read_mergeList(dataObjectName, sql, limit, printObject) {
 	readSql({sql:sql, afterRead:function(response){
 		if(!ctrl[dataObjectName])
 			ctrl[dataObjectName] = []
+		if(ctrl.after_mergeList){
+			angular.forEach(response.data.list, function(v){
+				ctrl.after_mergeList(v)
+			})
+		}
 		ctrl[dataObjectName] = ctrl[dataObjectName].concat(response.data.list)
 //		console.log(response.data.list, ctrl[dataObjectName])
 		if(printObject)

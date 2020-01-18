@@ -6,8 +6,13 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_parent(115800))
 	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
+	/*
+	 */
 //	read_dataObject('docs', sql_app.obj_with_parent(115800))
-	ctrl.set_choice_doc_model({doc_id: 115827, s1value:'legal_entitie'})
+	var param_read_docs = ctrl.request.parameters.doc.split(',')
+	console.log(param_read_docs)
+	ctrl.choice_doc_model_id = param_read_docs[0]
+//	ctrl.set_choice_doc_model({doc_id: ctrl.choice_doc_model_id, s1value:'legal_entitie'})
 
 //	seek_pologove ()
 	
@@ -66,6 +71,11 @@ var set_read_children = function(response, d) { if(response.data.list.length>0){
 }}
 
 var initEh001 = function() {
+	ctrl.after_mergeList = function (v){
+		if(v.doc_id==ctrl.choice_doc_model_id){
+			set_choice_doc_model(v)
+		}
+	}
 	ctrl.click_data_row = function(d){
 		ctrl.data_row = d
 		read_children(d)
@@ -78,6 +88,7 @@ var initEh001 = function() {
 		}
 	}
 	ctrl.read_rows_at_reference = function(reference){
+		console.log(reference)
 		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
 			ctrl.doc_rows = response.data.list
 			if(!ctrl.data_row && ctrl.request.parameters.row){
@@ -122,8 +133,8 @@ var initEh001 = function() {
 		"SELECT d.* FROM doc d " +
 		"WHERE :reference IN (d.reference) "
 		sql = sql.replace(':reference', reference)
-//		console.log(sql, reference, ctrl.doc_data_shortView)
 		var sv = ctrl.doc_data_shortView['_'+reference]
+		console.log(sql, reference, ctrl.doc_data_shortView, sv)
 		if(sv){
 			var lf_sqls=' doc d \n', lf_cols=' d.* '
 			angular.forEach(sv, function(v,k){
@@ -134,10 +145,10 @@ var initEh001 = function() {
 				" LEFT JOIN string s" + k + " ON s" + k + ".string_id=d" + k + ".doc_id " +
 				" ON d" + k + ".parent = d.doc_id AND d" + k + ".reference = "+v +"\n"
 			})
-//			console.log(lf_sqls, lf_cols)
+			console.log(lf_sqls, lf_cols)
 			sql = sql.replace(' doc d ', lf_sqls)
 			sql = sql.replace(' d.* ', lf_cols)
-//			console.log(sql)
+			console.log(sql)
 		}
 		return sql
 	}
@@ -216,12 +227,14 @@ var initEh001 = function() {
 	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._115920 = 115924
-	ctrl.set_choice_doc_model = function(d){
+//	ctrl.set_choice_doc_model = function(d){
+	var set_choice_doc_model = function(d){
 		if(ctrl.doc_i18n_parent['_'+d.doc_id])
 			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
 		ctrl.choice_doc_model = d
 		ctrl.read_children(d)
 		ctrl.read_rows_at_reference(d.doc_id)
+		return
 		ctrl.elementsMap[d.doc_id] = d
 		read_data_for_data_editor(d)
 	}
