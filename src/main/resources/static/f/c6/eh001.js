@@ -101,16 +101,17 @@ var initEh001 = function() {
 		read_data_for_data_editor(d)
 	}
 	var read_model_children = function(d){
-		ctrl.choice_model_obj = d
+		ctrl.choice_data_model_obj = d
 		read_children(d)
 	}
-	ctrl.click_edit_obj = function(){
-		if(ctrl.edit_obj && ctrl.edit_obj.doc_id == ctrl.choice_model_obj.doc_id){
-			delete ctrl.edit_obj
+	ctrl.click_data_model_edit_obj = function(){
+		if(ctrl.data_model_edit_obj 
+		&& ctrl.data_model_edit_obj.doc_id == ctrl.choice_data_model_obj.doc_id){
+			delete ctrl.data_model_edit_obj
 			return
 		}
-		ctrl.edit_obj = ctrl.choice_model_obj
-		console.log(ctrl.choice_model_obj)
+		ctrl.data_model_edit_obj = ctrl.choice_data_model_obj
+		console.log(ctrl.choice_data_model_obj)
 	}
 	ctrl.doc_i18n_parent = {}
 	ctrl.doc_i18n_parent._285598 = 285597
@@ -338,22 +339,22 @@ var initEh001 = function() {
 		console.log(dt, da, dt.doc_id, da.cols[dt.doc_id])
 	}
 	ctrl.save_model_i18n = function(){
-		if(ctrl.edit_obj.i18n_id){
-			var so = { i18n : ctrl.edit_obj.i18n, i18n_id : ctrl.edit_obj.i18n_id,
+		if(ctrl.data_model_edit_obj.i18n_id){
+			var so = { i18n : ctrl.data_model_edit_obj.i18n, i18n_id : ctrl.data_model_edit_obj.i18n_id,
 			dataAfterSave : function(response){
-				console.log(ctrl.edit_obj, response.data, so)
+				console.log(ctrl.data_model_edit_obj, response.data, so)
 			},}
 			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
 			writeSql(so)
 		}else if(ctrl.choice_data_model.i18n_parent){
-			var so = {parent:ctrl.choice_data_model.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
+			var so = {parent:ctrl.choice_data_model.i18n_parent, reference:ctrl.data_model_edit_obj.doc_id, i18n:ctrl.data_model_edit_obj.i18n,
 			dataAfterSave : function(response){
-				console.log(ctrl.edit_obj, response.data, so)
-				ctrl.edit_obj.i18n_id = response.data.nextDbId1
+				console.log(ctrl.data_model_edit_obj, response.data, so)
+				ctrl.data_model_edit_obj.i18n_id = response.data.nextDbId1
 			},}
 			so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference);\n"
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
-			console.log(ctrl.edit_obj, so, ctrl.choice_data_model, so.sql)
+			console.log(ctrl.data_model_edit_obj, so, ctrl.choice_data_model, so.sql)
 			writeSql(so)
 		}
 	}
