@@ -5,9 +5,9 @@
 				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
 				class=" am-b"> data_editor </span>
 			<div class="w3-right w3-tiny">
-				{{ctrl.choice_doc_model.children.length}}</div>
+				{{ctrl.choice_data_model.children.length}}</div>
 			<div>
-				<span class="w3-tiny"> {{ctrl.choice_doc_model.doc_id}} </span> <span
+				<span class="w3-tiny"> {{ctrl.choice_data_model.doc_id}} </span> <span
 					data-ng-if="ctrl.data_row" class="w3-tiny">>
 					{{ctrl.data_row.doc_id}} </span>
 			</div>
@@ -19,14 +19,14 @@
 				class="fas fa-terminal"></i>
 			</span>
 			<div class="w3-btn "
-				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_obj.doc_id}"
+				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_model_obj.doc_id}"
 				data-ng-click="ctrl.click_edit_obj()" title="Зберегти">
 				<i class="fas fa-save"></i>
 			</div>
 		</div>
 	</div>
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
-			<div data-ng-repeat="c in [{dt:ctrl.choice_doc_model, da:ctrl.data_row}]"
+			<div data-ng-repeat="c in [{dt:ctrl.choice_data_model, da:ctrl.data_row}]"
 				data-ng-include="'/f/c6/data_editor_input.html'"></div>
 		<p>&nbsp;</p>
 	</div>

@@ -3,20 +3,35 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.page_title = 'eh001'
 	initApp($scope, $http, $timeout)
 	initEh001()
-	read_mergeList('docs', sql_app.obj_with_parent(115800))
+	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
 	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
-	/*
-	 */
-//	read_dataObject('docs', sql_app.obj_with_parent(115800))
-	var param_read_docs = ctrl.request.parameters.doc.split(',')
-	console.log(param_read_docs)
-	ctrl.choice_doc_model_id = param_read_docs[0]
-//	ctrl.set_choice_doc_model({doc_id: ctrl.choice_doc_model_id, s1value:'legal_entitie'})
-
+	if(ctrl.request.parameters.data){
+		read_data()
+	}else{
+		if(!ctrl.request.parameters.doc){
+			var param_read_docs = [115827]
+		}else{
+			var param_read_docs = ctrl.request.parameters.doc.split(',')
+		}
+		ctrl.choice_data_model_id = param_read_docs[0]
+	}
 //	seek_pologove ()
-	
 })
+
+var read_data = function() {
+	console.log(ctrl.request.parameters.data)
+	readSql({
+		sql:"SELECT * FROM doc WHERE doc_id=:doc_id"
+		, doc_id:ctrl.request.parameters.data
+		, afterRead:function(response){
+			var d = response.data.list[0]
+			console.log(d)
+			ctrl.choice_data_model_id = d.reference
+			ctrl.data_row = d
+			read_children(d)
+	}})
+}
 
 var read_data_for_data_editor = function(d) {
 	if(d && ctrl.data_editor_opened()){
@@ -45,37 +60,64 @@ var read_data_for_data_editor = function(d) {
 
 var read_children = function(d) {
 	if(!d.children) {
-		if(ctrl.choice_doc_model.i18n_parent)
-			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_doc_model.i18n_parent)
+		if(ctrl.choice_data_model.i18n_parent)
+			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
 			else
 				var sql = sql_app.obj_with_parent(d.doc_id)
-//		console.log(sql)
-		read_dataObject2fn(sql, function(response){ 
-			set_read_children(response, d)
-		})
+//				console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			d.cols = {}
+			angular.forEach(d.children, function(v){
+				d.cols[v.reference] = v
+				if(v.cnt_child>0){
+//								console.log(v)
+					read_children(v)
+				}
+			})
+			var data_model = ctrl.elementsMap[d.reference]
+			read_data_for_data_editor(data_model)
+		}})
 	}
 }
 
-var set_read_children = function(response, d) { if(response.data.list.length>0){
-	d.children = response.data.list
-	d.cols = {}
-	angular.forEach(d.children, function(v){
-		d.cols[v.reference] = v
-		if(v.cnt_child>0){
-//			console.log(v)
-			read_children(v)
-		}
-	})
-	var data_model = ctrl.elementsMap[d.reference]
-	read_data_for_data_editor(data_model)
-}}
-
 var initEh001 = function() {
-	ctrl.after_mergeList = function (v){
-		if(v.doc_id==ctrl.choice_doc_model_id){
-			set_choice_doc_model(v)
-		}
+	ctrl.after_mergeList = function (response){
+		angular.forEach(response.data.list, function(v){
+			if(v.doc_id==ctrl.choice_data_model_id){
+				set_choice_data_model(v)
+			}
+		})
 	}
+
+	var set_choice_data_model = function(d){
+		if(ctrl.doc_i18n_parent['_'+d.doc_id])
+			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
+		ctrl.choice_data_model = d
+		read_model_children(d)
+		read_rows_at_reference(d.doc_id)
+		return
+		ctrl.elementsMap[d.doc_id] = d
+		read_data_for_data_editor(d)
+	}
+	var read_model_children = function(d){
+		ctrl.choice_model_obj = d
+		read_children(d)
+	}
+	ctrl.click_edit_obj = function(){
+		if(ctrl.edit_obj && ctrl.edit_obj.doc_id == ctrl.choice_model_obj.doc_id){
+			delete ctrl.edit_obj
+			return
+		}
+		ctrl.edit_obj = ctrl.choice_model_obj
+		console.log(ctrl.choice_model_obj)
+	}
+	ctrl.doc_i18n_parent = {}
+	ctrl.doc_i18n_parent._285598 = 285597
+	ctrl.doc_i18n_parent._115827 = 367318
+	ctrl.doc_i18n_parent._115920 = 115924
+
+
 	ctrl.click_data_row = function(d){
 		ctrl.data_row = d
 		read_children(d)
@@ -86,17 +128,6 @@ var initEh001 = function() {
 		}else{
 			d.children_close = !d.children_close
 		}
-	}
-	ctrl.read_rows_at_reference = function(reference){
-		console.log(reference)
-		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
-			ctrl.doc_rows = response.data.list
-			if(!ctrl.data_row && ctrl.request.parameters.row){
-				angular.forEach(ctrl.doc_rows, function(v){ if(ctrl.request.parameters.row==v.doc_id){
-					ctrl.click_data_row(v)
-				}})
-			}
-		})
 	}
 	ctrl.style ={}
 	ctrl.style.model_data_row ={width:'50%'}
@@ -155,10 +186,6 @@ var initEh001 = function() {
 	ctrl.data_editor_opened = function(){ 
 		var data_editor_open = ctrl.data_row && !ctrl.data_row.children_close
 		return data_editor_open
-	}
-	ctrl.read_children = function(d){
-		ctrl.choice_obj = d
-		read_children(d)
 	}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
 		var sql = "" +
@@ -223,31 +250,29 @@ var initEh001 = function() {
 //		console.log(sql)
 		return sql
 	}
-	ctrl.doc_i18n_parent = {}
-	ctrl.doc_i18n_parent._285598 = 285597
-	ctrl.doc_i18n_parent._115827 = 367318
-	ctrl.doc_i18n_parent._115920 = 115924
-//	ctrl.set_choice_doc_model = function(d){
-	var set_choice_doc_model = function(d){
-		if(ctrl.doc_i18n_parent['_'+d.doc_id])
-			d.i18n_parent = ctrl.doc_i18n_parent['_'+d.doc_id]
-		ctrl.choice_doc_model = d
-		ctrl.read_children(d)
-		ctrl.read_rows_at_reference(d.doc_id)
-		return
-		ctrl.elementsMap[d.doc_id] = d
-		read_data_for_data_editor(d)
+
+	var read_rows_at_reference = function(reference){
+		console.log(reference)
+		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
+			ctrl.doc_rows = response.data.list
+			if(!ctrl.data_row && ctrl.request.parameters.row){
+				angular.forEach(ctrl.doc_rows, function(v){ if(ctrl.request.parameters.row==v.doc_id){
+					ctrl.click_data_row(v)
+				}})
+			}
+		})
 	}
+
 	ctrl.doc_data_parent = {}
 	ctrl.doc_data_parent._115827 = 285460
 	ctrl.create_doc = function(){
-		var doc_data_parent = ctrl.doc_data_parent['_'+ctrl.choice_doc_model.doc_id]
-		var so = {parent:doc_data_parent, reference:ctrl.choice_doc_model.doc_id,
+		var doc_data_parent = ctrl.doc_data_parent['_'+ctrl.choice_data_model.doc_id]
+		var so = {parent:doc_data_parent, reference:ctrl.choice_data_model.doc_id,
 		dataAfterSave : function(response) {
 			console.log(response.data)
 		},}
 		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference)"
-		console.log(ctrl.choice_doc_model, doc_data_parent, so, so.sql)
+		console.log(ctrl.choice_data_model, doc_data_parent, so, so.sql)
 		writeSql(so)
 	}
 	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
@@ -280,14 +305,6 @@ var initEh001 = function() {
 		console.log(so, so.sql)
 		writeSql(so)
 	}}
-	ctrl.click_edit_obj = function(){
-		if(ctrl.edit_obj && ctrl.edit_obj.doc_id == ctrl.choice_obj.doc_id){
-			delete ctrl.edit_obj
-			return
-		}
-		ctrl.edit_obj = ctrl.choice_obj
-		console.log(ctrl.choice_obj)
-	}
 	ctrl.update_reference2 = function(d){
 		d.sql = "UPDATE doc set reference2=:reference2 where doc_id=:doc_id"
 		d.dataAfterSave = function(response) {
@@ -328,15 +345,15 @@ var initEh001 = function() {
 			},}
 			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
 			writeSql(so)
-		}else if(ctrl.choice_doc_model.i18n_parent){
-			var so = {parent:ctrl.choice_doc_model.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
+		}else if(ctrl.choice_data_model.i18n_parent){
+			var so = {parent:ctrl.choice_data_model.i18n_parent, reference:ctrl.edit_obj.doc_id, i18n:ctrl.edit_obj.i18n,
 			dataAfterSave : function(response){
 				console.log(ctrl.edit_obj, response.data, so)
 				ctrl.edit_obj.i18n_id = response.data.nextDbId1
 			},}
 			so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference);\n"
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
-			console.log(ctrl.edit_obj, so, ctrl.choice_doc_model, so.sql)
+			console.log(ctrl.edit_obj, so, ctrl.choice_data_model, so.sql)
 			writeSql(so)
 		}
 	}

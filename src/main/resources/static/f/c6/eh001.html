@@ -21,26 +21,26 @@
 		<div class="w3-border-bottom">
 			<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
 			<span class="am-b">
-			- {{ctrl.choice_doc_model.s1value}}
+			- {{ctrl.choice_data_model.s1value}}
 			</span>
 		</div>
 		<div class="w3-border-bottom">
 			<span class="w3-small am-b"> docs </span> <span
 				data-ng-repeat=" d in ctrl.docs"> | <a href="?doc={{d.doc_id}}"
-				data-ng-click="ctrl.set_choice_doc_model(d)"
-				data-ng-class="{'w3-green':ctrl.choice_doc_model.doc_id==d.doc_id}"
+				data-ng-click="ctrl.set_choice_data_model(d)"
+				data-ng-class="{'w3-green':ctrl.choice_data_model.doc_id==d.doc_id}"
 				class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>
 					{{d.s1value}}
 			</a>&nbsp;
 			</span>
 		</div>
-		<div data-ng-if="ctrl.choice_doc_model">
+		<div data-ng-if="ctrl.choice_data_model">
 			<div class="w3-row">
 				<div class="w3-col w3-border-right" data-ng-style="ctrl.style.model_data_row">
 					<div data-ng-if="ctrl.data_editor_opened()"
 						data-ng-include="'/f/c6/data_editor.html'"></div>
 					<div data-ng-if="!ctrl.data_editor_opened()"
-						data-ng-include="'/f/c6/doc_model.html'"></div>
+						data-ng-include="'/f/c6/data_model.html'"></div>
 				</div>
 				<div class="w3-rest">
 					<div data-ng-include="'/f/c6/doc_data.html'"></div>

@@ -1,16 +1,16 @@
 <div>
 	<div class="w3-row w3-small w3-border-bottom">
-		<div class="w3-col " style="width: 130px">
+		<div class="w3-col" style="width: 130px">
 			<span data-ng-repeat="edpv in ['value']"
 				data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span> <span
 				class=" am-b"> data_model <!-- 
-				{{ctrl.choice_doc_model.s1value}}
+				{{ctrl.choice_data_model.s1value}}
 				 -->
 			</span>
 			<div class="w3-right w3-tiny">
-				{{ctrl.choice_doc_model.children.length}}</div>
+				{{ctrl.choice_data_model.children.length}}</div>
 			<div>
-				<span class="w3-tiny"> {{ctrl.choice_doc_model.doc_id}} </span>
+				<span class="w3-tiny"> {{ctrl.choice_data_model.doc_id}} </span>
 			</div>
 		</div>
 		<div class="w3-rest w3-border-left">
@@ -20,14 +20,14 @@
 				class="fas fa-terminal"></i>
 			</span>
 			<div class="w3-btn"
-				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_obj.doc_id}"
+				data-ng-class="{'w3-green':ctrl.edit_obj.doc_id==ctrl.choice_model_obj.doc_id}"
 				data-ng-click="ctrl.click_edit_obj()" title="Редагувати">
 				<i class="fas fa-edit"></i>
 			</div>
 		</div>
 	</div>
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
-		<div data-ng-repeat="children in [ctrl.choice_doc_model.children]"
-			data-ng-include="'/f/c6/doc_model_children.html'"></div>
+		<div data-ng-repeat="children in [ctrl.choice_data_model.children]"
+			data-ng-include="'/f/c6/data_model_children.html'"></div>
 	</div>
 </div>

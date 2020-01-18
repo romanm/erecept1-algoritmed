@@ -487,7 +487,7 @@ function readSql(params, obj){
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	params,
 	function(response) {
-		obj.list = response.data.list
+//		obj.list = response.data.list
 		if(obj.afterRead){
 			obj.afterRead(response)
 		}else if(params.afterRead){
@@ -770,18 +770,19 @@ function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
 }
 
-function read_mergeList(dataObjectName, sql, limit, printObject) {
+function read_mergeList(dataObjectName, sql, asFirst, limit, printObject) {
 	if(!limit) limit = 100
 	sql += " LIMIT "+limit
 	readSql({sql:sql, afterRead:function(response){
 		if(!ctrl[dataObjectName])
 			ctrl[dataObjectName] = []
-		if(ctrl.after_mergeList){
-			angular.forEach(response.data.list, function(v){
-				ctrl.after_mergeList(v)
-			})
+		if(ctrl.after_mergeList)
+			ctrl.after_mergeList(response)
+		if(asFirst){
+			ctrl[dataObjectName] =  response.data.list.concat(ctrl[dataObjectName])
+		}else{
+			ctrl[dataObjectName] = ctrl[dataObjectName].concat(response.data.list)
 		}
-		ctrl[dataObjectName] = ctrl[dataObjectName].concat(response.data.list)
 //		console.log(response.data.list, ctrl[dataObjectName])
 		if(printObject)
 			console.log(dataObjectName,'\n',ctrl[dataObjectName], sql)

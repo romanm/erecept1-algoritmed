@@ -24,8 +24,8 @@
 		</div>
 		<div class="w3-container w3-leftbar w3-border-bottom w3-border-green"
 			style="height: 30vh; overflow: auto;"
-			data-ng-if="!ctrl.data_row.children_close">
-			<div data-ng-repeat="c in [[ctrl.choice_doc_model, ctrl.data_row]]"
+			data-ng-if="!ctrl.data_row.children_close && ctrl.data_row">
+			<div data-ng-repeat="c in [[ctrl.choice_data_model, ctrl.data_row]]"
 				data-ng-include="'/f/c6/doc_data_children.html'"></div>
 		</div>
 	</div>
