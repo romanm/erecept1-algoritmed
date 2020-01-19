@@ -10,7 +10,7 @@
 			</span>
 		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 		</span> <a class="w3-hover-shadow" href="#"
-			data-ng-click="ctrl.choice_data_model_obj = d">
+			data-ng-click="ctrl.choice_data_model_obj = d; ctrl.children_close(d)">
 			{{d.s1value }} <span data-ng-if="d.i18n"> - {{d.i18n}} </span>
 		</a>&nbsp; <sup data-ng-if="d.children && d.children_close"
 			class="w3-tiny am-b">[{{d.children.length}}]</sup> <span

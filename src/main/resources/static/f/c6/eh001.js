@@ -6,6 +6,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
 	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
+	ctrl.data_row = {}
 	if(ctrl.request.parameters.data){
 		read_data()
 	}else{
@@ -21,17 +22,42 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 
 var read_data = function() {
 	console.log(ctrl.request.parameters.data)
+	ctrl.edit_data_id = ctrl.request.parameters.data
 	readSql({
 		sql:"SELECT * FROM doc WHERE doc_id=:doc_id"
-		, doc_id:ctrl.request.parameters.data
+		, doc_id:ctrl.edit_data_id
 		, afterRead:function(response){
 			var d = response.data.list[0]
 			console.log(d)
 			ctrl.choice_data_model_id = d.reference
-			set_doc_i18n_parent (d, d.reference)
-			ctrl.data_row = d
-			read_children(d)
+			set_doc_i18n_parent(d, d.reference)
+			ctrl.choice_data_model = {i18n_parent:d.i18n_parent}
+//			ctrl.click_data_row(d)
 		}})
+}
+
+var read_children = function(d) {
+	if(!d.children) {
+		if(ctrl.choice_data_model.i18n_parent)
+			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
+			else
+				var sql = sql_app.obj_with_parent(d.doc_id)
+//				console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			d.cols = {}
+			angular.forEach(d.children, function(v){
+				d.cols[v.reference] = v.doc_id
+				ctrl.elementsMap[v.doc_id] = v
+				if(v.cnt_child>0){
+//								console.log(v)
+					read_children(v)
+				}
+			})
+			var data_model = ctrl.elementsMap[d.reference]
+			read_data_for_data_editor(data_model)
+		}})
+	}
 }
 
 var read_data_for_data_editor = function(d) {
@@ -59,33 +85,40 @@ var read_data_for_data_editor = function(d) {
 	}
 }
 
-var read_children = function(d) {
-	if(!d.children) {
-		if(ctrl.choice_data_model.i18n_parent)
-			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
-			else
-				var sql = sql_app.obj_with_parent(d.doc_id)
-//				console.log(sql)
-		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
-			d.children = response.data.list
-			d.cols = {}
-			angular.forEach(d.children, function(v){
-				d.cols[v.reference] = v
-				if(v.cnt_child>0){
-//								console.log(v)
-					read_children(v)
-				}
-			})
-			var data_model = ctrl.elementsMap[d.reference]
-			read_data_for_data_editor(data_model)
-		}})
-	}
-}
 
 var set_doc_i18n_parent = function(d, data_model_id){
 	if(ctrl.doc_i18n_parent['_'+data_model_id])
 		d.i18n_parent = ctrl.doc_i18n_parent['_'+data_model_id]
+}
+
+var set_choice_data_model = function(d, data_model_id){
+	set_doc_i18n_parent (d, data_model_id)
 	ctrl.choice_data_model = d
+	read_model_children(d)
+	read_rows_at_reference(d.doc_id)
+	ctrl.elementsMap[d.doc_id] = d
+	read_data_for_data_editor(d)
+}
+
+var read_rows_at_reference = function(reference){
+	var sql = sql_app.obj_with_reference(reference)
+	console.log(reference, sql)
+	read_dataObject2fn(sql, function(response){
+		ctrl.doc_rows = response.data.list
+		if(!ctrl.data_row.children && ctrl.edit_data_id){
+			angular.forEach(ctrl.doc_rows, function(v){ 
+				ctrl.elementsMap[v.doc_id] = v
+				if(ctrl.edit_data_id == v.doc_id){
+					ctrl.click_data_row(v)
+				}
+			})
+		}
+	})
+}
+
+var read_model_children = function(d){
+	ctrl.choice_data_model_obj = d
+	read_children(d)
 }
 
 var initEh001 = function() {
@@ -97,24 +130,11 @@ var initEh001 = function() {
 		})
 	}
 
-	var set_choice_data_model = function(d, data_model_id){
-		set_doc_i18n_parent (d, data_model_id)
-		read_model_children(d)
-		read_rows_at_reference(d.doc_id)
-		return
-		ctrl.elementsMap[d.doc_id] = d
-		read_data_for_data_editor(d)
-	}
-	
 	ctrl.doc_i18n_parent = {}
 	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._115920 = 115924
 
-	var read_model_children = function(d){
-		ctrl.choice_data_model_obj = d
-		read_children(d)
-	}
 	ctrl.click_data_model_edit_obj = function(){
 		if(ctrl.data_model_edit_obj 
 		&& ctrl.data_model_edit_obj.doc_id == ctrl.choice_data_model_obj.doc_id){
@@ -125,11 +145,15 @@ var initEh001 = function() {
 		console.log(ctrl.choice_data_model_obj)
 	}
 
-
 	ctrl.click_data_row = function(d){
+		console.log(!d.childern, ctrl.data_row.children)
+		if(!d.childern && ctrl.data_row.children){
+			d.children=ctrl.data_row.children
+		}
 		ctrl.data_row = d
 		read_children(d)
 	}
+
 	ctrl.children_close = function(d){ 
 		if(d.children_close === undefined){
 			d.children_close = false
@@ -155,7 +179,8 @@ var initEh001 = function() {
 	ctrl.data_input_valid._115791 = function() {//[115791] i edrpou - Код ЄДРПОУ
 		if(!ctrl.data_row.cols || !ctrl.data_row.cols[115791])
 			return true
-		var v = ctrl.data_row.cols[115791].s1value.match(/^[0-9]{8}$/)
+		var val = ctrl.elementsMap[ctrl.data_row.cols[115791]]
+		var v = val.s1value.match(/^[0-9]{8}$/)
 //		console.log(ctrl.data_row.cols[115791].s1value, v!=null)
 		return v!=null
 	}
@@ -173,7 +198,7 @@ var initEh001 = function() {
 		"WHERE :reference IN (d.reference) "
 		sql = sql.replace(':reference', reference)
 		var sv = ctrl.doc_data_shortView['_'+reference]
-		console.log(sql, reference, ctrl.doc_data_shortView, sv)
+//		console.log(sql, reference, ctrl.doc_data_shortView, sv)
 		if(sv){
 			var lf_sqls=' doc d \n', lf_cols=' d.* '
 			angular.forEach(sv, function(v,k){
@@ -184,10 +209,10 @@ var initEh001 = function() {
 				" LEFT JOIN string s" + k + " ON s" + k + ".string_id=d" + k + ".doc_id " +
 				" ON d" + k + ".parent = d.doc_id AND d" + k + ".reference = "+v +"\n"
 			})
-			console.log(lf_sqls, lf_cols)
+//			console.log(lf_sqls, lf_cols)
 			sql = sql.replace(' doc d ', lf_sqls)
 			sql = sql.replace(' d.* ', lf_cols)
-			console.log(sql)
+//			console.log(sql)
 		}
 		return sql
 	}
@@ -257,18 +282,6 @@ var initEh001 = function() {
 		sql = sql.replace(':parent', parent)
 //		console.log(sql)
 		return sql
-	}
-
-	var read_rows_at_reference = function(reference){
-		console.log(reference)
-		read_dataObject2fn(sql_app.obj_with_reference(reference), function(response){
-			ctrl.doc_rows = response.data.list
-			if(!ctrl.data_row && ctrl.request.parameters.row){
-				angular.forEach(ctrl.doc_rows, function(v){ if(ctrl.request.parameters.row==v.doc_id){
-					ctrl.click_data_row(v)
-				}})
-			}
-		})
 	}
 
 	ctrl.doc_data_parent = {}
