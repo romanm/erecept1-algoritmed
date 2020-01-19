@@ -47,6 +47,13 @@
 				data-ng-focus="ctrl.insert_reference_node2(d, c)"
 				data-ng-model="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].s1value">
 		</div>
+		<div data-ng-switch-when="32" class="w3-container w3-border-left">
+			<div
+				data-ng-repeat="d3 in ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
+				<input class="w3-border am-width-100pr"
+					data-ng-blur="ctrl.update_data(d3)" data-ng-model="d3.s1value">
+			</div>
+		</div>
 		<div data-ng-switch-default>
 			<div data-ng-if="d.reference && ctrl.menu_list_count[d.reference]>0">
 				<div data-ng-if="ctrl.menu_list_count[d.reference]<20">
