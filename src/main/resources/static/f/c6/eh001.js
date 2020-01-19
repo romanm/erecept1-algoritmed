@@ -17,7 +17,6 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 		}
 		ctrl.choice_data_model_id = param_read_docs[0]
 	}
-//	seek_pologove ()
 })
 
 var read_data = function(edit_data_id) {
@@ -55,7 +54,7 @@ var read_children = function(d) {
 			})
 			var data_model = ctrl.elementsMap[d.reference]
 			read_data_for_data_editor(data_model)
-		}})
+		}}, null, d.doc_id)
 	}
 }
 
@@ -68,7 +67,7 @@ var read_data_for_data_editor = function(d) {
 			if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
 			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
-//			console.log(v.reference, sql2)
+//			console.log(v.reference, sql)
 			read_dataObject2fn(sql2, function(response){ if(response.data.list.length>0){
 				ctrl.menu_list_count[v.reference] = response.data.list[0].count
 				if(ctrl.menu_list_count[v.reference]>0){
@@ -78,7 +77,7 @@ var read_data_for_data_editor = function(d) {
 						})
 					}
 				}
-			}})
+			}},null)
 		}})
 //		console.log(ctrl.menu_list_count)
 	}

@@ -483,6 +483,11 @@ var writeSql = function(data){
 function readSql(params, obj){
 //	console.log(params)
 	replaceParams(params)
+	if(!params.error_fn)
+		params.error_fn = function(response){
+			console.error(response)
+			console.error(response.config.params.sql)
+		}
 	if(!obj) obj = params
 	exe_fn.httpGet(exe_fn.httpGet_j2c_table_db1_params_then_fn(
 	params,
