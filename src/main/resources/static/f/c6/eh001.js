@@ -8,7 +8,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
 	ctrl.data_row = {}
 	if(ctrl.request.parameters.data){
-		read_data()
+		read_data(ctrl.request.parameters.data)
 	}else{
 		if(!ctrl.request.parameters.doc){
 			var param_read_docs = [115827]
@@ -20,9 +20,9 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 //	seek_pologove ()
 })
 
-var read_data = function() {
-	console.log(ctrl.request.parameters.data)
-	ctrl.edit_data_id = ctrl.request.parameters.data
+var read_data = function(edit_data_id) {
+	ctrl.edit_data_id = edit_data_id
+	console.log(edit_data_id)
 	readSql({
 		sql:"SELECT * FROM doc WHERE doc_id=:doc_id"
 		, doc_id:ctrl.edit_data_id
@@ -32,7 +32,6 @@ var read_data = function() {
 			ctrl.choice_data_model_id = d.reference
 			set_doc_i18n_parent(d, d.reference)
 			ctrl.choice_data_model = {i18n_parent:d.i18n_parent}
-//			ctrl.click_data_row(d)
 		}})
 }
 
@@ -146,7 +145,10 @@ var initEh001 = function() {
 	}
 
 	ctrl.click_data_row = function(d){
-		if(!d.childern && ctrl.data_row.children){
+		if(d.doc_id!=ctrl.data_row.doc_id){
+			delete d.children_close
+		}
+		if(!d.childern && ctrl.data_row.children && d.doc_id==ctrl.data_row.doc_id){
 			d.children=ctrl.data_row.children
 		}
 		ctrl.data_row = d
