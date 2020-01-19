@@ -24,7 +24,7 @@
 		</div>
 		<div class="w3-container w3-leftbar w3-border-bottom w3-border-green"
 			style="height: 40vh; overflow: auto;"
-			data-ng-if="!ctrl.data_row.children_close && ctrl.data_row">
+			data-ng-if="!ctrl.data_row.children_close && ctrl.data_row.doc_id">
 			<div data-ng-repeat="c in [[ctrl.choice_data_model, ctrl.data_row]]"
 				data-ng-include="'/f/c6/doc_data_children.html'"></div>
 		</div>
@@ -34,7 +34,7 @@
 			data-ng-class="{'w3-light-gray w3-border-top w3-border-bottom w3-border-green':d.children && !d.children_close && ctrl.data_row.doc_id == d.doc_id}"
 			class="w3-hover-opacity w3-hover-shadow w3-container">
 			<span data-ng-class="{'w3-green':ctrl.data_row.doc_id==d.doc_id}">
-				<span class="w3-tiny"> {{d.doc_id}} </span>
+				<a href="?data={{d.doc_id}}" class="w3-tiny"> {{d.doc_id}} </a>
 			</span> <span data-ng-repeat="c in ctrl.doc_data_shortView['_'+d.reference]">
 				| {{d['s_'+c+'_value']}} </span>
 		</div>

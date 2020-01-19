@@ -64,7 +64,7 @@ var read_data_for_data_editor = function(d) {
 	if(d && ctrl.data_editor_opened()){
 		if(!ctrl.menu_list_count)
 			ctrl.menu_list_count = {}
-		console.log('read_data_for_data_editor', d, d.children)
+//		console.log('read_data_for_data_editor', d, d.children)
 		angular.forEach(d.children, function(v){ 
 			if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
@@ -81,7 +81,7 @@ var read_data_for_data_editor = function(d) {
 				}
 			}})
 		}})
-		console.log(ctrl.menu_list_count)
+//		console.log(ctrl.menu_list_count)
 	}
 }
 
@@ -146,7 +146,6 @@ var initEh001 = function() {
 	}
 
 	ctrl.click_data_row = function(d){
-		console.log(!d.childern, ctrl.data_row.children)
 		if(!d.childern && ctrl.data_row.children){
 			d.children=ctrl.data_row.children
 		}
@@ -180,6 +179,8 @@ var initEh001 = function() {
 		if(!ctrl.data_row.cols || !ctrl.data_row.cols[115791])
 			return true
 		var val = ctrl.elementsMap[ctrl.data_row.cols[115791]]
+		if(!val.s1value)
+			return true
 		var v = val.s1value.match(/^[0-9]{8}$/)
 //		console.log(ctrl.data_row.cols[115791].s1value, v!=null)
 		return v!=null
@@ -217,7 +218,7 @@ var initEh001 = function() {
 		return sql
 	}
 	ctrl.data_editor_opened = function(){ 
-		var data_editor_open = ctrl.data_row && !ctrl.data_row.children_close
+		var data_editor_open = ctrl.data_row.doc_id && !ctrl.data_row.children_close
 		return data_editor_open
 	}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
@@ -299,7 +300,8 @@ var initEh001 = function() {
 	ctrl.insert_reference_node = function(d){ if(!ctrl.data_row.cols[d.doc_id]){
 		ctrl.insert_reference_node2(d, ctrl.data_row.cols)
 	}}
-	ctrl.insert_reference_node2 = function(d, cda){
+	ctrl.insert_reference_node2 = function(d, c){
+		var cda = ctrl.elementsMap[c.data_id]
 		console.log(d, cda)
 		if(!cda.cols || !cda.cols[d.doc_id]){
 		var so = { parent: cda.doc_id, reference : d.doc_id,
