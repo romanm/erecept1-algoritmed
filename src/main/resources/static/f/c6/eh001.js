@@ -4,8 +4,9 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initApp($scope, $http, $timeout)
 	initEh001()
 	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
-	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
+	read_mergeList('docs', sql_app.obj_with_parent(115798))
+//	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	ctrl.data_row = {}
 	if(ctrl.request.parameters.data){
 		read_data(ctrl.request.parameters.data)
@@ -325,7 +326,7 @@ var initEh001 = function() {
 			cda.cols[d.doc_id] = adn
 		},}
 		so.sql = sql_app.insert_doc_parent_ref()
-		sql_app.add_INSERT_content(so, doc_model)
+		sql_app.add_INSERT_content(so, d)
 		console.log(so, so.sql)
 		writeSql(so)
 	}}
@@ -379,6 +380,7 @@ var initEh001 = function() {
 			}
 		})
 	}
+
 	ctrl.insert_list_element = function(doc_model, c){
 		var da = ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[doc_model.doc_id]]
 		var so = {parent:da.doc_id, reference:doc_model.doc_id,
@@ -391,6 +393,7 @@ var initEh001 = function() {
 		so.sql += sql_app.SELECT_with_parent(da)
 		writeSql(so)
 	}
+
 	ctrl.save_model_i18n = function(){
 		if(ctrl.data_model_edit_obj.i18n_id){
 			var so = { i18n : ctrl.data_model_edit_obj.i18n, i18n_id : ctrl.data_model_edit_obj.i18n_id,
