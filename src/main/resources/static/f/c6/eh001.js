@@ -34,12 +34,17 @@ var read_data = function(edit_data_id) {
 		}})
 }
 
+sql_app.SELECT_with_parent = function(d){
+	if(ctrl.choice_data_model.i18n_parent)
+		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
+	else
+		var sql = sql_app.obj_with_parent(d.doc_id)
+	return sql.trim()
+}
+
 var read_children = function(d) {
 	if(!d.children) {
-		if(ctrl.choice_data_model.i18n_parent)
-			var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
-			else
-				var sql = sql_app.obj_with_parent(d.doc_id)
+		var sql = sql_app.SELECT_with_parent(d)
 //				console.log(sql)
 		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
 			d.children = response.data.list
@@ -294,7 +299,7 @@ var initEh001 = function() {
 		dataAfterSave : function(response) {
 			console.log(response.data)
 		},}
-		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference)"
+		so.sql = sql_app.insert_doc_parent_ref()
 		console.log(ctrl.choice_data_model, doc_data_parent, so, so.sql)
 		writeSql(so)
 	}
@@ -319,16 +324,19 @@ var initEh001 = function() {
 				cda.cols = {}
 			cda.cols[d.doc_id] = adn
 		},}
-		so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
-		if(d.doctype==26){
-			so.sql += "INSERT INTO date (date_id) VALUES (:nextDbId1);\n"
-		}else
-		if(d.doctype==22){
-			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1);\n"
-		}
+		so.sql = sql_app.insert_doc_parent_ref()
+		sql_app.add_INSERT_content(so, doc_model)
 		console.log(so, so.sql)
 		writeSql(so)
 	}}
+	sql_app.add_INSERT_content = function(so, doc_model){
+		if(doc_model.doctype==26){
+			so.sql += "INSERT INTO date (date_id) VALUES (:nextDbId1) ;\n"
+		}else
+		if(doc_model.doctype==22 || doc_model.doctype==32){
+			so.sql += "INSERT INTO string (string_id) VALUES (:nextDbId1) ;\n"
+		}
+	}
 	ctrl.update_reference2 = function(d){
 		d.sql = "UPDATE doc set reference2=:reference2 where doc_id=:doc_id"
 		d.dataAfterSave = function(response) {
@@ -358,8 +366,30 @@ var initEh001 = function() {
 		console.log(d, so)
 		writeSql(so)
 	}}
-	ctrl.insert_list_element = function(dt, da){
-		console.log(dt, da, dt.doc_id, da.cols[dt.doc_id])
+	ctrl.delete_empty_list_element = function(c){
+		angular.forEach(c.children, function(v, k){
+			if(!v.s1value){
+				console.log(v, v.s1value, k)
+				v.sql = "DELETE FROM doc WHERE doc_id=:doc_id; "
+				v.dataAfterSave = function(response){
+					console.log(response.data)
+					delete v.doc_id
+				}
+				writeSql(v)
+			}
+		})
+	}
+	ctrl.insert_list_element = function(doc_model, c){
+		var da = ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[doc_model.doc_id]]
+		var so = {parent:da.doc_id, reference:doc_model.doc_id,
+		dataAfterSave : function(response){
+			console.log(response.data, so, so.sql)
+			da.children = response.data.list2
+		},}
+		so.sql = sql_app.insert_doc_parent_ref()
+		sql_app.add_INSERT_content(so, doc_model)
+		so.sql += sql_app.SELECT_with_parent(da)
+		writeSql(so)
 	}
 	ctrl.save_model_i18n = function(){
 		if(ctrl.data_model_edit_obj.i18n_id){
@@ -375,7 +405,7 @@ var initEh001 = function() {
 				console.log(ctrl.data_model_edit_obj, response.data, so)
 				ctrl.data_model_edit_obj.i18n_id = response.data.nextDbId1
 			},}
-			so.sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference);\n"
+			so.sql = sql_app.insert_doc_parent_ref()
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
 			console.log(ctrl.data_model_edit_obj, so, ctrl.choice_data_model, so.sql)
 			writeSql(so)

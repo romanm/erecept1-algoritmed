@@ -23,8 +23,7 @@
 		</div>
 		<div class="w3-tiny w3-display-topright" data-ng-if="d.doctype>31">
 			<i class="w3-btn w3-padding-small w3-small far fa-plus-square"
-				data-ng-click="ctrl.insert_list_element(d, c[1])"></i> <i
-				class="w3-btn w3-padding-small fa-window-maximize far"></i>
+				data-ng-click="ctrl.insert_list_element(d, c)"></i>  <i class="w3-btn w3-padding-small fa-window-maximize far"></i>
 		</div>
 	</div>
 	<div data-ng-switch="d.doctype"
@@ -47,9 +46,20 @@
 				data-ng-focus="ctrl.insert_reference_node2(d, c)"
 				data-ng-model="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].s1value">
 		</div>
-		<div data-ng-switch-when="32" class="w3-container w3-border-left">
+		<div data-ng-switch-when="32" class="w3-container w3-border-left"
+			data-ng-if="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
+			<span class="w3-tiny w3-dropdown-hover"> <i
+				class="fas fa-bars w3-btn w3-padding-small"></i>
+				<div class="w3-dropdown-content w3-card">
+					<a class="w3-button" 
+					data-ng-click="ctrl.delete_empty_list_element(ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]])">
+						<i class="fas fa-trash "></i> Видалити пусті
+					</a>
+				</div>
+			</span>
 			<div
-				data-ng-repeat="d3 in ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
+				data-ng-repeat="d3 in ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children"
+				data-ng-if="d3.doc_id">
 				<input class="w3-border am-width-100pr"
 					data-ng-blur="ctrl.update_data(d3)" data-ng-model="d3.s1value">
 			</div>

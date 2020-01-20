@@ -580,6 +580,10 @@ sql_app.insert_CODE_i18n_sort = function(parentCodeId, code, parentI18nId, i18n,
 	"INSERT INTO sort (sort_id,sort, treeLevel) VALUES (:nextDbId1,:sort,:treeLevel); \n" +
 	"").replace(':sort', sort).replace(':treeLevel', treeLevel)
 }
+sql_app.insert_doc_parent_ref = function(){
+	var sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+	return sql
+}
 sql_app.insert_CODE_i18n = function(parentCodeId, code, parentI18nId, i18n){
 	return "" +
 	"INSERT INTO doc (doc_id,parent,doctype) " +
