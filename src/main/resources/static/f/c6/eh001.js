@@ -386,7 +386,12 @@ var initEh001 = function() {
 		var so = {parent:da.doc_id, reference:doc_model.doc_id,
 		dataAfterSave : function(response){
 			console.log(response.data, so, so.sql)
-			da.children = response.data.list2
+			if(response.data.list2){
+				da.children = response.data.list2
+			}else
+			if(response.data.list1){
+				da.children = response.data.list1
+			}
 		},}
 		so.sql = sql_app.insert_doc_parent_ref()
 		sql_app.add_INSERT_content(so, doc_model)
@@ -416,6 +421,22 @@ var initEh001 = function() {
 	}
 	ctrl.log = function(v){
 		console.log(v, '\n -- log')
+	}
+	ctrl.delete_object = function(t, v){
+		var conf = confirm(t)
+		if(conf){
+			console.log(v)
+			v.sql = "DELETE FROM doc WHERE :doc_id IN (doc_id,parent); "
+			v.dataAfterSave = function(response){
+				console.log(response.data)
+				delete v.doc_id
+			}
+			writeSql(v)
+		}
+	}
+	ctrl.confirm = function(t){
+		var conf = confirm(t)
+		console.log(conf)
 	}
 	ctrl.alert = function(v){
 		alert(v+' click')

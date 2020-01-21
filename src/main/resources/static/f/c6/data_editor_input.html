@@ -46,18 +46,7 @@
 				data-ng-focus="ctrl.insert_reference_node2(d, c)"
 				data-ng-model="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].s1value">
 		</div>
-		<div data-ng-switch-when="37" class="w3-container w3-border-left"
-			data-ng-if="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
-			<div
-				data-ng-repeat="d3 in ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children"
-				data-ng-if="d3.doc_id">
-				<div class="w3-tiny w3-hover-shadow">{{d3.doc_id}}</div>
-				<div data-ng-repeat="c1 in [ctrl.elementsMap[ctrl.elementsMap[d3.reference].reference]]">
-					<div data-ng-repeat="c in [{dt:{children:c1}, data_id:d3.doc_id}]"
-						data-ng-include="'/f/c6/data_editor_input.html'"></div>
-				</div>
-			</div>
-			<div data-ng-switch-when="32" class="w3-container w3-border-left"
+		<div data-ng-switch-when="32" class="w3-container w3-border-left"
 			data-ng-if="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
 			<span class="w3-tiny w3-dropdown-hover"> <i
 				class="fas fa-bars w3-btn w3-padding-small"></i>
@@ -73,6 +62,25 @@
 				data-ng-if="d3.doc_id">
 				<input class="w3-border am-width-100pr"
 					data-ng-blur="ctrl.update_data(d3)" data-ng-model="d3.s1value">
+			</div>
+		</div>
+		<div data-ng-switch-when="37" class="w3-container w3-border-left"
+			data-ng-if="ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children">
+			<div
+				data-ng-repeat="d3 in ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].children"
+				data-ng-if="d3.doc_id">
+				<div class="w3-tiny w3-hover-shadow">
+					<div class="w3-right w3-btn w3-padding-small"
+						data-ng-click="ctrl.delete_object('Видалити данні?', d3)">
+						<i class="fas fa-eraser"></i>
+					</div>
+					{{d3.doc_id}}
+				</div>
+				<div class="w3-container w3-border-left"
+					data-ng-repeat="c1 in [ctrl.elementsMap[ctrl.elementsMap[d3.reference].reference]]">
+					<div data-ng-repeat="c in [{dt:{children:c1}, data_id:d3.doc_id}]"
+						data-ng-include="'/f/c6/data_editor_input.html'"></div>
+				</div>
 			</div>
 		</div>
 		<div data-ng-switch-default>
