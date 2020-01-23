@@ -126,6 +126,17 @@ var read_model_children = function(d){
 }
 
 var initEh001 = function() {
+	ctrl.read_obj = function(d){
+		var d1 = {doc_id:d.reference2}
+		var sql = sql_app.SELECT_with_parent(d1)
+		sql = sql.replace(' d1.parent=',' d1.doc_id=')
+		read_dataObject2fn(sql, function(response){
+			ctrl.elementsMap[d.reference2] = response.data.list[0]
+			d1 = response.data.list[0]
+			console.log(d, d1, sql, ctrl.elementsMap[d.reference2])
+			read_children(d1)
+		})
+	}
 	ctrl.after_mergeList = function (response){
 		angular.forEach(response.data.list, function(v){
 			if(v.doc_id==ctrl.choice_data_model_id){

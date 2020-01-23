@@ -1,5 +1,4 @@
-<div data-ng-repeat="d in c.dt.children"
->
+<div data-ng-repeat="d in c.dt.children">
 	<div class="w3-display-container"
 		data-ng-repeat="v in [{obj_with_child:d.doctype==18 && d.cnt_child && !ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]] }]">
 		<div
@@ -105,6 +104,20 @@
 		<div data-ng-show="!ctrl.data_input_valid['_'+d.doc_id]()"
 			data-ng-bind-html="ctrl.data_input_invalid_html['_'+d.doc_id]()">
 		</div>
+	</div>
+	<div data-ng-if="d.reference2">
+		<div class="w3-btn w3-ripple" data-ng-click="ctrl.read_obj(d)"
+			data-ng-if="!ctrl.elementsMap[d.reference2]">Відкрити</div>
+		<div class="w3-btn w3-ripple"
+			data-ng-click="ctrl.insert_reference_node2(d, c)"
+			data-ng-if="!ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]]">Додати</div>
+		<div data-ng-repeat="c0 in [ctrl.elementsMap[d.reference2]]">
+			<div class="w3-container w3-border-left"
+				data-ng-repeat="c in [{dt:c0
+			, data_id:ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]].doc_id}]"
+				data-ng-include="'/f/c6/data_editor_input.html'"></div>
+		</div>
+
 	</div>
 	<div data-ng-if="d.cnt_child && !d.close"
 		class="w3-container w3-border-left">
