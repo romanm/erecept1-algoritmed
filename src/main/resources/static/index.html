@@ -4,20 +4,35 @@
 <title>Аптека</title>
 <link rel="stylesheet" href="/f/css/w3.css">
 <link rel="stylesheet"
-	href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
 	type="image/x-icon">
 <script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
 <script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
 <script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk.js"></script>
-<script src="/f/js/app001.js"></script>
-<script src="/f/new_apteka/start1.js"></script>
+<script src="/f/js/app003.js"></script>
+<script src="/f/index.js"></script>
+<script src="/f/js/data001.js"></script>
 
 <body class="w3-container">
 	<div class="w3-right-align">
+		<div
+		class="w3-panel w3-right w3-leftbar w3-sand w3-serif"
+		 style="font-style: italic;">Вікі, тестування і розробки 
+		 <img alt="" src="http://algoritmed.com/img/logo-algoritmed.svg" width="100">
+		 </div>
 		<div data-ng-include="'/f/btn-to-login.html'"></div>
 	</div>
+
+	<div title="{{d.number}}" data-ng-repeat="d in ctrl.module_nszu">
+		{{d.text}}
+		<div data-ng-if="d.children" class="w3-container">
+			<div data-ng-repeat="d1 in d.children">{{d1.text}}</div>
+		</div>
+	</div>
+	<!-- 
 	<h1 class="w3-container">Аптека НСЗУ електроний рецепт</h1>
+	 -->
 	<div class="w3-row-padding">
 		<div class="w3-half">
 			<div class="w3-border">
@@ -39,8 +54,14 @@
 		</div>
 	</div>
 	<div class="w3-container">
-		<a href="/f/dev3/icpc2-icd10-relation-001.html"> Словники
-			електроних медичних записів, DUODECIM </a>
+		<div>Модулі АЛГОРІТМЕД</div>
+		<div>
+			<a href="/f/dev3/icpc2-icd10-relation-001.html"> Словники
+				електроних медичних записів, DUODECIM </a>
+		</div>
+		<div>
+			<a href="/f/c6/eh001.html">Редактор даних</a>
+		</div>
 	</div>
 </body>
 </html>
