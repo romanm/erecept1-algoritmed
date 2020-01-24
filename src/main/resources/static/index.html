@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl" lang="uk-UA">
 <meta charset="utf-8" />
-<title>Аптека</title>
+<title>Вікі</title>
 <link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
 <link rel="stylesheet"
 	href="/webjars/font-awesome/5.12.0/css/all.min.css">
 <link rel="shortcut icon" href="/f/img/algoritmed.ico"
@@ -15,19 +16,40 @@
 <script src="/f/js/data001.js"></script>
 
 <body class="w3-container">
-	<div class="w3-right-align">
-		<div
-		class="w3-panel w3-right w3-leftbar w3-sand w3-serif"
-		 style="font-style: italic;">Вікі, тестування і розробки 
-		 <img alt="" src="http://algoritmed.com/img/logo-algoritmed.svg" width="100">
-		 </div>
-		<div data-ng-include="'/f/btn-to-login.html'"></div>
+	<div class="w3-border-bottom">
+		<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
+		<div class="w3-right">
+			<span data-ng-include="'/f/btn-to-login.html'"></span>
+			<span class="w3-panel w3-right w3-leftbar w3-sand w3-serif"
+				style="font-style: italic;">
+				Вікі, тестування і розробки <img alt=""
+					src="http://algoritmed.com/img/logo-algoritmed.svg" width="100">
+			</span>
+		</div>
 	</div>
 
-	<div title="{{d.number}}" data-ng-repeat="d in ctrl.module_nszu">
-		{{d.text}}
+	<div class="am-b">Модулі НСЗУ</div>
+	<div data-ng-repeat="d in ctrl.module_nszu">
+		<div title="{{d.number}}">{{d.text}}</div>
 		<div data-ng-if="d.children" class="w3-container">
-			<div data-ng-repeat="d1 in d.children">{{d1.text}}</div>
+			<div data-ng-repeat="d1 in d.children">
+				<div title="{{d1.number}}">{{d1.text}}</div>
+				<div data-ng-switch="d1.number" class="">
+					<div data-ng-switch-when="3.5.3" class="w3-container w3-border">
+						<div>
+							<a href="#"> Реєстрація персоналу </a>
+						</div>
+					</div>
+					<div data-ng-switch-when="3.5.2" class="w3-container w3-border">
+						<div>
+							<a href="#"> Реєстрація закладу </a>
+						</div>
+						<div>
+							<a href="#"> Реєстрація підрозділів </a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- 
@@ -54,7 +76,7 @@
 		</div>
 	</div>
 	<div class="w3-container">
-		<div>Модулі АЛГОРІТМЕД</div>
+		<div class="am-b">Модулі АЛГОРІТМЕД</div>
 		<div>
 			<a href="/f/dev3/icpc2-icd10-relation-001.html"> Словники
 				електроних медичних записів, DUODECIM </a>
