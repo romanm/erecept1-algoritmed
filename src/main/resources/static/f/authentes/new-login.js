@@ -1,5 +1,5 @@
 app.controller('AppCtrl', function($scope, $http, $interval, $filter) {
-	var ctrl = this
+	ctrl = this
 	initApp($scope, $http)
 	ctrl.newUser = {}
 	ctrl.newUser.username = 'qwe'

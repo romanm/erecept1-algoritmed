@@ -88,6 +88,21 @@ var initApp = function($scope, $http, $timeout){
 
 	initSeekLogic(ctrl, $timeout)
 
+	exe_fn.httpGet({
+		url:'/r/principal',
+		then_fn:function(response){
+			if(response.data.principal){
+				$scope.principal = response.data.principal
+				$scope.principal.user_id = response.data.list0[0].user_id
+				/*
+				console.log($scope.principal.name
+						,$scope.principal
+						,$scope.principal.user_id
+						)
+				 * */
+			}
+		},
+	})
 }
 
 var initSeekLogic = function(ctrl, $timeout){
