@@ -147,8 +147,9 @@ var initEh001 = function() {
 
 	ctrl.doc_i18n_parent = {}
 	ctrl.doc_i18n_parent._285598 = 285597
-	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._115920 = 115924
+	ctrl.doc_i18n_parent._115827 = 367318
+	ctrl.doc_i18n_parent._367475 = 367318
 
 	ctrl.click_data_model_edit_obj = function(){
 		if(ctrl.data_model_edit_obj 
@@ -411,6 +412,7 @@ var initEh001 = function() {
 	}
 
 	ctrl.save_model_i18n = function(){
+		console.log(ctrl.data_model_edit_obj)
 		if(ctrl.data_model_edit_obj.i18n_id){
 			var so = { i18n : ctrl.data_model_edit_obj.i18n, i18n_id : ctrl.data_model_edit_obj.i18n_id,
 			dataAfterSave : function(response){
