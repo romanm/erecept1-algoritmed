@@ -106,8 +106,10 @@
 		</div>
 	</div>
 	<div data-ng-if="d.reference2">
-		<div class="w3-btn w3-ripple" data-ng-click="ctrl.read_obj(d)"
-			data-ng-if="!ctrl.elementsMap[d.reference2]">Відкрити</div>
+		<div class="w3-btn w3-ripple" data-ng-click="ctrl.read_obj({doc_id:d.reference2})"
+			data-ng-if="!ctrl.elementsMap[d.reference2]">Відкрити
+			{{d.reference2}}
+			</div>
 		<div class="w3-btn w3-ripple"
 			data-ng-click="ctrl.insert_reference_node2(d, c)"
 			data-ng-if="!ctrl.elementsMap[ctrl.elementsMap[c.data_id].cols[d.doc_id]]">Додати</div>

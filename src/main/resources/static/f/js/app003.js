@@ -3,8 +3,10 @@ var conf = {dataModelList : {}}
 var exe_fn = {}
 var sql_app = {}
 var ctrl
+
 var initApp = function($scope, $http, $timeout){
 	ctrl.i18 = {}
+	ctrl.doc_i18n_parent = {}
 	$scope.elementsMap = {}
 	ctrl.elementsMap = $scope.elementsMap
 	ctrl.referencesMap = {}
@@ -103,6 +105,127 @@ var initApp = function($scope, $http, $timeout){
 			}
 		},
 	})
+}
+
+	sql_app.select_i18n= function(left_join_ref, i18n_parent){
+		var sql = "" +
+		"SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
+		"LEFT JOIN string s1 ON s1.string_id=doc_id \n" +
+		"WHERE parent = :i18n_parent "
+		if(left_join_ref){
+			sql = "LEFT JOIN (" +sql +") i18n ON i18n_ref=:left_join_ref"
+			sql = sql.replace(":left_join_ref", left_join_ref)
+		}
+		if(i18n_parent){
+			sql = sql.replace(":i18n_parent", i18n_parent)
+		}
+		return sql
+	}
+
+	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
+		var sql = "\n" +
+		"SELECT d1.*, sort, s1.value s1value, dt1.value dt1value, i18n, i18n_id, cnt_child  " +
+		"FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
+		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		sql_app.select_i18n("d1.doc_id") + " \n"+
+//		"LEFT JOIN (SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
+//		"LEFT JOIN string s1 ON s1.string_id=doc_id \n" +
+//		"WHERE parent = :i18n_parent) i18n ON i18n_ref=d1.doc_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
+		"WHERE d1.parent=:parent " +
+		"ORDER BY sort "
+		sql = sql.replace(':parent', parent).replace(':i18n_parent', i18n_parent)
+//		console.log(sql)
+		return sql
+	}
+
+
+	sql_app.obj_with_parent= function(parent){
+		var sql = "\n" +
+		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child " +
+		"FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
+		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
+		"WHERE d1.parent = :parent \n" +
+		"ORDER BY sort "
+		sql = sql.replace(':parent', parent)
+//		console.log(sql)
+		return sql
+	}
+
+
+
+sql_app.SELECT_with_parent = function(d){
+	if(ctrl.choice_data_model.i18n_parent)
+		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
+	else
+		var sql = sql_app.obj_with_parent(d.doc_id)
+	return sql.trim()
+}
+
+
+var read_object = function(d){
+	var sql = sql_app.SELECT_with_parent(d)
+	sql = sql.replace(' d1.parent=',' d1.doc_id=')
+	//console.log(sql)
+	read_dataObject2fn(sql, function(response){
+		ctrl.elementsMap[d.doc_id] = response.data.list[0]
+		d = response.data.list[0]
+		console.log(d, sql, ctrl.elementsMap[d.doc_id])
+		read_children(d)
+	})
+}
+
+var read_children = function(d) {
+	if(!d.children) {
+		var sql = sql_app.SELECT_with_parent(d)
+//		console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			d.cols = {}
+			angular.forEach(d.children, function(v){
+				d.cols[v.reference] = v.doc_id
+				ctrl.elementsMap[v.doc_id] = v
+				if(v.cnt_child>0){
+//								console.log(v)
+					read_children(v)
+				}
+			})
+			var data_model = ctrl.elementsMap[d.reference]
+			read_data_for_data_editor(data_model)
+		}}, null, d.doc_id)
+	}
+}
+
+var read_data_for_data_editor = function(d) {
+	if(d && ctrl.data_editor_opened()){
+		if(!ctrl.menu_list_count)
+			ctrl.menu_list_count = {}
+//		console.log('read_data_for_data_editor', d, d.children)
+		angular.forEach(d.children, function(v){ 
+			if(v.reference){
+			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
+			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
+//			console.log(v.reference, sql)
+			read_dataObject2fn(sql2, function(response){ if(response.data.list.length>0){
+				ctrl.menu_list_count[v.reference] = response.data.list[0].count
+				if(ctrl.menu_list_count[v.reference]>0){
+					if(ctrl.menu_list_count[v.reference]<20){
+						read_dataObject2fn(sql, function(response2){
+							ctrl.elementsMap[v.reference] = response2.data.list
+						})
+					}
+				}
+			}},null)
+		}})
+//		console.log(ctrl.menu_list_count)
+	}
 }
 
 var initSeekLogic = function(ctrl, $timeout){

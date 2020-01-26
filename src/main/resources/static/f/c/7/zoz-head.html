@@ -1,0 +1,16 @@
+<div>
+	<div class="w3-border-bottom">
+		<div class="w3-right" data-ng-include="'/f/btn-to-login.html'"></div>
+		<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
+	</div>
+	<div class="w3-light-gray w3-border-bottom">
+		&nbsp; <i class="fas fa-cogs"></i> &nbsp; <span class="w3-border-left"
+			data-ng-class="{'w3-border-right':$last,}"
+			data-ng-repeat="d in ctrl.elementsMap[367475].children"> <a
+			style="text-decoration: none;" href="/f/c/7/zoz{{ctrl.admin_part_ids['_'+d.doc_id]}}.html"
+			data-ng-mouseenter="ctrl.admin_partOver_id=d.doc_id"
+			data-ng-mouseleave="ctrl.admin_partOver_id=null"
+			data-ng-class="{'w3-bottombar w3-border-yellow':ctrl.admin_part_id==d.doc_id||ctrl.admin_partOver_id==d.doc_id,}">
+				&nbsp; {{d.i18n}} &nbsp; </a></span>
+	</div>
+</div>

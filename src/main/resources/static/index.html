@@ -22,13 +22,22 @@
 			<span data-ng-include="'/f/btn-to-login.html'"></span>
 			<span class="w3-panel w3-right w3-leftbar w3-sand w3-serif"
 				style="font-style: italic;">
-				Вікі, тестування і розробки <img alt=""
+				Вікі, тестування і розробки 
+				<a href="http://algoritmed.com/">
+				<img alt=""
 					src="http://algoritmed.com/img/logo-algoritmed.svg" width="100">
+				</a>
 			</span>
 		</div>
 	</div>
 
 	<div class="am-b">Модулі НСЗУ</div>
+	<a
+		href="https://e-health-ua.atlassian.net/servicedesk/customer/portal/6/group/35/create/107"
+		class="w3-right w3-small">
+		<img alt="" src="https://e-health-ua.atlassian.net/rest/servicedesk/1/customer/viewport-resources/image/4" height="12">
+		e-health-ua <i class="fas fa-external-link-alt"></i>
+	</a>
 	<div data-ng-repeat="d in ctrl.module_nszu">
 		<div title="{{d.number}}">{{d.text}}</div>
 		<div data-ng-if="d.children" class="w3-container">
@@ -37,15 +46,15 @@
 				<div data-ng-switch="d1.number" class="">
 					<div data-ng-switch-when="3.5.3" class="w3-container w3-border">
 						<div>
-							<a href="#"> Реєстрація персоналу </a>
+							<a href="/f/c/7/zoz-employee.html"> Реєстрація персоналу </a>
 						</div>
 					</div>
 					<div data-ng-switch-when="3.5.2" class="w3-container w3-border">
 						<div>
-							<a href="#"> Реєстрація закладу </a>
+							<a href="/f/c/7/zoz.html"> Реєстрація закладу </a>
 						</div>
 						<div>
-							<a href="#"> Реєстрація підрозділів </a>
+							<a href="/f/c/7/zoz-division.html"> Реєстрація підрозділів </a>
 						</div>
 					</div>
 				</div>
