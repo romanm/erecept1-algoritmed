@@ -306,6 +306,7 @@ var initEh001 = function() {
 
 	ctrl.doc_data_parent = {}
 	ctrl.doc_data_parent._115827 = 285460
+	ctrl.doc_data_parent._367475 = 367476
 	ctrl.create_doc = function(){
 		var doc_data_parent = ctrl.doc_data_parent['_'+ctrl.choice_data_model.doc_id]
 		var so = {parent:doc_data_parent, reference:ctrl.choice_data_model.doc_id,
