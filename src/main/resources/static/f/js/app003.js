@@ -94,9 +94,15 @@ var initApp = function($scope, $http, $timeout){
 		url:'/r/principal',
 		then_fn:function(response){
 			if(response.data.principal){
-				$scope.principal = response.data.principal
-				ctrl.principal = response.data.principal
+				$scope.principal	= response.data.principal
+				ctrl.principal		= response.data.principal
 				$scope.principal.user_id = response.data.list0[0].user_id
+				read_object({doc_id:ctrl.principal.user_id})
+				read_dataObject2fn("SELECT * FROM roles", function(response){
+					angular.forEach(response.data.list, function(v){ 
+						ctrl.elementsMap[v.role_id] = v
+					})
+				})
 				/*
 				console.log($scope.principal.name
 						,$scope.principal
@@ -136,7 +142,7 @@ var initApp = function($scope, $http, $timeout){
 //		"WHERE parent = :i18n_parent) i18n ON i18n_ref=d1.doc_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
 		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
-		"WHERE d1.parent=:parent " +
+		"WHERE d1.parent = :parent " +
 		"ORDER BY sort "
 		sql = sql.replace(':parent', parent).replace(':i18n_parent', i18n_parent)
 //		console.log(sql)
@@ -160,10 +166,8 @@ var initApp = function($scope, $http, $timeout){
 		return sql
 	}
 
-
-
 sql_app.SELECT_with_parent = function(d){
-	if(ctrl.choice_data_model.i18n_parent)
+	if(ctrl.choice_data_model && ctrl.choice_data_model.i18n_parent)
 		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
 	else
 		var sql = sql_app.obj_with_parent(d.doc_id)
@@ -173,8 +177,8 @@ sql_app.SELECT_with_parent = function(d){
 
 var read_object = function(d){
 	var sql = sql_app.SELECT_with_parent(d)
-	sql = sql.replace(' d1.parent=',' d1.doc_id=')
-	//console.log(sql)
+	sql = sql.replace(' d1.parent =',' d1.doc_id =')
+//	console.log(sql, d)
 	read_dataObject2fn(sql, function(response){
 		ctrl.elementsMap[d.doc_id] = response.data.list[0]
 		d = response.data.list[0]
@@ -719,7 +723,11 @@ sql_app.insert_CODE_i18n_sort = function(parentCodeId, code, parentI18nId, i18n,
 	"INSERT INTO sort (sort_id,sort, treeLevel) VALUES (:nextDbId1,:sort,:treeLevel); \n" +
 	"").replace(':sort', sort).replace(':treeLevel', treeLevel)
 }
-sql_app.insert_doc_parent_ref = function(){
+sql_app.SELECT_doc_id = function(){
+	var sql = "SELECT * FROM doc WHERE doc_id=:nextDbId1; \n"
+	return sql
+}
+sql_app.INSERT_doc_parent_ref = function(){
 	var sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
 	return sql
 }
