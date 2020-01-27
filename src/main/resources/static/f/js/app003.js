@@ -95,6 +95,7 @@ var initApp = function($scope, $http, $timeout){
 		then_fn:function(response){
 			if(response.data.principal){
 				$scope.principal = response.data.principal
+				ctrl.principal = response.data.principal
 				$scope.principal.user_id = response.data.list0[0].user_id
 				/*
 				console.log($scope.principal.name
@@ -177,7 +178,7 @@ var read_object = function(d){
 	read_dataObject2fn(sql, function(response){
 		ctrl.elementsMap[d.doc_id] = response.data.list[0]
 		d = response.data.list[0]
-		console.log(d, sql, ctrl.elementsMap[d.doc_id])
+//		console.log(d, sql, ctrl.elementsMap[d.doc_id])
 		read_children(d)
 	})
 }

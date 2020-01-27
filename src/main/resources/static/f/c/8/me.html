@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk-ua.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/f/js/app003.js"></script>
+<script src="/f/c/8/me.js"></script>
+</head>
+<body>
+	<div class="w3-container">
+		<div class="w3-border-bottom">
+			<div class="w3-right" data-ng-include="'/f/btn-to-login.html'"></div>
+			<span data-ng-include="'/f/home-link.html'" class="w3-small"></span>
+		</div>
+		{{ctrl.principal.user_id}}
+		<div>
+			authorities
+			<div data-ng-repeat="d in ctrl.principal.authorities">
+				{{d.authority}}</div>
+		</div>
+	</div>
+</body>
+<!-- 
+http://localhost:8046/f/c4/j2c_json_editor.html?jsonId=122598
+Актори та ролі 
+ -->
+</html>

@@ -28,9 +28,13 @@
 	<div class="w3-panel">
 		<input class="w3-btn w3-border w3-round" type="submit" value="Увійти">
 		<a ng-if="principal.name" class="w3-btn w3-border w3-round"
-			href="/logout"> Вийти з логін </a> <a href="new-login.html"
-			class="w3-small w3-right"
-			>
-			завести нового користувача </a>
+			href="/logout"> Вийти з логін </a>
+		<div data-ng-if="principal.name" class="w3-small w3-right">
+			<a href="/f/c/8/me.html">Персональна сторінка</a>
+		</div>
+		<div data-ng-if="!principal.name">
+			<a href="new-login.html" class="w3-small w3-right"> завести
+				нового користувача </a>
+		</div>
 	</div>
 </form>
