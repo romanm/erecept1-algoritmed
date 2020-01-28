@@ -8,6 +8,24 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_object({doc_id:367475})
 	initZOZ()
 })
+
+conf.addPrincipal = function(){
+	var sql = "SELECT d2.* FROM \n" +
+	"(SELECT * FROM doc WHERE parent=:user_id) d1, \n" +
+	"(SELECT * FROM doc WHERE parent=367476) d2 \n" +
+	"WHERE d2.doc_id=d1.reference"
+	sql = sql.replace(':user_id', ctrl.principal.user_id)
+	console.log(sql, 123)
+	read_dataObject2fn(sql, function(response){
+		ctrl.zoz = response.data.list[0]
+		console.log(ctrl.zoz)
+		var sql2 = sql_app.SELECT_with_parent(ctrl.zoz)
+		read_dataObject2fn(sql2, function(response2){
+			ctrl.zoz.children = response2.data.list
+		})
+	})
+}
+
 var initZOZ = function(){
 	ctrl.click_create_zoz = function(){
 		var so = {reference:ctrl.zoz_data_model_id, parent:ctrl.zoz_data_id,
@@ -19,12 +37,19 @@ var initZOZ = function(){
 		},}
 		so.sql = sql_app.INSERT_doc_parent_ref()
 		so.sql += sql_app.SELECT_doc_id()
-		console.log(ctrl.elementsMap[ctrl.zoz_data_model_id], so.sql)
+		so.sql += sql_app.INSERT_doc_parent_ref({'nextDbId':2, reference:':nextDbId1', parent:ctrl.principal.user_id})
+		angular.forEach(ctrl.elementsMap[ctrl.zoz_data_model_id].children, function(v,k){
+			var s2 = sql_app.INSERT_doc_parent_ref({'nextDbId':3+k, reference:v.doc_id, parent:':nextDbId1'})
+			so.sql+= s2
+			console.log(s2)
+		})
+		console.log(ctrl.principal.user_id, ctrl.elementsMap[ctrl.zoz_data_model_id], so.sql)
 		writeSql(so)
 	}
 	ctrl.click_open_dialog_create_zoz = function(){
 		ctrl.open_dialog_create_zoz = !ctrl.open_dialog_create_zoz
 		read_object({doc_id:ctrl.zoz_data_model_id})
+		console.log(ctrl.elementsMap[ctrl.principal.user_id], ctrl.principal.user_id)
 	}
 	ctrl.notes = {}
 	ctrl.notes.create_zoz = 'Створити ЗОЗ'

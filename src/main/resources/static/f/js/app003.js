@@ -103,6 +103,8 @@ var initApp = function($scope, $http, $timeout){
 						ctrl.elementsMap[v.role_id] = v
 					})
 				})
+				if(conf.addPrincipal)
+					conf.addPrincipal()
 				/*
 				console.log($scope.principal.name
 						,$scope.principal
@@ -727,10 +729,20 @@ sql_app.SELECT_doc_id = function(){
 	var sql = "SELECT * FROM doc WHERE doc_id=:nextDbId1; \n"
 	return sql
 }
-sql_app.INSERT_doc_parent_ref = function(){
+
+sql_app.INSERT_doc_parent_ref = function(d){
 	var sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+	if(d){
+		if(d.parent)
+			sql = sql.replace(':parent',d.parent)
+		if(d.reference)
+			sql = sql.replace(':reference',d.reference)
+		if(d.nextDbId)
+			sql = sql.replace(':nextDbId1',':nextDbId'+d.nextDbId)
+	}
 	return sql
 }
+
 sql_app.insert_CODE_i18n = function(parentCodeId, code, parentI18nId, i18n){
 	return "" +
 	"INSERT INTO doc (doc_id,parent,doctype) " +

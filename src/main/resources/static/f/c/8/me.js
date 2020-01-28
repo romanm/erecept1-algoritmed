@@ -4,6 +4,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initApp($scope, $http, $timeout)
 	initME()
 })
+
 var initME = function(){
 	
 }

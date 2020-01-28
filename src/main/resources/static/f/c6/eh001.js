@@ -202,7 +202,7 @@ var initEh001 = function() {
 		dataAfterSave : function(response) {
 			console.log(response.data)
 		},}
-		so.sql = sql_app.insert_doc_parent_ref()
+		so.sql = sql_app.INSERT_doc_parent_ref()
 		console.log(ctrl.choice_data_model, doc_data_parent, so, so.sql)
 		writeSql(so)
 	}
@@ -227,7 +227,7 @@ var initEh001 = function() {
 				cda.cols = {}
 			cda.cols[d.doc_id] = adn
 		},}
-		so.sql = sql_app.insert_doc_parent_ref()
+		so.sql = sql_app.INSERT_doc_parent_ref()
 		sql_app.add_INSERT_content(so, d)
 		console.log(so, so.sql)
 		writeSql(so)
@@ -295,7 +295,7 @@ var initEh001 = function() {
 				da.children = response.data.list1
 			}
 		},}
-		so.sql = sql_app.insert_doc_parent_ref()
+		so.sql = sql_app.INSERT_doc_parent_ref()
 		sql_app.add_INSERT_content(so, doc_model)
 		so.sql += sql_app.SELECT_with_parent(da)
 		writeSql(so)
@@ -316,7 +316,7 @@ var initEh001 = function() {
 				console.log(ctrl.data_model_edit_obj, response.data, so)
 				ctrl.data_model_edit_obj.i18n_id = response.data.nextDbId1
 			},}
-			so.sql = sql_app.insert_doc_parent_ref()
+			so.sql = sql_app.INSERT_doc_parent_ref()
 			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
 			console.log(ctrl.data_model_edit_obj, so, ctrl.choice_data_model, so.sql)
 			writeSql(so)
