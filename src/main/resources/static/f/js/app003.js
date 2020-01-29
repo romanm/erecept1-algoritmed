@@ -189,21 +189,25 @@ var read_object = function(d){
 	})
 }
 
+var set_cols_type = function(d) {
+	d.cols = {}
+	angular.forEach(d.children, function(v){
+		d.cols[v.reference] = v.doc_id
+		ctrl.elementsMap[v.doc_id] = v
+		if(v.cnt_child>0){
+//						console.log(v)
+			read_children(v)
+		}
+	})
+}
+
 var read_children = function(d) {
 	if(!d.children) {
 		var sql = sql_app.SELECT_with_parent(d)
 //		console.log(sql)
 		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
 			d.children = response.data.list
-			d.cols = {}
-			angular.forEach(d.children, function(v){
-				d.cols[v.reference] = v.doc_id
-				ctrl.elementsMap[v.doc_id] = v
-				if(v.cnt_child>0){
-//								console.log(v)
-					read_children(v)
-				}
-			})
+			set_cols_type(d)
 			var data_model = ctrl.elementsMap[d.reference]
 			read_data_for_data_editor(data_model)
 		}}, null, d.doc_id)

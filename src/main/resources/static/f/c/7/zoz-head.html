@@ -16,4 +16,8 @@
 			ctrl.admin_part_id==d.doc_id || ctrl.admin_partOver_id==d.doc_id,}">
 				&nbsp; {{d.i18n}} &nbsp; </a></span>
 	</div>
+	<div class="w3-tiny w3-right">
+	{{ctrl.admin_part_id}} -- {{ctrl.zoz.cols[ctrl.admin_part_id]}} --
+	{{ctrl.elementsMap[ctrl.zoz.cols[ctrl.admin_part_id]].doc_id}}
+	</div>
 </div>

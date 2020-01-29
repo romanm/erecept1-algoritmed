@@ -32,8 +32,8 @@
 				{{d.authority}} {{d.doc_id}} {{d.reference}} {{
 				ctrl.elementsMap[d.reference].role }}</div>
 		</div>
-		<div class="w3-panel w3-leftbar w3-sand w3-serif"
-			data-ng-if="!ctrl.principal">Треба залогінитись</div>
+		<div data-ng-include="'/f/c/8/need-login.html'"
+			data-ng-if="!ctrl.principal"></div>
 	</div>
 </body>
 <!-- 

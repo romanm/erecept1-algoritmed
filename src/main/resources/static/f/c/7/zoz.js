@@ -22,6 +22,7 @@ conf.addPrincipal = function(){
 		var sql2 = sql_app.SELECT_with_parent(ctrl.zoz)
 		read_dataObject2fn(sql2, function(response2){
 			ctrl.zoz.children = response2.data.list
+			set_cols_type(ctrl.zoz)
 		})
 	})
 }

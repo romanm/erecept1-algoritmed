@@ -19,20 +19,24 @@
 <body>
 	<div class="w3-container">
 		<div data-ng-include="'/f/c/7/zoz-head.html'"></div>
-		<div data-ng-if="ctrl.zoz">ЗОЗ {{ctrl.zoz.doc_id}}</div>
-		<div data-ng-if="!ctrl.zoz">
-			<button data-ng-click="ctrl.click_open_dialog_create_zoz()"
-				class="w3-btn w3-ripple">{{ctrl.notes.create_zoz}}</button>
-			<div data-ng-if="ctrl.open_dialog_create_zoz" class="w3-card">
-				<div class="w3-right w3-small">
-					<span class=" w3-gray">{{ctrl.notes.create_zoz}}</span> <span
-						class="w3-right w3-hover-shadow"> &nbsp; x &nbsp; </span>
-				</div>
-				Ви головний лікар і створюєте ЗОЗ для реєстрації в НСЗУ через
-				систему eHealth
-				<div>
-					<button data-ng-click="ctrl.click_create_zoz()"
-						class="w3-btn w3-ripple">OK</button>
+		<div data-ng-include="'/f/c/8/need-login.html'"
+			data-ng-if="!ctrl.principal"></div>
+		<div data-ng-if="ctrl.principal">
+			<div data-ng-if="ctrl.zoz">ЗОЗ {{ctrl.zoz.doc_id}}</div>
+			<div data-ng-if="!ctrl.zoz">
+				<button data-ng-click="ctrl.click_open_dialog_create_zoz()"
+					class="w3-btn w3-ripple">{{ctrl.notes.create_zoz}}</button>
+				<div data-ng-if="ctrl.open_dialog_create_zoz" class="w3-card">
+					<div class="w3-right w3-small">
+						<span class=" w3-gray">{{ctrl.notes.create_zoz}}</span> <span
+							class="w3-right w3-hover-shadow"> &nbsp; x &nbsp; </span>
+					</div>
+					Ви головний лікар і створюєте ЗОЗ для реєстрації в НСЗУ через
+					систему eHealth
+					<div>
+						<button data-ng-click="ctrl.click_create_zoz()"
+							class="w3-btn w3-ripple">OK</button>
+					</div>
 				</div>
 			</div>
 		</div>
