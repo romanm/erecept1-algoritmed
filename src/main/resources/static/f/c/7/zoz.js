@@ -28,6 +28,8 @@ conf.addPrincipal = function(){
 }
 
 var initZOZ = function(){
+	conf.init()
+
 	ctrl.click_create_zoz = function(){
 		var so = {reference:ctrl.zoz_data_model_id, parent:ctrl.zoz_data_id,
 		dataAfterSave : function(response){
@@ -66,4 +68,11 @@ var initZOZ = function(){
 	if(ctrl.request.path[0].includes('employee')){
 		ctrl.admin_part_id = 367479
 	}
+	console.log(ctrl.admin_part_id)
+	read_dataObject2fn("SELECT * FROM doc where doc_id="+ctrl.admin_part_id, function(response){
+		var ref = response.data.list[0].reference
+		console.log(ref, response.data.list[0])
+		set_choice_data_model2({doc_id:ref}, ref)
+	})
+
 }

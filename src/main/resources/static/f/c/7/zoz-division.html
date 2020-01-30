@@ -14,11 +14,28 @@
 <script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk-ua.js"></script>
 <script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
 <script src="/f/js/app003.js"></script>
+<script src="/f/js/crud001.js"></script>
 <script src="/f/c/7/zoz.js"></script>
 </head>
 <body>
 	<div class="w3-container">
 		<div data-ng-include="'/f/c/7/zoz-head.html'"></div>
+		<div class="w3-row">
+			<div class="w3-col w3-border-right"
+				data-ng-style="ctrl.style.model_data_row">
+				<div class="w3-light-gray">
+					a1 <i class="fas fa-caret-left w3-btn w3-right w3-medium"
+						data-ng-click="ctrl.style.width_min('model_data_row')"></i>
+				</div>
+			</div>
+			<div class="w3-rest">
+				<div class="w3-light-gray">
+					<i class="fas fa-caret-right w3-btn w3-medium"
+						data-ng-click="ctrl.style.width_max('model_data_row')"></i> a1
+				</div>
+				a2
+			</div>
+		</div>
 	</div>
 </body>
 </html>

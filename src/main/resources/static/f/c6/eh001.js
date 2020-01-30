@@ -7,7 +7,6 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
 	read_mergeList('docs', sql_app.obj_with_parent(115798))
 //	read_mergeList('docs', sql_app.obj_with_parent(285594))
-	ctrl.data_row = {}
 	if(ctrl.request.parameters.data){
 		read_data(ctrl.request.parameters.data)
 	}else{
@@ -33,42 +32,6 @@ var read_data = function(edit_data_id) {
 			set_doc_i18n_parent(d, d.reference)
 			ctrl.choice_data_model = {i18n_parent:d.i18n_parent}
 		}})
-}
-
-var set_doc_i18n_parent = function(d, data_model_id){
-	if(ctrl.doc_i18n_parent['_'+data_model_id])
-		d.i18n_parent = ctrl.doc_i18n_parent['_'+data_model_id]
-}
-
-var set_choice_data_model = function(d, data_model_id){
-	set_doc_i18n_parent (d, data_model_id)
-	ctrl.choice_data_model = d
-	read_model_children(d)
-	read_rows_at_reference(d.doc_id)
-	ctrl.elementsMap[d.doc_id] = d
-	read_data_for_data_editor(d)
-}
-
-var read_rows_at_reference = function(reference){
-	var sql = sql_app.obj_with_reference(reference)
-	console.log(reference, sql)
-	read_dataObject2fn(sql, function(response){
-		ctrl.doc_rows = response.data.list
-		if(!ctrl.data_row.children && ctrl.edit_data_id){
-			angular.forEach(ctrl.doc_rows, function(v){ 
-				ctrl.elementsMap[v.doc_id] = v
-				if(ctrl.edit_data_id == v.doc_id){
-					ctrl.click_data_row(v)
-				}
-			})
-		}
-	})
-}
-
-
-var read_model_children = function(d){
-	ctrl.choice_data_model_obj = d
-	read_children(d)
 }
 
 var initEh001 = function() {
@@ -116,19 +79,9 @@ var initEh001 = function() {
 			d.children_close = !d.children_close
 		}
 	}
-	ctrl.style ={}
-	ctrl.style.model_data_row ={width:'50%'}
-	ctrl.style.width_max = function(obj_name){
-		console.log(ctrl.style, obj_name)
-		var o = ctrl.style[obj_name], v = o.width.replace('%','')
-		if(v<80) v = v*1+10
-		o.width = v+'%'
-	}
-	ctrl.style.width_min = function(obj_name){
-		var o = ctrl.style[obj_name], v = o.width.replace('%','')
-		if(v>20) v -= 10
-		o.width = v+'%'
-	}
+
+	conf.init()
+	
 	ctrl.data_input_valid = {}
 	ctrl.data_input_invalid_html = {}
 	ctrl.data_input_valid._115791 = function() {//[115791] i edrpou - Код ЄДРПОУ
@@ -146,37 +99,8 @@ var initEh001 = function() {
 					"помилка: має бути число з 8 цифр" +
 				"</span>"
 	}
-	ctrl.doc_data_shortView = {}
-	ctrl.doc_data_shortView._115827 = [115783]
-	ctrl.doc_data_shortView._115856 = [115879]
-	sql_app.obj_with_reference = function(reference){
-		var sql = "" +
-		"SELECT d.* FROM doc d " +
-		"WHERE :reference IN (d.reference) "
-		sql = sql.replace(':reference', reference)
-		var sv = ctrl.doc_data_shortView['_'+reference]
-//		console.log(sql, reference, ctrl.doc_data_shortView, sv)
-		if(sv){
-			var lf_sqls=' doc d \n', lf_cols=' d.* '
-			angular.forEach(sv, function(v,k){
-//				console.log(v, k)
-				lf_cols += ", s" +k+".value s_"+v+"_value "
-				lf_sqls += "" +
-				"LEFT JOIN doc d" + k + 
-				" LEFT JOIN string s" + k + " ON s" + k + ".string_id=d" + k + ".doc_id " +
-				" ON d" + k + ".parent = d.doc_id AND d" + k + ".reference = "+v +"\n"
-			})
-//			console.log(lf_sqls, lf_cols)
-			sql = sql.replace(' doc d ', lf_sqls)
-			sql = sql.replace(' d.* ', lf_cols)
-//			console.log(sql)
-		}
-		return sql
-	}
-	ctrl.data_editor_opened = function(){ 
-		var data_editor_open = ctrl.data_row.doc_id && !ctrl.data_row.children_close
-		return data_editor_open
-	}
+
+
 	sql_app.obj_with_doc_id= function(doc_id){
 		var sql = "\n" +
 		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child  " +

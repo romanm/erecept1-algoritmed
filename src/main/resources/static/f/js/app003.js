@@ -214,13 +214,12 @@ var read_children = function(d) {
 	}
 }
 
-var read_data_for_data_editor = function(d) {
-	if(d && ctrl.data_editor_opened()){
-		if(!ctrl.menu_list_count)
-			ctrl.menu_list_count = {}
-//		console.log('read_data_for_data_editor', d, d.children)
-		angular.forEach(d.children, function(v){ 
-			if(v.reference){
+var read_data_for_data_editor2 = function(d) {
+	if(!ctrl.menu_list_count)
+		ctrl.menu_list_count = {}
+//	console.log('read_data_for_data_editor', d, d.children)
+	angular.forEach(d.children, function(v){ 
+		if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
 			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
 //			console.log(v.reference, sql)
@@ -236,6 +235,11 @@ var read_data_for_data_editor = function(d) {
 			}},null)
 		}})
 //		console.log(ctrl.menu_list_count)
+}
+
+var read_data_for_data_editor = function(d) {
+	if(d && ctrl.data_editor_opened()){
+		read_data_for_data_editor2(d)
 	}
 }
 
