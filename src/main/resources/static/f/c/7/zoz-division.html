@@ -23,9 +23,14 @@
 		<div class="w3-row">
 			<div class="w3-col w3-border-right"
 				data-ng-style="ctrl.style.model_data_row">
-				<div class="w3-light-gray">
+				<div class="w3-light-gray" style="height: 31px;">
 					a1 <i class="fas fa-caret-left w3-btn w3-right w3-medium"
 						data-ng-click="ctrl.style.width_min('model_data_row')"></i>
+				</div>
+				<div class="w3-border-bottom"
+					style="max-height: 75vh; overflow: auto;">
+					<div data-ng-repeat="children in [ctrl.choice_data_model.children]"
+						data-ng-include="'/f/c6/data_model_children.html'"></div>
 				</div>
 			</div>
 			<div class="w3-rest">

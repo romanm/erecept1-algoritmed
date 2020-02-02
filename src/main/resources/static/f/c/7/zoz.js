@@ -4,7 +4,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.zoz_data_id = 367476
 	ctrl.zoz_data_model_id = 367475
 	initApp($scope, $http, $timeout)
-	ctrl.choice_data_model = {i18n_parent:367318}
+	ctrl.i18n_parent = 367318
 	read_object({doc_id:367475})
 	initZOZ()
 })

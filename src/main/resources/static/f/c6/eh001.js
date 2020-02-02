@@ -4,6 +4,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initApp($scope, $http, $timeout)
 	initEh001()
 	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
+	read_mergeList('docs', sql_app.obj_with_doc_id(367496))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
 	read_mergeList('docs', sql_app.obj_with_parent(115798))
 //	read_mergeList('docs', sql_app.obj_with_parent(285594))
@@ -103,9 +104,13 @@ var initEh001 = function() {
 
 	sql_app.obj_with_doc_id= function(doc_id){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child  " +
+		"SELECT d1.*, sort" +
+		", s1.value s1value, s1.string_id s1_id" +
+		", i1.value i1value, i1.integer_id i1_id" +
+		", dt1.value dt1value, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +

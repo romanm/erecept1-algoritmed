@@ -11,8 +11,9 @@
 		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.choice_data_model_obj = d; ctrl.children_close(d)">
-			{{d.s1value }} <span data-ng-if="d.i18n"> - {{d.i18n}} </span> <span
-			data-ng-if="!d.s1value && !d.i18n"> -- ? -- </span>
+			{{d.i1value }} {{d.s1value }} <span data-ng-if="d.i18n"> -
+				{{d.i18n}} </span> <span data-ng-if="!d.s1value && !d.i18n"> -- ? --
+		</span>
 		</a>&nbsp; <span class="w3-tiny" data-ng-if="d.reference">
 			{{d.reference}} </span> <span data-ng-if="d.reference2" class="w3-tiny">
 			{{'{'+d.reference2+'}'}} </span> <sup

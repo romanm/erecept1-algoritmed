@@ -133,9 +133,13 @@ var initApp = function($scope, $http, $timeout){
 
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, dt1.value dt1value, i18n, i18n_id, cnt_child  " +
+		"SELECT d1.*, sort" +
+		", s1.value s1value, dt1.value dt1value" +
+		", i1.value i1value" +
+		", i18n, i18n_id, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		sql_app.select_i18n("d1.doc_id") + " \n"+
@@ -154,9 +158,13 @@ var initApp = function($scope, $http, $timeout){
 
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort, s1.value s1value, s1.string_id s1_id, dt1.value dt1value, cnt_child " +
+		"SELECT d1.*, sort" +
+		", s1.value s1value, s1.string_id s1_id" +
+		", i1.value i1value, i1.integer_id i1_id" +
+		", dt1.value dt1value, cnt_child " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
 		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
@@ -169,8 +177,8 @@ var initApp = function($scope, $http, $timeout){
 	}
 
 sql_app.SELECT_with_parent = function(d){
-	if(ctrl.choice_data_model && ctrl.choice_data_model.i18n_parent)
-		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.choice_data_model.i18n_parent)
+	if(ctrl.i18n_parent)
+		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.i18n_parent)
 	else
 		var sql = sql_app.obj_with_parent(d.doc_id)
 	return sql.trim()

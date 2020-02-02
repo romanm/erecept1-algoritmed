@@ -3,11 +3,12 @@ var set_choice_data_model2 = function(d, data_model_id){
 	set_doc_i18n_parent(d, data_model_id)
 	read_model_children(d)
 	ctrl.elementsMap[d.doc_id] = d
+	ctrl.choice_data_model = d
 }
 
 var set_choice_data_model = function(d, data_model_id){
 	set_choice_data_model2(d, data_model_id)
-	ctrl.choice_data_model = d
+//	ctrl.choice_data_model = d
 	read_data_for_data_editor2(d)
 	read_rows_at_reference(d.doc_id)
 }
