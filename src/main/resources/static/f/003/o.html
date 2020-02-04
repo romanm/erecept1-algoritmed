@@ -14,26 +14,14 @@
 <script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk-ua.js"></script>
 <script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
 <script src="/f/js/app003.js"></script>
-<script src="/f/c/8/me.js"></script>
+<script src="/f/js/crud001.js"></script>
+<script src="/f/003/o.js"></script>
 </head>
 <body>
 	<div class="w3-container">
 		<div data-ng-include="'/f/c/8/head.html'"></div>
-		<div data-ng-if="ctrl.principal">
-			<div>{{ctrl.principal.user_id}}</div>
-			authorities
-			<div data-ng-repeat="d in ctrl.principal.authorities">
-				{{d.authority}}</div>
-			<div
-				data-ng-repeat="d in ctrl.elementsMap[ctrl.principal.user_id].children">
-				{{d.authority}} {{d.doc_id}} {{d.reference}} {{
-				ctrl.elementsMap[d.reference].role }}</div>
-		</div>
-
+<div data-ng-repeat="o_1 in ctrl.elementsMap[367496].children"
+		data-ng-include="'/f/003/f003_part.html'"></div>		
 	</div>
 </body>
-<!-- 
-http://localhost:8046/f/c4/j2c_json_editor.html?jsonId=122598
-Актори та ролі 
- -->
 </html>
