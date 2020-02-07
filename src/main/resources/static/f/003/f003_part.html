@@ -1,4 +1,12 @@
 <div>
-{{o_1.doc_id}}
-{{o_1.s1value}}
+	<div
+		data-ng-class="{'w3-light-gray':o_1.doc_id==ctrl.request.parameters.part}">
+		<a href="?part={{o_1.doc_id}}"> {{o_1.doc_id}} {{o_1.s1value}} </a>
+	</div>
+	<div class="w3-border w3-border-black" data-ng-repeat="o in [o_1]">
+		<div data-ng-include="'/f/003/p/part_'+o.doc_id+'.html'"></div>
+		<div data-ng-if="![367497,367498,367499, 367500].includes(o.doc_id)">
+			<div data-ng-include="'/f/003/p/code.html'"></div>
+		</div>
+	</div>
 </div>
