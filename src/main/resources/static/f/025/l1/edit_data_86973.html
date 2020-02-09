@@ -1,0 +1,17 @@
+<div>
+	<!-- lab загальний холестерин -->
+	id:
+	{{o.doc_id}}
+	ref:
+	{{o.reference}}
+	<span class="w3-tiny am-b"> {{o.string_reference}}: </span> <input
+		data-ng-model="o.real_value" step="0,1"
+		style="width: 60px;" class="w3-border"> <span
+		class="w3-tiny am-b">
+		{{elementsMap[o.reference].children[0].value}} </span> <span
+		class="w3-tiny am-b"> N (
+		{{elementsMap[o.reference].children[0].children[0].vreal}} -
+		{{elementsMap[o.reference].children[0].children[1].vreal}} ) </span> -- test
+	- input type="date" <input type="date" class="w3-border"
+		value="2018-07-22" min="2018-01-01" max="2018-12-31">
+</div>

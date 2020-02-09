@@ -1,0 +1,22 @@
+<div>
+	<div data-ng-switch="gr.doc_id" data-ng-repeat="gr in o.children">
+		{{gr.value}} <span data-ng-switch-when="85226"> ____ </span> <span
+			data-ng-switch-when="85227"> ______________________ </span>
+		<div data-ng-switch-default>
+			<table class="am-amk025-table">
+				<colgroup>
+					<col width="3%">
+				</colgroup>
+				<tbody>
+					<tr data-ng-repeat="row in [1,2,3]" data-ng-init="rowIndex=$index">
+						<th class="w3-border w3-border-black w3-tiny">{{row}}.</th>
+						<td class="w3-border w3-border-black"><a href="#"
+							class="w3-hover-shadow am-no-print" data-ng-if="rowIndex==0">
+								<i class="fa fa-plus" aria-hidden="true"></i> </a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+</div>

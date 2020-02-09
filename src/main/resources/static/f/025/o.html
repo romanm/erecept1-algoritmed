@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl" lang="uk-UA">
+<!-- 
+<html data-ng-app="myApp" data-ng-controller="myCtrl" lang="uk-UA">
+ -->
+<meta charset="utf-8" />
+<title>ф.025 -
+{{elementsMap[request.parameters.l1].value}}
+</title>
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk.js"></script>
+<script src="/f/025/amk025-001.js"></script>
+<!-- 
+<script src="/f/js/app003.js"></script>
+ -->
+<script src="/f/025/o.js"></script>
+<body class="w3-container">
+	<div data-ng-include="'/f/c/8/head.html'"></div>
+	<h1 class="w3-container w3-small">
+		<a href="/"
+			class=" w3-btn w3-border w3-padding-small w3-round-large w3-hover-shadow am-no-print">
+			<span data-ng-repeat="rnd in [ctrl.random.home2.value]"> <i
+				class="fas fa-clinic-medical ng-scope"></i>
+		</span>
+		</a> Електронна медична картка амбулаторного хворого (форма № 025/о) <span
+			class="am-b" data-ng-include="'/f/amk025/l1/pip.html'"> </span>
+	</h1>
+	<!-- 	<div data-ng-include="'/f/025/mdoc-process-links.html'"></div> 
+	<div data-ng-repeat="o_1 in [elementsMap[request.parameters.l1]]"
+-->
+	<div data-ng-repeat="o_1 in [ctrl.elementsMap[ctrl.request.parameters.l1]]"
+		data-ng-include="'/f/025/l1/doc_part3.html'"></div>
+</body>
+</html>

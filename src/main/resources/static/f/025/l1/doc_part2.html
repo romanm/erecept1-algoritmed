@@ -1,0 +1,64 @@
+<div>
+	<div class="w3-border w3-border-black w3-center w3-small"
+		id="l1_{{o_1.doc_id}}">
+		<span class="w3-tiny w3-dropdown-hover w3-white w3-hover-shadow">
+			<span class="am-no-print w3-large"> ☰ </span> &nbsp; {{o_1.value}}
+			<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+				style="left: -50px; width: 400px">
+				<a
+					data-ng-href="?l1={{025_l1.doc_id}}&amk={{request.parameters.amk}}#l1_{{025_l1.doc_id}}"
+					class="w3-bar-item w3-button"
+					data-ng-repeat="025_l1 in 025_template.docRoot.children">
+					{{025_l1.value}}</a>
+
+			</div>
+		</span>
+		<div class="w3-right am-no-print">
+			<a
+				data-ng-href="/f/025/start1.html?l1={{o_1.doc_id}}&amk={{request.parameters.amk}}#l1_{{o_1.doc_id}}"
+				class=" w3-btn  w3-padding-small  w3-hover-shadow am-no-print">
+				1 </a> <a
+				data-ng-href="/f/025/all.html?l1={{o_1.doc_id}}&amk={{request.parameters.amk}}#l1_{{o_1.doc_id}}"
+				class=" w3-btn  w3-padding-small  w3-hover-shadow am-no-print">
+				* </a>
+		</div>
+	</div>
+{{o_1.doc_id}}
+	<div class="w3-border w3-border-black" data-ng-repeat="o in [o_1]">
+		<div data-ng-include="'/f/025/l1/doc_'+o.doc_id+'.html'"></div>
+	</div>
+	
+	<div data-ng-style="elementNoteDialog.style" class="w3-modal">
+		<div class="w3-modal-content">
+			<div class="w3-container">
+				<span data-ng-click="elementNoteDialog.close()"
+					class="w3-button w3-display-topright">&times;</span>
+				<div class="w3-row-padding w3-border-bottom">
+					<div class="w3-col m6 l6 s6 ">
+						<button class="w3-border" data-ng-click="elementNoteDialog.save()">OK,
+							запис</button>
+						<button class="w3-border" ng-click="elementNoteDialog.close()">Cancel,
+							вихід</button>
+						<span
+							data-ng-include="'/f/025/l1/dialog_button_'+request.parameters.l1+'.html'"></span>
+					</div>
+					<div class="w3-col m6 l6 s6 "></div>
+				</div>
+				<div data-ng-repeat=" c in elementNoteDialog.o.children"
+					data-ng-if="85183!=c.reference"
+					title="{{c.doc_id}}--{{c.reference}}">
+					<span data-ng-repeat="o in [c]"
+						data-ng-include="'/f/process/dd_value.html'"></span>
+					<div data-ng-repeat=" c1 in c.children"
+						title="{{c1.doc_id}}--{{c1.reference}}">
+						<span data-ng-repeat="o in [c1]"
+							data-ng-include="'/f/process/dd_value.html'"></span>
+					</div>
+				</div>
+				<span class="w3-tiny am-b"> нотатки </span>
+				<textarea ng-model="elementNoteDialog.note" style="width: 100%"></textarea>
+			</div>
+		</div>
+	</div>
+	
+</div>

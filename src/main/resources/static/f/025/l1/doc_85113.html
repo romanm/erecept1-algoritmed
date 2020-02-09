@@ -1,0 +1,27 @@
+<div>
+	<table class="am-amk025-table">
+		<thead class="w3-small">
+			<tr>
+				<th class="w3-border w3-border-black"
+					data-ng-repeat="col in elementsMap[85162].children">{{col.value}}</th>
+			</tr>
+			<tr>
+				<th class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3,4,5]">{{col}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="row in [1,2,3,4,5]"
+				data-ng-init="rowIndex = $index">
+				<td class="w3-border w3-border-black"
+					data-ng-init="colIndex = $index"
+					data-ng-repeat="col in elementsMap[85162].children"><span
+					data-ng-if="0==colIndex"> {{row.value}} </span> &nbsp; <span
+					class="w3-hover-shadow am-no-print" data-ng-if="rowIndex==0&&colIndex==0">
+						<i class="fa fa-plus" aria-hidden="true"></i> <span
+						class="w3-tiny"> Лікарняний з … </span>
+				</span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

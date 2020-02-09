@@ -1,0 +1,33 @@
+<span class="w3-dropdown-content w3-border"
+	data-ng-click="$event.stopPropagation();"
+	data-ng-class="{'w3-show':c1.doc_id == elementNoteDialog.docBodyElementId,}">
+	<span data-ng-click="elementNoteDialog.docBodyElementId=null"
+	class="w3-display-topright w3-hover-gray"> &nbsp; × &nbsp; </span>
+	<div class="w3-tiny am-b w3-bottombar w3-blue-gray">
+		{{c1.doc_id}} -<span class="w3-small am-u"> Допис </span> - edit,
+		редагувати:
+		<button class="w3-border" data-ng-click="saveElementDocBody(c1)">OK,
+			Запис</button>
+		<button class="w3-border"
+			data-ng-click="elementNoteDialog.docBodyElementId=null">Cancel,
+			Закрити</button>
+		<span class="w3-dropdown-click">
+			<button class="w3-border"
+				data-ng-click="elementNoteDialog.askToRemove=(elementNoteDialog.askToRemove!=c1.doc_id?c1.doc_id:0)">
+				<i class="fa fa-times" aria-hidden="true"></i>
+			</button>
+			<div class="w3-dropdown-content w3-border"
+				data-ng-class="{'w3-hide':elementNoteDialog.askToRemove!=c1.doc_id, 'w3-show':elementNoteDialog.askToRemove==c1.doc_id,}">
+				Дійсно вилучити елемент?
+				<button class="w3-border" data-ng-click="removeElementDayBook(c1)">remove,
+					вилучити</button>
+			</div>
+		</span>
+	</div>
+	<div data-ng-if="edit_data_ids.includes(c1.reference)"
+		data-ng-include="'/f/amk025/l1/edit_data_'+c1.reference+'.html'"></div>
+	<div data-ng-repeat="o in [elementsMap[c1.reference].children[0]]"
+		data-ng-if="edit_data_ids.includes(o.reference)"
+		data-ng-include="'/f/amk025/l1/edit_data_'+o.reference+'.html'"></div>
+	<textarea rows="3" cols="45" data-ng-model="c1.docbody"></textarea>
+</span>

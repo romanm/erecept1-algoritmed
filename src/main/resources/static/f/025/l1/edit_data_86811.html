@@ -1,0 +1,6 @@
+<div data-ng-repeat="o in [elementsMap[c1.reference]]">
+	<span data-ng-repeat="o2 in o.children"> <input
+		class="w3-border" type="number" data-ng-model="o2.int"
+		style="width: 60px;" min="0" max="300"> {{o2.value}}{{$last?'. ':', '}}
+	</span>
+</div>

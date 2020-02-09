@@ -1,0 +1,54 @@
+<div>
+	<div
+	class="w3-center"
+	>{{elementsMap[85193].value}}</div>
+	<table class="am-amk025-table">
+		<colgroup>
+			<col width="20%">
+			<col width="10%">
+			<col width="40%">
+			<col width="10%">
+		</colgroup>
+		<thead class="w3-small">
+			<tr>
+				<th class="w3-border w3-border-black" title="{{col.doc_id}}"
+					data-ng-repeat="col in [elementsMap[85194]]">{{col.value}}</th>
+				<th class="w3-border w3-border-black" title="{{col.doc_id}}"
+					data-ng-repeat="col in elementsMap[85197].children">{{col.value}}</th>
+			</tr>
+			<tr>
+				<th class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3,4]">{{col}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="row in elementsMap[85194].children">
+				<td class="w3-border w3-border-black">{{row.value}}</td>
+				<td class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3]">&nbsp;</td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td colspan="4"
+					class="w3-border w3-border-black w3-center w3-small am-b">{{elementsMap[85195].value}}</td>
+			</tr>
+			<tr data-ng-repeat="row in elementsMap[85195].children">
+				<td class="w3-border w3-border-black">{{row.value}}</td>
+				<td class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3]">&nbsp;</td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td colspan="4"
+					class="w3-border w3-border-black w3-center w3-small am-b">{{elementsMap[85118].value}}</td>
+			</tr>
+			<tr data-ng-repeat="row in elementsMap[85118].children">
+				<td class="w3-border w3-border-black">{{row.value}}</td>
+				<td class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3]">&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

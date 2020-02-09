@@ -1,0 +1,28 @@
+<div>
+	<div data-ng-repeat=" c in row.children"
+		data-ng-if="85183!=c.reference"
+		title="id-{{c.doc_id}}, ref-{{c.reference}}  {{c.reference2}}">
+		<span data-ng-repeat="o in [c]"
+			data-ng-include="'/f/process/dd_value.html'"></span>
+		<div data-ng-repeat=" c1 in c.children"
+			title="id-{{c1.doc_id}}, ref-{{c1.reference}} {{c1.reference2}}">
+			<span class="w3-hover-shadow w3-dropdown-click"
+				data-ng-click="editElementDocBody(c1); $event.stopPropagation();">
+				{{c1.string_reference}} {{c1.editElementDocBody}} <span
+				class="w3-dropdown-content w3-border"
+				data-ng-click="$event.stopPropagation();"
+				data-ng-class="{'w3-show':c1.doc_id == elementNoteDialog.docBodyElementId,}">
+					<div class="w3-tiny am-b">
+						edit: {{c1.doc_id}}
+						a1
+						<button class="w3-border">OK, Запис</button>
+					</div> <textarea rows="3"></textarea>
+			</span>
+			</span> <span data-ng-repeat=" c2 in c1.children"
+				title="id-{{c2.doc_id}}, ref-{{c2.reference}} {{c2.reference2}}">{{$first?':':''}}
+				{{c2.string_reference}}{{$last?'.':','}} </span>
+		</div>
+	</div>
+	{{row.docbody}} {{!row.docbody && row.children.length==1 ?
+	'нотатки':''}}
+</div>

@@ -1,0 +1,53 @@
+<div>
+	<table class="am-amk025-table">
+		<thead class="w3-small">
+			<tr>
+				<th class="w3-border w3-border-black" title="{{col.doc_id}}"
+					data-ng-repeat="col in elementsMap[85182].children"
+					data-ng-switch="col.doc_id">
+					<div data-ng-switch-default>{{col.value}}</div>
+					<div data-ng-switch-when="85184" class="w3-tooltip">
+						М: <span
+							style="position: absolute; left: -50px; bottom: 18px; width: 300px"
+							class="w3-text w3-tag">{{col.value}}: <br /> <span
+							data-ng-repeat="place in col.children">
+								{{1+$index}}-{{place.value}}, </span></span> 1234
+						<!-- <span
+							data-ng-repeat="place in col.children" title="{{place.value}}">
+							{{1+$index}}-{{place.value.substring(0,2)}}, </span>
+								 -->
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th class="w3-border w3-border-black"
+					data-ng-repeat="col in [1,2,3,4]">{{col}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr
+				data-ng-repeat="row in elementsMap[referenceElementPaars[85116]].children">
+				<td class="w3-hover-shadow"><a href="#"
+					data-ng-click="elementNoteDialog.open(elementsMap[row.doc_id])">
+						{{fn.getTimestamp(row.sort) | date:'short'}} </a></td>
+				<td></td>
+				<td class="w3-border w3-border-black w3-hover-shadow"
+					data-ng-click="elementNoteDialog.open(elementsMap[row.doc_id])">
+					<div data-ng-repeat="row in [row]"
+						data-ng-include="'/f/amk025/l1/row_daybook2.html'"></div>
+				</td>
+				<td class="w3-border w3-border-black"></td>
+			</tr>
+			<tr data-ng-repeat="row in [1]" data-ng-init="rowIndex = $index">
+				<td class="w3-border w3-border-black"
+					data-ng-init="colIndex = $index"
+					data-ng-repeat="col in elementsMap[85182].children"><span
+					data-ng-if="0==colIndex"> {{row.value}} </span> &nbsp; <a href="#"
+					data-ng-click="addDaybook()" class="w3-hover-shadow am-no-print"
+					data-ng-if="rowIndex==0&&colIndex==0"> <i class="fa fa-plus"
+						aria-hidden="true"></i> <span class="w3-tiny"> Щоденник за
+							… </a> </span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

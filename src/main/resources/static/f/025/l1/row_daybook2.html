@@ -1,0 +1,52 @@
+<div>
+<div data-ng-repeat=" c in row.children"
+		data-ng-if="85183!=c.reference"
+		title="id-{{c.doc_id}}, ref-{{c.reference}}  {{c.reference2}}">
+		<span data-ng-repeat="o in [c]"
+		data-ng-init="withEdit=true"
+			data-ng-include="'/f/process/dd_value.html'"></span>
+		<div data-ng-repeat=" c1 in c.children"
+			title="id-{{c1.doc_id}}, ref-{{c1.reference}} {{c1.reference2}}">
+			<a href="#" class="w3-hover-shadow w3-dropdown-click am-0u"
+				data-ng-click="editElementDocBody(c1); $event.stopPropagation();">
+				<span data-ng-repeat="o in [c1]"
+					data-ng-include="'/f/amk025/l1/view_daybook_element.html'"></span>
+			<span data-ng-repeat=" c1 in [c1]"
+				data-ng-include="'/f/amk025/l1/edit_daybook_element.html'">
+			</span>
+			</a> <span data-ng-repeat="c2 in c1.children"
+				data-ng-if="85346!=c2.reference"
+				title="id-{{c2.doc_id}}, ref-{{c2.reference}} {{c2.reference2}}">{{$first?':':''}}
+				<a href="#" class="w3-hover-shadow w3-dropdown-click am-0u"
+				data-ng-click="editElementDocBody(c2); $event.stopPropagation();">
+					<span data-ng-repeat="o in [c2]"
+					data-ng-include="'/f/amk025/l1/view_daybook_element.html'"></span>
+					{{$last?'.':','}} <span data-ng-repeat=" c1 in [c2]"
+					data-ng-include="'/f/amk025/l1/edit_daybook_element.html'">
+				</span>
+			</a>
+			</span>
+			<div data-ng-repeat="c2 in c1.children"
+				data-ng-if="85346==c2.reference">
+				<span class="am-b w3-small" title="id:{{c2.doc_id}}">
+					{{c2.string_reference}}: </span> <span data-ng-repeat="c3 in c2.children">
+					<a href="#" class="w3-hover-shadow w3-dropdown-click am-0u"
+					data-ng-click="editElementDocBody(c3); $event.stopPropagation();">
+						<span data-ng-repeat="o in [c3]"
+						data-ng-include="'/f/amk025/l1/view_daybook_element.html'"></span>
+						{{$last?'.':','}} <span data-ng-repeat=" c1 in [c3]"
+						data-ng-include="'/f/amk025/l1/edit_daybook_element.html'">
+					</span>
+				</a> <span data-ng-if="c3.children"> - <span
+						data-ng-repeat="c4 in c3.children"> <span
+							data-ng-repeat="o in [c4]"
+							data-ng-include="'/f/amk025/l1/view_daybook_element.html'"></span>
+					</span>
+				</span>
+				</span> </span>
+			</div>
+		</div>
+	</div>
+	{{row.docbody}} {{!row.docbody && row.children.length==1 ?
+	'нотатки':''}}
+</div>
