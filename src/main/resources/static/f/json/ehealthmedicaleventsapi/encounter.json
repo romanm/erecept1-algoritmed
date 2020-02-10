@@ -1,0 +1,267 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "465fb6fe-2dea-4b8a-9ef7-58379d1eaab0",
+		"origin_episode": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "episode"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"status": "finised",
+		"date": "2018-08-02",
+		"incoming_referral": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "service_request"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"inserted_at": "2018-08-02T10:45:16.000Z",
+		"updated_at": "2018-08-02T10:45:16.000Z",
+		"visit": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "visit"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"episode": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "episode"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"class": {
+			"system": "eHealth/encounter_classes",
+			"code": "inpatient"
+		},
+		"type": {
+			"coding": [
+				{
+					"system": "eHealth/encounter_types",
+					"code": "PC"
+				}
+			]
+		},
+		"performer": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display_value": "`Шевченко Олесь Вікторович'"
+		},
+		"reasons": [
+			{
+				"coding": [
+					{
+						"system": "eHealth/ICPC2/reasons",
+						"code": "T01"
+					}
+				]
+			},
+			{
+				"coding": [
+					{
+						"system": "eHealth/ICPC2/reasons",
+						"code": "T90"
+					}
+				]
+			}
+		],
+		"diagnoses": [
+			{
+				"condition": {
+					"identifier": {
+						"type": {
+							"coding": [
+								{
+									"system": "eHealth/resources",
+									"code": "condition"
+								}
+							]
+						},
+						"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+					}
+				},
+				"code": {
+					"coding": [
+						{
+							"system": "eHealth/ICPC2/conditions",
+							"code": "A20"
+						}
+					]
+				},
+				"role": {
+					"coding": [
+						{
+							"system": "eHealth/diagnosis_roles",
+							"code": "CC"
+						}
+					]
+				},
+				"rank": 1
+			}
+		],
+		"actions": [
+			{
+				"coding": [
+					{
+						"system": "eHealth/ICPC2/actions",
+						"code": "T47"
+					}
+				]
+			},
+			{
+				"coding": [
+					{
+						"system": "eHealth/ICPC2/actions",
+						"code": "T47"
+					}
+				]
+			}
+		],
+		"action_references": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "service"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"division": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "division"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"prescriptions": "'Дієта №1, Омепразолу 40 мг 1 раз на добу + амоксициліну 500 мг + метронідазолу 400 мг при необхідності 500 мг або тинідазолу 500 мг 3 рази на добу протягом 1 тижня'",
+		"supporting_info": [
+			{
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "observation"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			},
+			{
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "diagnostic_report"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			}
+		],
+		"cancellation_reason": {
+			"coding": [
+				{
+					"system": "eHealth/episode_closing_reasons",
+					"code": "cured"
+				}
+			]
+		},
+		"explanatory_letter": "Діагноз був відмінений у зв'язку з помилкою при виборі пацієнта",
+		"hospitalization": {
+			"admit_source": {
+				"coding": [
+					{
+						"system": "Health/encounter_admit_source",
+						"code": "default"
+					}
+				]
+			},
+			"re_admission": {
+				"coding": [
+					{
+						"system": "Health/encounter_re_admission",
+						"code": "default"
+					}
+				]
+			},
+			"destination": {
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "division/legal_entity"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			},
+			"discharge_disposition": {
+				"coding": [
+					{
+						"system": "Health/encounter_discharge_disposition",
+						"code": "default"
+					}
+				]
+			},
+			"pre_admission_identifier": "12345"
+		}
+	}
+}
