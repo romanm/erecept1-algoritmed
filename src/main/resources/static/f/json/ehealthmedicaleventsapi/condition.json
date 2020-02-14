@@ -1,0 +1,166 @@
+{
+	"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+	"based_on": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "service_request"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"status": "COMPLETED",
+	"status_reason": {
+		"coding": [
+			{
+				"system": "eHealth/procedure_status_reasons",
+				"code": "default"
+			}
+		]
+	},
+	"code": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "service"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"performed_date_time": "2018-08-02T10:55:00.000Z",
+	"recorded_by": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"primary_source": true,
+	"performer": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"division": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "division"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"managing_organization": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "legal_entity"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"reason_references": [
+		{
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "condition"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	],
+	"outcome": {
+		"coding": [
+			{
+				"system": "eHealth/procedure_outcomes",
+				"code": "default_outcome"
+			}
+		]
+	},
+	"note": "Додаткова інформація по процедурі",
+	"category": {
+		"coding": [
+			{
+				"system": "eHealth/procedure_categories",
+				"code": "default"
+			}
+		]
+	},
+	"encounter": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "encounter"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"explanatory_letter": "Процедура була відмінена у зв'язку з помилкою при виборі пацієнта",
+	"origin_episode": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "episode"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"complication_details": [
+		{
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "condition"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	]
+}

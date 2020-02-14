@@ -1,0 +1,109 @@
+{
+	"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+	"based_on": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "service_request"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"status": "final",
+	"code": {
+		"coding": [
+			{
+				"system": "eHealth/LOINC/diagnostic_report_codes",
+				"code": "10217-8"
+			}
+		]
+	},
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "eHealth/diagnostic_report_categories",
+					"code": "diagnostic_procedure"
+				}
+			]
+		}
+	],
+	"effective_period": {
+		"start": "2018-08-02T10:45:16.000Z",
+		"end": "2018-08-02T11:00:00.000Z"
+	},
+	"issued": "2018-10-08T09:46:37.694Z",
+	"conclusion": "At risk of osteoporotic fracture",
+	"recorded_by": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"encounter": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "encounter"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"primary_source": true,
+	"managing_organization": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "legal_enity"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"division": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "division"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"results_interpreter": {
+		"reference": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	}
+}

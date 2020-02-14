@@ -1,0 +1,56 @@
+{
+	"id": "80a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+	"based_on": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "medication_request"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"asserted_date": "2018-08-02T10:45:00.000Z",
+	"status": "active",
+	"context": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "encounter"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"primary_source": true,
+	"asserter": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"effective_period": "Вживає з 2017-го року регулярно",
+	"medication_code": {
+		"coding": [
+			{
+				"system": "eHealth/medical_statement_medications",
+				"code": "Spine_board"
+			}
+		]
+	},
+	"note": "Some text",
+	"dosage": "5 ml/day"
+}

@@ -99,6 +99,10 @@ app.controller('myCtrl', function($scope, $http, $interval, $filter) {
 	}else{
 		params_tables.sql = sql_1c.read_tables()
 	}
+	params_tables.sql = "SELECT * FROM (" +
+	params_tables.sql +
+	") a LEFT JOIN sort ON doc_id=sort_id " +
+	"ORDER BY sort"
 	console.log(params_tables.sql)
 	readSql(params_tables, $scope.tables)
 

@@ -1,0 +1,61 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"status": "inactive",
+		"asserted_date": "2018-08-02T10:45:00.000Z",
+		"usage_period": {
+			"start": "2000-01-01T00:00:00.000Z",
+			"end": "2018-08-02T11:00:00.000Z"
+		},
+		"context": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"primary_source": true,
+		"asserter": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"type": {
+			"coding": [
+				{
+					"system": "eHealth/device_types",
+					"code": "Spine_board"
+				}
+			]
+		},
+		"lot_number": "RZ12345678",
+		"manufacturer": "GlobalMed, Inc",
+		"manufacture_date": "1999-01-01T00:00:00.000Z",
+		"expiration_date": "2020-01-01T00:00:00.000Z",
+		"model": "NSPX30",
+		"version": "v1.0.1",
+		"note": "Імплант був вилучений по причині заміни на новий",
+		"inserted_at": "2018-08-02T10:55:00.000Z",
+		"updated_at": "2018-08-02T10:55:00.000Z"
+	}
+}

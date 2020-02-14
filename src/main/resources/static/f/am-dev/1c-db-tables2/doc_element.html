@@ -42,13 +42,12 @@
 							class="w13-bar-item w3-button"><i class="fa fa-paste"></i></a>
 					</div>
 				</div>
-			</span> <span class=""> {{el.value}} 
-			<span
-				class="w3-blue">
-				 {{el.s_u}} </span> 
-				 {{el.vreal}} <span data-ng-if="el.string_reference"> - <span
-					class="w3-tiny">{{el.reference}}</span> {{el.string_reference}} <span
-					class="w3-blue">{{el.s_u_reference}}</span></span> <span data-ng-if="el.inn_reference2"
+			</span> <span class=""> {{el.value}} <span class="w3-blue">
+					{{el.s_u}} </span> {{el.vreal}} <span data-ng-if="el.string_reference">
+					- <span class="w3-tiny">{{el.reference}}</span>
+					{{el.string_reference}} <span class="w3-blue">{{el.s_u_reference}}</span>
+			</span> <span class="w3-tiny" data-ng-if="el.reference2"> --
+					{{el.reference2}} </span> <span data-ng-if="el.inn_reference2"
 				data-ng-bind-html="highlight(el.inn_reference2, elParent.seekInChildren)"></span>
 				<span data-ng-if="el.string_reference2"> -- <span
 					class="w3-tiny"> {{el.reference2}} </span> {{el.string_reference2}}

@@ -1,0 +1,107 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"status": "valid",
+		"diagnostic_report": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "diagnostic_report"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"context": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"categories": [
+			{
+				"coding": [
+					{
+						"system": "eHealth/observation_categories",
+						"code": "vital_signs"
+					}
+				]
+			}
+		],
+		"code": {
+			"coding": [
+				{
+					"system": "eHealth/LOINC/observation_codes",
+					"code": "10569-2"
+				}
+			]
+		},
+		"effective_date_time": "2018-10-08T09:46:37.694Z",
+		"issued": "2018-08-02T10:45:16.000Z",
+		"inserted_at": "2018-08-02T10:45:16.000Z",
+		"updated_at": "2018-08-02T10:45:16.000Z",
+		"primary_source": false,
+		"performer": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display_value": "Шевченко Олесь Вікторович"
+		},
+		"interpretation": {
+			"coding": [
+				{
+					"system": "eHealth/observation_interpretations",
+					"code": "L"
+				}
+			]
+		},
+		"comment": "Some comment",
+		"body_site": {
+			"coding": [
+				{
+					"system": "http://hl7.org/fhir/v2/0078",
+					"code": "1341001:272741003=7771000"
+				}
+			]
+		},
+		"method": {
+			"coding": [
+				{
+					"system": "http://hl7.org/fhir/v2/0078",
+					"code": "255459008"
+				}
+			]
+		},
+		"value_quantity": {
+			"value": 0,
+			"comparator": ">",
+			"unit": "mg",
+			"system": "eHealth/units",
+			"code": "mg"
+		}
+	}
+}

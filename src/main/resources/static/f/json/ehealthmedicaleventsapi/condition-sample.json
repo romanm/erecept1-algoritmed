@@ -1,0 +1,108 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "6fe6d880-f100-4e39-a278-1d14eb8472ef",
+		"primary_source": true,
+		"asserter": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "patient"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Шевченко Олесь Вікторович"
+		},
+		"context": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"code": {
+			"coding": [
+				{
+					"system": "ICPC2/Condition",
+					"code": "K86"
+				}
+			]
+		},
+		"clinical_status": "active",
+		"verification_status": "provisional",
+		"severity": {
+			"coding": [
+				{
+					"system": "http://snomed.info/sct",
+					"code": "24484000"
+				}
+			]
+		},
+		"body_sites": [
+			{
+				"coding": [
+					{
+						"system": "http://snomed.info/sct",
+						"code": "181414000"
+					}
+				]
+			}
+		],
+		"onset_date": "2018-10-08T09:46:37.694Z",
+		"asserted_date": "2018-10-08T09:46:37.694Z",
+		"stage": {
+			"summary": {
+				"coding": [
+					{
+						"system": "http://snomed.info/sct",
+						"code": "14803004"
+					}
+				]
+			}
+		},
+		"evidences": [
+			{
+				"codes": [
+					{
+						"coding": [
+							{
+								"system": "http://snomed.info/sct",
+								"code": "169068008"
+							}
+						]
+					}
+				],
+				"details": [
+					{
+						"identifier": {
+							"type": {
+								"coding": [
+									{
+										"system": "eHealth/resources",
+										"code": "observation"
+									}
+								]
+							},
+							"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+						}
+					}
+				]
+			}
+		]
+	}
+}

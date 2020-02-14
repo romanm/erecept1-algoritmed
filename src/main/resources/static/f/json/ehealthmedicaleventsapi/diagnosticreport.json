@@ -1,0 +1,151 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"based_on": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "service_request"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"status": "final",
+		"code": {
+			"coding": [
+				{
+					"system": "eHealth/LOINC/diagnostic_report_codes",
+					"code": "10217-8"
+				}
+			]
+		},
+		"category": [
+			{
+				"coding": [
+					{
+						"system": "eHealth/diagnostic_report_categories",
+						"code": "diagnostic_procedure"
+					}
+				]
+			}
+		],
+		"effective_period": {
+			"start": "2018-08-02T10:45:16.000Z",
+			"end": "2018-08-02T11:00:00.000Z"
+		},
+		"issued": "2018-10-08T09:46:37.694Z",
+		"conclusion": "At risk of osteoporotic fracture",
+		"recorded_by": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Опанасенко Олексій Володимирович"
+		},
+		"inserted_at": "2018-08-02T10:55:00.000Z",
+		"updated_at": "2018-08-02T10:55:00.000Z",
+		"encounter": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"origin_episode": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "episode"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"division": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "division"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Перше відділення обласної лікарня №1"
+		},
+		"managing_organization": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "patient"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Київська обласна лікарня №1"
+		},
+		"results_interpreter": {
+			"reference": {
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "employee"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				},
+				"display": "Опанасенко Олексій Володимирович"
+			}
+		},
+		"explanatory_letter": "Звіт був відмінений у зв'язку з помилкою при виборі пацієнта",
+		"cancellation_reason": {
+			"coding": [
+				{
+					"system": "eHealth/cancellation_reasons",
+					"code": "misspelling"
+				}
+			],
+			"text": ""
+		}
+	},
+	"paging": {
+		"page": 2,
+		"page_size": 50,
+		"total_entries": 1000,
+		"total_pages": 20
+	}
+}

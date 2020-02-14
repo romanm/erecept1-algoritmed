@@ -1,0 +1,95 @@
+{
+	"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+	"primary_source": false,
+	"report_origin": {
+		"coding": [
+			{
+				"system": "eHealth/report_origins",
+				"code": "mother"
+			}
+		],
+		"text": "Галина Олександрівна"
+	},
+	"context": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "encounter"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"code": {
+		"coding": [
+			{
+				"system": "eHealth/ICD10/condition_codes",
+				"code": "A89"
+			}
+		]
+	},
+	"clinical_status: `active` (string, required) - `dictionary - eHealth/condition_clinical_statuses`": "",
+	"verification_status: `provisional` (string, required) - `dictionary - eHealth/condition_verification_statuses`": "",
+	"severity": {
+		"coding": [
+			{
+				"system": "eHealth/condition_severities",
+				"code": "55604002"
+			}
+		]
+	},
+	"body_sites": [
+		{
+			"coding": [
+				{
+					"system": "eHealth/body_sites",
+					"code": "181414000"
+				}
+			]
+		}
+	],
+	"onset_date": "2018-10-08T09:46:37.694Z",
+	"asserted_date": "2018-10-08T09:46:37.694Z",
+	"stage": {
+		"summary": {
+			"coding": [
+				{
+					"system": "eHealth/condition_stages",
+					"code": "14803004"
+				}
+			]
+		}
+	},
+	"evidences": [
+		{
+			"code": [
+				{
+					"coding": [
+						{
+							"system": "eHealth/ICPC2/reasons",
+							"code": "169068008"
+						}
+					]
+				}
+			],
+			"detail": [
+				{
+					"identifier": {
+						"type": {
+							"coding": [
+								{
+									"system": "eHealth/resources",
+									"code": "observation"
+								}
+							]
+						},
+						"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+					}
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,186 @@
+{
+	"status": "active",
+	"intent": "order",
+	"priority": "routine",
+	"category": {
+		"coding": [
+			{
+				"system": "eHealth/SNOMED/service_request_categories",
+				"code": "409063005"
+			}
+		]
+	},
+	"code": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "service"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"program": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "medical_program"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"context": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "encounter"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"occurrence_timing": {
+		"event": "2018-08-02T10:45:16.000Z",
+		"repeat": {
+			"count": "10",
+			"bounds_duration": {
+				"value": 0,
+				"comparator": ">",
+				"unit": "mg",
+				"system": "eHealth/units",
+				"code": "mg"
+			},
+			"count_max": "20",
+			"duration": "15",
+			"duration_max": "25",
+			"duration_unit": "UNITS_OF_TIME",
+			"frequency": "1",
+			"requency_max": "4",
+			"period": "1",
+			"period_max": "3",
+			"period_unit": "UNITS_OF_TIME",
+			"day_of_week": "DAYS_OF_WEEK",
+			"time_of_day": "15:30",
+			"when": "EVENT_TIMING",
+			"offset": "20"
+		},
+		"code": "TIMING_ABBREVIATION"
+	},
+	"requester_employee": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "employee"
+					}
+				]
+			},
+			"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+		}
+	},
+	"requester_legal_entity": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "legal_entity"
+					}
+				]
+			},
+			"value": "75a6d991-0bf7-476f-b3cf-bec83f044b2a"
+		}
+	},
+	"reason_references": [
+		{
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "condition"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	],
+	"supporting_info": [
+		{
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "episode_of_care"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	],
+	"note": "Some notes",
+	"patient_instruction": "Some patient instructions",
+	"permitted_resources": [
+		{
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "episode_of_care"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		}
+	],
+	"performer": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "legal_entity"
+					}
+				]
+			},
+			"value": "c5a6d991-0bf7-476f-b3cf-bec83f044b2a"
+		}
+	},
+	"location_reference": {
+		"identifier": {
+			"type": {
+				"coding": [
+					{
+						"system": "eHealth/resources",
+						"code": "division"
+					}
+				]
+			},
+			"value": "c5a6d991-0bf7-476f-b3cf-bec83f044b2a"
+		}
+	},
+	"performer_type": {
+		"coding": [
+			{
+				"system": "SPECIALITY_TYPE",
+				"code": "DIETETICS"
+			}
+		]
+	}
+}

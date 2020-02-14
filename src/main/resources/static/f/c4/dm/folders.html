@@ -23,57 +23,59 @@
 		data-ng-if="o.openAllFolders||tr.parent==tr.doc_id||tr.doc_id==request.parameters.folderId"
 		data-ng-init="isNotSubFolder=!tr.parent || tr.parent==tr.doc_id">
 		<td class="w3-hover-shadow" data-ng-paste="cp.paste(tr)"
-			data-ng-cut="cp.cut(tr)"><span
-			class="w3-tiny w3-dropdown-hover w3-hover-shadow"
-			ng-class="{
-			'w3-green':tr.doc_id==request.parameters.folderId,
-			'w3-white':tr.doc_id!=request.parameters.folderId,
-			}">☰
-				&nbsp;
-				<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
-					style="left: -5px; width: 180px">
-					<div>
-						<a href="#" ng-click="doc_data.upElement(el)" title="догори"
-							class="w13-bar-item w3-button"><i class="fa fa-sort-asc"></i></a>
-						<a href="#" ng-click="doc_data.downElement(el)" title="донизу"
-							class="w13-bar-item w3-button"><i class="fa fa-sort-desc"></i></a>
-						| <a href="#" ng-click="doc_data.addElement(el)"
-							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
-						<a href="#" ng-click="doc_data.minusElement(el)"
-							title="Видалити запис" class="w3-button"><i
-							class="fa fa-minus"></i></a>
-					</div>
-					<a href="#" class="w3-bar-item w3-button"
-						data-ng-click="pageVar.openEditRow2(o, tr)"><i
-						class="fa fa-pencil-square-o"></i> Змінити</a>
-				</div>
-		</span> <span class="w3-small"
-			data-ng-if="(o.list[$index].parent>0 && o.list[$index+1].parent==o.list[$index].parent) 
-			&& !(o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent)">
-				<span
+			data-ng-cut="cp.cut(tr)">
+			<div
 				data-ng-class="{
+			'w3-border w3-rightbar w3-border-green':tr.doc_id==request.parameters.folderId,
+			}">
+				<span class="w3-tiny w3-dropdown-hover w3-hover-shadow w3-white"
+				>☰ &nbsp;
+					<div class="w3-dropdown-content w3-bar-block w3-border w3-tiny"
+						style="left: -5px; width: 180px">
+						<div>
+							<a href="#" ng-click="doc_data.upElement(el)" title="догори"
+								class="w13-bar-item w3-button"><i class="fa fa-sort-asc"></i></a>
+							<a href="#" ng-click="doc_data.downElement(el)" title="донизу"
+								class="w13-bar-item w3-button"><i class="fa fa-sort-desc"></i></a>
+							| <a href="#" ng-click="doc_data.addElement(el)"
+								title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+							<a href="#" ng-click="doc_data.minusElement(el)"
+								title="Видалити запис" class="w3-button"><i
+								class="fa fa-minus"></i></a>
+						</div>
+						<a href="#" class="w3-bar-item w3-button"
+							data-ng-click="pageVar.openEditRow2(o, tr)"><i
+							class="fa fa-pencil-square-o"></i> Змінити</a>
+					</div>
+				</span> <span class="w3-small"
+					data-ng-if="(o.list[$index].parent>0 && o.list[$index+1].parent==o.list[$index].parent) 
+			&& !(o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent)">
+					<span
+					data-ng-class="{
 			'w3-green':tr.parent==request.parameters.folderId,
 			}">-</span>
-				<a href="?folderId={{tr.parent}}"> {{o.list[$index].parent}}</a>&nbsp;
-		</span> <span class="w3-small"
-			data-ng-if="o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent">
-				<span
-				data-ng-class="{
+					<a href="?folderId={{tr.parent}}"> {{o.list[$index].parent}}</a>&nbsp;
+				</span> <span class="w3-small"
+					data-ng-if="o.list[$index].parent>0 && o.list[$index-1].parent==o.list[$index].parent">
+					<span
+					data-ng-class="{
 			'w3-green':tr.parent==request.parameters.folderId,
 			}">+</span>
-				<a href="?folderId={{o.list[$index].parent}}">
-					{{o.list[$index].parent}}</a>&nbsp;
-		</span> <span class="w3-tiny">{{tr.doc_id}}</span>&nbsp;<a title="{{tr.parent}}"
-			href="?folderId={{tr.doc_id}}">{{tr.value}}</a>
-			<div class="w3-panel w3-leftbar" data-ng-if="tr.openSubFolder">
-				<a href="?folderId={{tr.parent}}" class="w3-hover-shadow"><i
-					class="fa fa-arrow-up" aria-hidden="true"></i></a> | <span
-					data-ng-repeat="tr2 in o.list"
-					data-ng-if="tr2.parent==tr.doc_id && tr2.parent!=tr2.doc_id">
-					<a class="w3-hover-shadow" href="?folderId={{tr2.doc_id}}">
-						{{tr2.value}} </a> |
-				</span>
-			</div></td>
+					<a href="?folderId={{o.list[$index].parent}}">
+						{{o.list[$index].parent}}</a>&nbsp;
+				</span> <span class="w3-tiny">{{tr.doc_id}}</span>&nbsp;<a
+					title="{{tr.parent}}" href="?folderId={{tr.doc_id}}">{{tr.value}}</a>
+				<div class="w3-panel w3-leftbar" data-ng-if="tr.openSubFolder">
+					<a href="?folderId={{tr.parent}}" class="w3-hover-shadow"><i
+						class="fa fa-arrow-up" aria-hidden="true"></i></a> | <span
+						data-ng-repeat="tr2 in o.list"
+						data-ng-if="tr2.parent==tr.doc_id && tr2.parent!=tr2.doc_id">
+						<a class="w3-hover-shadow" href="?folderId={{tr2.doc_id}}">
+							{{tr2.value}} </a> |
+					</span>
+				</div>
+			</div>
+		</td>
 		<td class="w3-tiny w3-border w3-border-white w3-hover-border-gray"
 			title="{{tr.parent}} <- {{tr.doc_id}}"><span
 			class="w3-hover-shadow w3-hover-light-gray"
