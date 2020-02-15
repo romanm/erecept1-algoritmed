@@ -6,6 +6,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
 	read_mergeList('docs', sql_app.obj_with_doc_id(367496))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
+	read_mergeList('docs', sql_app.obj_with_doc_id(367550))
+	read_mergeList('docs', sql_app.obj_with_doc_id(367563))
 	read_mergeList('docs', sql_app.obj_with_parent(115798))
 //	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	if(ctrl.request.parameters.data){
@@ -49,6 +51,7 @@ var initEh001 = function() {
 
 	ctrl.doc_i18n_parent._285598 = 285597
 	ctrl.doc_i18n_parent._115920 = 115924
+	ctrl.doc_i18n_parent._367563 = 367566
 	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._367475 = 367318
 
