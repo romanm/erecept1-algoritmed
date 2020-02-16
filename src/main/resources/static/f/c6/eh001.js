@@ -8,6 +8,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
 	read_mergeList('docs', sql_app.obj_with_doc_id(367550))
 	read_mergeList('docs', sql_app.obj_with_doc_id(367563))
+	read_mergeList('docs', sql_app.obj_with_doc_id(285598))
 	read_mergeList('docs', sql_app.obj_with_parent(115798))
 //	read_mergeList('docs', sql_app.obj_with_parent(285594))
 	if(ctrl.request.parameters.data){

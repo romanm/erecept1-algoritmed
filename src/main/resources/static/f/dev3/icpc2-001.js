@@ -1,5 +1,5 @@
 app.controller('AppCtrl', function($scope, $http) {
-	var ctrl = this
+	ctrl = this
 	ctrl.page_title = 'icp2-001'
 	ctrl.viewType='dev'
 	ctrl.viewType='db'
