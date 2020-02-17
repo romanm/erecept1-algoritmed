@@ -1,0 +1,201 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"requisition": "AX654654T",
+		"status": "active",
+		"status_history": [
+			{
+				"status": "closed",
+				"status_reason": {
+					"coding": [
+						{
+							"system": "eHealth/service_request_status_reasons",
+							"code": "cured"
+						}
+					]
+				},
+				"inserted_at": "2018-08-02T10:45:16.000Z"
+			}
+		],
+		"intent": "order",
+		"priority": "routine",
+		"category": {
+			"coding": [
+				{
+					"system": "eHealth/SNOMED/service_request_categories",
+					"code": "409063005"
+				}
+			]
+		},
+		"code": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "service"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"subject": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "patient"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"context": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "encounter"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"occurrence_date_time": "2018-08-02T10:45:16.000Z",
+		"authored_on": "2018-08-02T10:45:16.000Z",
+		"requester_employee": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"requester_legal_entity": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "legal_entity"
+						}
+					]
+				},
+				"value": "75a6d991-0bf7-476f-b3cf-bec83f044b2a"
+			}
+		},
+		"performer_type": {
+			"coding": [
+				{
+					"system": "eHealth/SNOMED/service_request_performer_roles",
+					"code": "psychiatrist"
+				}
+			]
+		},
+		"reason_references": [
+			{
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "condition"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			}
+		],
+		"supporting_info": [
+			{
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "episode_of_care"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			}
+		],
+		"note": "Some notes",
+		"patient_instruction": "Some patient instructions",
+		"expiration_date": "2018-08-02T10:45:16.000Z",
+		"permitted_episodes": [
+			{
+				"identifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "eHealth/resources",
+								"code": "episode_of_care"
+							}
+						]
+					},
+					"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+				}
+			}
+		],
+		"used_by": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "legal_entity"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"inserted_at": "2018-08-02T10:45:16.000Z",
+		"updated_at": "2018-08-02T10:45:16.000Z",
+		"completed_with": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "diagnostic_report"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"used_by_legal_entity": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "legal_entity"
+						}
+					]
+				},
+				"value": "c5a6d991-0bf7-476f-b3cf-bec83f044b2a"
+			}
+		}
+	}
+}

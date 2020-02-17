@@ -1,0 +1,305 @@
+{
+	"data": [
+		{
+			"code": "LAB100",
+			"groups": [
+				{
+					"code": "LAB102",
+					"id": "74928305-75bf-4bc4-82d0-790cef226024",
+					"inserted_at": "2019-12-19T13:15:02.558702Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"name": "Амілаза",
+					"request_allowed": true,
+					"services": [
+						{
+							"category": "laboratory_procedure",
+							"code": "D34004",
+							"id": "890ecd53-7370-43c6-81c3-67fc215d24b9",
+							"inserted_at": "2019-12-19T13:15:56.352798Z",
+							"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+							"is_active": true,
+							"is_composition": null,
+							"name": "Аналіз; амілаза",
+							"request_allowed": true,
+							"updated_at": "2019-12-19T13:15:56.352798Z",
+							"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+						}
+					],
+					"updated_at": "2019-12-19T13:15:02.558702Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				},
+				{
+					"code": "LAB101",
+					"id": "407c651d-0f8d-4ad9-91ef-e44be68158cd",
+					"inserted_at": "2019-12-19T13:14:11.858686Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"name": "Альбумін/креатинін, сеча",
+					"request_allowed": true,
+					"services": [
+						{
+							"category": "laboratory_procedure",
+							"code": "A35007",
+							"id": "5df9af95-2241-47fa-bb9c-7a3c50cfce9d",
+							"inserted_at": "2019-12-19T13:11:48.372242Z",
+							"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+							"is_active": true,
+							"is_composition": null,
+							"name": "Аналіз; сеча; альбумін",
+							"request_allowed": true,
+							"updated_at": "2019-12-19T13:11:48.372242Z",
+							"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+						},
+						{
+							"category": "laboratory_procedure",
+							"code": "A35008",
+							"id": "f770624c-ce3e-4096-abf2-daa9650b03a3",
+							"inserted_at": "2019-12-19T13:12:01.332032Z",
+							"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+							"is_active": true,
+							"is_composition": null,
+							"name": "Аналіз; співвідношення альбуміну/креатиніну",
+							"request_allowed": true,
+							"updated_at": "2019-12-19T13:12:01.332032Z",
+							"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+						}
+					],
+					"updated_at": "2019-12-19T13:14:11.858686Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				},
+				{
+					"code": "LAB103",
+					"id": "275156e8-73b9-4172-b4d7-bce68ba5d89b",
+					"inserted_at": "2019-12-19T13:15:18.159379Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"name": "B12",
+					"request_allowed": true,
+					"services": [
+						{
+							"category": "laboratory_procedure",
+							"code": "B34015",
+							"id": "bc2dfa5b-a7fb-472b-ab8f-fde0c7f87f31",
+							"inserted_at": "2019-12-19T13:15:40.043971Z",
+							"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+							"is_active": true,
+							"is_composition": null,
+							"name": "Аналіз; B12",
+							"request_allowed": true,
+							"updated_at": "2019-12-19T13:15:40.043971Z",
+							"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+						}
+					],
+					"updated_at": "2019-12-19T13:15:18.159379Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				}
+			],
+			"id": "25c2f330-6f95-4458-adbc-f28a94d82693",
+			"inserted_at": "2019-12-19T13:12:53.661565Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": true,
+			"name": "Біохімія",
+			"request_allowed": false,
+			"updated_at": "2019-12-19T13:12:53.661565Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "ЛЛ",
+			"groups": [
+				{
+					"code": "ЛЛК11",
+					"id": "7efb82b9-9060-41e1-a6b2-6d4eb68ca3ba",
+					"inserted_at": "2019-11-28T12:20:18.773804Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": false,
+					"name": "Аналізи крові",
+					"request_allowed": false,
+					"services": [
+						{
+							"category": "laboratory_procedure",
+							"code": "ЛЛК1115",
+							"id": "00fd0cc6-50c5-4957-a7c3-56b7317049ff",
+							"inserted_at": "2019-11-28T12:21:08.427996Z",
+							"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+							"is_active": false,
+							"is_composition": null,
+							"name": "Загальний аналіз крові",
+							"request_allowed": true,
+							"updated_at": "2019-12-19T12:57:30.119833Z",
+							"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+						}
+					],
+					"updated_at": "2019-12-19T12:58:04.969586Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				}
+			],
+			"id": "82bb8f5f-edf4-4141-8edc-69c6896d4800",
+			"inserted_at": "2019-11-28T12:17:24.015593Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": false,
+			"name": "Лабораторка",
+			"request_allowed": false,
+			"updated_at": "2019-12-19T12:58:15.178389Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "CON100",
+			"id": "91e4a0cc-e317-4771-9b4c-154f21d6e79b",
+			"inserted_at": "2019-12-19T13:05:15.720473Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": true,
+			"name": "Консультація лікаря/спеціаліста",
+			"request_allowed": false,
+			"services": [
+				{
+					"category": "counselling",
+					"code": "T67002",
+					"id": "30707946-0f5f-40fb-90a0-5b674f7db9db",
+					"inserted_at": "2019-12-19T13:07:00.942829Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"is_composition": null,
+					"name": "Ендокринолог",
+					"request_allowed": true,
+					"updated_at": "2019-12-19T13:07:00.942829Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				},
+				{
+					"category": "counselling",
+					"code": "A67001",
+					"id": "d2fde655-e49f-4057-a3cf-8eb98fc04efc",
+					"inserted_at": "2019-12-19T13:05:44.736515Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"is_composition": null,
+					"name": "Інший лікар/спеціаліст",
+					"request_allowed": true,
+					"updated_at": "2019-12-19T13:05:44.736515Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				},
+				{
+					"category": "counselling",
+					"code": "A67004",
+					"id": "5e430994-9e98-4db4-bd15-7d96e217b428",
+					"inserted_at": "2019-12-19T13:06:29.257368Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"is_composition": null,
+					"name": "Педіатр",
+					"request_allowed": true,
+					"updated_at": "2019-12-19T13:06:29.257368Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				},
+				{
+					"category": "counselling",
+					"code": "D67002",
+					"id": "7f250ab6-5959-464d-93dd-6e5fda1f9f15",
+					"inserted_at": "2019-12-19T13:06:46.960820Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": true,
+					"is_composition": null,
+					"name": "Гастроентеролог",
+					"request_allowed": true,
+					"updated_at": "2019-12-19T13:06:46.960820Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				}
+			],
+			"updated_at": "2019-12-19T13:05:15.720473Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "ВД01",
+			"groups": [
+				{
+					"code": "МРТ01",
+					"id": "d1a5292e-fb2e-4ec2-86d1-8c866adfbb56",
+					"inserted_at": "2019-12-11T15:08:39.533844Z",
+					"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+					"is_active": false,
+					"name": "МРТ",
+					"request_allowed": true,
+					"services": [],
+					"updated_at": "2019-12-19T12:57:54.969553Z",
+					"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+				}
+			],
+			"id": "939ed63a-91bd-41bb-b68f-f6138da70726",
+			"inserted_at": "2019-12-11T15:08:02.796189Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": false,
+			"name": "Візуальні досл",
+			"request_allowed": false,
+			"updated_at": "2019-12-19T12:58:00.380836Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "AA",
+			"id": "a51154ff-4b75-4329-ae60-4b5c32cdc5f2",
+			"inserted_at": "2019-08-01T16:15:07.897000Z",
+			"inserted_by": "0a826355-4b8a-48ff-9860-e3fc727962b1",
+			"is_active": true,
+			"name": "Тестова група 1",
+			"request_allowed": true,
+			"services": [
+				{
+					"category": "diagnostic_procedure",
+					"code": "A01",
+					"id": "0a826355-4b8a-48ff-9860-e3fc727962b1",
+					"inserted_at": "2019-08-01T16:13:59.941000Z",
+					"inserted_by": null,
+					"is_active": true,
+					"is_composition": false,
+					"name": "Тестовий сервіс 1",
+					"request_allowed": true,
+					"updated_at": "2019-08-01T16:14:02.345000Z",
+					"updated_by": null
+				}
+			],
+			"updated_at": "2019-08-01T16:15:09.352000Z",
+			"updated_by": "0a826355-4b8a-48ff-9860-e3fc727962b1"
+		},
+		{
+			"code": "1940",
+			"id": "a8c5f6f8-8019-42b5-bf4f-d9fc88b8c6d2",
+			"inserted_at": "2019-12-19T13:17:53.857124Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": true,
+			"name": "Ультразвукове дослідження голови або шиї",
+			"request_allowed": true,
+			"services": [],
+			"updated_at": "2019-12-19T13:17:53.857124Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "ЛЛК1",
+			"id": "ad0e214a-bec9-4f12-ba3e-59c4860c2dc6",
+			"inserted_at": "2019-11-28T12:18:11.015923Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": false,
+			"name": "Аналізи крові",
+			"request_allowed": true,
+			"services": [],
+			"updated_at": "2019-12-19T12:58:09.165519Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		},
+		{
+			"code": "LAB101",
+			"id": "ffb58dab-3c8b-4b58-9a1f-7c0243f1c769",
+			"inserted_at": "2019-12-19T13:12:30.632513Z",
+			"inserted_by": "14864aba-df6f-42ac-996b-47f0b26702ad",
+			"is_active": false,
+			"name": "Альбумін/креатинін, сеча",
+			"request_allowed": true,
+			"services": [],
+			"updated_at": "2019-12-19T13:13:42.760112Z",
+			"updated_by": "14864aba-df6f-42ac-996b-47f0b26702ad"
+		}
+	],
+	"meta": {
+		"code": 200,
+		"request_id": "385a4fac-7d8d-49d8-8afc-a1ae2af976bd#821649",
+		"type": "list",
+		"url": "http://api-svc.il/api/services"
+	}
+}

@@ -1,6 +1,7 @@
 <div data-ng-repeat="d in children">
-	<div>
-		<span class="w3-tiny"
+	<div
+		data-ng-class="{'w3-border w3-border-green':d.doc_id==ctrl.choice_data_model_obj.doc_id}">
+		<span class="w3-tiny w3-dropdown-hover w3-hover-shadow w3-white"
 			data-ng-class="{'w3-green':ctrl.choice_data_model_obj.doc_id==d.doc_id}">
 			<span data-ng-if="!d.children">☰</span> <span data-ng-if="d.children">
 				<i class="fas fa-ellipsis-h"
@@ -9,10 +10,11 @@
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
 		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
+			<div class="w3-dropdown-content w3-card-4">a1</div>
 		</span> <a class="w3-hover-shadow" href="#"
-			data-ng-click="ctrl.choice_data_model_obj = d; ctrl.children_close(d)">
-			<span data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }}
-			<span data-ng-if="d.i18n"> - {{d.i18n}} </span> <span
+			data-ng-click="ctrl.select_tree_item(d)"><span
+			data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }} <span
+			data-ng-if="d.i18n"> - {{d.i18n}} </span> <span
 			data-ng-if="!d.s1value && !d.i18n"> -- ? -- </span>
 		</a>&nbsp; <span class="w3-tiny" data-ng-if="d.reference">
 			{{d.reference}} </span> <span data-ng-if="d.reference2" class="w3-tiny">
@@ -21,11 +23,17 @@
 		<span
 			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_data_model.doc_id].includes(d.doc_id)">
 			<i class="fas fa-check"></i>
+		</span> <span
+			data-ng-if="d.doc_id==ctrl.choice_data_model_obj.doc_id"
+			class="w3-right w3-green">&nbsp; <a href="#"
+			data-ng-click="ctrl.click_data_model_edit_obj()"><i
+				class="fas fa-edit"></i> </a>
 		</span>
 		<div data-ng-include="'/f/c6/data_model_edit_obj.html'"></div>
-		<div data-ng-if="d.children && !d.children_close"
-			class="w3-border-left w3-container">
-			<div data-ng-repeat="children in [d.children]"
-				data-ng-include="'/f/c6/data_model_children.html'"></div>
-		</div>
 	</div>
+	<div data-ng-if="d.children && !d.children_close"
+		class="w3-border-left w3-container">
+		<div data-ng-repeat="children in [d.children]"
+			data-ng-include="'/f/c6/data_model_children.html'"></div>
+	</div>
+</div>

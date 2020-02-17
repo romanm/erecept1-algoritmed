@@ -10,7 +10,18 @@
 			<div class="w3-right w3-tiny">
 				{{ctrl.choice_data_model.children.length}}</div>
 			<div>
-				<span class="w3-tiny"> {{ctrl.choice_data_model.doc_id}} </span>
+				<span class="w3-dropdown-hover w3-hover-shadow "> ☰ <!-- 
+				<i class=" fa fa-ellipsis-h ng-scope"></i>
+				 --> <span class="w3-tiny"> {{ctrl.choice_data_model.doc_id}}
+				</span>
+					<div class="w3-dropdown-content w3-card-4">
+						<a href="#" ng-click="ctrl.addElement_data_model_edit_obj()"
+							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+						<div>
+							<div class="w3-hover-shadow">.</div>
+						</div>
+					</div>
+				</span>
 			</div>
 		</div>
 		<div class="w3-rest w3-border-left">
@@ -20,8 +31,15 @@
 				class="fas fa-terminal"></i>
 			</span>
 			<div class="w3-btn"
-				data-ng-class="{'w3-green':ctrl.data_model_edit_obj.doc_id==ctrl.choice_data_model_obj.doc_id}"
-				data-ng-click="ctrl.click_data_model_edit_obj()" title="Редагувати">
+				data-ng-class="{'w3-green':ctrl.is_data_model_edit_part_name_actual('s1value')}"
+				data-ng-click="ctrl.click_data_model_edit_obj(); ctrl.click_data_model_edit_part_name='s1value'"
+				title="Редагувати назву поля">
+				<i class="fas fa-ad"></i>
+			</div>
+			<div class="w3-btn"
+				data-ng-class="{'w3-green':ctrl.is_data_model_edit_part_name_actual('i18n')}"
+				data-ng-click="ctrl.click_data_model_edit_obj(); ctrl.click_data_model_edit_part_name='i18n'"
+				title="Редагувати переклад">
 				<i class="fas fa-edit"></i>
 				<!-- 
 				<i class="fas fa-language w3-large"></i>
@@ -34,5 +52,6 @@
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
 		<div data-ng-repeat="children in [ctrl.choice_data_model.children]"
 			data-ng-include="'/f/c6/data_model_children.html'"></div>
+		<p>&nbsp;</p>
 	</div>
 </div>

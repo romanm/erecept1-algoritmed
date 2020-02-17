@@ -1,0 +1,162 @@
+{
+	"meta": {
+		"code": 200,
+		"url": "http://example.com/resource",
+		"type": "object",
+		"request_id": "req-adasdoijasdojsda"
+	},
+	"data": {
+		"id": "90a9e15b-b71b-4caf-8f2e-ff247e8a5600",
+		"inserted_at": "2018-08-02T10:45:16.000Z",
+		"updated_at": "2018-08-02T10:45:16.000Z",
+		"type": {
+			"system": "eHealth/episode_types",
+			"code": "primary_care"
+		},
+		"status": "active",
+		"name": "Діабет 2018",
+		"current_diagnoses": [
+			{
+				
+			}
+		],
+		"diagnoses_history": [
+			{
+				"date": "2018-08-02T10:45:16.000Z",
+				"evidence": {
+					"identifier": {
+						"type": {
+							"coding": [
+								{
+									"system": "eHealth/resources",
+									"code": "encounter"
+								}
+							]
+						},
+						"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+					}
+				},
+				"diagnoses": [
+					{
+						"condition": {
+							"identifier": {
+								"type": {
+									"coding": [
+										{
+											"system": "eHealth/resources",
+											"code": "condition"
+										}
+									]
+								},
+								"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+							}
+						},
+						"code": {
+							"coding": [
+								{
+									"system": "eHealth/ICPC2/conditions",
+									"code": "A20"
+								}
+							]
+						},
+						"role": {
+							"coding": [
+								{
+									"system": "eHealth/diagnosis_roles",
+									"code": "CC"
+								}
+							]
+						},
+						"rank": 1
+					},
+					{
+						"condition": {
+							"identifier": {
+								"type": {
+									"coding": [
+										{
+											"system": "eHealth/resources",
+											"code": "condition"
+										}
+									]
+								},
+								"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+							}
+						},
+						"code": {
+							"coding": [
+								{
+									"system": "eHealth/ICPC2/conditions",
+									"code": "A20"
+								}
+							]
+						},
+						"role": {
+							"coding": [
+								{
+									"system": "eHealth/diagnosis_roles",
+									"code": "CC"
+								}
+							]
+						},
+						"rank": 1
+					}
+				]
+			}
+		],
+		"status_history": [
+			{
+				"status": "active",
+				"status reason": {
+					"coding": [
+						{
+							"system": "eHealth/episode_closing_reasons",
+							"code": "cured"
+						}
+					]
+				},
+				"inserted_at": "2018-08-02T10:45:16.000Z"
+			}
+		],
+		"managing_organization": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "legal_entity"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			},
+			"display": "Лимич Медікал"
+		},
+		"period": {
+			"start": "2018-08-02"
+		},
+		"care_manager": {
+			"identifier": {
+				"type": {
+					"coding": [
+						{
+							"system": "eHealth/resources",
+							"code": "employee"
+						}
+					]
+				},
+				"value": "9183a36b-4d45-4244-9339-63d81cd08d9c"
+			}
+		},
+		"closing_summary": "Носові шляхи вільні, горло рожеве, температура в нормі",
+		"status_reason": {
+			"coding": [
+				{
+					"system": "eHealth/episode_closing_reasons",
+					"code": "cured"
+				}
+			]
+		},
+		"explanatory_letter": "Епізод був відмінений у зв'язку з помилкою при виборі пацієнта"
+	}
+}

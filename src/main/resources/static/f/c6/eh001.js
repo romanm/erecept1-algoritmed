@@ -56,6 +56,17 @@ var initEh001 = function() {
 	ctrl.doc_i18n_parent._115827 = 367318
 	ctrl.doc_i18n_parent._367475 = 367318
 
+	ctrl.addElement_data_model_edit_obj = function(){
+		var so = {parent:ctrl.choice_data_model_obj.doc_id}
+		so.sql = sql_app.INSERT_doc_parent_ref(so)
+		so.sql += sql_app.SELECT_doc_id()
+		console.log(ctrl.choice_data_model_obj, so, replaceParams(so))
+		so.dataAfterSave = function(response) {
+			console.log(response.data)
+			ctrl.choice_data_model_obj.children.push(response.data.list1[0])
+		}
+		writeSql(so)
+	}
 	ctrl.click_data_model_edit_obj = function(){
 		if(ctrl.data_model_edit_obj 
 		&& ctrl.data_model_edit_obj.doc_id == ctrl.choice_data_model_obj.doc_id){
@@ -77,6 +88,16 @@ var initEh001 = function() {
 		read_children(d)
 	}
 
+	ctrl.is_data_model_edit_part_name_actual = function(val){ 
+		return ctrl.data_model_edit_obj 
+		&& ctrl.data_model_edit_obj.doc_id==ctrl.choice_data_model_obj.doc_id
+		&& ctrl.click_data_model_edit_part_name==val
+	}
+
+	ctrl.select_tree_item = function(d){ 
+		ctrl.choice_data_model_obj = d; 
+		ctrl.children_close(d)
+	}
 	ctrl.children_close = function(d){ 
 		if(d.children_close === undefined){
 			d.children_close = false
@@ -234,8 +255,25 @@ var initEh001 = function() {
 		writeSql(so)
 	}
 
-	ctrl.save_model_i18n = function(){
+	ctrl.save_model_s1value = function(){
 		console.log(ctrl.data_model_edit_obj)
+		if(ctrl.data_model_edit_obj.s1_id){
+			var so = { s1value: ctrl.data_model_edit_obj.s1value, s1_id : ctrl.data_model_edit_obj.s1_id,
+			dataAfterSave : function(response){
+				console.log(ctrl.data_model_edit_obj, response.data, so)
+			},}
+			so.sql = "UPDATE string SET value=:s1value WHERE string_id=:s1_id"
+			writeSql(so)
+		}else{
+			var so = { s1value: ctrl.data_model_edit_obj.s1value, s1_id : ctrl.data_model_edit_obj.doc_id,
+			dataAfterSave : function(response){
+				console.log(ctrl.data_model_edit_obj, response.data, so)
+			},}
+			so.sql = "INSERT INTO string (string_id, value) VALUES (:s1_id, :s1value);\n"
+			writeSql(so)
+		}
+	}
+	ctrl.save_model_i18n = function(){
 		if(ctrl.data_model_edit_obj.i18n_id){
 			var so = { i18n : ctrl.data_model_edit_obj.i18n, i18n_id : ctrl.data_model_edit_obj.i18n_id,
 			dataAfterSave : function(response){

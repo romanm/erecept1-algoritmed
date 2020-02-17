@@ -134,7 +134,7 @@ var initApp = function($scope, $http, $timeout){
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
 		"SELECT d1.*, sort" +
-		", s1.value s1value, dt1.value dt1value" +
+		", s1.value s1value, s1.string_id s1_id, dt1.value dt1value" +
 		", i1.value i1value" +
 		", i18n, i18n_id, cnt_child  " +
 		"FROM doc d1 \n" +
@@ -753,6 +753,8 @@ sql_app.INSERT_doc_parent_ref = function(d){
 			sql = sql.replace(':parent',d.parent)
 		if(d.reference)
 			sql = sql.replace(':reference',d.reference)
+		else
+			sql = sql.replace(':reference','null')
 		if(d.nextDbId)
 			sql = sql.replace(':nextDbId1',':nextDbId'+d.nextDbId)
 	}
