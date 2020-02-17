@@ -10,7 +10,24 @@
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
 		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
-			<div class="w3-dropdown-content w3-card-4">a1</div>
+			<div class="w3-dropdown-content w3-card-4"
+			style="width: 180px"
+			>
+				<div>
+						<a href="#" ng-click="doc_data.upElement(el)" title="догори"
+							class="w13-bar-item w3-button"><i class="fas fa-caret-up"></i></a>
+						<a href="#" ng-click="doc_data.downElement(el)" title="донизу"
+							class="w13-bar-item w3-button"><i class="fas fa-caret-down"></i></a>
+						| <a href="#" ng-click="doc_data.addElement(el)"
+							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+						<a href="#" ng-click="doc_data.minusElement(el)"
+							title="Видалити запис" class="w3-button"><i
+							class="fa fa-minus"></i></a>
+					</div>
+					<div>
+					.
+					</div>
+			</div>
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.select_tree_item(d)"><span
 			data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }} <span
