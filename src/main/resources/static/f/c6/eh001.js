@@ -45,7 +45,17 @@ var initMenu = function() {
 		console.log(el)
 	}
 	ctrl.content_menu.minusElement = function(el){
-		console.log(el)
+		if(!el.children){
+			console.log(el)
+			writeSql({sql:"DELETE FROM doc WHERE reference = :el_id AND parent = :i18n_id ;\n" +
+					"DELETE FROM doc WHERE doc_id = :el_id ", el_id:el.doc_id, i18n_id:ctrl.i18n_parent
+			, dataAfterSave : function(response) {
+				var parentEl =  ctrl.elementsMap[el.parent]
+				parentEl.children.splice(parentEl.children.indexOf(el), 1)
+				console.log(response.data, parentEl.children.indexOf(el))
+				delete el
+			}})
+		}
 	}
 	ctrl.content_menu.downElement = function(el){
 		console.log(el)
@@ -96,15 +106,18 @@ var upDowntElement = function(o, direction){
 		so.dataAfterSave = function(response) {
 			console.log(response.data)
 			angular.forEach(response.data, function(v, k){
+				console.log(k.includes('list'))
 				if(k.includes('list')){
+					console.log(k.includes('list'))
 					angular.forEach(v, function(v2){
 						var v2_old = ctrl.elementsMap[v2.doc_id]
-						ctrl.elementsMap[v2.doc_id] = v2
-						if(v2_old.children)
+						console.log(v2, v2_old)
+						if(v2_old && v2_old.children)
 							v2.children = v2_old.children
-						console.log(v2, v2_old.doc_id)
 						delete v2_old
+						ctrl.elementsMap[v2.doc_id] = v2
 					})
+					oParent.children = v
 				}
 			})
 		}
