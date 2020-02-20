@@ -1,4 +1,4 @@
-<div data-ng-repeat="d in children">
+<div data-ng-repeat="d in children" data-ng-init="el=d">
 	<div
 		data-ng-class="{'w3-border w3-border-green':d.doc_id==ctrl.choice_data_model_obj.doc_id}">
 		<span class="w3-tiny w3-dropdown-hover w3-hover-shadow w3-white"
@@ -10,38 +10,35 @@
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
 		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
-			<div class="w3-dropdown-content w3-card-4"
-			style="width: 180px"
-			>
+			<div class="w3-dropdown-content w3-card-4" style="width: 180px">
 				<div>
-						<a href="#" ng-click="doc_data.upElement(el)" title="догори"
-							class="w13-bar-item w3-button"><i class="fas fa-caret-up"></i></a>
-						<a href="#" ng-click="doc_data.downElement(el)" title="донизу"
-							class="w13-bar-item w3-button"><i class="fas fa-caret-down"></i></a>
-						| <a href="#" ng-click="doc_data.addElement(el)"
-							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
-						<a href="#" ng-click="doc_data.minusElement(el)"
-							title="Видалити запис" class="w3-button"><i
-							class="fa fa-minus"></i></a>
-					</div>
-					<div>
-					.
-					</div>
+					<a href="#" ng-click="ctrl.content_menu.upElement(el)"
+						title="догори" class="w13-bar-item w3-button"><i
+						class="fas fa-caret-up"></i></a> <a href="#"
+						ng-click="ctrl.content_menu.downElement(el)" title="донизу"
+						class="w13-bar-item w3-button"><i class="fas fa-caret-down"></i></a>
+					| <a href="#" ng-click="ctrl.content_menu.addElement(el)"
+						title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+					<a href="#" ng-click="ctrl.content_menu.minusElement(el)"
+						title="Видалити запис" class="w3-button"><i
+						class="fa fa-minus"></i></a>
+				</div>
+				<div class="w3-border-top">.</div>
+				<div>.</div>
 			</div>
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.select_tree_item(d)"><span
 			data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }} <span
 			data-ng-if="d.i18n"> - {{d.i18n}} </span> <span
-			data-ng-if="!d.s1value && !d.i18n"> -- ? -- </span>
-		</a>&nbsp; <span class="w3-tiny" data-ng-if="d.reference">
-			{{d.reference}} </span> <span data-ng-if="d.reference2" class="w3-tiny">
+			data-ng-if="!d.s1value && !d.i18n"> -- ? -- </span> </a>&nbsp; <span
+			class="w3-tiny" data-ng-if="d.reference"> {{d.reference}} </span> <span
+			data-ng-if="d.reference2" class="w3-tiny">
 			{{'{'+d.reference2+'}'}} </span> <sup
 			data-ng-if="d.children && d.children_close" class="w3-tiny am-b">[{{d.children.length}}]</sup>
 		<span
 			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_data_model.doc_id].includes(d.doc_id)">
 			<i class="fas fa-check"></i>
-		</span> <span
-			data-ng-if="d.doc_id==ctrl.choice_data_model_obj.doc_id"
+		</span> <span data-ng-if="d.doc_id==ctrl.choice_data_model_obj.doc_id"
 			class="w3-right w3-green">&nbsp; <a href="#"
 			data-ng-click="ctrl.click_data_model_edit_obj()"><i
 				class="fas fa-edit"></i> </a>

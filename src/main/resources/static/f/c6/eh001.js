@@ -3,6 +3,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.page_title = 'eh001'
 	initApp($scope, $http, $timeout)
 	initEh001()
+	initMenu()
 	read_mergeList('docs', sql_app.obj_with_parent(115800), true)
 	read_mergeList('docs', sql_app.obj_with_doc_id(367496))
 	read_mergeList('docs', sql_app.obj_with_doc_id(115920))
@@ -38,6 +39,102 @@ var read_data = function(edit_data_id) {
 		}})
 }
 
+var initMenu = function() {
+	ctrl.content_menu = {}
+	ctrl.content_menu.addElement = function(el){
+		console.log(el)
+	}
+	ctrl.content_menu.minusElement = function(el){
+		console.log(el)
+	}
+	ctrl.content_menu.downElement = function(el){
+		console.log(el)
+		upDowntElement(el, 1)
+	}
+	ctrl.content_menu.upElement = function(el){
+		console.log(el)
+		upDowntElement(el, -1)
+	}
+	//sql_app.replace_params()
+
+}
+
+var upDowntElement = function(o, direction){
+//	var oParent = this.elementsMap[o.parent]
+		var oParent = ctrl.elementsMap[o.parent]
+		console.log(o, oParent, ctrl.elementsMap)
+		var position = oParent.children.indexOf(o)
+		console.log(position)
+		console.log(direction)
+		if((position +1 == oParent.children.length) && direction == 1){// зробити першим
+			var x = oParent.children.splice(position, 1)
+			console.log(x)
+			oParent.children.splice(0, 0, x[0])
+		}else if((position == 0) && direction == -1){// зробити останнім
+			console.log('зробити останнім')
+			var x = oParent.children.splice(position, 1)
+			oParent.children.push(x[0])
+		}else{
+			var x = oParent.children.splice(position, 1)
+			oParent.children.splice(position + direction, 0, x[0])
+		}
+		var so = {sql:''}
+		angular.forEach(oParent.children, function(v,k){
+			var data = {
+				sort:k+1,
+				sort_id:v.doc_id,
+			}
+			if(v.sort_id)
+				var sql = sql_app.doc_update_sort()
+			else
+				var sql = sql_app.doc_insert_sort()
+			sql = sql_app.replace_params(sql, data)
+			so.sql += sql +';\n'
+		})
+		so.sql += sql_app.SELECT_with_parent(oParent)
+		console.log(so.sql, oParent)
+		so.dataAfterSave = function(response) {
+			console.log(response.data)
+			angular.forEach(response.data, function(v, k){
+				if(k.includes('list')){
+					angular.forEach(v, function(v2){
+						var v2_old = ctrl.elementsMap[v2.doc_id]
+						ctrl.elementsMap[v2.doc_id] = v2
+						if(v2_old.children)
+							v2.children = v2_old.children
+						console.log(v2, v2_old.doc_id)
+						delete v2_old
+					})
+				}
+			})
+		}
+		writeSql(so)
+}
+
+sql_app.replace_params = function(sql, data){
+	angular.forEach(sql.split(':'), function (v){
+		var v1 = v.split(' ')[0]
+		.replace(',','')
+		.replace(')','').trim()
+		if(data[v1]){
+			sql = sql.replace(':'+v1, data[v1])
+		}
+	})
+	return sql
+}
+
+sql_app.doc_insert_sort = function(){
+	var sql = "INSERT INTO sort (sort, sort_id) VALUES (:sort, :sort_id)"
+	return sql
+}
+
+sql_app.doc_update_sort = function(){
+	var sql = "UPDATE sort SET sort=:sort WHERE sort_id=:sort_id"
+	return sql
+}
+	
+
+
 var initEh001 = function() {
 	ctrl.read_obj = function(d){
 		read_object(d)
@@ -67,6 +164,7 @@ var initEh001 = function() {
 		}
 		writeSql(so)
 	}
+
 	ctrl.click_data_model_edit_obj = function(){
 		if(ctrl.data_model_edit_obj 
 		&& ctrl.data_model_edit_obj.doc_id == ctrl.choice_data_model_obj.doc_id){

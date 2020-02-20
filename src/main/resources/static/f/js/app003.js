@@ -133,7 +133,7 @@ var initApp = function($scope, $http, $timeout){
 
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort" +
+		"SELECT d1.*, sort, sort_id" +
 		", s1.value s1value, s1.string_id s1_id, dt1.value dt1value" +
 		", i1.value i1value" +
 		", i18n, i18n_id, cnt_child  " +
@@ -158,7 +158,7 @@ var initApp = function($scope, $http, $timeout){
 
 	sql_app.obj_with_parent= function(parent){
 		var sql = "\n" +
-		"SELECT d1.*, sort" +
+		"SELECT d1.*, sort, sort_id" +
 		", s1.value s1value, s1.string_id s1_id" +
 		", i1.value i1value, i1.integer_id i1_id" +
 		", dt1.value dt1value, cnt_child " +
