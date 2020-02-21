@@ -40,9 +40,25 @@ var read_data = function(edit_data_id) {
 }
 
 var initMenu = function() {
+	ctrl.initMenu2 = function(){
+		if(!ctrl.two_docs_ids){
+			ctrl.two_docs_ids = [1,2]
+		}
+		console.log(ctrl.two_docs_ids)
+	}
 	ctrl.content_menu = {}
 	ctrl.content_menu.addElement = function(el){
-		console.log(el)
+		var so = {parent:el.doc_id}
+		so.sql = sql_app.INSERT_doc_parent_ref(so)
+		so.sql += sql_app.SELECT_doc_id()
+		console.log(ctrl.el, so, replaceParams(so))
+		so.dataAfterSave = function(response) {
+			console.log(response.data)
+			if(!el.children)
+				el.children = []
+			el.children.push(response.data.list1[0])
+		}
+		writeSql(so)
 	}
 	ctrl.content_menu.minusElement = function(el){
 		if(!el.children){
@@ -72,13 +88,9 @@ var initMenu = function() {
 var upDowntElement = function(o, direction){
 //	var oParent = this.elementsMap[o.parent]
 		var oParent = ctrl.elementsMap[o.parent]
-		console.log(o, oParent, ctrl.elementsMap)
 		var position = oParent.children.indexOf(o)
-		console.log(position)
-		console.log(direction)
 		if((position +1 == oParent.children.length) && direction == 1){// зробити першим
 			var x = oParent.children.splice(position, 1)
-			console.log(x)
 			oParent.children.splice(0, 0, x[0])
 		}else if((position == 0) && direction == -1){// зробити останнім
 			console.log('зробити останнім')
@@ -90,10 +102,7 @@ var upDowntElement = function(o, direction){
 		}
 		var so = {sql:''}
 		angular.forEach(oParent.children, function(v,k){
-			var data = {
-				sort:k+1,
-				sort_id:v.doc_id,
-			}
+			var data = { sort:k+1, sort_id:v.doc_id, }
 			if(v.sort_id)
 				var sql = sql_app.doc_update_sort()
 			else
@@ -102,16 +111,11 @@ var upDowntElement = function(o, direction){
 			so.sql += sql +';\n'
 		})
 		so.sql += sql_app.SELECT_with_parent(oParent)
-		console.log(so.sql, oParent)
 		so.dataAfterSave = function(response) {
-			console.log(response.data)
 			angular.forEach(response.data, function(v, k){
-				console.log(k.includes('list'))
 				if(k.includes('list')){
-					console.log(k.includes('list'))
 					angular.forEach(v, function(v2){
 						var v2_old = ctrl.elementsMap[v2.doc_id]
-						console.log(v2, v2_old)
 						if(v2_old && v2_old.children)
 							v2.children = v2_old.children
 						delete v2_old
@@ -167,15 +171,7 @@ var initEh001 = function() {
 	ctrl.doc_i18n_parent._367475 = 367318
 
 	ctrl.addElement_data_model_edit_obj = function(){
-		var so = {parent:ctrl.choice_data_model_obj.doc_id}
-		so.sql = sql_app.INSERT_doc_parent_ref(so)
-		so.sql += sql_app.SELECT_doc_id()
-		console.log(ctrl.choice_data_model_obj, so, replaceParams(so))
-		so.dataAfterSave = function(response) {
-			console.log(response.data)
-			ctrl.choice_data_model_obj.children.push(response.data.list1[0])
-		}
-		writeSql(so)
+		ctrl.content_menu.addElement(ctrl.choice_data_model_obj)
 	}
 
 	ctrl.click_data_model_edit_obj = function(){

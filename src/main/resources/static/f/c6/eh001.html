@@ -24,16 +24,8 @@
 			<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
 			<span class="am-b"> - {{ctrl.choice_data_model.s1value}} </span>
 		</div>
-		<div class="w3-border-bottom">
-			<span class="w3-small am-b"> docs </span> <span
-				data-ng-repeat=" d in ctrl.docs"> | <a href="?doc={{d.doc_id}}"
-				data-ng-click="ctrl.set_choice_data_model(d)"
-				data-ng-class="{'w3-green':ctrl.choice_data_model.doc_id==d.doc_id}"
-				class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>
-					{{d.s1value}}
-			</a>&nbsp;
-			</span>
-		</div>
+		<div class="w3-border-bottom"
+			data-ng-include="'/f/c6/data_model_list.html'"></div>
 		<div data-ng-if="ctrl.choice_data_model">
 			<div class="w3-row">
 				<div class="w3-col w3-border-right" data-ng-style="ctrl.style.model_data_row">
