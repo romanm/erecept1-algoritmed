@@ -1,3 +1,122 @@
+var initMenu = function() {
+	ctrl.initMenu2 = function(){
+		if(!ctrl.two_docs_ids){
+			ctrl.two_docs_ids = [ctrl.choice_data_model.doc_id,2]
+		}
+	}
+	ctrl.content_menu = {}
+	ctrl.content_menu.reRead = function(){
+		console.log(ctrl.two_docs_ids)
+		read_object({doc_id:ctrl.two_docs_ids[0]})
+		read_object({doc_id:ctrl.two_docs_ids[1]})
+	}
+	ctrl.content_menu.addElement = function(el){
+		var so = {parent:el.doc_id}
+		so.sql = sql_app.INSERT_doc_parent_ref(so)
+		so.sql += sql_app.SELECT_doc_id()
+		console.log(ctrl.el, so, replaceParams(so))
+		so.dataAfterSave = function(response) {
+			console.log(response.data)
+			if(!el.children)
+				el.children = []
+			el.children.push(response.data.list1[0])
+		}
+		writeSql(so)
+	}
+	ctrl.content_menu.minusElement = function(el){
+		if(!el.children || (el.children && el.children.length==0)){
+			console.log(el)
+			writeSql({sql:"" +
+				"DELETE FROM doc WHERE reference = :el_id AND parent in (SELECT doc_id FROM doc where reference = 285596);\n" +
+				"DELETE FROM doc WHERE doc_id = :el_id "
+			, el_id:el.doc_id
+			, dataAfterSave : function(response) {
+				var parentEl =  ctrl.elementsMap[el.parent]
+				parentEl.children.splice(parentEl.children.indexOf(el), 1)
+				console.log(response.data, parentEl.children.indexOf(el))
+				delete el
+			}})
+		}
+	}
+	ctrl.content_menu.downElement = function(el){
+		console.log(el)
+		upDowntElement(el, 1)
+	}
+	ctrl.content_menu.upElement = function(el){
+		console.log(el)
+		upDowntElement(el, -1)
+	}
+	//sql_app.replace_params()
+	
+}
+
+var upDowntElement = function(o, direction){
+//	var oParent = this.elementsMap[o.parent]
+		var oParent = ctrl.elementsMap[o.parent]
+		var position = oParent.children.indexOf(o)
+		if((position +1 == oParent.children.length) && direction == 1){// зробити першим
+			var x = oParent.children.splice(position, 1)
+			oParent.children.splice(0, 0, x[0])
+		}else if((position == 0) && direction == -1){// зробити останнім
+			console.log('зробити останнім')
+			var x = oParent.children.splice(position, 1)
+			oParent.children.push(x[0])
+		}else{
+			var x = oParent.children.splice(position, 1)
+			oParent.children.splice(position + direction, 0, x[0])
+		}
+		var so = {sql:''}
+		angular.forEach(oParent.children, function(v,k){
+			var data = { sort:k+1, sort_id:v.doc_id, }
+			if(v.sort_id)
+				var sql = sql_app.doc_update_sort()
+			else
+				var sql = sql_app.doc_insert_sort()
+			sql = sql_app.replace_params(sql, data)
+			so.sql += sql +';\n'
+		})
+		so.sql += sql_app.SELECT_with_parent(oParent)
+		so.dataAfterSave = function(response) {
+			angular.forEach(response.data, function(v, k){
+				if(k.includes('list')){
+					angular.forEach(v, function(v2){
+						var v2_old = ctrl.elementsMap[v2.doc_id]
+						if(v2_old && v2_old.children)
+							v2.children = v2_old.children
+						delete v2_old
+						ctrl.elementsMap[v2.doc_id] = v2
+					})
+					oParent.children = v
+				}
+			})
+		}
+		writeSql(so)
+}
+
+sql_app.doc_insert_sort = function(){
+	var sql = "INSERT INTO sort (sort, sort_id) VALUES (:sort, :sort_id)"
+	return sql
+}
+
+sql_app.doc_update_sort = function(){
+	var sql = "UPDATE sort SET sort=:sort WHERE sort_id=:sort_id"
+	return sql
+}
+	
+sql_app.replace_params = function(sql, data){
+	angular.forEach(sql.split(':'), function (v){
+		var v1 = v.split(' ')[0]
+		.replace(',','')
+		.replace(')','').trim()
+		if(data[v1]){
+			sql = sql.replace(':'+v1, data[v1])
+		}
+	})
+	return sql
+}
+
+
+
 var set_choice_data_model2 = function(d, data_model_id){
 	console.log(d, data_model_id)
 	set_doc_i18n_parent(d, data_model_id)

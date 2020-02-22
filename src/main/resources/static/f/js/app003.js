@@ -122,7 +122,6 @@ var initApp = function($scope, $http, $timeout){
 	ctrl.doc_i18n_parent._367475 = 367318
 
 	ctrl.bodyClick = function (){
-		console.log(ctrl.docs_menu_name1)
 		if(ctrl.docs_menu_name1)
 			delete ctrl.docs_menu_name1 
 	}

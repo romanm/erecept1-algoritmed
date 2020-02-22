@@ -8,14 +8,14 @@
 				 -->
 			</span>
 			<div class="w3-right w3-tiny">
-				{{ctrl.choice_data_model.children.length}}</div>
+				{{edEl.children.length}}</div>
 			<div>
 				<span class="w3-dropdown-hover w3-hover-shadow "> ☰ <!-- 
 				<i class=" fa fa-ellipsis-h ng-scope"></i>
-				 --> <span class="w3-tiny"> {{ctrl.choice_data_model.doc_id}}
+				 --> <span class="w3-tiny"> {{edEl.doc_id}}
 				</span>
 					<div class="w3-dropdown-content w3-card-4">
-						<a href="#" ng-click="ctrl.addElement_data_model_edit_obj()"
+						<a href="#" ng-click="ctrl.content_menu.addElement(edEl)"
 							title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
 						<div>
 							<div class="w3-hover-shadow">.</div>
