@@ -1,6 +1,13 @@
 <div>
-	<div class="w3-border-bottom">ids:
-		{{ctrl.two_docs_ids.toString()}}</div>
+	<div class="w3-border-bottom">
+		ids: {{ctrl.two_docs_ids.toString()}} <a target="_blank"
+		class="w3-border w3-border-green w3-leftbar w3-hover-shadow"
+			data-ng-if="ctrl.two_docs_ids[1]>2"
+			href="eh002.html?doc2doc={{ctrl.two_docs_ids.toString()}}"> &nbsp; <i
+			class="fas fa-link"></i> eh002 &nbsp;
+		</a>
+
+	</div>
 	<div class="w3-row w3-small">
 		<div class="w3-half ">
 			<div data-ng-repeat=" d in ctrl.docs" class="w3-hover-shadow"

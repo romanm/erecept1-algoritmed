@@ -28,23 +28,27 @@ var read_data = function(edit_data_id) {
 	ctrl.edit_data_id = edit_data_id
 	console.log(edit_data_id)
 	readSql({
-		sql:"SELECT * FROM doc WHERE doc_id=:doc_id"
-		, doc_id:ctrl.edit_data_id
-		, afterRead:function(response){
-			var d = response.data.list[0]
-			console.log(d)
-			ctrl.choice_data_model_id = d.reference
-			set_doc_i18n_parent(d, d.reference)
-			ctrl.choice_data_model = {i18n_parent:d.i18n_parent}
-		}})
+	sql:"SELECT * FROM doc WHERE doc_id=:doc_id"
+	, doc_id:ctrl.edit_data_id
+	, afterRead:function(response){
+		var d = response.data.list[0]
+		console.log(d)
+		ctrl.choice_data_model_id = d.reference
+		set_doc_i18n_parent(d, d.reference)
+		ctrl.choice_data_model = {i18n_parent:d.i18n_parent}
+	}})
 }
 
 var initMenu = function() {
+	ctrl.bodyClick = function (){
+		console.log(ctrl.docs_menu_name1)
+		if(ctrl.docs_menu_name1)
+			delete ctrl.docs_menu_name1 
+	}
 	ctrl.initMenu2 = function(){
 		if(!ctrl.two_docs_ids){
-			ctrl.two_docs_ids = [1,2]
+			ctrl.two_docs_ids = [ctrl.choice_data_model.doc_id,2]
 		}
-		console.log(ctrl.two_docs_ids)
 	}
 	ctrl.content_menu = {}
 	ctrl.content_menu.addElement = function(el){
@@ -61,7 +65,7 @@ var initMenu = function() {
 		writeSql(so)
 	}
 	ctrl.content_menu.minusElement = function(el){
-		if(!el.children){
+		if(!el.children || (el.children && el.children.length==0)){
 			console.log(el)
 			writeSql({sql:"DELETE FROM doc WHERE reference = :el_id AND parent = :i18n_id ;\n" +
 					"DELETE FROM doc WHERE doc_id = :el_id ", el_id:el.doc_id, i18n_id:ctrl.i18n_parent
