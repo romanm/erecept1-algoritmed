@@ -114,8 +114,27 @@ var initApp = function($scope, $http, $timeout){
 			}
 		},
 	})
+
+	ctrl.doc_i18n_parent._285598 = 285597
+	ctrl.doc_i18n_parent._115920 = 115924
+	ctrl.doc_i18n_parent._367563 = 367566
+	ctrl.doc_i18n_parent._115827 = 367318
+	ctrl.doc_i18n_parent._367475 = 367318
+
+	ctrl.bodyClick = function (){
+		console.log(ctrl.docs_menu_name1)
+		if(ctrl.docs_menu_name1)
+			delete ctrl.docs_menu_name1 
+	}
+
 }
 
+sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
+	var sql = "SELECT reference i18n_ref, doc_id i18n_id, value i18n " +
+	"FROM (SELECT d2.* FROM doc d1, doc d2 where d2.parent=d1.doc_id and d1.reference=285596) d" +
+	"LEFT JOIN string s1 ON s1.string_id=doc_id"
+	return sql
+}
 	sql_app.select_i18n= function(left_join_ref, i18n_parent){
 		var sql = "" +
 		"SELECT reference i18n_ref, doc_id i18n_id, value i18n FROM doc \n" +
@@ -128,6 +147,36 @@ var initApp = function($scope, $http, $timeout){
 		if(i18n_parent){
 			sql = sql.replace(":i18n_parent", i18n_parent)
 		}
+		return sql
+	}
+
+	sql_app.obj_with_i18n = function(){
+		var sql = "\n" +
+		"SELECT d1.*, sort, sort_id" +
+		", s1.value s1value, s1.string_id s1_id, dt1.value dt1value" +
+		", i1.value i1value" +
+		", i18n, i18n_id, cnt_child  " +
+		"FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
+		"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id "+
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" 
+		return sql
+	}
+	sql_app.SELECT_obj_with_i18n = function(doc_id){
+		var sql = sql_app.obj_with_i18n()+
+		"WHERE d1.doc_id = :doc_id "
+		sql = sql.replace(':doc_id', doc_id)
+		return sql
+	}
+	sql_app.SELECT_children_with_i18n = function(parent){
+		var sql = sql_app.obj_with_i18n()+
+		"WHERE d1.parent = :parent " +
+		"ORDER BY sort "
+		sql = sql.replace(':parent', parent)
+//		console.log(sql)
 		return sql
 	}
 
@@ -176,6 +225,27 @@ var initApp = function($scope, $http, $timeout){
 		return sql
 	}
 
+
+	sql_app.obj_with_doc_id= function(doc_id){
+		var sql = "\n" +
+		"SELECT d1.*, sort" +
+		", s1.value s1value, s1.string_id s1_id" +
+		", i1.value i1value, i1.integer_id i1_id" +
+		", dt1.value dt1value, cnt_child  " +
+		"FROM doc d1 \n" +
+		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
+		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
+		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
+		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
+		"WHERE d1.doc_id = :doc_id \n" +
+		"ORDER BY sort "
+		sql = sql.replace(':doc_id', doc_id)
+//		console.log(sql)
+		return sql
+	}
+
 sql_app.SELECT_with_parent = function(d){
 	if(ctrl.i18n_parent)
 		var sql = sql_app.obj_with_parent_i18n(d.doc_id, ctrl.i18n_parent)
@@ -194,6 +264,7 @@ var read_object = function(d){
 		d = response.data.list[0]
 //		console.log(d, sql, ctrl.elementsMap[d.doc_id])
 		read_children(d)
+		if(ctrl.afterReadObj) ctrl.afterReadObj(d)
 	})
 }
 
@@ -246,7 +317,7 @@ var read_data_for_data_editor2 = function(d) {
 }
 
 var read_data_for_data_editor = function(d) {
-	if(d && ctrl.data_editor_opened()){
+	if(d && ctrl.data_editor_opened && ctrl.data_editor_opened()){
 		read_data_for_data_editor2(d)
 	}
 }

@@ -40,11 +40,6 @@ var read_data = function(edit_data_id) {
 }
 
 var initMenu = function() {
-	ctrl.bodyClick = function (){
-		console.log(ctrl.docs_menu_name1)
-		if(ctrl.docs_menu_name1)
-			delete ctrl.docs_menu_name1 
-	}
 	ctrl.initMenu2 = function(){
 		if(!ctrl.two_docs_ids){
 			ctrl.two_docs_ids = [ctrl.choice_data_model.doc_id,2]
@@ -155,7 +150,6 @@ sql_app.doc_update_sort = function(){
 }
 	
 
-
 var initEh001 = function() {
 	ctrl.read_obj = function(d){
 		read_object(d)
@@ -167,12 +161,6 @@ var initEh001 = function() {
 			}
 		})
 	}
-
-	ctrl.doc_i18n_parent._285598 = 285597
-	ctrl.doc_i18n_parent._115920 = 115924
-	ctrl.doc_i18n_parent._367563 = 367566
-	ctrl.doc_i18n_parent._115827 = 367318
-	ctrl.doc_i18n_parent._367475 = 367318
 
 	ctrl.addElement_data_model_edit_obj = function(){
 		ctrl.content_menu.addElement(ctrl.choice_data_model_obj)
@@ -238,25 +226,6 @@ var initEh001 = function() {
 	}
 
 
-	sql_app.obj_with_doc_id= function(doc_id){
-		var sql = "\n" +
-		"SELECT d1.*, sort" +
-		", s1.value s1value, s1.string_id s1_id" +
-		", i1.value i1value, i1.integer_id i1_id" +
-		", dt1.value dt1value, cnt_child  " +
-		"FROM doc d1 \n" +
-		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
-		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
-		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
-		//"LEFT JOIN string s2 ON d1.reference = s2.string_id \n" +
-		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
-		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" +
-		"WHERE d1.doc_id = :doc_id \n" +
-		"ORDER BY sort "
-		sql = sql.replace(':doc_id', doc_id)
-//		console.log(sql)
-		return sql
-	}
 
 	ctrl.doc_data_parent = {}
 	ctrl.doc_data_parent._115827 = 285460

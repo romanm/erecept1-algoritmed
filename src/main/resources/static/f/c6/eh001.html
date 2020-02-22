@@ -17,11 +17,8 @@
 <script src="/f/js/crud001.js"></script>
 <script src="/f/c6/eh001.js"></script>
 </head>
-<body
-	data-ng-click="ctrl.bodyClick()"
->
-	<div class="w3-container"
-	>
+<body data-ng-click="ctrl.bodyClick()">
+	<div class="w3-container">
 		<div class="w3-border-bottom">
 			<div class="w3-right" data-ng-include="'/f/btn-to-login.html'"></div>
 			<span data-ng-include="'/f/home-link.html'" class="w3-small0"></span>
@@ -31,11 +28,14 @@
 			data-ng-include="'/f/c6/data_model_list.html'"></div>
 		<div data-ng-if="ctrl.choice_data_model">
 			<div class="w3-row">
-				<div class="w3-col w3-border-right" data-ng-style="ctrl.style.model_data_row">
+				<div class="w3-col w3-border-right"
+					data-ng-style="ctrl.style.model_data_row">
 					<div data-ng-if="ctrl.data_editor_opened()"
 						data-ng-include="'/f/c6/data_editor.html'"></div>
-					<div data-ng-if="!ctrl.data_editor_opened()"
-						data-ng-include="'/f/c6/data_model.html'"></div>
+					<div data-ng-if="!ctrl.data_editor_opened()">
+						<div data-ng-repeat="edEl in [ctrl.choice_data_model] "
+							data-ng-include="'/f/c6/data_model.html'"></div>
+					</div>
 				</div>
 				<div class="w3-rest">
 					<div data-ng-include="'/f/c6/doc_data.html'"></div>

@@ -1,34 +1,7 @@
 <div data-ng-click="$event.stopPropagation()">
-	<span class="w3-small w3-dropdown-click w3-hover-shadow"> <span
-		class="am-b "
-		data-ng-click="ctrl.docs_menu_name1=ctrl.docs_menu_name1=='docs'?'':'docs'">
-			<i class=" fas fa-file"></i> docs
-	</span>
-		<div class="w3-leftbar w3-dropdown-content w3-card-4 w3-medium"
-			data-ng-class="{'w3-show':ctrl.docs_menu_name1=='docs'}">
-			<div class=" w3-hover-shadow w3-tiny"
-				data-ng-click="ctrl.docs_menu_name=ctrl.docs_menu_name=='a2'?'':'a2';ctrl.initMenu2()">
-				Робота з двома моделями документів</div>
-			<div class="w3-container w3-leftbar  w3-card-4" style="width: 555px;"
-				data-ng-include="'/f/c6/data_model_list_two_panel.html'"
-				data-ng-class="{
-				'w3-show':ctrl.docs_menu_name=='a2',
-				'w3-hide':ctrl.docs_menu_name!='a2',
-				}"></div>
-			<!-- 
-			<div class="w3-hover-shadow"
-				data-ng-click="ctrl.docs_menu_name=ctrl.docs_menu_name=='a1.1'?'':'a1.1'">
-				a1.1
-				<div class="w3-container w3-leftbar w3-card-4"
-					data-ng-class="{'w3-show':ctrl.docs_menu_name=='a1.1',
-				'w3-hide':ctrl.docs_menu_name!='a1.1'
-				}">a1.1
-					- a2</div>
-			</div>
-				 -->
-		</div>
-	</span> <span data-ng-repeat=" d in ctrl.docs"> | <a
-		href="?doc={{d.doc_id}}" data-ng-click="ctrl.set_choice_data_model(d)"
+	<span data-ng-include="'/f/c6/data_model_list_menu.html'"></span> <span
+		data-ng-repeat=" d in ctrl.docs"> | <a href="?doc={{d.doc_id}}"
+		data-ng-click="ctrl.set_choice_data_model(d)"
 		data-ng-class="{'w3-green':ctrl.choice_data_model.doc_id==d.doc_id}"
 		class="w3-hover-shadow"> <span class="w3-tiny">{{d.doc_id}}</span>
 			{{d.s1value}}

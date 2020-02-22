@@ -17,15 +17,27 @@
 <script src="/f/js/crud001.js"></script>
 <script src="/f/c6/eh002.js"></script>
 </head>
-<body>
+<body data-ng-click="ctrl.bodyClick()">
 	<div class="w3-container">
 		<div class="w3-border-bottom">
 			<div class="w3-right" data-ng-include="'/f/btn-to-login.html'"></div>
 			<span data-ng-include="'/f/home-link.html'" class="w3-small0 am-b"></span>
+			<span data-ng-click="$event.stopPropagation()"
+				data-ng-include="'/f/c6/data_model_list_menu.html'"></span>
 		</div>
 		<div class="w3-row">
-			<div class="w3-half">a1</div>
-			<div class="w3-half">a2</div>
+			<div class="w3-half w3-border-right">
+				<div class="w3-tiny am-b">
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[0]].s1value}}</div>
+				<div data-ng-repeat="edEl in [ctrl.elementsMap[ctrl.doc2doc_ids[0]]] "
+							data-ng-include="'/f/c6/data_model.html'"></div>
+			</div>
+			<div class="w3-half ">
+				<div class="w3-tiny am-b w3-container">
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[1]].s1value}}</div>
+				<div data-ng-repeat="edEl in [ctrl.elementsMap[ctrl.doc2doc_ids[1]]] "
+							data-ng-include="'/f/c6/data_model.html'"></div>
+			</div>
 		</div>
 	</div>
 </body>
