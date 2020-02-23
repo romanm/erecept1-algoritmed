@@ -98,17 +98,44 @@ var initMenu = function() {
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}
-	ctrl.content_menu.pasteElementReference2 = function(el){
-		console.log(el, ctrl.content_menu.pasteObject)
+	ctrl.content_menu.deleteElementReference2 = function(el){
+		var so = {doc_id:el.doc_id,
+				sql:"UPDATE doc SET reference2 = null WHERE doc_id = :doc_id",
+				dataAfterSave:function(response){
+					console.log(response)
+					delete el.reference2 
+				}
+		}
+		writeSql(so)
 	}
-	ctrl.content_menu.pasteElementReference = function(el){
-		console.log(el, ctrl.content_menu.pasteObject)
+	ctrl.content_menu.pasteElementReference2 = function(el){
+		console.log(el, ctrl.content_menu.copyObject)
+		var so = {reference2:ctrl.content_menu.copyObject.doc_id,
+			doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference2 = :reference2 WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.reference2 = ctrl.content_menu.copyObject.doc_id
+			}
+		}
+		writeSql(so)
+	}
+	ctrl.content_menu.pasteElementReference1 = function(el){
+		console.log(el, ctrl.content_menu.copyObject)
+		var so = {reference:ctrl.content_menu.copyObject.doc_id,
+			doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference = :reference WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.reference = ctrl.content_menu.copyObject.doc_id
+			}
+		}
+		writeSql(so)
 	}
 	ctrl.content_menu.pasteElementContent = function(el){
-		console.log(el, ctrl.content_menu.pasteObject)
+		console.log(el, ctrl.content_menu.copyObject)
 	}
 	ctrl.content_menu.pasteElement = function(el){
-		ctrl.content_menu.pasteObject = el
 		console.log(el)
 		ctrl.content_menu.typeElement('paste',el)
 	}

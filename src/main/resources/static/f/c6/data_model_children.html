@@ -68,23 +68,34 @@
 						href="#" ng-click="ctrl.content_menu.pasteElement(el)"
 						title="вставка" class="w13-bar-item w3-button"><i
 						class="fa fa-paste"></i></a>
-					<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
+					<div class="w3-dropdown-content w3-card-4 w13-container w3-leftbar"
+						s1tyle="width: 190px"
 						data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 
 							ctrl.content_menu.subSepMenuName.indexOf('paste_')==0
 							">
 						<div>
-							<span class="w3-btn" title="вставка - Копії елемента">
-								&nbsp; <i class="fa fa-paste"></i>
+							<span class="w3-btn"
+								data-ng-click="ctrl.content_menu.pasteElementContent(el)"
+								title="вставка - Копії елемента"> &nbsp; <i
+								class="fa fa-paste"></i>
 							</span>
 						</div>
 						<div>
-							<span class="w3-btn" title="вставка - Посилання 1 на елемент">1
-								<i class="fas fa-share"></i>
+							<span class="w3-btn"
+								data-ng-click="ctrl.content_menu.pasteElementReference1(el)"
+								title="вставка - Посилання 1 на елемент">1 <i
+								class="fas fa-share"></i>
 							</span>
 						</div>
 						<div>
-							<span class="w3-btn" title="вставка - Посилання 2 на елемент">2
-								<i class="fas fa-share"></i>
+							<span class="w3-btn"
+								data-ng-click="ctrl.content_menu.pasteElementReference2(el)"
+								title="вставка - Посилання 2 на елемент">2 <i
+								class="fas fa-share"></i>
+							</span> <span data-ng-if="el.reference2">
+								{{'{'+d.reference2+'}'}} <i class="fas fa-eraser w3-btn"
+								title="зтерти"
+								data-ng-click="ctrl.content_menu.deleteElementReference2(el)"></i>
 							</span>
 						</div>
 					</div>
