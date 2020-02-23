@@ -3,12 +3,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initApp($scope, $http, $timeout)
 	initEh002()
 	initMenu()
-	ctrl.page_title = 'ms - ' + ctrl.request.parameters.doc2doc
+	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
 	console.log(ctrl.request)
-	ctrl.doc2doc_ids = []
-	angular.forEach(ctrl.request.parameters.doc2doc.split(','), function(v,k){
-		ctrl.doc2doc_ids[k] = 1*v
-	})
 
 	read_object({doc_id:ctrl.doc2doc_ids[0]})
 	read_object({doc_id:ctrl.doc2doc_ids[1]})

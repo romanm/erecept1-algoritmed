@@ -1,7 +1,87 @@
 var initMenu = function() {
+
+
+	ctrl.children_close = function(d){ 
+		if(d.children_close === undefined){
+			d.children_close = false
+		}else{
+			d.children_close = !d.children_close
+		}
+	}
+
+	
+	ctrl.select_tree_item = function(d){ 
+		ctrl.choice_data_model_obj = d; 
+		ctrl.children_close(d)
+		console.log(ctrl.choice_data_model_obj, ctrl.data_model_edit_obj)
+	}
+
+	ctrl.click_data_model_edit_obj = function(el){
+		console.log(el, ctrl.choice_data_model_obj)
+		if(ctrl.data_model_edit_obj 
+				&& ctrl.data_model_edit_obj.doc_id == ctrl.choice_data_model_obj.doc_id){
+			console.log(123)
+			delete ctrl.data_model_edit_obj
+			return
+		}
+		ctrl.data_model_edit_obj = ctrl.choice_data_model_obj
+		console.log(ctrl.choice_data_model_obj)
+	}
+
+	ctrl.save_model_s1value = function(el){
+		console.log(el)
+		if(el.s1_id){
+			var so = { s1value: el.s1value, s1_id : el.s1_id,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+			},}
+			so.sql = "UPDATE string SET value=:s1value WHERE string_id=:s1_id"
+			writeSql(so)
+		}else{
+			var so = { s1value: el.s1value, s1_id : el.doc_id,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+			},}
+			so.sql = "INSERT INTO string (string_id, value) VALUES (:s1_id, :s1value);\n"
+			writeSql(so)
+		}
+	}
+
+	ctrl.save_model_i18n = function(el){
+		var i18n_parent = ctrl.doc_i18n_parent['_'+ctrl.choice_data_model.doc_id]
+		console.log(el, ctrl.choice_data_model, ctrl.choice_data_model_obj, i18n_parent)
+		if(el.i18n_id){
+			var so = { i18n : el.i18n, i18n_id : el.i18n_id,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+			},}
+			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
+			writeSql(so)
+//		}else if(ctrl.choice_data_model.i18n_parent){
+		}else if(i18n_parent){
+			var so = {parent:i18n_parent, reference:el.doc_id, i18n:el.i18n,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+				el.i18n_id = response.data.nextDbId1
+			},}
+			console.log(so)
+			so.sql = sql_app.INSERT_doc_parent_ref()
+			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
+			console.log(el, so, ctrl.choice_data_model, so.sql)
+			writeSql(so)
+		}
+	}
+
+	if(ctrl.request.parameters.doc2doc){
+		ctrl.doc2doc_ids = []
+		angular.forEach(ctrl.request.parameters.doc2doc.split(','), function(v,k){
+			ctrl.doc2doc_ids[k] = 1*v
+		})
+	}
+
 	ctrl.initMenu2 = function(){
-		if(!ctrl.two_docs_ids){
-			ctrl.two_docs_ids = [ctrl.choice_data_model.doc_id,2]
+		if(!ctrl.two_docs_ids&&ctrl.doc2doc_ids){
+			ctrl.two_docs_ids = [ctrl.doc2doc_ids[0],ctrl.doc2doc_ids[1]]
 		}
 	}
 	ctrl.content_menu = {}
@@ -9,6 +89,15 @@ var initMenu = function() {
 		console.log(ctrl.two_docs_ids)
 		read_object({doc_id:ctrl.two_docs_ids[0]})
 		read_object({doc_id:ctrl.two_docs_ids[1]})
+	}
+	ctrl.content_menu.typeElement = function(type, el){
+		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
+	}
+	ctrl.content_menu.copyElement=function(o){
+		ctrl.content_menu.copyObject = o
+	}
+	ctrl.content_menu.cutElement=function(o){
+		ctrl.content_menu.cutObject = o
 	}
 	ctrl.content_menu.addElement = function(el){
 		var so = {parent:el.doc_id}

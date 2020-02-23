@@ -29,6 +29,8 @@
 				data-ng-click="ctrl.style.width_min('model_data_row')"></i> <span
 				class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i> <i
 				class="fas fa-terminal"></i>
+			</span> <span class="w3-btn"> <i class="fas fa-ellipsis-v"></i> <i
+				class="fas fa-reply-all"></i>
 			</span>
 			<div class="w3-btn"
 				data-ng-class="{'w3-green':ctrl.is_data_model_edit_part_name_actual('s1value')}"
@@ -52,6 +54,7 @@
 	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
 		<div data-ng-repeat="children in [edEl.children]"
 			data-ng-include="'/f/c6/data_model_children.html'"></div>
+		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 	</div>
 </div>

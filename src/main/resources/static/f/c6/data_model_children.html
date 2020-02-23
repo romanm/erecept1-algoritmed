@@ -9,7 +9,10 @@
 				data-ng-if="d.children && d.children_close"> <i
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
-		</span> [{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
+		</span> 
+		<i class="fas fa-edit w3-text-blue"
+			data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0"></i>
+			[{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 			<div class="w3-dropdown-content w3-card-4" style="width: 180px">
 				<div>
 					<a href="#" ng-click="ctrl.content_menu.upElement(el)"
@@ -23,9 +26,49 @@
 						title="Видалити запис" class="w3-button"><i
 						class="fa fa-minus"></i></a>
 				</div>
-				<div class="w3-border-top">.</div>
-				<div>.</div>
+				<div class="w3-border-top">
+					<i class="fas fa-edit w3-text-blue w3-btn"
+						data-ng-click="ctrl.content_menu.subSepMenuName = null"></i>
+					<i class="fas fa-ad w3-btn" title="Редагувати назву поля"
+						data-ng-click="ctrl.content_menu.typeElement('name',el)"></i>
+					<i class="fas fa-globe w3-btn" title="Редагувати переклад"
+						data-ng-click="ctrl.content_menu.typeElement('i18n',el)"></i>
+					<span> <i class="fas fa-hashtag w3-btn"
+						data-ng-click="ctrl.content_menu.typeElement('type',el)"
+						title="Тип вузла"></i>
+						<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
+							data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0">
+							<div
+								data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('name_')==0">
+								<i class="fas fa-ad"></i>
+								<div data-ng-include="'/f/c6/data_model_edit_obj_name.html'"></div>
+							</div>
+							<div
+								data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('i18n_')==0">
+								<i class="fas fa-globe"></i>
+								<div data-ng-include="'/f/c6/data_model_edit_obj_i18n.html'"></div>
+							</div>
+							<div
+								data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('type_')==0">
+								<i class="fas fa-hashtag"></i>
+								{{ctrl.content_menu.subSepMenuName}} a1
+								{{ctrl.content_menu.subSepMenuName.indexOf('name_')}}
+							</div>
+						</div>
+					</span>
+				</div>
+				<div class="w3-border-top">
+					<a href="#" ng-click="ctrl.content_menu.copyElement(el)"
+						title="копія" class="w13-bar-item w3-button"><i
+						class="fa fa-copy"></i></a> <a href="#"
+						ng-click="ctrl.content_menu.cutElement(el)" title="вирізка"
+						class="w13-bar-item w3-button"><i class="fa fa-cut"></i></a> <a
+						href="#" ng-click="ctrl.content_menu.pasteElement(el)"
+						title="вставка" class="w13-bar-item w3-button"><i
+						class="fa fa-paste"></i></a>
+				</div>
 			</div>
+			
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.select_tree_item(d)"><span
 			data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }} <span
@@ -40,7 +83,7 @@
 			<i class="fas fa-check"></i>
 		</span> <span data-ng-if="d.doc_id==ctrl.choice_data_model_obj.doc_id"
 			class="w3-right w3-green">&nbsp; <a href="#"
-			data-ng-click="ctrl.click_data_model_edit_obj()"><i
+			data-ng-click="ctrl.click_data_model_edit_obj(el)"><i
 				class="fas fa-edit"></i> </a>
 		</span>
 		<div data-ng-include="'/f/c6/data_model_edit_obj.html'"></div>
