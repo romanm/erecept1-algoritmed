@@ -37,7 +37,9 @@
 						data-ng-click="ctrl.content_menu.typeElement('type',el)"
 						title="Тип вузла"></i>
 						<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
-							data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0">
+							data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 
+							!(ctrl.content_menu.subSepMenuName.indexOf('paste_')==0)
+							">
 							<div
 								data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('name_')==0">
 								<i class="fas fa-ad"></i>
@@ -66,6 +68,26 @@
 						href="#" ng-click="ctrl.content_menu.pasteElement(el)"
 						title="вставка" class="w13-bar-item w3-button"><i
 						class="fa fa-paste"></i></a>
+					<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
+						data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 
+							ctrl.content_menu.subSepMenuName.indexOf('paste_')==0
+							">
+						<div>
+							<span class="w3-btn" title="вставка - Копії елементу">
+								&nbsp; <i class="fa fa-paste"></i>
+							</span>
+						</div>
+						<div>
+							<span class="w3-btn" title="вставка - Посилання 1 на елемент">1
+								<i class="fas fa-share"></i>
+							</span>
+						</div>
+						<div>
+							<span class="w3-btn" title="вставка - Посилання 2 на елемент">2
+								<i class="fas fa-share"></i>
+							</span>
+						</div>
+					</div>
 				</div>
 			</div>
 			

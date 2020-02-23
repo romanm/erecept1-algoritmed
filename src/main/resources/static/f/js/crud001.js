@@ -93,8 +93,23 @@ var initMenu = function() {
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}
-	ctrl.content_menu.copyElement=function(o){
-		ctrl.content_menu.copyObject = o
+	ctrl.content_menu.pasteElementReference2 = function(el){
+		console.log(el, ctrl.content_menu.pasteObject)
+	}
+	ctrl.content_menu.pasteElementReference = function(el){
+		console.log(el, ctrl.content_menu.pasteObject)
+	}
+	ctrl.content_menu.pasteElementContent = function(el){
+		console.log(el, ctrl.content_menu.pasteObject)
+	}
+	ctrl.content_menu.pasteElement = function(el){
+		ctrl.content_menu.pasteObject = el
+		console.log(el)
+		ctrl.content_menu.typeElement('paste',el)
+	}
+	ctrl.content_menu.copyElement=function(el){
+		ctrl.content_menu.copyObject = el
+		console.log(ctrl.content_menu.copyObject)
 	}
 	ctrl.content_menu.cutElement=function(o){
 		ctrl.content_menu.cutObject = o
