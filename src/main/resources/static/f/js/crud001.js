@@ -16,6 +16,11 @@ var initMenu = function() {
 		console.log(ctrl.choice_data_model_obj, ctrl.data_model_edit_obj)
 	}
 
+	ctrl.click_data_model_close_children = function(el){
+		angular.forEach(el.children, function(v,k){
+			v.children_close = true
+		})
+	}
 	ctrl.click_data_model_edit_obj = function(el){
 		console.log(el, ctrl.choice_data_model_obj)
 		if(ctrl.data_model_edit_obj 
