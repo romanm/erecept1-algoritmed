@@ -133,7 +133,23 @@ var initMenu = function() {
 		writeSql(so)
 	}
 	ctrl.content_menu.pasteElementContent = function(el){
+		var nextDbId = 1, sql = ''
 		console.log(el, ctrl.content_menu.copyObject)
+		sql +=sql_app.copyElement({parent:el.parent}, nextDbId, ctrl.content_menu.copyObject)
+		console.log(sql)
+	}
+	sql_app.copyElement = function(so, nextDbId, copyObject){
+		so.doc_id = ':nextDbId'+nextDbId
+		if(copyObject.reference)
+			so.reference = copyObject.reference
+		if(copyObject.reference2)
+			so.reference2 = copyObject.reference2
+		if(copyObject.doctype)
+			so.doctype = copyObject.doctype
+		var sql =sql_app.INSERT_doc(so)
+		if(copyObject.children){
+			
+		}
 	}
 	ctrl.content_menu.pasteElement = function(el){
 		console.log(el)
@@ -141,7 +157,16 @@ var initMenu = function() {
 	}
 	ctrl.content_menu.copyElement=function(el){
 		ctrl.content_menu.copyObject = el
+		el.countWithChildren = countWithChildren(el)
 		console.log(ctrl.content_menu.copyObject)
+	}
+	var countWithChildren = function(el){
+		var count = 1
+		if(el.children)
+			angular.forEach(el.children, function(v){
+				count += countWithChildren(v)
+			})
+		return count
 	}
 	ctrl.content_menu.cutElement=function(o){
 		ctrl.content_menu.cutObject = o

@@ -12,7 +12,14 @@
 		</span> 
 		<i class="fas fa-edit w3-text-blue"
 			data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0"></i>
-			[{{d.doc_id}}] <span data-ng-include="'/f/c6/doctype_short.html'"></span>
+			
+			<span
+			data-ng-class="{'w3-pale-yellow':ctrl.content_menu.copyObject.doc_id==el.doc_id}"
+			>
+			[{{d.doc_id}}]
+			</span>
+			
+			 <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 			<div class="w3-dropdown-content w3-card-4" style="width: 180px">
 				<div>
 					<a href="#" ng-click="ctrl.content_menu.upElement(el)"
@@ -78,7 +85,8 @@
 								data-ng-click="ctrl.content_menu.pasteElementContent(el)"
 								title="вставка - Копії елемента"> &nbsp; <i
 								class="fa fa-paste"></i>
-							</span>
+							</span> {{ctrl.content_menu.copyObject.doc_id}}
+							({{ctrl.content_menu.copyObject.countWithChildren}})
 						</div>
 						<div>
 							<span class="w3-btn"
