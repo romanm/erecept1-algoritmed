@@ -8,7 +8,6 @@ var initMenu = function() {
 			d.children_close = !d.children_close
 		}
 	}
-
 	
 	ctrl.select_tree_item = function(d){ 
 		ctrl.choice_data_model_obj = d; 
@@ -133,24 +132,58 @@ var initMenu = function() {
 		writeSql(so)
 	}
 	ctrl.content_menu.pasteElementContent = function(el){
-		var nextDbId = 1, sql = ''
 		console.log(el, ctrl.content_menu.copyObject)
-		sql +=sql_app.copyElement({parent:el.parent}, nextDbId, ctrl.content_menu.copyObject)
-		console.log(sql)
+		sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, ctrl.content_menu.copyObject, el)
 	}
-	sql_app.copyElement = function(so, nextDbId, copyObject){
-		so.doc_id = ':nextDbId'+nextDbId
-		if(copyObject.reference)
-			so.reference = copyObject.reference
-		if(copyObject.reference2)
-			so.reference2 = copyObject.reference2
-		if(copyObject.doctype)
-			so.doctype = copyObject.doctype
-		var sql =sql_app.INSERT_doc(so)
+	sql_app.copyElement = function(so, sort, copyObject, el){
+		if(copyObject.reference) so.reference = copyObject.reference
+		if(copyObject.reference2) so.reference2 = copyObject.reference2
+		if(copyObject.doctype) so.doctype = copyObject.doctype
+		so.sql =sql_app.INSERT_doc(so)
+		if(sort){
+			so.sql += "INSERT INTO sort (sort_id, sort) VALUES (" +
+				so.doc_id + ", " + sort + ");\n"
+		}
+		if(copyObject.s1value){
+			so.sql += "INSERT INTO string (string_id, value) VALUES (" +
+				so.doc_id + ", '" + copyObject.s1value + "');\n"
+		}
+		so.sql += sql_app.SELECT_obj_with_i18n(so.doc_id)
+		console.log(copyObject, so.sql)
+		so.dataAfterSave = function(response){
+			var elParent = ctrl.elementsMap[el.parent]
+			var indexEl = elParent.children.indexOf(el)
+			angular.forEach(response.data, function(v,k){ if(k.indexOf('list')==0){
+				var newEl = v[0]
+				console.log(v[0], indexEl)
+				elParent.children.splice(indexEl, 0, v[0])
+			}})
+		}
+		writeSql(so)
 		if(copyObject.children){
 			
 		}
 	}
+
+sql_app.INSERT_doc = function(so){
+	console.log(so)
+	var vars = '', vals = ''
+	angular.forEach(so, function(v,k){
+		if(vars.length>0){
+			vars += ', '
+			vals += ', '
+		}
+		console.log(v,k)
+		vars += k
+		if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
+			vals += v
+			else
+				vals += "'"+v+"'"
+	})
+	var sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + "); \n"
+	console.log(sql)
+	return sql
+}
 	ctrl.content_menu.pasteElement = function(el){
 		console.log(el)
 		ctrl.content_menu.typeElement('paste',el)
@@ -208,7 +241,6 @@ var initMenu = function() {
 		upDowntElement(el, -1)
 	}
 	//sql_app.replace_params()
-	
 }
 
 var upDowntElement = function(o, direction){
