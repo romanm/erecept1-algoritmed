@@ -133,57 +133,68 @@ var initMenu = function() {
 	}
 	ctrl.content_menu.pasteElementContent = function(el){
 		console.log(el, ctrl.content_menu.copyObject)
-		sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, ctrl.content_menu.copyObject, el)
+		sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
 	}
-	sql_app.copyElement = function(so, sort, copyObject, el){
-		if(copyObject.reference) so.reference = copyObject.reference
-		if(copyObject.reference2) so.reference2 = copyObject.reference2
-		if(copyObject.doctype) so.doctype = copyObject.doctype
+	sql_app.copyElement = function(so, sort, d){
+		if(d.copyObject.reference) so.reference = d.copyObject.reference
+		if(d.copyObject.reference2) so.reference2 = d.copyObject.reference2
+		if(d.copyObject.doctype) so.doctype = d.copyObject.doctype
 		so.sql =sql_app.INSERT_doc(so)
 		if(sort){
 			so.sql += "INSERT INTO sort (sort_id, sort) VALUES (" +
 				so.doc_id + ", " + sort + ");\n"
 		}
-		if(copyObject.s1value){
+		if(d.copyObject.s1value){
 			so.sql += "INSERT INTO string (string_id, value) VALUES (" +
-				so.doc_id + ", '" + copyObject.s1value + "');\n"
+				so.doc_id + ", '" + d.copyObject.s1value + "');\n"
 		}
 		so.sql += sql_app.SELECT_obj_with_i18n(so.doc_id)
-		console.log(copyObject, so.sql)
+		console.log(d.copyObject, so.sql)
 		so.dataAfterSave = function(response){
-			var elParent = ctrl.elementsMap[el.parent]
-			var indexEl = elParent.children.indexOf(el)
+			var newEl
 			angular.forEach(response.data, function(v,k){ if(k.indexOf('list')==0){
-				var newEl = v[0]
-				console.log(v[0], indexEl)
-				elParent.children.splice(indexEl, 0, v[0])
+				newEl = v[0]
 			}})
+			ctrl.elementsMap[newEl.doc_id] = newEl
+			if(!d.elParent){
+				var elParent = ctrl.elementsMap[d.el.parent]
+				var indexEl = elParent.children.indexOf(d.el)
+				console.log(newEl, indexEl)
+				elParent.children.splice(indexEl, 0, newEl)
+			}else{
+				d.elParent.children[sort] = newEl
+			}
+			if(d.copyObject.children){
+				newEl.children = []
+				angular.forEach(d.copyObject.children, function(v, k_sort){
+					console.log(v)
+					sql_app.copyElement({parent:newEl.doc_id, doc_id:':nextDbId'+1}, k_sort, {copyObject:v, elParent:newEl})
+				})
+			}
 		}
 		writeSql(so)
-		if(copyObject.children){
-			
-		}
 	}
 
-sql_app.INSERT_doc = function(so){
-	console.log(so)
-	var vars = '', vals = ''
-	angular.forEach(so, function(v,k){
-		if(vars.length>0){
-			vars += ', '
-			vals += ', '
-		}
-		console.log(v,k)
-		vars += k
-		if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
-			vals += v
-			else
-				vals += "'"+v+"'"
-	})
-	var sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + "); \n"
-	console.log(sql)
-	return sql
-}
+	sql_app.INSERT_doc = function(so){
+		console.log(so)
+		var vars = '', vals = ''
+		angular.forEach(so, function(v,k){
+			if(vars.length>0){
+				vars += ', '
+				vals += ', '
+			}
+			console.log(v,k)
+			vars += k
+			if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
+				vals += v
+				else
+					vals += "'"+v+"'"
+		})
+		var sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + "); \n"
+		console.log(sql)
+		return sql
+	}
+
 	ctrl.content_menu.pasteElement = function(el){
 		console.log(el)
 		ctrl.content_menu.typeElement('paste',el)
