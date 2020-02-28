@@ -1,5 +1,20 @@
 var initMenu = function() {
-
+	ctrl.initTypesList = function(){
+		if(!ctrl.typeList){
+			var sql = "" +
+			"SELECT * FROM (SELECT d1.*, d2.doctype doctype2, d2.doctype_id doctype2_id FROM doctype d1 \n" +
+			"LEFT JOIN doctype d2 ON d2.parent_id=d1.doctype_id  \n" +
+			"WHERE d1.parent_id =18 \n" +
+			"UNION \n" +
+			"SELECT d1.*, null, null FROM doctype d1 where doctype_id=18) x ORDER BY doctype_id, doctype2_id"
+			readSql({ sql:sql,
+				afterRead:function(response){ 
+					ctrl.typeList = response.data.list
+					console.log(ctrl.typeList)
+				}
+			})
+		}
+	}
 
 	ctrl.children_close = function(d){ 
 		if(d.children_close === undefined){
@@ -97,13 +112,23 @@ var initMenu = function() {
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}
+	ctrl.content_menu.deleteElementReference1 = function(el){
+		var so = {doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference = null WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				delete el.reference2 
+			}
+		}
+		writeSql(so)
+	}
 	ctrl.content_menu.deleteElementReference2 = function(el){
 		var so = {doc_id:el.doc_id,
-				sql:"UPDATE doc SET reference2 = null WHERE doc_id = :doc_id",
-				dataAfterSave:function(response){
-					console.log(response)
-					delete el.reference2 
-				}
+			sql:"UPDATE doc SET reference2 = null WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				delete el.reference2 
+			}
 		}
 		writeSql(so)
 	}

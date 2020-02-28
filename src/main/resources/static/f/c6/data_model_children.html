@@ -41,7 +41,7 @@
 					<i class="fas fa-globe w3-btn" title="Редагувати переклад"
 						data-ng-click="ctrl.content_menu.typeElement('i18n',el)"></i>
 					<span> <i class="fas fa-hashtag w3-btn"
-						data-ng-click="ctrl.content_menu.typeElement('type',el)"
+						data-ng-click="ctrl.content_menu.typeElement('type',el);ctrl.initTypesList();"
 						title="Тип вузла"></i>
 						<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
 							data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 
