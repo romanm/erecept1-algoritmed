@@ -152,11 +152,12 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 	sql_app.obj_with_i18n = function(){
 		var sql = "\n" +
 		"SELECT d1.*, sort, sort_id" +
-		", s1.value s1value, s1.string_id s1_id, dt1.value dt1value" +
+		", s1.value s1value, s1.string_id s1_id, r1.value r1value, dt1.value dt1value" +
 		", i1.value i1value" +
 		", i18n, i18n_id, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+		"LEFT JOIN string r1 ON d1.reference = r1.string_id \n" +
 		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id "+
@@ -254,10 +255,22 @@ sql_app.SELECT_with_parent = function(d){
 }
 
 
+var read_object2 = function(d){
+	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
+	console.log(sql, d)
+	read_dataObject2fn(sql, function(response){
+		ctrl.elementsMap[d.doc_id] = response.data.list[0]
+		d = response.data.list[0]
+//		console.log(d, sql, ctrl.elementsMap[d.doc_id])
+		read_children2(d)
+		if(ctrl.afterReadObj) ctrl.afterReadObj(d)
+	})
+}
+
 var read_object = function(d){
 	var sql = sql_app.SELECT_with_parent(d)
 	sql = sql.replace(' d1.parent =',' d1.doc_id =')
-//	console.log(sql, d)
+	console.log(sql, d)
 	read_dataObject2fn(sql, function(response){
 		ctrl.elementsMap[d.doc_id] = response.data.list[0]
 		d = response.data.list[0]
@@ -267,16 +280,18 @@ var read_object = function(d){
 	})
 }
 
-var set_cols_type = function(d) {
-	d.cols = {}
-	angular.forEach(d.children, function(v){
-		d.cols[v.reference] = v.doc_id
-		ctrl.elementsMap[v.doc_id] = v
-		if(v.cnt_child>0){
-//						console.log(v)
-			read_children(v)
-		}
-	})
+
+var read_children2 = function(d) {
+	if(!d.children) {
+		var sql = sql_app.SELECT_children_with_i18n(d.doc_id)
+//		console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			d.children = response.data.list
+			set_cols_type(d)
+			var data_model = ctrl.elementsMap[d.reference]
+			read_data_for_data_editor(data_model)
+		}}, null, d.doc_id)
+	}
 }
 
 var read_children = function(d) {
@@ -290,6 +305,18 @@ var read_children = function(d) {
 			read_data_for_data_editor(data_model)
 		}}, null, d.doc_id)
 	}
+}
+
+var set_cols_type = function(d) {
+	d.cols = {}
+	angular.forEach(d.children, function(v){
+		d.cols[v.reference] = v.doc_id
+		ctrl.elementsMap[v.doc_id] = v
+		if(v.cnt_child>0){
+//						console.log(v)
+			read_children(v)
+		}
+	})
 }
 
 var read_data_for_data_editor2 = function(d) {

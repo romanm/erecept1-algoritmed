@@ -109,6 +109,17 @@ var initMenu = function() {
 		read_object({doc_id:ctrl.two_docs_ids[0]})
 		read_object({doc_id:ctrl.two_docs_ids[1]})
 	}
+	ctrl.content_menu.setTypeElement = function(typEl, el){
+		console.log(typEl, el)
+		var so = {doc_id:el.doc_id, doctype_id:typEl.doctype_id,
+			sql:"UPDATE doc SET doctype = :doctype_id WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.doctype = typEl.doctype_id
+			}
+		}
+		writeSql(so)
+	}
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}

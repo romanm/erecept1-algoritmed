@@ -6,8 +6,8 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
 	console.log(ctrl.request)
 
-	read_object({doc_id:ctrl.doc2doc_ids[0]})
-	read_object({doc_id:ctrl.doc2doc_ids[1]})
+	read_object2({doc_id:ctrl.doc2doc_ids[0]})
+	read_object2({doc_id:ctrl.doc2doc_ids[1]})
 
 	angular.forEach(ctrl.doc2doc_ids, function(v){
 		read_mergeList('docs', sql_app.SELECT_obj_with_i18n(v))
