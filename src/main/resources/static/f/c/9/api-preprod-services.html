@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk-ua.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/f/js/app003.js"></script>
+<script src="/f/c/9/api-preprod-services.js"></script>
+</head>
+<body>
+	<div class="w3-container">
+		<div data-ng-include="'/f/c/8/head.html'"></div>
+		<div
+		class="w3-panel"
+		>
+		Першоджерела JSON: <a
+			href="https://api-preprod.ehealth.gov.ua/api/services">
+			https://api-preprod.ehealth.gov.ua/api/services </a>, <a
+			href="/f/c/9/services.json"> /f/c/9/services.json </a>
+		</div>
+		<div data-ng-repeat="el1 in ctrl.api_services">
+			<div class="w3-hover-shadow"
+				data-ng-class="{'w3-border':ctrl.code==el1.code}"
+				data-ng-click="ctrl.click_service_1(el1)">
+				{{el1.code}} : {{el1.name}} || g:{{el1.groups.length}}
+				s:{{el1.services.length}} <span data-ng-if="el1.gg_cnt">
+					gg:{{el1.gg_cnt}} </span>
+			</div>
+			<div data-ng-if="el1.open_children">
+				<div class="w3-container" data-ng-repeat="g in el1.groups">
+					<div class="w3-hover-shadow"
+						data-ng-class="{'w3-border':ctrl.code==g.code}"
+						data-ng-click="ctrl.click_service_1(g)">G: {{g.code}} :
+						{{g.name}} || g:{{g.groups.length}}</div>
+					<div data-ng-if="g.open_children">
+						<div class="w3-container" data-ng-repeat="g2 in g.groups">
+							<div class="w3-hover-shadow"
+								data-ng-class="{'w3-border':ctrl.code==g2.code}"
+								data-ng-click="ctrl.click_service_1(g2)">G: {{g2.code}} :
+								{{g2.name}} || g:{{g2.groups.length}} s:{{g2.services.length}}</div>
+							<div data-ng-if="g2.open_children">
+								<div class="w3-container" data-ng-repeat="el2 in g2.services">
+									<div class="w3-hover-shadow"
+										data-ng-class="{'w3-border':ctrl.code==el2.code}"
+										data-ng-click="ctrl.click_service_1(el2)">
+										S: {{el2.code}} : {{el2.name}} <span class="w3-tiny">
+											c({{el2.category}}) </span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="w3-container" data-ng-repeat="s in g.services">
+						Sg: {{s.code}} : {{s.name}}</div>
+				</div>
+				<div class="w3-container" data-ng-repeat="el2 in el1.services">
+					<div class="w3-hover-shadow"
+						data-ng-class="{'w3-border':ctrl.code==el2.code}"
+						data-ng-click="ctrl.click_service_1(el2)">
+						S: {{el2.code}} : {{el2.name}} <span class="w3-tiny">
+							c({{el2.category}}) </span>
+					</div>
+				</div>
+			</div>
+			<!-- 
+			 -->
+		</div>
+	</div>
+</body>
+</html>

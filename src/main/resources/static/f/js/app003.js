@@ -257,7 +257,7 @@ sql_app.SELECT_with_parent = function(d){
 
 var read_object2 = function(d){
 	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
-	console.log(sql, d)
+//	console.log(sql, d)
 	read_dataObject2fn(sql, function(response){
 		ctrl.elementsMap[d.doc_id] = response.data.list[0]
 		d = response.data.list[0]

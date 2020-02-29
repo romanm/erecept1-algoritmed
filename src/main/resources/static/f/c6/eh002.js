@@ -4,7 +4,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initEh002()
 	initMenu()
 	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
-	console.log(ctrl.request)
+	console.log(ctrl.request.parameters.doc2doc)
 
 	read_object2({doc_id:ctrl.doc2doc_ids[0]})
 	read_object2({doc_id:ctrl.doc2doc_ids[1]})
