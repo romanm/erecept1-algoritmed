@@ -15,7 +15,30 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl.choice_data_model_id = ctrl.doc2doc_ids[0]
 
 	var s = sql_app.obj_with_i18n(ctrl.doc2doc_ids[0])
+	ctrl.doc2doc_fd = {}
+	ctrl.doc2doc_fd['_'+ctrl.doc2doc_ids[0]] = {}
+	ctrl.doc2doc_fd['_'+ctrl.doc2doc_ids[1]] = {}
+	read_to_folder({doc_id:ctrl.doc2doc_ids[0]}, ctrl.doc2doc_ids[0])
+	read_to_folder({doc_id:ctrl.doc2doc_ids[1]}, ctrl.doc2doc_ids[1])
 })
+
+var read_to_folder = function(d, d_start_id, doc){
+	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
+	readSql({ sql:sql,
+		afterRead:function(response){
+			var d_r = response.data.list[0]
+			if(14==d_r.doctype){
+				doc.folder = d_r
+				ctrl.doc2doc_fd['_'+d_start_id] = doc
+			}else
+			if(17==d_r.doctype){
+				read_to_folder({doc_id:d_r.parent}, d_start_id, d_r)
+			}else{
+				read_to_folder({doc_id:d_r.parent}, d_start_id)
+			}
+		}
+	})
+}
 
 var initEh002 = function() {
 
