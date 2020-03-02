@@ -270,7 +270,7 @@ var read_object2 = function(d){
 var read_object = function(d){
 	var sql = sql_app.SELECT_with_parent(d)
 	sql = sql.replace(' d1.parent =',' d1.doc_id =')
-	console.log(sql, d)
+//	console.log(sql, d)
 	read_dataObject2fn(sql, function(response){
 		ctrl.elementsMap[d.doc_id] = response.data.list[0]
 		d = response.data.list[0]

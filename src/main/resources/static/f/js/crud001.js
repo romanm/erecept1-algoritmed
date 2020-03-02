@@ -49,15 +49,16 @@ var initMenu = function() {
 
 	ctrl.save_model_s1value = function(el){
 		console.log(el)
+		var s1value = el.s1value.replace("'","''")
 		if(el.s1_id){
-			var so = { s1value: el.s1value, s1_id : el.s1_id,
+			var so = { s1value: s1value, s1_id : el.s1_id,
 			dataAfterSave : function(response){
 				console.log(el, response.data, so)
 			},}
 			so.sql = "UPDATE string SET value=:s1value WHERE string_id=:s1_id"
 			writeSql(so)
 		}else{
-			var so = { s1value: el.s1value, s1_id : el.doc_id,
+			var so = { s1value: s1value, s1_id : el.doc_id,
 			dataAfterSave : function(response){
 				console.log(el, response.data, so)
 			},}
@@ -67,7 +68,8 @@ var initMenu = function() {
 	}
 
 	ctrl.save_model_i18n = function(el){
-		var i18n_parent = ctrl.doc_i18n_parent['_'+ctrl.choice_data_model.doc_id]
+//		var i18n_parent = ctrl.doc_i18n_parent['_'+ctrl.choice_data_model.doc_id]
+		var i18n_parent = ctrl.i18n_parent
 		console.log(el, ctrl.choice_data_model, ctrl.choice_data_model_obj, i18n_parent)
 		if(el.i18n_id){
 			var so = { i18n : el.i18n, i18n_id : el.i18n_id,
@@ -111,11 +113,14 @@ var initMenu = function() {
 	}
 	ctrl.content_menu.setTypeElement = function(typEl, el){
 		console.log(typEl, el)
-		var so = {doc_id:el.doc_id, doctype_id:typEl.doctype_id,
+		var doctype_id = typEl.doctype_id
+		if(typEl.doctype2_id)
+			var doctype_id = typEl.doctype2_id
+		var so = {doc_id:el.doc_id, doctype_id:doctype_id,
 			sql:"UPDATE doc SET doctype = :doctype_id WHERE doc_id = :doc_id",
 			dataAfterSave:function(response){
 				console.log(response)
-				el.doctype = typEl.doctype_id
+				el.doctype = doctype_id
 			}
 		}
 		writeSql(so)
@@ -167,9 +172,38 @@ var initMenu = function() {
 		}
 		writeSql(so)
 	}
+	ctrl.content_menu.pasteElementChildContent = function(el){
+		console.log(el)
+		if(ctrl.content_menu.cutObject){
+			console.log(ctrl.content_menu.cutObject)
+			var so = {parent:el.doc_id,
+				doc_id:ctrl.content_menu.cutObject.doc_id,
+				sql:"UPDATE doc SET parent=:parent WHERE doc_id=:doc_id",
+				dataAfterSave:function(response){
+					console.log(response.data)
+					delete ctrl.content_menu.cutObject
+				}
+			}
+			writeSql(so)
+		}
+	}
 	ctrl.content_menu.pasteElementContent = function(el){
-		console.log(el, ctrl.content_menu.copyObject)
-		sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
+		console.log(el)
+		if(ctrl.content_menu.cutObject){
+			console.log(ctrl.content_menu.cutObject)
+			var so = {parent:el.parent,
+				doc_id:ctrl.content_menu.cutObject.doc_id,
+				sql:"UPDATE doc SET parent=:parent WHERE doc_id=:doc_id",
+				dataAfterSave:function(response){
+					console.log(response.data)
+					delete ctrl.content_menu.cutObject
+				}
+			}
+			writeSql(so)
+		}else if(ctrl.content_menu.copyObject){
+			console.log(el, ctrl.content_menu.copyObject)
+			sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
+		}
 	}
 	sql_app.copyElement = function(so, sort, d){
 		if(d.copyObject.reference) so.reference = d.copyObject.reference
@@ -250,6 +284,7 @@ var initMenu = function() {
 	}
 	ctrl.content_menu.cutElement=function(o){
 		ctrl.content_menu.cutObject = o
+		console.log(o)
 	}
 	ctrl.content_menu.addElement = function(el){
 		var so = {parent:el.doc_id}

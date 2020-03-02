@@ -19,7 +19,7 @@
 			[{{d.doc_id}}]
 			</span>
 			
-			 <span data-ng-include="'/f/c6/doctype_short.html'"></span>
+			<span data-ng-include="'/f/c6/doctype_short.html'"></span>
 			<div class="w3-dropdown-content w3-card-4" style="width: 180px">
 				<div>
 					<a href="#" ng-click="ctrl.content_menu.upElement(el)"
@@ -71,6 +71,7 @@
 										data-ng-if="typEl.doctype2_id">.{{typEl.doctype2}}</span>
 								</div>
 							</div>
+							<br/>
 						</div>
 					</span>
 				</div>
@@ -112,6 +113,13 @@
 								{{'{'+d.reference2+'}'}} <i class="fas fa-eraser w3-btn"
 								title="зтерти"
 								data-ng-click="ctrl.content_menu.deleteElementReference2(el)"></i>
+							</span>
+						</div>
+						<div>
+							<span class="w3-btn"
+								data-ng-click="ctrl.content_menu.pasteElementChildContent(el)"
+								title="перенесення - Вкладеного Елемента "> <i
+								class="fas fa-project-diagram"></i> <i class="fa fa-paste"></i>
 							</span>
 						</div>
 					</div>

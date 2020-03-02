@@ -36,14 +36,16 @@
 		<div class="w3-row">
 			<div class="w3-half w3-border-right">
 				<div class="w3-tiny am-b">
-					{{ctrl.elementsMap[ctrl.doc2doc_ids[0]].s1value}}</div>
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[0]].s1value}}:
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[0]].i18n}}</div>
 				<div
 					data-ng-repeat="edEl in [ctrl.elementsMap[ctrl.doc2doc_ids[0]]] "
 					data-ng-include="'/f/c6/data_model.html'"></div>
 			</div>
 			<div class="w3-half ">
 				<div class="w3-tiny am-b w3-container">
-					{{ctrl.elementsMap[ctrl.doc2doc_ids[1]].s1value}}</div>
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[1]].s1value}}:
+					{{ctrl.elementsMap[ctrl.doc2doc_ids[1]].i18n}}</div>
 				<div
 					data-ng-repeat="edEl in [ctrl.elementsMap[ctrl.doc2doc_ids[1]]] "
 					data-ng-include="'/f/c6/data_model.html'"></div>
