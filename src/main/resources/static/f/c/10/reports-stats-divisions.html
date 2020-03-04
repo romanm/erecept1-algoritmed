@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html data-ng-app="myApp" data-ng-controller="AppCtrl as ctrl"
+	lang="uk-UA">
+<head>
+<meta charset="utf-8" />
+<title>{{ctrl.page_title}}</title>
+<link rel="stylesheet"
+	href="/webjars/font-awesome/5.12.0/css/all.min.css">
+<link rel="stylesheet" href="/f/css/w3.css">
+<link rel="stylesheet" href="/f/css/am.css">
+<link rel="shortcut icon" href="/f/img/algoritmed.ico"
+	type="image/x-icon">
+<script src="/webjars/angularjs/1.7.9/angular.min.js"></script>
+<script src="/webjars/angularjs/1.7.9/i18n/angular-locale_uk-ua.js"></script>
+<script src="/webjars/angularjs/1.7.9/angular-sanitize.min.js"></script>
+<script src="/f/js/app003.js"></script>
+<script src="/f/c/10/reports-stats-divisions.js"></script>
+</head>
+<body>
+	<div class="w3-container">
+		<div data-ng-include="'/f/c/8/head.html'"></div>
+		<div class="w3-row w3-small am-b w3-border-bottom">
+			<div data-ng-repeat="(k,h) in ctrl.divisions_table"
+				data-ng-class="{'w3-col':!$last,'w3-rest':$last,}"
+				data-ng-style="h.style">{{h.n}}</div>
+		</div>
+		<div data-ng-repeat="z in ctrl.api_divisions" class="w3-row w3-border-bottom">
+			<div data-ng-repeat="(k,h) in ctrl.divisions_table"
+				data-ng-class="{'w3-col':!$last,'w3-rest':$last,'w3-tiny':h.w3tiny}"
+				data-ng-style="h.style">
+				<div data-ng-if="h.include_k"
+					data-ng-include="'/f/c/10/divisions_table_'+k+'.html'"></div>
+				<div data-ng-if="!h.include_k">{{z[k]}}</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
