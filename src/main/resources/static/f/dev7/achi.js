@@ -14,6 +14,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 //	read_l3(ctrl)
 })
 
+
 function initAchi() {
 	ctrl.achi_seek_head = {
 		n9:{n:'Код', style:{'width':'100px'}},
