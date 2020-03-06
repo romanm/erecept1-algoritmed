@@ -20,6 +20,9 @@
 	<div class="w3-container">
 		<div data-ng-include="'/f/c/8/head.html'"></div>
 		<div class="w3-row w3-small am-b w3-border-bottom">
+			<div class="w3-right w3-tiny">
+				JSON: <a href="{{ctrl.urls[0]}}">All</a> | <a href="{{ctrl.urls[1]}}">ЄДРПОУ</a>
+			</div>
 			<div data-ng-repeat="(k,h) in ctrl.divisions_table"
 				data-ng-class="{'w3-col':!$last,'w3-rest':$last,}"
 				data-ng-style="h.style">{{h.n}}</div>

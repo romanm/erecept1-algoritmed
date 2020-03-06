@@ -6,7 +6,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initDivisions()
 	
 	exe_fn.httpGet({
-		url:'https://api.ehealth-ukraine.org/api/reports/stats/divisions',
+		url:ctrl.urls[0],
 		url1:'/f/c/9/services.json',
 		then_fn:function(response){
 			ctrl.api_divisions = response.data.data
@@ -17,6 +17,10 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 })
 
 function initDivisions() {
+	ctrl.urls = [
+		"https://api.ehealth-ukraine.org/api/reports/stats/divisions",
+		"https://api.ehealth-ukraine.org/api/reports/stats/divisions?legal_entity_edrpou=37478567"
+	]
 	ctrl.divisions_table = {}
 //	ctrl.divisions_table.type = {n:'Тип', w3tiny:true, style:{'width':'77px'}}
 	ctrl.divisions_table.name = {n:'Тип, Ім\'я', style:{'width':'300px'}, include_k:true}
