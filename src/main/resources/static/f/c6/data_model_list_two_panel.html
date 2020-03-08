@@ -1,9 +1,9 @@
 <div>
 	<div class="w3-border-bottom">
-		ids: {{ctrl.two_docs_ids.toString()}} <a target="_blank"
+		ids: {{ ctrl.object_values(ctrl.two_docs_ids).toString() }} <a target="_blank"
 			class="w3-border w3-border-green w3-leftbar w3-hover-shadow"
 			data-ng-if="ctrl.two_docs_ids[1]>2"
-			href="eh002.html?doc2doc={{ctrl.two_docs_ids.toString()}}">
+			href="eh002.html?doc2doc={{ ctrl.object_values(ctrl.two_docs_ids).toString() }}">
 			&nbsp; <i class="fas fa-link"></i> eh002 &nbsp;
 		</a> <i class="fas fa-sync w3-btn"
 			data-ng-click="ctrl.content_menu.reRead()"></i>

@@ -126,6 +126,16 @@ var initApp = function($scope, $http, $timeout){
 			delete ctrl.docs_menu_name1 
 	}
 
+	ctrl.isTypeof = function(o){
+		return typeof o
+	}
+	ctrl.typeof_string = function(o){
+		return typeof o === 'string'
+	}
+	ctrl.object_values = function(o){
+		if(o)
+			return Object.values(o)
+	}
 }
 
 sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
@@ -267,6 +277,22 @@ var read_object2 = function(d){
 	})
 }
 
+var read_children2 = function(d) {
+	if(!d.children) {
+		var sql = sql_app.SELECT_children_with_i18n(d.doc_id)
+//		console.log(sql)
+		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
+			if(!d.children) {
+				d.children = response.data.list
+				set_cols_type(d)
+				var data_model = ctrl.elementsMap[d.reference]
+				read_data_for_data_editor(data_model)
+			}
+		}}, null, d.doc_id)
+	}
+}
+
+
 var read_object = function(d){
 	var sql = sql_app.SELECT_with_parent(d)
 	sql = sql.replace(' d1.parent =',' d1.doc_id =')
@@ -281,18 +307,6 @@ var read_object = function(d){
 }
 
 
-var read_children2 = function(d) {
-	if(!d.children) {
-		var sql = sql_app.SELECT_children_with_i18n(d.doc_id)
-//		console.log(sql)
-		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
-			d.children = response.data.list
-			set_cols_type(d)
-			var data_model = ctrl.elementsMap[d.reference]
-			read_data_for_data_editor(data_model)
-		}}, null, d.doc_id)
-	}
-}
 
 var read_children = function(d) {
 	if(!d.children) {
