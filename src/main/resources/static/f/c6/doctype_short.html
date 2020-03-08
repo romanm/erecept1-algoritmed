@@ -1,10 +1,14 @@
 <span class="w3-tiny" title="{{d.doctype}}" data-ng-switch="d.doctype">
-	<span data-ng-switch-when="32">s[]</span> <span
-	data-ng-switch-when="37">o[]</span> <span data-ng-switch-when="18">o</span><span
-	data-ng-switch-when="23">i</span> <span data-ng-switch-when="22">s</span>
-	<span data-ng-switch-when="26">d</span> <span data-ng-switch-default>
-		{{d.doctype}}{{d.doctype>30?'[]':''}} 
-		<!-- 
+	<span data-ng-switch-when="18">o</span> <span data-ng-switch-when="22">s</span>
+	<span data-ng-switch-when="23">i</span> 
+	<span data-ng-switch-when="25">ts</span>
+	<span data-ng-switch-when="26">d</span>
+	<span data-ng-switch-when="30">uuid</span>
+	<span data-ng-switch-when="32">s[]</span> 
+	<span data-ng-switch-when="35">ts[]</span> 
+	<span
+	data-ng-switch-when="37">o[]</span> <span data-ng-switch-default>
+		{{d.doctype}}{{d.doctype>30?'[]':''}} <!-- 
 	{{d.doctype==32?'s':''}}{{d.doctype==22?'s':''}}{{d.doctype==26?'d':''}}
 	 -->
 </span>

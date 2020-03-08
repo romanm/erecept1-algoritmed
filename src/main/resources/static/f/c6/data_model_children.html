@@ -9,17 +9,11 @@
 				data-ng-if="d.children && d.children_close"> <i
 					class="fas fa-ellipsis-v"></i>&nbsp;&nbsp;
 			</span>
-		</span> 
-		<i class="fas fa-edit w3-text-blue"
+		</span> <i class="fas fa-edit w3-text-blue"
 			data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0"></i>
-			
 			<span
-			data-ng-class="{'w3-pale-yellow':ctrl.content_menu.copyObject.doc_id==el.doc_id}"
-			>
-			[{{d.doc_id}}]
-			</span>
-			
-			<span data-ng-include="'/f/c6/doctype_short.html'"></span>
+			data-ng-class="{'w3-pale-yellow':ctrl.content_menu.copyObject.doc_id==el.doc_id}">
+				[{{d.doc_id}}] </span> <span data-ng-include="'/f/c6/doctype_short.html'"></span>
 			<div class="w3-dropdown-content w3-card-4" style="width: 180px">
 				<div>
 					<a href="#" ng-click="ctrl.content_menu.upElement(el)"
@@ -35,12 +29,12 @@
 				</div>
 				<div class="w3-border-top">
 					<i class="fas fa-edit w3-text-blue w3-btn"
-						data-ng-click="ctrl.content_menu.subSepMenuName = null"></i>
-					<i class="fas fa-ad w3-btn" title="Редагувати назву поля"
-						data-ng-click="ctrl.content_menu.typeElement('name',el)"></i>
-					<i class="fas fa-globe w3-btn" title="Редагувати переклад"
-						data-ng-click="ctrl.content_menu.typeElement('i18n',el)"></i>
-					<span> <i class="fas fa-hashtag w3-btn"
+						data-ng-click="ctrl.content_menu.subSepMenuName = null"></i> <i
+						class="fas fa-ad w3-btn" title="Редагувати назву поля"
+						data-ng-click="ctrl.content_menu.typeElement('name',el)"></i> <i
+						class="fas fa-globe w3-btn" title="Редагувати переклад"
+						data-ng-click="ctrl.content_menu.typeElement('i18n',el)"></i> <span>
+						<i class="fas fa-hashtag w3-btn"
 						data-ng-click="ctrl.content_menu.typeElement('type',el);ctrl.initTypesList();"
 						title="Тип вузла"></i>
 						<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
@@ -60,8 +54,7 @@
 							<div
 								data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('type_')==0">
 								<i class="fas fa-hashtag"></i>
-								{{ctrl.content_menu.subSepMenuName}}
-								{{el.doctype}}
+								{{ctrl.content_menu.subSepMenuName}} {{el.doctype}}
 								<div data-ng-repeat="typEl in ctrl.typeList"
 									data-ng-click="ctrl.content_menu.setTypeElement(typEl, el)"
 									data-ng-class="{'w3-yellow':typEl.doctype_id==el.doctype||typEl.doctype2_id==el.doctype}"
@@ -71,7 +64,7 @@
 										data-ng-if="typEl.doctype2_id">.{{typEl.doctype2}}</span>
 								</div>
 							</div>
-							<br/>
+							<br />
 						</div>
 					</span>
 				</div>
@@ -100,14 +93,17 @@
 						<div>
 							<span class="w3-btn"
 								data-ng-click="ctrl.content_menu.pasteElementReference1(el)"
-								title="вставка - Посилання 1 на елемент">1 <i
+								title="вставка - Посилання 1 на елемент">1 type <i
 								class="fas fa-share"></i>
+							</span> <span data-ng-if="el.reference"> {{' '+d.reference+' '}}
+								<i class="fas fa-eraser w3-btn" title="зтерти"
+								data-ng-click="ctrl.content_menu.deleteElementReference1(el)"></i>
 							</span>
 						</div>
 						<div>
 							<span class="w3-btn"
 								data-ng-click="ctrl.content_menu.pasteElementReference2(el)"
-								title="вставка - Посилання 2 на елемент">2 <i
+								title="вставка - Посилання 2 на елемент">2 value <i
 								class="fas fa-share"></i>
 							</span> <span data-ng-if="el.reference2">
 								{{'{'+d.reference2+'}'}} <i class="fas fa-eraser w3-btn"
@@ -125,7 +121,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.select_tree_item(d)"><span
 			data-ng-if="d.i1value"> {{d.i1value}}.</span> {{d.s1value }} <span
