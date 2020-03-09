@@ -284,14 +284,14 @@ var read_children2 = function(d) {
 		read_dataObject2fn(sql, function(response){ if(response.data.list.length>0){
 			if(!d.children) {
 				d.children = response.data.list
-				set_cols_type(d)
+				if(ctrl.afterReadObjChildren) ctrl.afterReadObjChildren(d)
+				set_cols_type2(d)
 				var data_model = ctrl.elementsMap[d.reference]
 				read_data_for_data_editor(data_model)
 			}
 		}}, null, d.doc_id)
 	}
 }
-
 
 var read_object = function(d){
 	var sql = sql_app.SELECT_with_parent(d)
@@ -306,8 +306,6 @@ var read_object = function(d){
 	})
 }
 
-
-
 var read_children = function(d) {
 	if(!d.children) {
 		var sql = sql_app.SELECT_with_parent(d)
@@ -321,6 +319,19 @@ var read_children = function(d) {
 	}
 }
 
+var set_cols_type2 = function(d) {
+	d.cols = {}
+	angular.forEach(d.children, function(v){
+		d.cols[v.reference] = v.doc_id
+		if(!ctrl.elementsMap[v.doc_id]){
+			ctrl.elementsMap[v.doc_id] = v
+			if(v.cnt_child>0){
+//				console.log(v)
+				read_children2(v)
+			}
+		}
+	})
+}
 var set_cols_type = function(d) {
 	d.cols = {}
 	angular.forEach(d.children, function(v){

@@ -6,21 +6,24 @@
 		<span class="w3-small "> {{legal_entity.edrpou}} </span>
 		{{legal_entity.name}}
 	</div>
-	<div class="w3-card w3-border "
+	<div class="w3-card w3-border-left w3-border-right"
 		data-ng-if="ctrl.legal_entity_edit_obj.id==legal_entity.id">
-		<div class="w3-tiny w3-grey">edit-box:
-			{{ctrl.legal_entity_edit_obj.id}}</div>
-		<div class="w3-border">конвертація в БД</div>
+		<div class="w3-tiny w3-grey">
+			<span class="w3-light-grey am-b w3-right"> :edit-box: </span> <i
+				title="Створити"
+				data-ng-click="ctrl.copyDP_legal_entity(ctrl.legal_entity_edit_obj);"
+				class="w3-btn w3-ripple far fa-file"></i> |
+			{{ctrl.legal_entity_edit_obj.id}}
+		</div>
+		<div class="w3-border-bottom">конвертація в БД</div>
 		<div class="w3-row">
-			<div class="w3-half w3-border">
+			<div class="w3-half ">
 				<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
-					data-ng-init="att_name=c.s1value;att_val=c">
-					{{att_name}}</div>
-
+					data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=c">{{att_name}}</div>
 			</div>
-			<div class="w3-half">
+			<div class="w3-half w3-border-left">
 				<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
-					data-ng-init="att_name=c.s1value;att_val=ctrl.legal_entity_edit_obj[att_name]"
+					data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=ctrl.legal_entity_edit_obj[att_name]"
 					data-ng-switch="ctrl.isTypeof(att_val)">
 					<div data-ng-switch-when="string">
 						<span class="w3-tiny am-b">{{att_name}}:</span>{{att_val}}
@@ -28,14 +31,11 @@
 					<div data-ng-switch-default>
 						{{ctrl.isTypeof(att_val)}} <span class="w3-tiny am-b">{{att_name}}:</span>
 					</div>
-
 				</div>
-				<span
-				class="w3-tiny am-b"
+				<span class="w3-tiny am-b"
 					data-ng-repeat="(att_name,att_val) in ctrl.legal_entity_edit_obj">
 					{{att_name}}, </span>
 			</div>
 		</div>
-
 	</div>
 </div>

@@ -1,3 +1,65 @@
+var initCrud002 = function() {
+
+	ctrl.copyDP_legal_entity = function(copyEl){
+		var so = ctrl.so_legal_entity
+		so.dataAfterSave = function(response) {
+			var key_reference = ctrl.elementsMap[115827].key_reference
+			console.log(response.data, copyEl, key_reference)
+			angular.forEach(copyEl, function(v,k){
+				console.log(k)
+				if (k.indexOf('$')==0) {
+				} else if(ctrl.isTypeof(v) === 'string'){
+					var reference = key_reference[k]
+					if(reference){
+						var so1 = {s1value:v, parent:response.data.nextDbId1, reference:reference}
+						sql_app.INSERT_doc(so1)
+						console.log(k, reference, ctrl.elementsMap[reference].reference)
+					}
+				}
+			})
+		}
+		ctrl.create_doc(so)
+	}
+
+	ctrl.create_doc = function(so){
+		if(!so.dataAfterSave){
+			so.dataAfterSave = function(response) {
+				console.log(response.data)
+			}
+		}
+		so.sql = sql_app.INSERT_doc_parent_ref()
+		console.log(so, so.sql)
+		writeSql(so)
+	}
+	ctrl.so_legal_entity = {parent:285460, reference:115827}
+}
+
+
+sql_app.INSERT_doc = function(so){
+//	console.log(so)
+	var vars = '', vals = ''
+	angular.forEach(so, function(v,k){
+		if(vars.length>0){
+			vars += ', '
+			vals += ', '
+		}
+//		console.log(v,k)
+		vars += k
+		if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
+			vals += v
+			else
+				vals += "'"+v+"'"
+	})
+	so.sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + "); \n"
+	if(so.s1value){
+		so.sql += "INSERT INTO string (string_id, value) VALUES (" +
+			so.doc_id + ", '" + so.s1value + "');\n"
+	}
+//	console.log(so.sql)
+	return so.sql
+}
+
+
 var initMenu = function() {
 	ctrl.initTypesList = function(){
 		if(!ctrl.typeList){
@@ -205,18 +267,18 @@ var initMenu = function() {
 			sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
 		}
 	}
+
 	sql_app.copyElement = function(so, sort, d){
 		if(d.copyObject.reference) so.reference = d.copyObject.reference
 		if(d.copyObject.reference2) so.reference2 = d.copyObject.reference2
 		if(d.copyObject.doctype) so.doctype = d.copyObject.doctype
-		so.sql =sql_app.INSERT_doc(so)
+		if(d.copyObject.s1value){
+			so.s1value = d.copyObject.s1value
+		}
+		so.sql = sql_app.INSERT_doc(so)
 		if(sort){
 			so.sql += "INSERT INTO sort (sort_id, sort) VALUES (" +
 				so.doc_id + ", " + sort + ");\n"
-		}
-		if(d.copyObject.s1value){
-			so.sql += "INSERT INTO string (string_id, value) VALUES (" +
-				so.doc_id + ", '" + d.copyObject.s1value + "');\n"
 		}
 		so.sql += sql_app.SELECT_obj_with_i18n(so.doc_id)
 		console.log(d.copyObject, so.sql)
@@ -243,26 +305,6 @@ var initMenu = function() {
 			}
 		}
 		writeSql(so)
-	}
-
-	sql_app.INSERT_doc = function(so){
-		console.log(so)
-		var vars = '', vals = ''
-		angular.forEach(so, function(v,k){
-			if(vars.length>0){
-				vars += ', '
-				vals += ', '
-			}
-			console.log(v,k)
-			vars += k
-			if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
-				vals += v
-				else
-					vals += "'"+v+"'"
-		})
-		var sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + "); \n"
-		console.log(sql)
-		return sql
 	}
 
 	ctrl.content_menu.pasteElement = function(el){
