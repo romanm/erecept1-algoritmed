@@ -39,6 +39,7 @@ function initDivisions() {
 		"https://api.ehealth-ukraine.org/api/reports/stats/divisions",
 		"https://api.ehealth-ukraine.org/api/reports/stats/divisions?legal_entity_edrpou=37478567",
 		"/f/c/10/divisions0010.json",
+		"https://api-preprod.ehealth.gov.ua/api/services",
 	]
 	ctrl.divisions_table = {}
 //	ctrl.divisions_table.type = {n:'Тип', w3tiny:true, style:{'width':'77px'}}
