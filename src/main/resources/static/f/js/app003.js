@@ -264,7 +264,14 @@ sql_app.SELECT_with_parent = function(d){
 	return sql.trim()
 }
 
-
+var read_element_children = function(doc_id, fn){
+	var sql = sql_app.SELECT_children_with_i18n(doc_id)
+	read_dataObject2fn(sql, function(response){fn(response)})
+}
+var read_element = function(doc_id, fn){
+	var sql = sql_app.SELECT_obj_with_i18n(doc_id)
+	read_dataObject2fn(sql, function(response){fn(response)})
+}
 var read_object2 = function(d){
 	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
 //	console.log(sql, d)
@@ -352,7 +359,7 @@ var read_data_for_data_editor2 = function(d) {
 		if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
 			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
-//			console.log(v.reference, sql)
+			console.log(v.reference, sql)
 			read_dataObject2fn(sql2, function(response){ if(response.data.list.length>0){
 				ctrl.menu_list_count[v.reference] = response.data.list[0].count
 				if(ctrl.menu_list_count[v.reference]>0){
@@ -956,8 +963,8 @@ sql_app.select_doc_dd_l8 = function(){
 	") "
 }
 sql_app.select_doc_dd_id_l8 = function(){ 
-	return "SELECT doc_id FROM doc where parent=115920 " +
-	"and doc_id in (SELECT reference FROM (" +
+	return "SELECT doc_id FROM doc WHERE parent=115920 " +
+	"AND doc_id IN (SELECT reference FROM (" +
 	sql_app.select_doc_l8() +
 	")x ) \n"
 }

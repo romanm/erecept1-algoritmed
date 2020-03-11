@@ -10,7 +10,6 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 
 	exe_fn.httpGet({
 		url:ctrl.urls[2],
-		url1:'/f/c/9/services.json',
 		then_fn:function(response){
 			ctrl.api_divisions = response.data.data
 			console.log(ctrl.api_divisions)
@@ -21,13 +20,25 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 
 function initDivisions() {
 	ctrl.afterReadObjChildren = function(d){
+		console.log('read data_model reference', d.doc_id)
 		var key_reference = {}
 		angular.forEach(d.children, function(v){
 			var att_name = v.s1value?v.s1value:v.r1value
 			key_reference[att_name] = v.doc_id
+			if(v.reference && !ctrl.elementsMap[v.reference]){
+				read_element(v.reference, function(response){
+					var v2 = response.data.list[0]
+					ctrl.elementsMap[v.reference] = v2
+					if(v2.cnt_child>0 && v2.cnt_child<20){
+						read_element_children(v.reference, function(response){
+							v2.children = response.data.list
+							console.log('read ',v2.cnt_child, v.reference)
+						})
+					}
+				})
+			}
 		})
 		d.key_reference=key_reference
-		console.log(d)
 	}
 	ctrl.init_legal_entity_edit_obj = function(){
 		console.log(ctrl.elementsMap[115827])

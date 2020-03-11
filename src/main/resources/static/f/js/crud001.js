@@ -437,7 +437,7 @@ sql_app.replace_params = function(sql, data){
 var set_choice_data_model2 = function(d, data_model_id){
 	console.log(d, data_model_id)
 	set_doc_i18n_parent(d, data_model_id)
-	console.log(d)
+	//console.log(d)
 	read_model_children(d)
 	ctrl.elementsMap[d.doc_id] = d
 	ctrl.choice_data_model = d
