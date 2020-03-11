@@ -359,7 +359,7 @@ var read_data_for_data_editor2 = function(d) {
 		if(v.reference){
 			var sql = sql_app.obj_with_parent_i18n(v.reference, 115924)
 			var sql2 = "SELECT count(*) FROM (" + sql.split("ORDER BY")[0] +") a"
-			console.log(v.reference, sql)
+//			console.log(v.reference, sql)
 			read_dataObject2fn(sql2, function(response){ if(response.data.list.length>0){
 				ctrl.menu_list_count[v.reference] = response.data.list[0].count
 				if(ctrl.menu_list_count[v.reference]>0){

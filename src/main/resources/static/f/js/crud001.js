@@ -3,13 +3,13 @@ var initCrud002 = function() {
 	ctrl.copyDP_legal_entity = function(copyEl){
 		var so = ctrl.so_legal_entity
 		so.dataAfterSave = function(response) {
-			var key_reference = ctrl.elementsMap[115827].key_reference
-			console.log(response.data, copyEl, key_reference)
+			var att_name__id = ctrl.elementsMap[115827].att_name__id
+			console.log(response.data, copyEl, att_name__id)
 			angular.forEach(copyEl, function(v,k){
 				console.log(k)
 				if (k.indexOf('$')==0) {
 				} else if(ctrl.isTypeof(v) === 'string'){
-					var reference = key_reference[k]
+					var reference = att_name__id[k]
 					if(reference){
 						var so1 = {s1value:v, parent:response.data.nextDbId1, reference:reference}
 						sql_app.INSERT_doc(so1)

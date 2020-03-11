@@ -18,13 +18,21 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 
 })
 
+var add_att_name = function(el){
+	el.att_name__id = {}
+	angular.forEach(el.children, function(v){
+		var att_name = v.s1value?v.s1value:v.r1value
+		el.att_name__id[att_name] = v.doc_id
+	})
+}
+
 function initDivisions() {
 	ctrl.afterReadObjChildren = function(d){
 		console.log('read data_model reference', d.doc_id)
-		var key_reference = {}
+		d.att_name__id = {}
 		angular.forEach(d.children, function(v){
 			var att_name = v.s1value?v.s1value:v.r1value
-			key_reference[att_name] = v.doc_id
+			d.att_name__id[att_name] = v.doc_id
 			if(v.reference && !ctrl.elementsMap[v.reference]){
 				read_element(v.reference, function(response){
 					var v2 = response.data.list[0]
@@ -32,13 +40,14 @@ function initDivisions() {
 					if(v2.cnt_child>0 && v2.cnt_child<20){
 						read_element_children(v.reference, function(response){
 							v2.children = response.data.list
+							add_att_name(v2)
 							console.log('read ',v2.cnt_child, v.reference)
+//							console.log('read ',v2.cnt_child, v.reference, v2.att_name__id)
 						})
 					}
 				})
 			}
 		})
-		d.key_reference=key_reference
 	}
 	ctrl.init_legal_entity_edit_obj = function(){
 		console.log(ctrl.elementsMap[115827])
