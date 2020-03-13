@@ -1,0 +1,46 @@
+<div>
+	<div class="w3-tiny w3-grey">
+		<span class="w3-light-grey am-b w3-right"> :edit-box: </span> <i
+			title="Створити"
+			data-ng-click="ctrl.copyDP_legal_entity(ctrl.legal_entity_edit_obj);"
+			class="w3-btn w3-ripple far fa-file"></i> |
+		{{ctrl.legal_entity_edit_obj.id}}
+	</div>
+	<div class="w3-border-bottom">конвертація в БД</div>
+	<div class="w3-row">
+		<div class="w3-half ">
+			<div class="w3-tiny w3-grey w3-left">ДБ:</div>
+			<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
+				data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=c">
+				{{att_name}} <span class="w3-tiny w3-right" data-ng-if="c.reference">
+					{{c.doc_id}}/{{c.reference}} -
+					{{ctrl.elementsMap[c.reference].cnt_child}}/
+					{{ctrl.elementsMap[c.reference].children.length}} &nbsp; </span>
+			</div>
+		</div>
+		<div class="w3-half w3-border-left">
+			<div class="w3-tiny w3-grey w3-right">:НСЗУ</div>
+			<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
+				data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=ctrl.legal_entity_edit_obj[att_name]"
+				data-ng-switch="ctrl.isTypeof(att_val)">
+				<div data-ng-switch-when="string">
+					<span class="w3-tiny am-b">{{att_name}}:</span>{{att_val}} <span
+						class="w3-tiny">
+						{{ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].doc_id}}/{{
+						ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].reference}}/{{
+						ctrl.elementsMap[
+						ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].reference
+						].att_name__id[att_val]}} </span>
+				</div>
+				<div data-ng-switch-default>
+					{{ctrl.isTypeof(att_val)}} <span class="w3-tiny am-b">{{att_name}}:</span>
+				</div>
+			</div>
+			<div class="w3-border-top">
+				<span class="w3-tiny am-b"
+					data-ng-repeat="(att_name,att_val) in ctrl.legal_entity_edit_obj">
+					{{att_name}}, </span>
+			</div>
+		</div>
+	</div>
+</div>
