@@ -4,17 +4,23 @@ var initCrud002 = function() {
 		var so = ctrl.so_legal_entity
 		so.dataAfterSave = function(response) {
 			var data_model_table_element = ctrl.elementsMap[115827]
+			
 			var att_name__id = data_model_table_element.att_name__id
 			console.log(response.data, copyEl, att_name__id)
 			angular.forEach(copyEl, function(att_val, att_name){
 				//console.log(att_name)
 				if (att_name.indexOf('$')==0) {
-				} else if(ctrl.isTypeof(att_val) === 'string'){
+				} else{
 					var reference = att_name__id[att_name]
-					if(reference){
-						var so1 = {doc_id:':nextDbId1', parent:response.data.nextDbId1, reference:reference, }
-						var data_model_column_element = ctrl.elementsMap[data_model_table_element.att_name__id[att_name]]
-						console.log(att_name, data_model_column_element.reference)
+					var so1 = {doc_id:':nextDbId1', parent:response.data.nextDbId1, reference:reference, }
+					var data_model_column_element = ctrl.elementsMap[data_model_table_element.att_name__id[att_name]]
+					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_column_element.reference)
+					if(ctrl.isTypeof(att_val) === 'object'){
+						if(115790==reference){
+							console.log(ctrl.elementsMap[data_model_column_element.reference])
+						}
+					}else
+					if(ctrl.isTypeof(att_val) === 'string'){
 						if(data_model_column_element.reference && ctrl.elementsMap[data_model_column_element.reference].att_name__id){
 							var r2 = ctrl.elementsMap[data_model_column_element.reference].att_name__id[att_val]
 							so1.reference2 = r2
@@ -22,11 +28,11 @@ var initCrud002 = function() {
 							so1.s1value = att_val
 						}
 						sql_app.INSERT_doc(so1)
-						if(115787==reference){
+						if(115787000==reference){
 							console.log(att_name, reference, ctrl.elementsMap[reference].reference, so1)
 						}
-						writeSql(so1)
 					}
+//					writeSql(so1)
 				}
 			})
 		}
@@ -76,8 +82,6 @@ sql_app.INSERT_doc = function(so){
 	}
 	return so.sql
 }
-
-console.log(sql_app.INSERT_doc({doc_id:1,parent:2,s1value:'asd'}))
 
 sql_app.INSERT_doc1 = function(so){
 //	console.log(so)

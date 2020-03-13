@@ -28,7 +28,7 @@ var add_att_name = function(el){
 
 function initDivisions() {
 	ctrl.afterReadObjChildren = function(d){
-		console.log('read data_model reference', d.doc_id)
+//		console.log('read data_model reference', d.doc_id)
 		d.att_name__id = {}
 		angular.forEach(d.children, function(v){
 			var att_name = v.s1value?v.s1value:v.r1value
@@ -41,7 +41,7 @@ function initDivisions() {
 						read_element_children(v.reference, function(response){
 							v2.children = response.data.list
 							add_att_name(v2)
-							console.log('read ',v2.cnt_child, v.reference)
+//							console.log('read ',v2.cnt_child, v.reference)
 //							console.log('read ',v2.cnt_child, v.reference, v2.att_name__id)
 						})
 					}

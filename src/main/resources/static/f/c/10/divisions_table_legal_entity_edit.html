@@ -20,27 +20,16 @@
 		</div>
 		<div class="w3-half w3-border-left">
 			<div class="w3-tiny w3-grey w3-right">:НСЗУ</div>
-			<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
-				data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=ctrl.legal_entity_edit_obj[att_name]"
-				data-ng-switch="ctrl.isTypeof(att_val)">
-				<div data-ng-switch-when="string">
-					<span class="w3-tiny am-b">{{att_name}}:</span>{{att_val}} <span
-						class="w3-tiny">
-						{{ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].doc_id}}/{{
-						ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].reference}}/{{
-						ctrl.elementsMap[
-						ctrl.elementsMap[ctrl.elementsMap[115827].att_name__id[att_name]].reference
-						].att_name__id[att_val]}} </span>
-				</div>
-				<div data-ng-switch-default>
-					{{ctrl.isTypeof(att_val)}} <span class="w3-tiny am-b">{{att_name}}:</span>
-				</div>
-			</div>
-			<div class="w3-border-top">
-				<span class="w3-tiny am-b"
-					data-ng-repeat="(att_name,att_val) in ctrl.legal_entity_edit_obj">
-					{{att_name}}, </span>
-			</div>
+			<div data-ng-repeat="c0 in [{model_id:115827}]"
+				data-ng-init="ed_obj=ctrl.legal_entity_edit_obj"
+				data-ng-include="'/f/c/10/1_edit/dp_children.html'"></div>
 		</div>
 	</div>
+	<!-- 
+	<div class="w3-border-top">
+		<span class="w3-tiny am-b"
+			data-ng-repeat="(att_name,att_val) in ctrl.legal_entity_edit_obj">
+			{{att_name}}, </span>
+	</div>
+	 -->
 </div>
