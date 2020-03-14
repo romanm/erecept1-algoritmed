@@ -18,19 +18,11 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 
 })
 
-var add_att_name = function(el){
-	el.att_name__id = {}
-	angular.forEach(el.children, function(v){
-		var att_name = v.s1value?v.s1value:v.r1value
-		el.att_name__id[att_name] = v.doc_id
-	})
-}
-
 function initDivisions() {
 	ctrl.afterReadObjChildren = function(d){
-//		console.log('read data_model reference', d.doc_id)
 		d.att_name__id = {}
 		angular.forEach(d.children, function(v){
+			ctrl.elementsMap[v.doc_id] = v
 			var att_name = v.s1value?v.s1value:v.r1value
 			d.att_name__id[att_name] = v.doc_id
 			if(v.reference && !ctrl.elementsMap[v.reference]){
@@ -40,9 +32,7 @@ function initDivisions() {
 					if(v2.cnt_child>0 && v2.cnt_child<20){
 						read_element_children(v.reference, function(response){
 							v2.children = response.data.list
-							add_att_name(v2)
-//							console.log('read ',v2.cnt_child, v.reference)
-//							console.log('read ',v2.cnt_child, v.reference, v2.att_name__id)
+							ctrl.afterReadObjChildren(v2)
 						})
 					}
 				})
@@ -56,10 +46,13 @@ function initDivisions() {
 		})
 	}
 	ctrl.urls = [
-		"https://api.ehealth-ukraine.org/api/reports/stats/divisions",
-		"https://api.ehealth-ukraine.org/api/reports/stats/divisions?legal_entity_edrpou=37478567",
+		"https://api-preprod.ehealth.gov.ua/api/reports/stats/divisions",
+		"https://api-preprod.ehealth.gov.ua/api/reports/stats/divisions?legal_entity_edrpou=37478567",
 		"/f/c/10/divisions0010.json",
 		"https://api-preprod.ehealth.gov.ua/api/services",
+		"https://api-preprod.ehealth.gov.ua/api/reports/stats/divisions",
+		"https://api.ehealth-ukraine.org/api/reports/stats/divisions",
+		"https://api.ehealth-ukraine.org/api/reports/stats/divisions?legal_entity_edrpou=37478567",
 	]
 	ctrl.divisions_table = {}
 //	ctrl.divisions_table.type = {n:'Тип', w3tiny:true, style:{'width':'77px'}}

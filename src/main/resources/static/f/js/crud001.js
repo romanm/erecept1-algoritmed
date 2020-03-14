@@ -1,3 +1,39 @@
+var copyDP_oa37 = function(so, data_model_column_element, copyElList){
+	var data_model_column_element2 = ctrl.elementsMap[data_model_column_element.reference]
+	console.log(so, data_model_column_element, data_model_column_element2 , copyElList)
+	sql_app.INSERT_doc(so)
+	so.dataAfterSave = function(response){
+		angular.forEach(copyElList, function(copyEl){
+			var so1 = {parent:response.data.nextDbId1, doc_id:':nextDbId1', reference:data_model_column_element2.doc_id}
+			sql_app.INSERT_doc(so1)
+			console.log(response.data, so1)
+			so1.dataAfterSave = function(response){
+				angular.forEach(data_model_column_element2.att_name__id, function(att_reference, att_name){
+					var att_val = copyEl[att_name]
+					if(att_val){
+						var so2 = {parent:response.data.nextDbId1, doc_id:':nextDbId1',}
+						var data_model_column_element3 = ctrl.elementsMap[ctrl.elementsMap[att_reference].reference]
+						console.log(att_name,':',att_val, att_reference)
+						if(data_model_column_element3){
+							var data_cellValEl = ctrl.elementsMap[data_model_column_element3.att_name__id[att_val]]
+							so2.reference = att_reference
+							so2.reference2 = data_cellValEl.doc_id
+							console.log(att_name,':',att_val, so2, data_cellValEl)
+						}else{
+							so2.s1value = att_val
+							console.log(att_name,':',att_val)
+						}
+						sql_app.INSERT_doc(so2)
+						writeSql(so2)
+					}
+				})
+			}
+			writeSql(so1)
+		})
+	}
+	writeSql(so)
+}
+
 var initCrud002 = function() {
 
 	ctrl.copyDP_legal_entity = function(copyEl){
@@ -6,7 +42,7 @@ var initCrud002 = function() {
 			var data_model_table_element = ctrl.elementsMap[115827]
 			
 			var att_name__id = data_model_table_element.att_name__id
-			console.log(response.data, copyEl, att_name__id)
+//			console.log(response.data, copyEl, att_name__id)
 			angular.forEach(copyEl, function(att_val, att_name){
 				//console.log(att_name)
 				if (att_name.indexOf('$')==0) {
@@ -14,10 +50,12 @@ var initCrud002 = function() {
 					var reference = att_name__id[att_name]
 					var so1 = {doc_id:':nextDbId1', parent:response.data.nextDbId1, reference:reference, }
 					var data_model_column_element = ctrl.elementsMap[data_model_table_element.att_name__id[att_name]]
-					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_column_element.reference)
+//					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_column_element.reference)
 					if(ctrl.isTypeof(att_val) === 'object'){
-						if(115790==reference){
-							console.log(ctrl.elementsMap[data_model_column_element.reference])
+						if(37==data_model_column_element.doctype){
+							if(115792==reference){
+								copyDP_oa37(so1, data_model_column_element, att_val)
+							}
 						}
 					}else
 					if(ctrl.isTypeof(att_val) === 'string'){
@@ -28,8 +66,9 @@ var initCrud002 = function() {
 							so1.s1value = att_val
 						}
 						sql_app.INSERT_doc(so1)
-						if(115787000==reference){
+						if(115783==reference){
 							console.log(att_name, reference, ctrl.elementsMap[reference].reference, so1)
+							writeSql(so1)
 						}
 					}
 //					writeSql(so1)

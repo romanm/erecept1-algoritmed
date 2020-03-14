@@ -136,6 +136,10 @@ var initApp = function($scope, $http, $timeout){
 		if(o)
 			return Object.values(o)
 	}
+	ctrl.keys = function(o) {if(o){
+		return Object.keys(o)
+	}}
+
 }
 
 sql_app.select_i18n_all= function(left_join_ref, i18n_parent){

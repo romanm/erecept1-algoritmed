@@ -3,23 +3,28 @@
 		<span class="w3-light-grey am-b w3-right"> :edit-box: </span> <i
 			title="Створити"
 			data-ng-click="ctrl.copyDP_legal_entity(ctrl.legal_entity_edit_obj);"
-			class="w3-btn w3-ripple far fa-file"></i> |
+			class="w3-btn w3-ripple far fa-file"></i> | <span class="w3-small w3-light-grey">
+			{{ctrl.legal_entity_edit_obj.edrpou}}</span>&nbsp;
 		{{ctrl.legal_entity_edit_obj.id}}
 	</div>
 	<div class="w3-border-bottom">конвертація в БД</div>
 	<div class="w3-row">
-		<div class="w3-half ">
-			<div class="w3-tiny w3-grey w3-left">ДБ:</div>
-			<div data-ng-repeat="c in ctrl.elementsMap[115827].children"
-				data-ng-init="att_name=c.s1value?c.s1value:c.r1value;att_val=c">
-				{{att_name}} <span class="w3-tiny w3-right" data-ng-if="c.reference">
-					{{c.doc_id}}/{{c.reference}} -
-					{{ctrl.elementsMap[c.reference].cnt_child}}/
-					{{ctrl.elementsMap[c.reference].children.length}} &nbsp; </span>
-			</div>
+		<div class="w3-third ">
+			<div class="w3-tiny w3-grey w3-right">дані:</div>
+			read data form DB
 		</div>
-		<div class="w3-half w3-border-left">
-			<div class="w3-tiny w3-grey w3-right">:НСЗУ</div>
+		<div class="w3-third w3-border-left">
+			<div class="w3-tiny w3-grey w3-left">
+				<span class="am-b">ДБ</span>: модель
+			</div>
+			<div data-ng-repeat="c0 in [{model_id:115827}]"
+				data-ng-include="'/f/c/10/1_edit/db_model.html'"
+				data-ng-init="ed_obj=ctrl.legal_entity_edit_obj"></div>
+		</div>
+		<div class="w3-third w3-border-left">
+			<div class="w3-tiny w3-grey w3-right">
+				дані :<span class="am-b">НСЗУ</span>:
+			</div>
 			<div data-ng-repeat="c0 in [{model_id:115827}]"
 				data-ng-init="ed_obj=ctrl.legal_entity_edit_obj"
 				data-ng-include="'/f/c/10/1_edit/dp_children.html'"></div>

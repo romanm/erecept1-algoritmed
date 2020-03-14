@@ -4,16 +4,21 @@
 	"
 	data-ng-switch="ctrl.isTypeof(att_val)">
 	<div data-ng-switch-when="string">
-		<span class="w3-tiny am-b">{{att_name}}:</span>{{att_val}} <span
-			class="w3-tiny"> {{att_name__id}}
-			{{ctrl.elementsMap[att_name__id].doc_id}}/{{
-			ctrl.elementsMap[att_name__id].reference}}/{{ ctrl.elementsMap[
-			ctrl.elementsMap[att_name__id].reference ].att_name__id[att_val]}} </span>
+		<span class="w3-tiny am-b am-u" title="{{att_name}}">{{c.i18n?c.i18n:att_name}}:</span>&nbsp; {{att_val}}
+		<span class="w3-tiny"
+			data-ng-if="ctrl.keys(ctrl.request.parameters).indexOf('dev')>=0">
+			{{att_name__id}}/{{ ctrl.elementsMap[att_name__id].reference}}/{{
+			ctrl.elementsMap[ ctrl.elementsMap[att_name__id].reference
+			].att_name__id[att_val]}} </span>
 	</div>
 	<div data-ng-switch-default>
-		{{ctrl.isTypeof(att_val)}} <span class="w3-tiny am-b">{{att_name}}:</span>
-		<span class="w3-tiny">
-			{{ctrl.elementsMap[att_name__id].doc_id}}/ </span> {{c.doctype}} <span
+		<span
+			data-ng-if="ctrl.keys(ctrl.request.parameters).indexOf('dev')>=0">
+			{{ctrl.isTypeof(att_val)}} </span> <span class="w3-tiny am-b am-u"
+			title="{{att_name}}">{{c.i18n?c.i18n:att_name}}:</span> <span
+			data-ng-if="ctrl.keys(ctrl.request.parameters).indexOf('dev')>=0"
+			class="w3-tiny">
+			{{ctrl.elementsMap[att_name__id].doc_id}}/{{c.doctype}} </span> <span
 			data-ng-if="c.doctype==32"> {{att_val.length}} {{att_val}} </span>
 		<div d2ata-ng-if="37==c.doctype"
 			data-ng-if="115792==ctrl.elementsMap[ctrl.elementsMap[c0.model_id].att_name__id[att_name]].doc_id">

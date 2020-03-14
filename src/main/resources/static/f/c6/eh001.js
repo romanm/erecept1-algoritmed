@@ -223,9 +223,6 @@ var initEh001 = function() {
 	ctrl.alert = function(v){
 		alert(v+' click')
 	}
-	ctrl.keys = function(o) {if(o){
-		return Object.keys(o)
-	}}
 }
 
 function seek_pologove (){

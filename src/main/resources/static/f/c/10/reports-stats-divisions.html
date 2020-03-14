@@ -31,7 +31,8 @@
 				data-ng-class="{'w3-col':!$last,'w3-rest':$last,}"
 				data-ng-style="h.style">{{h.n}}</div>
 		</div>
-		<div data-ng-repeat="z in ctrl.api_divisions" class="w3-row w3-border-bottom">
+		<div data-ng-repeat="z in ctrl.api_divisions"
+			class="w3-row w3-border-bottom">
 			<div data-ng-repeat="(k,h) in ctrl.divisions_table"
 				data-ng-class="{'w3-col':!$last,'w3-rest':$last,'w3-tiny':h.w3tiny}"
 				data-ng-style="h.style">
@@ -39,6 +40,9 @@
 					data-ng-include="'/f/c/10/divisions_table_'+k+'.html'"></div>
 				<div data-ng-if="!h.include_k">{{z[k]}}</div>
 			</div>
+			<div class="w3-card w3-border-left w3-border-right"
+				data-ng-include="'/f/c/10/divisions_table_legal_entity_edit.html'"
+				data-ng-if="ctrl.legal_entity_edit_obj.id==z.legal_entity.id"></div>
 		</div>
 	</div>
 </body>
