@@ -1,37 +1,38 @@
-var copyDP_oa37 = function(so, data_model_column_element, copyElList){
-	var data_model_column_element2 = ctrl.elementsMap[data_model_column_element.reference]
-	console.log(so, data_model_column_element, data_model_column_element2 , copyElList)
-	sql_app.INSERT_doc(so)
-	so.dataAfterSave = function(response){
-		angular.forEach(copyElList, function(copyEl){
-			var so1 = {parent:response.data.nextDbId1, doc_id:':nextDbId1', reference:data_model_column_element2.doc_id}
-			sql_app.INSERT_doc(so1)
-			console.log(response.data, so1)
-			so1.dataAfterSave = function(response){
-				angular.forEach(data_model_column_element2.att_name__id, function(att_reference, att_name){
+var copyDP_oa37 = function(so_tableListEl, data_model_column_element, copyElList){
+	var data_model1_tableEl = ctrl.elementsMap[data_model_column_element.reference]
+	console.log(so_tableListEl, data_model_column_element, data_model1_tableEl , copyElList)
+	sql_app.INSERT_doc(so_tableListEl)
+	so_tableListEl.dataAfterSave = function(response){//element - oa37 - table
+		angular.forEach(copyElList, function(copyEl){//list of rows in table
+			var so1_row = {parent:response.data.nextDbId1, doc_id:':nextDbId1', reference:data_model1_tableEl.doc_id}
+			sql_app.INSERT_doc(so1_row)
+			console.log(response.data, so1_row)
+			so1_row.dataAfterSave = function(response){// cell element
+				var parent_id = response.data.nextDbId1
+				angular.forEach(data_model1_tableEl.att_name__id, function(att_reference, att_name){
 					var att_val = copyEl[att_name]
 					if(att_val){
-						var so2 = {parent:response.data.nextDbId1, doc_id:':nextDbId1',}
-						var data_model_column_element3 = ctrl.elementsMap[ctrl.elementsMap[att_reference].reference]
+						var so2_cell = {parent:parent_id, doc_id:':nextDbId1',}
+						var data_model2_columnEl = ctrl.elementsMap[ctrl.elementsMap[att_reference].reference]
 						console.log(att_name,':',att_val, att_reference)
-						if(data_model_column_element3){
-							var data_cellValEl = ctrl.elementsMap[data_model_column_element3.att_name__id[att_val]]
-							so2.reference = att_reference
-							so2.reference2 = data_cellValEl.doc_id
-							console.log(att_name,':',att_val, so2, data_cellValEl)
+						if(data_model2_columnEl){
+							var data_model2_cellValEl = ctrl.elementsMap[data_model2_columnEl.att_name__id[att_val]]
+							so2_cell.reference = att_reference
+							so2_cell.reference2 = data_model2_cellValEl.doc_id
+							console.log(att_name,':',att_val, so2_cell, data_model2_cellValEl)
 						}else{
-							so2.s1value = att_val
+							so2_cell.s1value = att_val
 							console.log(att_name,':',att_val)
 						}
-						sql_app.INSERT_doc(so2)
-						writeSql(so2)
+						sql_app.INSERT_doc(so2_cell)
+						writeSql(so2_cell)
 					}
 				})
 			}
-			writeSql(so1)
+			writeSql(so1_row)
 		})
 	}
-	writeSql(so)
+	writeSql(so_tableListEl)
 }
 
 var initCrud002 = function() {
@@ -53,7 +54,7 @@ var initCrud002 = function() {
 //					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_column_element.reference)
 					if(ctrl.isTypeof(att_val) === 'object'){
 						if(37==data_model_column_element.doctype){
-							if(115792==reference){
+							if(115789==reference){
 								copyDP_oa37(so1, data_model_column_element, att_val)
 							}
 						}
