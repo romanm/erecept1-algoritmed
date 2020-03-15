@@ -166,12 +166,13 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 	sql_app.obj_with_i18n = function(){
 		var sql = "\n" +
 		"SELECT d1.*, sort, sort_id" +
-		", s1.value s1value, s1.string_id s1_id, r1.value r1value, dt1.value dt1value" +
+		", s1.value s1value, s1.string_id s1_id, r1.value r1value, r2.value r2value, dt1.value dt1value" +
 		", i1.value i1value" +
 		", i18n, i18n_id, cnt_child  " +
 		"FROM doc d1 \n" +
 		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 		"LEFT JOIN string r1 ON d1.reference = r1.string_id \n" +
+		"LEFT JOIN string r2 ON d1.reference2 = r2.string_id \n" +
 		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 		"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id "+
@@ -185,6 +186,7 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 		sql = sql.replace(':doc_id', doc_id)
 		return sql
 	}
+//	console.log(sql_app.SELECT_obj_with_i18n(111))
 	sql_app.SELECT_children_with_i18n = function(parent){
 		var sql = sql_app.obj_with_i18n()+
 		"WHERE d1.parent = :parent " +

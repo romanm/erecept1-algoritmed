@@ -9,23 +9,37 @@ var copyDP_oa37 = function(so_tableListEl, data_model_column_element, copyElList
 			console.log(response.data, so1_row)
 			so1_row.dataAfterSave = function(response){// cell element
 				var parent_id = response.data.nextDbId1
-				angular.forEach(data_model1_tableEl.att_name__id, function(att_reference, att_name){
-					var att_val = copyEl[att_name]
-					if(att_val){
-						var so2_cell = {parent:parent_id, doc_id:':nextDbId1',}
-						var data_model2_columnEl = ctrl.elementsMap[ctrl.elementsMap[att_reference].reference]
-						console.log(att_name,':',att_val, att_reference)
-						if(data_model2_columnEl){
-							var data_model2_cellValEl = ctrl.elementsMap[data_model2_columnEl.att_name__id[att_val]]
-							so2_cell.reference = att_reference
-							so2_cell.reference2 = data_model2_cellValEl.doc_id
-							console.log(att_name,':',att_val, so2_cell, data_model2_cellValEl)
+				angular.forEach(data_model1_tableEl.att_name__id, function(att_columnReference, att_name){
+					var att_cell_val = copyEl[att_name]
+					if(att_cell_val){
+						var so2_cell = {parent:parent_id, doc_id:':nextDbId1',reference: att_columnReference, }
+						var data_model2_columnEl = ctrl.elementsMap[ctrl.elementsMap[att_columnReference].reference]
+						console.log(att_name,':',att_cell_val, att_columnReference)
+						if(data_model2_columnEl && !data_model2_columnEl.att_name__id){
+							console.log('read cell reference2 please')
+							var sql = "SELECT s.* FROM doc d2, doc d1, string s " +
+							" WHERE value=:value AND d2.doc_id=s.string_id AND d1.doc_id=:reference AND d2.parent=d1.reference"
+							var so2_sf = {sql:sql, value:att_cell_val ,reference:att_columnReference}
+							so2_sf.afterRead = function(response){
+								console.log(response.data)
+								var ref2 = response.data.list[0].string_id
+								so2_cell.reference2 = ref2
+								sql_app.INSERT_doc(so2_cell)
+								writeSql(so2_cell)
+							}
+							readSql(so2_sf)
 						}else{
-							so2_cell.s1value = att_val
-							console.log(att_name,':',att_val)
+							if(data_model2_columnEl){
+								var data_model2_cellValEl = ctrl.elementsMap[data_model2_columnEl.att_name__id[att_cell_val]]
+								so2_cell.reference2 = data_model2_cellValEl.doc_id
+								console.log(att_name,':',att_cell_val, so2_cell, data_model2_cellValEl)
+							}else{
+								so2_cell.s1value = att_cell_val
+								console.log(att_name,':',att_cell_val)
+							}
+							sql_app.INSERT_doc(so2_cell)
+							writeSql(so2_cell)
 						}
-						sql_app.INSERT_doc(so2_cell)
-						writeSql(so2_cell)
 					}
 				})
 			}

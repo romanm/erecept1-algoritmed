@@ -130,7 +130,8 @@
 			class="w3-tiny" data-ng-if="d.reference">
 			{{d.r1value}}:{{d.reference}} </span> </a> <span
 			data-ng-if="d.reference2" class="w3-tiny">
-			{{'{'+d.reference2+'}'}} </span> <sup
+			{{'{'+d.reference2+(d.r2value?':'+d.r2value:'')+'}'}} 
+			</span> <sup
 			data-ng-if="d.children && d.children_close" class="w3-tiny am-b">[{{d.children.length}}]</sup>
 		<span
 			data-ng-if="ctrl.doc_data_shortView['_'+ctrl.choice_data_model.doc_id].includes(d.doc_id)">
