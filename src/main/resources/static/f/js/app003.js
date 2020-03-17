@@ -163,38 +163,7 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 		return sql
 	}
 
-	sql_app.obj_with_i18n = function(){
-		var sql = "\n" +
-		"SELECT d1.*, sort, sort_id" +
-		", s1.value s1value, s1.string_id s1_id, r1.value r1value, r2.value r2value, dt1.value dt1value" +
-		", i1.value i1value" +
-		", i18n, i18n_id, cnt_child  " +
-		"FROM doc d1 \n" +
-		"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
-		"LEFT JOIN string r1 ON d1.reference = r1.string_id \n" +
-		"LEFT JOIN string r2 ON d1.reference2 = r2.string_id \n" +
-		"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
-		"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
-		"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id "+
-		"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
-		"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" 
-		return sql
-	}
-	sql_app.SELECT_obj_with_i18n = function(doc_id){
-		var sql = sql_app.obj_with_i18n()+
-		"WHERE d1.doc_id = :doc_id "
-		sql = sql.replace(':doc_id', doc_id)
-		return sql
-	}
-//	console.log(sql_app.SELECT_obj_with_i18n(111))
-	sql_app.SELECT_children_with_i18n = function(parent){
-		var sql = sql_app.obj_with_i18n()+
-		"WHERE d1.parent = :parent " +
-		"ORDER BY sort "
-		sql = sql.replace(':parent', parent)
-//		console.log(sql)
-		return sql
-	}
+	
 
 	sql_app.obj_with_parent_i18n= function(parent, i18n_parent){
 		var sql = "\n" +
@@ -270,14 +239,7 @@ sql_app.SELECT_with_parent = function(d){
 	return sql.trim()
 }
 
-var read_element_children = function(doc_id, fn){
-	var sql = sql_app.SELECT_children_with_i18n(doc_id)
-	read_dataObject2fn(sql, function(response){fn(response)})
-}
-var read_element = function(doc_id, fn){
-	var sql = sql_app.SELECT_obj_with_i18n(doc_id)
-	read_dataObject2fn(sql, function(response){fn(response)})
-}
+
 var read_object2 = function(d){
 	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
 //	console.log(sql, d)
@@ -763,7 +725,22 @@ function el_to_tree0(ctrl, dataEl) {
 	}
 }
 
+function replaceParams(params){
+	angular.forEach(params.sql.split(':'), function(v,k){
+		if(k>0){
+			var p = v.split(' ')[0].replace(')','').replace(',','').replace(';','').trim()
+			var pv = params[p]
+			if(pv){
+				params.sql = params.sql.replace(':'+p, "'"+pv+"'")
+			}
+		}
+	})
+	return params
+}
+
 var writeSql = function(data){
+	if(!data.sql)
+		sql_app.INSERT_doc(data)
 	replaceParams(data)
 	exe_fn.httpPost
 	({	url:'/r/url_sql_read_db1',
@@ -837,19 +814,6 @@ function read_tree(ctrl, rootId) {
 	readSql({ sql:sql, rootId:rootId,
 		afterRead:function(response){ angular.forEach(response.data.list, list_el_to_tree) }
 	})
-}
-
-function replaceParams(params){
-	angular.forEach(params.sql.split(':'), function(v,k){
-		if(k>0){
-			var p = v.split(' ')[0].replace(')','').replace(',','').replace(';','').trim()
-			var pv = params[p]
-			if(pv){
-				params.sql = params.sql.replace(':'+p, "'"+pv+"'")
-			}
-		}
-	})
-	return params
 }
 
 var mapElement = function(element, elementsMap){
@@ -1125,4 +1089,46 @@ function read_dataObject2fn(sql, afterRead, limit) {
 	if(!limit) limit = 100
 	sql += " LIMIT "+limit
 	readSql({sql:sql, afterRead:function(response){afterRead(response)}})
+}
+function read_element(doc_id, fn){
+	var sql = sql_app.SELECT_obj_with_i18n(doc_id)
+	read_dataObject2fn(sql, function(response){fn(response)})
+}
+function read_element_children(doc_id, fn){
+	var sql = sql_app.SELECT_children_with_i18n(doc_id)
+	read_dataObject2fn(sql, function(response){fn(response)})
+}
+
+sql_app.obj_with_i18n = function(){
+	var sql = "\n" +
+	"SELECT d1.*, sort, sort_id, uu.value uuid" +
+	", s1.value s1value, s1.string_id s1_id, r1.value r1value, r2.value r2value, dt1.value dt1value" +
+	", i1.value i1value" +
+	", i18n, i18n_id, cnt_child  " +
+	"FROM doc d1 \n" +
+	"LEFT JOIN uuid uu ON d1.doc_id = uu.uuid_id \n" +
+	"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
+	"LEFT JOIN string r1 ON d1.reference = r1.string_id \n" +
+	"LEFT JOIN string r2 ON d1.reference2 = r2.string_id \n" +
+	"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
+	"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
+	"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id "+
+	"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
+	"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n" 
+	return sql
+}
+sql_app.SELECT_obj_with_i18n = function(doc_id){
+	var sql = sql_app.obj_with_i18n()+
+	"WHERE d1.doc_id = :doc_id "
+	sql = sql.replace(':doc_id', doc_id)
+	return sql
+}
+//console.log(sql_app.SELECT_obj_with_i18n(369223))
+sql_app.SELECT_children_with_i18n = function(parent){
+	var sql = sql_app.obj_with_i18n()+
+	"WHERE d1.parent = :parent " +
+	"ORDER BY sort "
+	sql = sql.replace(':parent', parent)
+//	console.log(sql)
+	return sql
 }

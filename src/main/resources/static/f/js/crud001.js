@@ -1,12 +1,8 @@
 var copyDP_oa37 = function(so_tableListEl, data_model_column_element, copyElList){
 	var data_model1_tableEl = ctrl.elementsMap[data_model_column_element.reference]
-	console.log(so_tableListEl, data_model_column_element, data_model1_tableEl , copyElList)
-	sql_app.INSERT_doc(so_tableListEl)
 	so_tableListEl.dataAfterSave = function(response){//element - oa37 - table
 		angular.forEach(copyElList, function(copyEl){//list of rows in table
 			var so1_row = {parent:response.data.nextDbId1, doc_id:':nextDbId1', reference:data_model1_tableEl.doc_id}
-			sql_app.INSERT_doc(so1_row)
-			console.log(response.data, so1_row)
 			so1_row.dataAfterSave = function(response){// cell element
 				var parent_id = response.data.nextDbId1
 				angular.forEach(data_model1_tableEl.att_name__id, function(att_columnReference, att_name){
@@ -14,30 +10,25 @@ var copyDP_oa37 = function(so_tableListEl, data_model_column_element, copyElList
 					if(att_cell_val){
 						var so2_cell = {parent:parent_id, doc_id:':nextDbId1',reference: att_columnReference, }
 						var data_model2_columnEl = ctrl.elementsMap[ctrl.elementsMap[att_columnReference].reference]
-						console.log(att_name,':',att_cell_val, att_columnReference)
-						if(data_model2_columnEl && !data_model2_columnEl.att_name__id){
-							console.log('read cell reference2 please')
+//						if(data_model2_columnEl && !data_model2_columnEl.att_name__id){
+						if(data_model2_columnEl && data_model2_columnEl.cnt_child>20){
 							var sql = "SELECT s.* FROM doc d2, doc d1, string s " +
 							" WHERE value=:value AND d2.doc_id=s.string_id AND d1.doc_id=:reference AND d2.parent=d1.reference"
 							var so2_sf = {sql:sql, value:att_cell_val ,reference:att_columnReference}
 							so2_sf.afterRead = function(response){
-								console.log(response.data)
+								console.log(so2_sf, data_model2_columnEl, response.data.list, so2_sf.sql)
 								var ref2 = response.data.list[0].string_id
 								so2_cell.reference2 = ref2
-								sql_app.INSERT_doc(so2_cell)
 								writeSql(so2_cell)
 							}
 							readSql(so2_sf)
 						}else{
-							if(data_model2_columnEl){
+							if(data_model2_columnEl && data_model2_columnEl.att_name__id){
 								var data_model2_cellValEl = ctrl.elementsMap[data_model2_columnEl.att_name__id[att_cell_val]]
 								so2_cell.reference2 = data_model2_cellValEl.doc_id
-								console.log(att_name,':',att_cell_val, so2_cell, data_model2_cellValEl)
 							}else{
 								so2_cell.s1value = att_cell_val
-								console.log(att_name,':',att_cell_val)
 							}
-							sql_app.INSERT_doc(so2_cell)
 							writeSql(so2_cell)
 						}
 					}
@@ -54,33 +45,36 @@ var initCrud002 = function() {
 	ctrl.copyDP_legal_entity = function(copyEl){
 		var so = ctrl.so_legal_entity
 		so.dataAfterSave = function(response) {
-			var data_model_table_element = ctrl.elementsMap[115827]
+			var data_model_tableEl = ctrl.elementsMap[115827]
 			
-			var att_name__id = data_model_table_element.att_name__id
+			var att_name__id = data_model_tableEl.att_name__id
 //			console.log(response.data, copyEl, att_name__id)
 			angular.forEach(copyEl, function(att_val, att_name){
 				//console.log(att_name)
 				if (att_name.indexOf('$')==0) {
-				} else{
+				}else{
 					var reference = att_name__id[att_name]
 					var so1 = {doc_id:':nextDbId1', parent:response.data.nextDbId1, reference:reference, }
-					var data_model_column_element = ctrl.elementsMap[data_model_table_element.att_name__id[att_name]]
-//					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_column_element.reference)
+					var data_model_columnEl = ctrl.elementsMap[data_model_tableEl.att_name__id[att_name]]
+					console.log(att_name,':', att_val,'\n', ctrl.isTypeof(att_val), reference, data_model_columnEl.reference)
 					if(ctrl.isTypeof(att_val) === 'object'){
-						if(37==data_model_column_element.doctype){
+						if(37==data_model_columnEl.doctype){
 							if(115789==reference){
-								copyDP_oa37(so1, data_model_column_element, att_val)
+								copyDP_oa37(so1, data_model_columnEl, att_val)
 							}
 						}
 					}else
 					if(ctrl.isTypeof(att_val) === 'string'){
-						if(data_model_column_element.reference && ctrl.elementsMap[data_model_column_element.reference].att_name__id){
-							var r2 = ctrl.elementsMap[data_model_column_element.reference].att_name__id[att_val]
+						if(30==data_model_columnEl.doctype){//UUID
+							so1.uuid = att_val
+							writeSql(so1)
+						}else
+						if(data_model_columnEl.reference && ctrl.elementsMap[data_model_columnEl.reference].att_name__id){
+							var r2 = ctrl.elementsMap[data_model_columnEl.reference].att_name__id[att_val]
 							so1.reference2 = r2
 						}else{
 							so1.s1value = att_val
 						}
-						sql_app.INSERT_doc(so1)
 						if(115783==reference){
 							console.log(att_name, reference, ctrl.elementsMap[reference].reference, so1)
 							writeSql(so1)
@@ -106,7 +100,6 @@ var initCrud002 = function() {
 	ctrl.so_legal_entity = {parent:285460, reference:115827}
 }
 
-
 sql_app.INSERT_doc = function(so){
 	var vars = '', vals = ''
 	angular.forEach(['doc_id','parent','reference','reference2','doctype'], function(k){
@@ -130,6 +123,10 @@ sql_app.INSERT_doc = function(so){
 		so.sql = "INSERT INTO doc (" + vars + ") VALUES (" + vals + ");\n"
 //		console.log(vars, vals, so.sql)
 	}
+	if(so.uuid){
+		so.sql += "INSERT INTO uuid (uuid_id, value) VALUES (" +
+		so.doc_id + ", '" + so.uuid + "');\n"
+	}else
 	if(so.s1value){
 		so.sql += "INSERT INTO string (string_id, value) VALUES (" +
 		so.doc_id + ", '" + so.s1value + "');\n"

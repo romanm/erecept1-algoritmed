@@ -40,10 +40,36 @@ function initDivisions() {
 		})
 	}
 	ctrl.init_legal_entity_edit_obj = function(){
-		console.log(ctrl.elementsMap[115827])
-		angular.forEach(ctrl.elementsMap[115827].children, function(v){
-//			console.log(v.s1value, v.doctype)
-		})
+		if(!ctrl.legal_entity_edit_obj)
+			return
+		console.log(ctrl.elementsMap[115827], ctrl.legal_entity_edit_obj)
+		var so = {uuid:ctrl.legal_entity_edit_obj.id}
+		so.sql = "SELECT * FROM doc,uuid where doc_id=uuid_id and value=:uuid"
+		so.afterRead = function(response){
+			console.log(so, response.data)
+			if(!response.data.list[0])
+				return
+			var doc_id = response.data.list[0].parent
+			read_element(doc_id, function(response){
+				console.log(response.data)
+				var db_obj = response.data.list[0]
+				ctrl.elementsMap[doc_id] = db_obj
+				ctrl.legal_entity_edit_obj.db_obj_doc_id = doc_id
+				read_element_children_deep(db_obj)
+			})
+		}
+		var read_element_children_deep = function(o){
+			read_element_children(o.doc_id, function(response){
+				o.children = response.data.list
+				angular.forEach(o.children, function(v){
+					ctrl.elementsMap[v.doc_id] = v
+					if(v.cnt_child){
+						read_element_children_deep(v)
+					}
+				})
+			})
+		}
+		readSql(so)
 	}
 	ctrl.urls = [
 		"https://api-preprod.ehealth.gov.ua/api/reports/stats/divisions",

@@ -1,8 +1,9 @@
 <div data-ng-repeat="legal_entity in [z[k]]">
 	<div class="w3-hover-light-grey"
 		data-ng-click="
+		ctrl.legal_entity_edit_obj=ctrl.legal_entity_edit_obj.id==legal_entity.id?null:legal_entity;
 		ctrl.init_legal_entity_edit_obj();
-		ctrl.legal_entity_edit_obj=ctrl.legal_entity_edit_obj.id==legal_entity.id?null:legal_entity">
+		">
 		<span class="w3-small "> {{legal_entity.edrpou}} </span>
 		{{legal_entity.name}}
 	</div>
