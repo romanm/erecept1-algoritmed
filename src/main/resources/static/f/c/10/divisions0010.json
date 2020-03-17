@@ -1,0 +1,1266 @@
+{
+	"data": [
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ДНІПРОПЕТРОВСЬКА",
+					"building": "11",
+					"country": "UA",
+					"inserted_at": "2019-04-05T12:45:53.865582Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": null,
+					"settlement": "ДНІПРО",
+					"settlement_id": "ee73597c-273d-457c-a01a-5c86f2904db4",
+					"settlement_type": "CITY",
+					"street": "Миколи Міхновського",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-05-28T12:05:25.913288Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "49130"
+				}
+			],
+			"contacts": {
+				"email": "ap068@rasruan.com.ua",
+				"phones": [
+					{
+						"number": "+380675659735",
+						"type": "MOBILE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": null,
+				"longitude": null
+			},
+			"id": "0005755a-d087-437a-88bc-a3e4a822a772",
+			"legal_entity": {
+				"addresses": [
+					{
+						"apartment": "69",
+						"area": "ДНІПРОПЕТРОВСЬКА",
+						"building": "8",
+						"country": "UA",
+						"settlement": "ДНІПРО",
+						"settlement_id": "ee73597c-273d-457c-a01a-5c86f2904db4",
+						"settlement_type": "CITY",
+						"street": "Сокіл",
+						"street_type": "HOUSING_AREA",
+						"type": "REGISTRATION",
+						"zip": "49126"
+					}
+				],
+				"edrpou": "37732643",
+				"email": "rasruan@rasruan.com.ua",
+				"id": "bb92e219-3cf8-45b5-a047-10b975bd9902",
+				"kveds": [
+					"47.73"
+				],
+				"legal_form": "240",
+				"mis_verified": "VERIFIED",
+				"name": "ТОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ \"РЕГІОНАЛЬНА АПТЕЧНА МЕРЕЖА РУАН\"",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "PHARMACY_OWNER",
+					"id": "ff592d8f-4994-4ee8-bc18-a83ffce13f02",
+					"party": {
+						"first_name": "Олексій",
+						"id": "a1801e6b-70df-40aa-978b-df6b07c95194",
+						"last_name": "Подзолков",
+						"second_name": "Валентинович"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "PRIVATE",
+				"phones": [
+					{
+						"number": "+380672263000",
+						"type": "MOBILE"
+					}
+				],
+				"public_name": "ТОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ \"РЕГІОНАЛЬНА АПТЕЧНА МЕРЕЖА РУАН\"",
+				"short_name": "ТОВ \"РАМ РУАН\"",
+				"type": "PHARMACY"
+			},
+			"name": "Аптека №18",
+			"type": "DRUGSTORE",
+			"working_hours": null
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ПОЛТАВСЬКА",
+					"building": "2а",
+					"country": "UA",
+					"inserted_at": "2018-07-27T07:36:43.947939Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ГРЕБІНКІВСЬКИЙ",
+					"settlement": "ГРУШКІВКА",
+					"settlement_id": "7af3ac71-f8fe-42e2-bcd6-bdc3851fbcc4",
+					"settlement_type": "VILLAGE",
+					"street": "Пушкіна",
+					"street_type": "STREET",
+					"type": "REGISTRATION",
+					"updated_at": "2019-05-15T10:54:27.565065Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "37433"
+				},
+				{
+					"apartment": null,
+					"area": "ПОЛТАВСЬКА",
+					"building": "2а",
+					"country": "UA",
+					"inserted_at": "2018-07-27T07:36:43.947939Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ГРЕБІНКІВСЬКИЙ",
+					"settlement": "ГРУШКІВКА",
+					"settlement_id": "7af3ac71-f8fe-42e2-bcd6-bdc3851fbcc4",
+					"settlement_type": "VILLAGE",
+					"street": "Пушкіна",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-05-15T10:54:27.565065Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "37433"
+				}
+			],
+			"contacts": {
+				"email": "grebn_cpmsd@ukr.net",
+				"phones": [
+					{
+						"number": "+380671263905",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 50.08009,
+				"longitude": 32.29765
+			},
+			"id": "0006121e-795f-4fb3-9b37-f1dbc7e84d18",
+			"legal_entity": {
+				"addresses": [
+					{
+						"area": "ПОЛТАВСЬКА",
+						"building": "11",
+						"country": "UA",
+						"region": "ГРЕБІНКІВСЬКИЙ",
+						"settlement": "ГРЕБІНКА",
+						"settlement_id": "0fa59ffa-5aae-4aa2-bd28-8ebff827141e",
+						"settlement_type": "CITY",
+						"street": "Спортивний",
+						"street_type": "LANE",
+						"type": "RESIDENCE",
+						"zip": "37400"
+					}
+				],
+				"edrpou": "38540913",
+				"email": "grebn_cpmsd@ukr.net",
+				"id": "db012b24-82d6-4cd9-a088-8be1084d8b9a",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "150",
+				"mis_verified": "VERIFIED",
+				"name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО \"ГРЕБІНКІВСЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" ГРЕБІНКІВСЬКОЇ РАЙОННОЇ РАДИ ПОЛТАВСЬКОЇ ОБЛАСТІ",
+				"nhs_verified": false,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "48f3019f-acf9-4a70-b0a4-2e4abc730b7d",
+					"party": {
+						"first_name": "Сергій",
+						"id": "46fc0447-ea8e-43ff-8828-6842673bc4aa",
+						"last_name": "Литвиненко",
+						"second_name": "Петрович"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "STATE",
+				"phones": [
+					{
+						"number": "+380667243843",
+						"type": "MOBILE"
+					}
+				],
+				"public_name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО \"ГРЕБІНКІВСЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" ГРЕБІНКІВСЬКОЇ РАЙОННОЇ РАДИ ПОЛТАВСЬКОЇ ОБЛАСТІ",
+				"short_name": "КНП \"ГРЕБІНКІВСЬКИЙ ЦПМСД\"",
+				"type": "PRIMARY_CARE"
+			},
+			"name": "ФАП Грушківка",
+			"type": "FAP",
+			"working_hours": {
+				"fri": [
+					[
+						"08.00",
+						"12.00"
+					],
+					[
+						"13.00",
+						"16.42"
+					]
+				],
+				"mon": [
+					[
+						"08.00",
+						"12.00"
+					],
+					[
+						"13.00",
+						"16.42"
+					]
+				],
+				"thu": [
+					[
+						"08.00",
+						"12.00"
+					],
+					[
+						"13.00",
+						"16.42"
+					]
+				],
+				"tue": [
+					[
+						"08.00",
+						"12.00"
+					],
+					[
+						"13.00",
+						"16.42"
+					]
+				],
+				"wed": [
+					[
+						"08.00",
+						"12.00"
+					],
+					[
+						"13.00",
+						"16.42"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ЧЕРКАСЬКА",
+					"building": "1а",
+					"country": "UA",
+					"inserted_at": "2018-04-18T07:11:55.777579Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ЧЕРКАСЬКИЙ",
+					"settlement": "ХАЦЬКИ",
+					"settlement_id": "1241d973-9bbe-42c6-a58e-ae7184dd82e2",
+					"settlement_type": "VILLAGE",
+					"street": "Козацька",
+					"street_type": "STREET",
+					"type": "REGISTRATION",
+					"updated_at": "2019-04-19T09:19:26.591942Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "19634"
+				},
+				{
+					"apartment": null,
+					"area": "ЧЕРКАСЬКА",
+					"building": "1а",
+					"country": "UA",
+					"inserted_at": "2018-04-18T07:11:55.777579Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ЧЕРКАСЬКИЙ",
+					"settlement": "ХАЦЬКИ",
+					"settlement_id": "1241d973-9bbe-42c6-a58e-ae7184dd82e2",
+					"settlement_type": "VILLAGE",
+					"street": "Козацька",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-04-19T09:19:26.591942Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "19634"
+				}
+			],
+			"contacts": {
+				"email": "doctorkhatskypmsd@gmail.com",
+				"phones": [
+					{
+						"number": "+380472306571",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 49.305882,
+				"longitude": 31.951925
+			},
+			"id": "0009168f-e530-4817-a99d-5d1b97ff764e",
+			"legal_entity": {
+				"addresses": [
+					{
+						"area": "ЧЕРКАСЬКА",
+						"building": "3",
+						"country": "UA",
+						"region": "ЧЕРКАСЬКИЙ",
+						"settlement": "ЧЕРВОНА СЛОБОДА",
+						"settlement_id": "6b72568c-67e6-43ef-95f0-4c1171358e50",
+						"settlement_type": "VILLAGE",
+						"street": "Пирогова",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "19604"
+					},
+					{
+						"area": "ЧЕРКАСЬКА",
+						"building": "3",
+						"country": "UA",
+						"region": "ЧЕРКАСЬКИЙ",
+						"settlement": "ЧЕРВОНА СЛОБОДА",
+						"settlement_id": "6b72568c-67e6-43ef-95f0-4c1171358e50",
+						"settlement_type": "VILLAGE",
+						"street": "Пирогова",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "19604"
+					}
+				],
+				"edrpou": "38981957",
+				"email": "pmsdck@ukr.net",
+				"id": "432bc068-0d5a-45fd-b144-707554c8fcb0",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "150",
+				"mis_verified": "VERIFIED",
+				"name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО\"ЧЕРКАСЬКИЙ РАЙОННИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" ЧЕРКАСЬКОЇ РАЙОННОЇ РАДИ",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "2ba7e345-8fd1-4585-b5f5-bf332693e5b7",
+					"party": {
+						"first_name": "Ганна",
+						"id": "406e4870-67b4-4202-8836-91a07acb8bc0",
+						"last_name": "Пантюхіна",
+						"second_name": "Анатоліївна"
+					},
+					"position": "P3"
+				},
+				"owner_property_type": "STATE",
+				"phones": [
+					{
+						"number": "+380671433068",
+						"type": "LAND_LINE"
+					}
+				],
+				"public_name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО\"ЧЕРКАСЬКИЙ РАЙОННИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" ЧЕРКАСЬКОЇ РАЙОННОЇ РАДИ",
+				"short_name": "КНП \"ЧЕРКАСЬКИЙ РАЙОННИЙ ЦЕНТР ПМСД\" ЧЕРКАСЬКОЇ РАЙОННОЇ РАДИ",
+				"type": "MSP"
+			},
+			"name": "Амбулаторія загальної практики - сімейної медицини село Хацьки КНП \"Черкаський районний центр ПМСД\"",
+			"type": "AMBULANT_CLINIC",
+			"working_hours": {
+				"fri": [
+					[
+						"08.00",
+						"12.30"
+					],
+					[
+						"13.00",
+						"15.12"
+					]
+				],
+				"mon": [
+					[
+						"08.00",
+						"12.30"
+					],
+					[
+						"13.00",
+						"15.12"
+					]
+				],
+				"sat": [
+					[
+						"08.00",
+						"13.00"
+					]
+				],
+				"thu": [
+					[
+						"08.00",
+						"12.30"
+					],
+					[
+						"13.00",
+						"15.12"
+					]
+				],
+				"tue": [
+					[
+						"08.00",
+						"12.30"
+					],
+					[
+						"13.00",
+						"15.12"
+					]
+				],
+				"wed": [
+					[
+						"08.00",
+						"12.30"
+					],
+					[
+						"13.00",
+						"15.12"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ДОНЕЦЬКА",
+					"building": "14",
+					"country": "UA",
+					"inserted_at": "2019-04-28T13:34:05.721737Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ВОЛНОВАСЬКИЙ",
+					"settlement": "ВОЛНОВАХА",
+					"settlement_id": "87f9ab8b-b3a6-4426-be4c-7d86eb224682",
+					"settlement_type": "CITY",
+					"street": "Центральна",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-05-28T11:12:18.273254Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "85700"
+				}
+			],
+			"contacts": {
+				"email": "amb-azovmedplus@ukr.net",
+				"phones": [
+					{
+						"number": "+380970156207",
+						"type": "MOBILE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": null,
+				"longitude": null
+			},
+			"id": "000d6838-2eed-4310-b6b7-084191569478",
+			"legal_entity": {
+				"addresses": [
+					{
+						"area": "ДОНЕЦЬКА",
+						"building": "100",
+						"country": "UA",
+						"region": "МАНГУШСЬКИЙ",
+						"settlement": "МАНГУШ",
+						"settlement_id": "34629585-df7d-4284-a32e-74b6f75bff92",
+						"settlement_type": "TOWNSHIP",
+						"street": "Катанова",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "87400"
+					}
+				],
+				"edrpou": "38140277",
+				"email": "azovmedplus@ukr.net",
+				"id": "b3d6870d-47a8-4c4f-a91a-49f51305d07b",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "240",
+				"mis_verified": "NOT_VERIFIED",
+				"name": "Товариство з обмеженою відповідальністю \"АЗОВМЕД+\"",
+				"nhs_verified": false,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "d599667e-ff9d-4acc-933f-c54521084043",
+					"party": {
+						"first_name": "Наталя",
+						"id": "fcb94e9a-ea3e-4374-a1c6-d490d003aa1d",
+						"last_name": "Георгієва",
+						"second_name": "Євгенівна"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "PRIVATE",
+				"phones": [
+					{
+						"number": "+380970156207",
+						"type": "MOBILE"
+					}
+				],
+				"public_name": "Медичний центр ТОВ \"АЗОВМЕД+\"",
+				"short_name": "ТОВ \"АЗОВМЕД+\"",
+				"type": "MSP"
+			},
+			"name": "поліклінічне відділення",
+			"type": "AMBULANT_CLINIC",
+			"working_hours": {
+				"fri": [
+					[
+						"08.00",
+						"16.00"
+					]
+				],
+				"mon": [
+					[
+						"08.00",
+						"16.00"
+					]
+				],
+				"sat": [
+					[
+						"09.00",
+						"14.30"
+					]
+				],
+				"thu": [
+					[
+						"08.00",
+						"16.00"
+					]
+				],
+				"tue": [
+					[
+						"08.00",
+						"16.00"
+					]
+				],
+				"wed": [
+					[
+						"08.00",
+						"16.00"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ЖИТОМИРСЬКА",
+					"building": "5",
+					"country": "UA",
+					"inserted_at": "2018-07-30T12:14:39.802224Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ОЛЕВСЬКИЙ",
+					"settlement": "ПЕРГА",
+					"settlement_id": "184b6982-15d2-4bd7-8ae1-3216af2ea0d0",
+					"settlement_type": "VILLAGE",
+					"street": "Геологів",
+					"street_type": "STREET",
+					"type": "REGISTRATION",
+					"updated_at": "2019-05-22T05:52:35.480688Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "11012"
+				},
+				{
+					"apartment": null,
+					"area": "ЖИТОМИРСЬКА",
+					"building": "5",
+					"country": "UA",
+					"inserted_at": "2018-07-30T12:14:39.802224Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "ОЛЕВСЬКИЙ",
+					"settlement": "ПЕРГА",
+					"settlement_id": "184b6982-15d2-4bd7-8ae1-3216af2ea0d0",
+					"settlement_type": "VILLAGE",
+					"street": "Геологів",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-05-22T05:52:35.480688Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "11012"
+				}
+			],
+			"contacts": {
+				"email": "olevskrcpmsd@gmail.com",
+				"phones": [
+					{
+						"number": "+380961671816",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": null,
+				"longitude": null
+			},
+			"id": "000d7f4e-f993-4728-8f6f-5f908090a655",
+			"legal_entity": {
+				"addresses": [
+					{
+						"apartment": "",
+						"area": "ЖИТОМИРСЬКА",
+						"building": "46",
+						"country": "UA",
+						"region": "ОЛЕВСЬКИЙ",
+						"settlement": "ОЛЕВСЬК",
+						"settlement_id": "5302ab02-e5d5-4d64-ac07-8a2adc8775a4",
+						"settlement_type": "CITY",
+						"street": "Свято-Миколаївська",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "11001"
+					},
+					{
+						"apartment": "",
+						"area": "ЖИТОМИРСЬКА",
+						"building": "46",
+						"country": "UA",
+						"region": "ОЛЕВСЬКИЙ",
+						"settlement": "ОЛЕВСЬК",
+						"settlement_id": "5302ab02-e5d5-4d64-ac07-8a2adc8775a4",
+						"settlement_type": "CITY",
+						"street": "Свято-Миколаївська",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "11001"
+					}
+				],
+				"edrpou": "38562298",
+				"email": "olevskrcpmsd@gmail.com",
+				"id": "9f9bd2ec-e9c4-4f6d-ad30-97261930f3c3",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "150",
+				"mis_verified": "VERIFIED",
+				"name": "Комунальне некомерційне підприємство 'Олевський Центр первинної медичної допомоги' Олевської міської ради",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "6403339b-9225-4fab-8a22-30235d524518",
+					"party": {
+						"first_name": "Олена",
+						"id": "45c2b379-1009-4b88-8c1a-5889a1e285be",
+						"last_name": "Вишневська",
+						"second_name": "Євгеніївна"
+					},
+					"position": "P3"
+				},
+				"owner_property_type": "STATE",
+				"phones": [
+					{
+						"number": "+380987798456",
+						"type": "LAND_LINE"
+					}
+				],
+				"public_name": null,
+				"short_name": "КНП 'Олевський ЦПМД'",
+				"type": "MSP"
+			},
+			"name": "Фельдшерський пункт  с.Перга",
+			"type": "CLINIC",
+			"working_hours": {
+				"fri": [
+					[
+						"08.00",
+						"11.51"
+					]
+				],
+				"mon": [
+					[
+						"08.00",
+						"11.51"
+					]
+				],
+				"thu": [
+					[
+						"08.00",
+						"11.51"
+					]
+				],
+				"tue": [
+					[
+						"08.00",
+						"11.51"
+					]
+				],
+				"wed": [
+					[
+						"08.00",
+						"11.51"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ІВАНО-ФРАНКІВСЬКА",
+					"building": "11а",
+					"country": "UA",
+					"inserted_at": "2020-02-27T09:40:23.963022Z",
+					"inserted_by": "68738e60-1e40-4894-971a-d57cde04d302",
+					"region": "ГАЛИЦЬКИЙ",
+					"settlement": "ГАЛИЧ",
+					"settlement_id": "d48e76e7-c1d0-4494-8095-dfe3e38aecbb",
+					"settlement_type": "CITY",
+					"street": "Ніни Вівчаренко",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2020-02-27T09:40:23.963022Z",
+					"updated_by": "68738e60-1e40-4894-971a-d57cde04d302",
+					"zip": "77100"
+				}
+			],
+			"contacts": {
+				"email": "aptekakantor@ukr.net",
+				"phones": [
+					{
+						"number": "+380962578445",
+						"type": "MOBILE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 49.120823734393,
+				"longitude": 24.736903980767
+			},
+			"id": "000e39ca-e899-47fc-8d4c-396b7d8b4163",
+			"legal_entity": {
+				"addresses": [
+					{
+						"area": "ІВАНО-ФРАНКІВСЬКА",
+						"building": "11а",
+						"country": "UA",
+						"region": "ГАЛИЦЬКИЙ",
+						"settlement": "ГАЛИЧ",
+						"settlement_id": "d48e76e7-c1d0-4494-8095-dfe3e38aecbb",
+						"settlement_type": "CITY",
+						"street": "Ніни Вівчаренко",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "77100"
+					}
+				],
+				"edrpou": "2998405142",
+				"email": "aptekakantor@ukr.net",
+				"id": "be8fdf7c-264d-4814-acbf-316732bd6031",
+				"kveds": null,
+				"legal_form": null,
+				"mis_verified": "NOT_VERIFIED",
+				"name": "КАНТОР НАТАЛІЯ МИРОНІВНА",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "6a2fe245-7348-4dd6-90bb-1ee7ec0e18d2",
+					"party": {
+						"first_name": "Наталія",
+						"id": "a625a61c-8d1a-4ae4-b536-6988cd50539d",
+						"last_name": "Кантор",
+						"second_name": "Миронівна"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": null,
+				"phones": [
+					{
+						"number": "+380962578445",
+						"type": "MOBILE"
+					}
+				],
+				"public_name": "КАНТОР НАТАЛІЯ МИРОНІВНА",
+				"short_name": null,
+				"type": "PHARMACY"
+			},
+			"name": "Аптека №1",
+			"type": "DRUGSTORE",
+			"working_hours": null
+		},
+		{
+			"addresses": [
+				{
+					"apartment": "        ",
+					"area": "ДНІПРОПЕТРОВСЬКА",
+					"building": "19",
+					"country": "UA",
+					"inserted_at": "2019-12-21T14:01:57.289316Z",
+					"inserted_by": "521355a9-283f-4bf7-b316-07dcfc8d2cc4",
+					"region": null,
+					"settlement": "ПОКРОВ",
+					"settlement_id": "98865648-9124-450b-b218-a2006b4d051b",
+					"settlement_type": "CITY",
+					"street": "Медична",
+					"street_type": "STREET",
+					"type": "REGISTRATION",
+					"updated_at": "2019-12-21T14:01:57.289316Z",
+					"updated_by": "521355a9-283f-4bf7-b316-07dcfc8d2cc4",
+					"zip": "53300"
+				},
+				{
+					"apartment": null,
+					"area": "ДНІПРОПЕТРОВСЬКА",
+					"building": "9",
+					"country": "UA",
+					"inserted_at": "2019-12-21T14:01:57.287859Z",
+					"inserted_by": "521355a9-283f-4bf7-b316-07dcfc8d2cc4",
+					"region": null,
+					"settlement": "ПОКРОВ",
+					"settlement_id": "98865648-9124-450b-b218-a2006b4d051b",
+					"settlement_type": "CITY",
+					"street": "Київська",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-12-21T14:01:57.287859Z",
+					"updated_by": "521355a9-283f-4bf7-b316-07dcfc8d2cc4",
+					"zip": "53300"
+				}
+			],
+			"contacts": {
+				"email": "juliamihno@i.ua",
+				"phones": [
+					{
+						"number": "+380963400296",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 47.665891,
+				"longitude": 34.06091
+			},
+			"id": "0014c9f4-0869-4b07-b0c0-ef38d2454980",
+			"legal_entity": {
+				"addresses": [
+					{
+						"apartment": "",
+						"area": "ДНІПРОПЕТРОВСЬКА",
+						"building": "19",
+						"country": "UA",
+						"settlement": "ПОКРОВ",
+						"settlement_id": "98865648-9124-450b-b218-a2006b4d051b",
+						"settlement_type": "CITY",
+						"street": "МЕДИЧНА",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "53300"
+					},
+					{
+						"apartment": "",
+						"area": "ДНІПРОПЕТРОВСЬКА",
+						"building": "19",
+						"country": "UA",
+						"settlement": "ПОКРОВ",
+						"settlement_id": "98865648-9124-450b-b218-a2006b4d051b",
+						"settlement_type": "CITY",
+						"street": "МЕДИЧНА",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "53300"
+					}
+				],
+				"edrpou": "37691403",
+				"email": "cpmsdp19@gmail.com",
+				"id": "2cd36ade-f783-433c-b867-99bfb889247a",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "150",
+				"mis_verified": "VERIFIED",
+				"name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО \"ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ ПОКРОВСЬКОЇ МІСЬКОЇ РАДИ ДНІПРОПЕТРОВСЬКОЇ ОБЛАСТІ\"",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "ff55561f-4c03-4474-84eb-e958bb2d1433",
+					"party": {
+						"first_name": "Олексій",
+						"id": "9afcc6d7-f7dd-4ee4-85f7-e3f79f3c49b0",
+						"last_name": "Леонтьєв",
+						"second_name": "Олександрович"
+					},
+					"position": "P3"
+				},
+				"owner_property_type": "STATE",
+				"phones": [
+					{
+						"number": "+380934144098",
+						"type": "LAND_LINE"
+					}
+				],
+				"public_name": null,
+				"short_name": "КНП \"ЦПМСД ПОКРОВСЬКОЇ МІСЬКОЇ РАДИ\"",
+				"type": "MSP"
+			},
+			"name": "Амбулаторія загальної практики сімейної медицини №1",
+			"type": "AMBULANT_CLINIC",
+			"working_hours": {
+				"fri": [
+					[
+						"07.00",
+						"19.00"
+					]
+				],
+				"mon": [
+					[
+						"07.00",
+						"19.00"
+					]
+				],
+				"thu": [
+					[
+						"07.00",
+						"19.00"
+					]
+				],
+				"tue": [
+					[
+						"07.00",
+						"19.00"
+					]
+				],
+				"wed": [
+					[
+						"07.00",
+						"19.00"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ХАРКІВСЬКА",
+					"building": "48/7",
+					"country": "UA",
+					"inserted_at": "2019-03-13T11:22:49.290962Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": null,
+					"settlement": "ПОКОТИЛІВКА",
+					"settlement_id": "34768c71-833b-4081-af0e-c8e0d5741468",
+					"settlement_type": "TOWNSHIP",
+					"street": "Незалежності/Кооперативна",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-07-25T09:23:33.037500Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": null
+				}
+			],
+			"contacts": {
+				"email": "apteka3@passat.kh.ua",
+				"phones": [
+					{
+						"number": "+380577516739",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 49.911569,
+				"longitude": 36.17374
+			},
+			"id": "0017c5e2-9cfb-4c66-a4e0-e9e3978e86fa",
+			"legal_entity": {
+				"addresses": [
+					{
+						"area": "ХАРКІВСЬКА",
+						"building": "187",
+						"country": "UA",
+						"settlement": "ХАРКІВ",
+						"settlement_id": "1241d1f9-ae81-4fe5-b614-f4f780a5acf0",
+						"settlement_type": "CITY",
+						"street": "Героїв Сталінграда",
+						"street_type": "AVENUE",
+						"type": "RESIDENCE",
+						"zip": "61096"
+					},
+					{
+						"area": "ХАРКІВСЬКА",
+						"building": "197",
+						"country": "UA",
+						"settlement": "ХАРКІВ",
+						"settlement_id": "1241d1f9-ae81-4fe5-b614-f4f780a5acf0",
+						"settlement_type": "CITY",
+						"street": "Клочківська",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "61145"
+					}
+				],
+				"edrpou": "21195568",
+				"email": "dl_dorado@passat.kh.ua",
+				"id": "8ea3b7a8-61b1-474a-99c5-988a8a4aa6b4",
+				"kveds": [
+					"47.73"
+				],
+				"legal_form": "240",
+				"mis_verified": "VERIFIED",
+				"name": "ТОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ \"ПАССАТ-ЛТД\"",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "PHARMACY_OWNER",
+					"id": "193fbe56-7355-4b92-a76f-f78b77c42284",
+					"party": {
+						"first_name": "Вадим",
+						"id": "f56d559f-dafc-45a3-9e37-d354acd98df1",
+						"last_name": "Костенко",
+						"second_name": "Олегович"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "PRIVATE",
+				"phones": [
+					{
+						"number": "+380572975024",
+						"type": "LAND_LINE"
+					}
+				],
+				"public_name": "ТОВАРИСТВО З ОБМЕЖЕНОЮ ВІДПОВІДАЛЬНІСТЮ \"ПАССАТ-ЛТД\"",
+				"short_name": "ТОВ \"ПАССАТ-ЛТД\"",
+				"type": "PHARMACY"
+			},
+			"name": "Аптека №3",
+			"type": "DRUGSTORE",
+			"working_hours": null
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ВІННИЦЬКА",
+					"building": "22",
+					"country": "UA",
+					"inserted_at": "2019-12-28T13:47:33.982654Z",
+					"inserted_by": "4f9cddf2-9670-442f-b157-322ce34c6dd4",
+					"region": "НЕМИРІВСЬКИЙ",
+					"settlement": "НЕМИРІВ",
+					"settlement_id": "dfcfcebf-170d-4822-a015-49086f7d0f28",
+					"settlement_type": "CITY",
+					"street": "Євдокименка",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2019-12-28T13:47:33.982654Z",
+					"updated_by": "4f9cddf2-9670-442f-b157-322ce34c6dd4",
+					"zip": "22800"
+				}
+			],
+			"contacts": {
+				"email": "ap01konex@gmail.com",
+				"phones": [
+					{
+						"number": "+380674355581",
+						"type": "LAND_LINE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 48.97399647875,
+				"longitude": 28.845263941755
+			},
+			"id": "001c5180-4c99-4cca-85c6-ec1c70a8ffb5",
+			"legal_entity": {
+				"addresses": [
+					{
+						"apartment": "",
+						"area": "ВІННИЦЬКА",
+						"building": "136-Г",
+						"country": "UA",
+						"settlement": "ВІННИЦЯ",
+						"settlement_id": "90cf1df9-7306-424d-98b0-18f03098f9bd",
+						"settlement_type": "CITY",
+						"street": "КИЇВСЬКА",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "21022"
+					},
+					{
+						"apartment": "",
+						"area": "ВІННИЦЬКА",
+						"building": "136-Г",
+						"country": "UA",
+						"settlement": "ВІННИЦЯ",
+						"settlement_id": "90cf1df9-7306-424d-98b0-18f03098f9bd",
+						"settlement_type": "CITY",
+						"street": "КИЇВСЬКА",
+						"street_type": "STREET",
+						"type": "REGISTRATION",
+						"zip": "21022"
+					}
+				],
+				"edrpou": "23060192",
+				"email": "konexaudit@gmail.com",
+				"id": "5c2bc61c-dcc2-4172-9641-17d1fe39b859",
+				"kveds": [
+					"47.73"
+				],
+				"legal_form": "120",
+				"mis_verified": "VERIFIED",
+				"name": "ПРИВАТНЕ ПІДПРИЄМСТВО \"КОНЕКС\"",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "PHARMACY_OWNER",
+					"id": "6736fad9-fb93-4328-b371-366f66bdc166",
+					"party": {
+						"first_name": "Олександр",
+						"id": "6f733f74-9ccd-4ecc-a46f-2a86df3b210f",
+						"last_name": "Мудрий",
+						"second_name": "Миколайович"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "PRIVATE",
+				"phones": [
+					{
+						"number": "+380677609562",
+						"type": "LAND_LINE"
+					}
+				],
+				"public_name": "ПП \"КОНЕКС\"",
+				"short_name": "ПП \"КОНЕКС\"",
+				"type": "PHARMACY"
+			},
+			"name": "Аптечний пункт №1 (Аптеки №16 м.Вінниця, вул.Келецька, 66)",
+			"type": "DRUGSTORE_POINT",
+			"working_hours": {
+				"fri": [
+					[
+						"08.00",
+						"17.00"
+					]
+				],
+				"mon": [
+					[
+						"08.00",
+						"17.00"
+					]
+				],
+				"sat": [
+					[
+						"08.00",
+						"13.00"
+					]
+				],
+				"thu": [
+					[
+						"08.00",
+						"17.00"
+					]
+				],
+				"tue": [
+					[
+						"08.00",
+						"17.00"
+					]
+				],
+				"wed": [
+					[
+						"08.00",
+						"17.00"
+					]
+				]
+			}
+		},
+		{
+			"addresses": [
+				{
+					"apartment": null,
+					"area": "ЧЕРКАСЬКА",
+					"building": "2 а",
+					"country": "UA",
+					"inserted_at": "2018-05-24T07:47:40.916655Z",
+					"inserted_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"region": "КАНІВСЬКИЙ",
+					"settlement": "КОЗАРІВКА",
+					"settlement_id": "40d5d612-2dbd-4194-bf5f-c42836e9328a",
+					"settlement_type": "VILLAGE",
+					"street": "Довга",
+					"street_type": "STREET",
+					"type": "RESIDENCE",
+					"updated_at": "2018-06-20T12:32:30.299044Z",
+					"updated_by": "4261eacf-8008-4e62-899f-de1e2f7065f0",
+					"zip": "19016"
+				}
+			],
+			"contacts": {
+				"email": "Kozarivka_fap@ukr.net",
+				"phones": [
+					{
+						"number": "+380973324852",
+						"type": "MOBILE"
+					}
+				]
+			},
+			"coordinates": {
+				"latitude": 49.7618697,
+				"longitude": 31.2570841
+			},
+			"id": "001d4d77-e5c0-448b-b18c-2fabb21521e6",
+			"legal_entity": {
+				"addresses": [
+					{
+						"apartment": "",
+						"area": "ЧЕРКАСЬКА",
+						"building": "18",
+						"country": "UA",
+						"region": "КАНІВСЬКИЙ",
+						"settlement": "КОВАЛІ",
+						"settlement_id": "e8714be9-d316-4410-85bf-6302345fb5a0",
+						"settlement_type": "VILLAGE",
+						"street": "Центральна",
+						"street_type": "STREET",
+						"type": "RESIDENCE",
+						"zip": "19030"
+					}
+				],
+				"edrpou": "38682646",
+				"email": "kaniv_centr_tender@ukr.net",
+				"id": "bf6201dc-a979-449f-8563-79717aa13db9",
+				"kveds": [
+					"86.21"
+				],
+				"legal_form": "150",
+				"mis_verified": "VERIFIED",
+				"name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО \"КАНІВСЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" КАНІВСЬКОЇ РАЙОННОЇ РАДИ",
+				"nhs_verified": true,
+				"owner": {
+					"employee_type": "OWNER",
+					"id": "354d9eca-58c2-4813-8aec-4abe4675541b",
+					"party": {
+						"first_name": "НАТАЛІЯ",
+						"id": "9347026e-7e13-444f-8087-629c41c8b71f",
+						"last_name": "ГОРЬОВА",
+						"second_name": "ВАСИЛІВНА"
+					},
+					"position": "P2"
+				},
+				"owner_property_type": "STATE",
+				"phones": [
+					{
+						"number": "+380473635505",
+						"type": "MOBILE"
+					}
+				],
+				"public_name": "КОМУНАЛЬНЕ НЕКОМЕРЦІЙНЕ ПІДПРИЄМСТВО \"КАНІВСЬКИЙ ЦЕНТР ПЕРВИННОЇ МЕДИКО-САНІТАРНОЇ ДОПОМОГИ\" КАНІВСЬКОЇ РАЙОННОЇ РАДИ",
+				"short_name": "КНП \"КАНІВСЬКИЙ ЦПМСД\"",
+				"type": "PRIMARY_CARE"
+			},
+			"name": "ФП с. Козарівка",
+			"type": "FAP",
+			"working_hours": null
+		}
+	],
+	"meta": {
+		"code": 200,
+		"request_id": "edc89b29-7163-4347-9dd3-57bdfd049657#316566",
+		"type": "list",
+		"url": "http://192.168.2.210:30020/reports/stats/divisions"
+	},
+	"paging": {
+		"page_number": 1,
+		"page_size": 10,
+		"total_entries": 28454,
+		"total_pages": 2846
+	}
+}
