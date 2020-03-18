@@ -1,6 +1,15 @@
 <div>
-	<span class="w3-tiny am-b"> field name </span> <input class="w3-border"
-		data-ng-blur="ctrl.log(d)" data-ng-model="d.s1value"> <a
+	<span class="w3-tiny am-b"> field name </span>
+	{{ctrl.elementsMap[d.reference].doctype}} <span
+		data-ng-repeat="dt in [ctrl.elementsMap[d.reference]]"
+		data-ng-switch="dt.doctype"> <span data-ng-switch-when="23">
+			<input class="w3-border" type="number" data-ng-blur="ctrl.log(d)"
+			data-ng-model="d.i1value"> <a
+			class="w3-btn w3-ripple w3-padding-small" href="#"
+			data-ng-click="ctrl.save_model_i1value(el)"> OK </a>
+	</span>
+	</span> <input class="w3-border" data-ng-blur="ctrl.log(d)"
+		data-ng-model="d.s1value"> <a
 		class="w3-btn w3-ripple w3-padding-small" href="#"
 		data-ng-click="ctrl.save_model_s1value(el)"> OK </a>
 </div>

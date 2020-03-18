@@ -40,6 +40,7 @@ var copyDP_oa37 = function(so_tableListEl, data_model_column_element, copyElList
 	writeSql(so_tableListEl)
 }
 
+
 var initCrud002 = function() {
 
 	ctrl.copyDP_legal_entity = function(copyEl){
@@ -208,8 +209,45 @@ var initMenu = function() {
 		console.log(ctrl.choice_data_model_obj)
 	}
 
-	ctrl.save_model_s1value = function(el){
+	ctrl.save_model_f1value = function(el){
 		console.log(el)
+		var so = { f1value: el.f1value, f1_id:el.doc_id}
+		if(el.i1_id){
+			so.dataAfterSave = function(response){
+				console.log(el, response.data, so)
+			}
+			so.sql = "UPDATE double SET value=:f1value WHERE double_id=:f1_id"
+			writeSql(so)
+		}else{
+			so.dataAfterSave = function(response){
+				console.log(el, response.data, so)
+			}
+			so.sql = "INSERT INTO double (double_id, value) VALUES (:f1_id, :f1value);\n"
+			writeSql(so)
+		}
+	}
+	ctrl.at3Name = function(doctype){
+		return doctype==24?'f1value':doctype==23?'i1value':'s1value'
+	}
+	ctrl.save_model_i1value = function(el){
+		console.log(el)
+		var so = { i1value: el.i1value, i1_id:el.doc_id}
+		if(el.i1_id){
+			so.dataAfterSave = function(response){
+				console.log(el, response.data, so)
+			}
+			so.sql = "UPDATE integer SET value=:i1value WHERE integer_id=:i1_id"
+			writeSql(so)
+		}else{
+			so.dataAfterSave = function(response){
+				console.log(el, response.data, so)
+			}
+			so.sql = "INSERT INTO integer (integer_id, value) VALUES (:i1_id, :i1value);\n"
+			writeSql(so)
+		}
+	}
+
+	ctrl.save_model_s1value = function(el){
 		var s1value = el.s1value.replace("'","''")
 		if(el.s1_id){
 			var so = { s1value: s1value, s1_id : el.s1_id,
