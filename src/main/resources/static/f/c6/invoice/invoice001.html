@@ -1,0 +1,60 @@
+<div>
+	invoice
+	<button class="w3-btn" data-ng-click="ctrl.add_row(369363)">+</button>
+	<table>
+		<thead
+		class="w3-grey"
+		>
+			<tr class="w3-small">
+				<th>#</th>
+				<th class="w3-border-left"
+				title="{{th.doc_id}}"
+					data-ng-repeat="th in ctrl.elementsMap[369345].children">
+					{{th.s1value}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="tr in ctrl.elementsMap[369363].children"
+				class="w3-hover-shadow">
+				<td class="w3-tiny" title="{{tr.doc_id}}">#</td>
+				<td class="w3-border-left"
+					data-ng-repeat="th in ctrl.elementsMap[369345].children"
+					data-ng-switch="th.doctype">
+					<div data-ng-switch-when="22">
+						<input class="w3-border am-width-100pr"
+							data-ng-model="ctrl.elementsMap[tr.cols[th.doc_id]].s1value" />
+					</div>
+					<div data-ng-switch-default>
+						{{ctrl.elementsMap[tr.cols[th.doc_id]].s1value}}
+						<div
+							data-ng-if="369364==ctrl.elementsMap[th.reference].reference2">
+							<span class="w3-tiny"> <i class="fas fa-calculator"></i> <span
+								data-ng-repeat="fn in [ctrl.elementsMap[th.reference].children[0]]"
+								>
+								<span
+									data-ng-repeat="vals in [{v0:tr.cols[fn.children[0].reference],v1:tr.cols[fn.children[1].reference]}]"
+									data-ng-init="
+									v0_dt=ctrl.at3Name(ctrl.elementsMap[fn.children[0].reference].doctype);
+									v1_dt=ctrl.at3Name(ctrl.elementsMap[fn.children[1].reference].doctype);
+									"
+									>
+		{{vals.v0}}/
+		{{vals.v1}}
+		({{v0_dt}}/{{v1_dt}})
+								</span> {{th.doctype}}
+{{th_dt}}
+									<span data-ng-if="'*'==fn.r1value">
+										{{ctrl.elementsMap[tr.cols[fn.children[0].reference]].s1value
+										*
+										ctrl.elementsMap[tr.cols[fn.children[1].reference]].s1value}}
+								</span>
+							</span>
+
+							</span>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

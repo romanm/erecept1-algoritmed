@@ -2,6 +2,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	ctrl = this
 	initApp($scope, $http, $timeout)
 	initEh002()
+	initInvoice()
 	initMenu()
 	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
 	console.log(ctrl.request.parameters.doc2doc)
@@ -40,6 +41,14 @@ var read_to_folder = function(d, d_start_id, doc){
 	})
 }
 
+var initInvoice= function() {
+	ctrl.add_row = function(data_table_id){
+		var data_table = ctrl.elementsMap[data_table_id]
+		var so = {doc_id:':nextDbId1',parent:data_table_id, reference:data_table.reference2}
+		console.log(data_table_id, data_table, so)
+		writeSql(so)
+	}
+}
 var initEh002 = function() {
 
 	ctrl.afterReadObj = function(d){

@@ -41,6 +41,11 @@
 				<div
 					data-ng-repeat="edEl in [ctrl.elementsMap[ctrl.doc2doc_ids[0]]] "
 					data-ng-include="'/f/c6/data_model.html'"></div>
+				<div
+					data-ng-if="369345==ctrl.elementsMap[ctrl.doc2doc_ids[0]].doc_id">
+					doc:{{ctrl.elementsMap[ctrl.doc2doc_ids[0]].doc_id}}
+					<div data-ng-include="'/f/c6/invoice/invoice001.html'"></div>
+				</div>
 			</div>
 			<div class="w3-half ">
 				<div class="w3-tiny am-b w3-container">
