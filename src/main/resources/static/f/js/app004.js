@@ -4,33 +4,35 @@ var sql_app = {}
 var ctrl
 
 var initApp = function($scope, $http, $timeout){
-	ctrl.elementsMap = {}
-	exe_fn = new Exe_fn($scope, $http);
-	exe_fn.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){
-		return {
-			url : '/r/url_sql_read_db1',
-			params : params,
-			then_fn : then_fn,
-			error_fn : params.error_fn,
-	}	}
-
-	build_request($scope)
+	ctrl.eMap = {}
+	exe_fn = new Exe_fn($http);
+	
+	build_request()
 	initRandom()
+	ctrl.doctype_short = {
+		18:'o',
+		22:'o',
+		23:'1',
+		24:'f',
+		25:'ts',
+		26:'d',
+		29:'b',
+		30:'uuid',
+		32:'s[]',
+		35:'ts[]',
+		37:'o[]',
+	}
 }
 
-
 function build_request($scope){
-	$scope.request={};
-	ctrl.request = $scope.request
-//	console.log($scope.request, window.location)
-//	console.log($scope.request)
-	$scope.request.hostname = window.location.hostname
-	$scope.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
-	$scope.request.parameters={};
+	ctrl.request = {};
+	ctrl.request.hostname = window.location.hostname
+	ctrl.request.path = window.location.pathname.split('.html')[0].split('/').reverse()
+	ctrl.request.parameters={};
 	if(window.location.search.split('?')[1]){
 		angular.forEach(window.location.search.split('?')[1].split('&'), function(value, index){
 			var par = value.split("=");
-			$scope.request.parameters[par[0]] = par[1];
+			ctrl.request.parameters[par[0]] = par[1];
 		});
 	}
 }
@@ -97,16 +99,16 @@ sql_app.SELECT_obj_with_i18n = function(doc_id){
 
 //console.log(sql_app.SELECT_obj_with_i18n(369375))
 
-sql_app.SELECT_children_with_i18n = function(parent){
+sql_app.SELECT_children_with_i18n = function(parent_id){
 	var sql = sql_app.obj_with_i18n()+
 	"WHERE d1.parent = :parent " +
 	"ORDER BY sort "
-	sql = sql.replace(':parent', parent)
+	sql = sql.replace(':parent', parent_id)
 //	console.log(sql)
 	return sql
 }
 
-function Exe_fn($scope, $http){
+function Exe_fn($http){
 	this.httpGet=function(progr_am){
 		if(progr_am.error_fn)
 			$http
@@ -125,4 +127,11 @@ function Exe_fn($scope, $http){
 			$http.post(progr_am.url, progr_am.data)
 			.then(progr_am.then_fn)
 	}
+	this.httpGet_j2c_table_db1_params_then_fn = function(params, then_fn){ return {
+		url : '/r/url_sql_read_db1',
+		params : params,
+		then_fn : then_fn,
+		error_fn : params.error_fn,
+	}	}
+
 }

@@ -556,7 +556,7 @@ sql_app.doc_update_sort = function(){
 	var sql = "UPDATE sort SET sort=:sort WHERE sort_id=:sort_id"
 	return sql
 }
-	
+
 sql_app.replace_params = function(sql, data){
 	angular.forEach(sql.split(':'), function (v){
 		var v1 = v.split(' ')[0]

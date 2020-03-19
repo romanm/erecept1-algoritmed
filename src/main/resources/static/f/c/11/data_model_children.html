@@ -1,0 +1,26 @@
+<div data-ng-repeat="d in children" data-ng-init="el=d">
+	<div
+		data-ng-class="{'w3-border w3-border-green':d.doc_id==ctrl.choice_data_model_obj.doc_id}">
+		<span class="w3-tiny w3-dropdown-hover w3-hover-shadow w3-white">
+			<span
+			data-ng-include="'/f/c/11/data_model_item/node_abstrack_info.html'"></span>
+			<i class="fas fa-edit w3-text-blue"
+			data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0"></i>
+			<div class="w3-dropdown-content w3-card-4" style="width: 180px"
+				data-ng-include="'/f/c/11/data_model_item/node_content_menu.html'">
+			</div>
+		</span> <a class="w3-hover-shadow" href="#"
+			data-ng-click="ctrl.select_tree_item(d)"><span
+			data-ng-if="d.i1value"> {{d.value_1_23}}.</span> {{d.value_1_22
+			}}{{d.uuid}} <span data-ng-if="d.i18n"> : {{d.i18n}} </span> <span
+			data-ng-if="!d.value_1_22 && !d.i18n && !d.reference"> -- ? --
+		</span> <span class="w3-tiny" data-ng-if="d.reference">
+				{{d.r1value}}:{{d.reference}} </span> </a> <sup
+			data-ng-if="d.children && !d.open_children" class="w3-tiny am-b">[{{d.children.length}}]</sup>
+	</div>
+	<div data-ng-if="d.children && d.open_children"
+		class="w3-border-left w3-container">
+		<div data-ng-repeat="children in [d.children]"
+			data-ng-include="'/f/c/11/data_model_children.html'"></div>
+	</div>
+</div>

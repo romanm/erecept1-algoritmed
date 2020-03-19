@@ -1,0 +1,28 @@
+<div>
+	<div class="w3-row w3-light-gray w3-small w3-border-bottom">
+		<div class="w3-col" style="width: 130px">
+			<div class="w3-right w3-tiny">{{ctrl.eMap[oCon.edEl_id].children.length}}</div>
+			<span class="w3-dropdown-hover w3-hover-shadow "> <span>☰<span
+					data-ng-repeat="edpv in [oCon.edpv]"
+					data-ng-include="'/f/dev4/fa_ed_protocol.html'"></span>
+			</span> {{ctrl.eMap[oCon.edEl_id].doc_id}}
+				<div class="w3-dropdown-content w3-card-4">
+					<a href="#" ng-click="ctrl.content_menu.addElement(ctrl.eMap[oCon.edEl_id])"
+						title="Додати запис" class="w3-button"><i class="fa fa-plus"></i></a>
+				</div>
+			</span>
+		</div>
+		<div class="w3-rest w3-border-left">
+			<span class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i>
+				<i class="fas fa-terminal"></i>
+			</span>
+		</div>
+	</div>
+	<div class="w3-border-bottom" style="max-height: 75vh; overflow: auto;">
+		<div data-ng-repeat="children in [ctrl.eMap[oCon.edEl_id].children]"
+			data-ng-include="'/f/c/11/data_model_children.html'"></div>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+</div>
