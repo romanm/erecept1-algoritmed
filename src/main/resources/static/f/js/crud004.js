@@ -10,9 +10,10 @@ var initCrud004 = function() {
 var initDataModel = function(){
 	ctrl.content_menu = {}
 
-	ctrl.go_up_level = function(edEl_id){
+	ctrl.go_up_level = function(edEl_id, parent_id){
 		var position = ctrl.doc2doc_ids.indexOf(edEl_id)
-		var parent_id = ctrl.eMap[edEl_id].parent
+		if(!parent_id)
+			parent_id = ctrl.eMap[edEl_id].parent
 		var doc2doc_ids = ctrl.doc2doc_ids.slice();
 //		var doc2doc_ids = ctrl.doc2doc_ids.splice(position,1,parent_id)
 		console.log(edEl_id, parent_id, position, doc2doc_ids, ctrl.doc2doc_ids)

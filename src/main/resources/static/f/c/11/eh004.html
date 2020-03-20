@@ -27,11 +27,8 @@
 		</div>
 		<div class="w3-row">
 			<div class="w3-half w3-border-right">
-				<div class="w3-tiny ">
-					<span class="am-b">
-						{{ctrl.eMap[ctrl.doc2doc_ids[0]].value_1_22}}:
-						{{ctrl.eMap[ctrl.doc2doc_ids[0]].i18n}} </span> 
-				</div>
+				<div class="w3-tiny " data-ng-include="'/f/c/11/dd_head.html'"
+					data-ng-repeat="ddEl in [ctrl.eMap[ctrl.doc2doc_ids[0]]]"></div>
 				<div
 					data-ng-repeat="oCon in [{edEl_id:ctrl.doc2doc_ids[0], 
 				edpv:'value'
@@ -39,11 +36,8 @@
 					data-ng-include="'/f/c/11/data_model.html'"></div>
 			</div>
 			<div class="w3-half ">
-				<div class="w3-tiny">
-					<span class="am-b">
-						{{ctrl.eMap[ctrl.doc2doc_ids[1]].value_1_22}}:
-						{{ctrl.eMap[ctrl.doc2doc_ids[1]].i18n}} </span> 
-				</div>
+				<div class="w3-tiny " data-ng-include="'/f/c/11/dd_head.html'"
+					data-ng-repeat="ddEl in [ctrl.eMap[ctrl.doc2doc_ids[1]]]"></div>
 				<div
 					data-ng-repeat="oCon in [{edEl_id:ctrl.doc2doc_ids[1],
 				edpv:'value2'
