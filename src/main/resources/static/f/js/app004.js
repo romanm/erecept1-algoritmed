@@ -9,6 +9,10 @@ var initApp = function($scope, $http, $timeout){
 	
 	build_request()
 	initRandom()
+	ctrl.doctype_fa = {
+		14:'far fa-folder',
+		17:'far fa-file',
+	}
 	ctrl.doctype_short = {
 		18:'o',
 		22:'o',
@@ -21,6 +25,10 @@ var initApp = function($scope, $http, $timeout){
 		32:'s[]',
 		35:'ts[]',
 		37:'o[]',
+	}
+	
+	ctrl.openUrl = function(url){
+		window.location.href = url;
 	}
 }
 

@@ -9,11 +9,28 @@ var initCrud004 = function() {
 }
 var initDataModel = function(){
 	ctrl.content_menu = {}
-	
+
+	ctrl.go_up_level = function(edEl_id){
+		var position = ctrl.doc2doc_ids.indexOf(edEl_id)
+		var parent_id = ctrl.eMap[edEl_id].parent
+		var doc2doc_ids = ctrl.doc2doc_ids.slice();
+//		var doc2doc_ids = ctrl.doc2doc_ids.splice(position,1,parent_id)
+		console.log(edEl_id, parent_id, position, doc2doc_ids, ctrl.doc2doc_ids)
+		doc2doc_ids[position] = parent_id
+		console.log(edEl_id, parent_id, position, doc2doc_ids.toString())
+		ctrl.openUrl('?doc2doc='+doc2doc_ids.toString())
+	}
+	ctrl.click_data_model_close_children = function(el){
+		angular.forEach(el.children, function(v,k){
+			delete v.open_children
+		})
+	}
+
 	ctrl.content_menu.downElement = function(el){
 		console.log(el)
 		upDowntElement(el, 1)
 	}
+
 	ctrl.content_menu.upElement = function(el){
 		console.log(el)
 		upDowntElement(el, -1)
@@ -55,11 +72,9 @@ var initDataModel = function(){
 	
 	ctrl.select_tree_item = function(d){
 		ctrl.choice_data_model_obj = d
-		console.log(ctrl.choice_data_model_obj)
 		if(ctrl.choice_data_model_obj.cnt_child && !ctrl.choice_data_model_obj.children){
-			console.log(ctrl.choice_data_model_obj.doc_id)
-			read_element_children(ctrl.choice_data_model_obj.doc_id, 
-				function(response){
+			console.log(ctrl.choice_data_model_obj)
+			read_element_children(ctrl.choice_data_model_obj.doc_id, function(response){
 					ctrl.choice_data_model_obj.open_children = true
 			})
 		}else{
