@@ -9,23 +9,7 @@ var initApp = function($scope, $http, $timeout){
 	
 	build_request()
 	initRandom()
-	ctrl.doctype_fa = {
-		14:'far fa-folder',
-		17:'far fa-file',
-	}
-	ctrl.doctype_short = {
-		18:'o',
-		22:'o',
-		23:'1',
-		24:'f',
-		25:'ts',
-		26:'d',
-		29:'b',
-		30:'uuid',
-		32:'s[]',
-		35:'ts[]',
-		37:'o[]',
-	}
+	initConfig()
 	
 	ctrl.openUrl = function(url){
 		window.location.href = url;
@@ -52,6 +36,7 @@ function getDbConfigHostname(){
 		return ctrl.request.hostname+':8040'
 	}
 }
+
 
 function initRandom(){
 	ctrl.random = {}
@@ -142,4 +127,34 @@ function Exe_fn($http){
 		error_fn : params.error_fn,
 	}	}
 
+}
+
+function initConfig(){
+	ctrl.doctype_fa = {
+		14:'far fa-folder',
+		17:'far fa-file',
+	}
+	ctrl.doctype_short = {
+		18:'o',
+		22:'o',
+		23:'i',
+		24:'f',
+		25:'ts',
+		26:'d',
+		29:'b',
+		30:'uuid',
+		32:'s[]',
+		35:'ts[]',
+		37:'o[]',
+	}
+
+	ctrl.doctype_content_table_name = {
+		22:'string',
+		23:'integer',
+		24:'double',
+		25:'timestamp',
+		26:'date',
+		30:'uuid',
+	}
+	
 }

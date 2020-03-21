@@ -26,7 +26,7 @@
 				<div
 					data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('name_')==0">
 					<i class="fas fa-ad"></i>
-					<div data-ng-include="'/f/c6/data_model_edit_obj_name.html'"></div>
+					<div data-ng-include="'/f/c/11/data_model_edit/ed_obj_name.html'"></div>
 				</div>
 				<div
 					data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('i18n_')==0">
@@ -58,6 +58,8 @@
 			href="#" ng-click="ctrl.content_menu.pasteElement(el)"
 			title="вставка" class="w13-bar-item w3-button"><i
 			class="fa fa-paste"></i></a>
+			a1
+			{{ctrl.content_menu.subSepMenuName}}
 		<div class="w3-dropdown-content w3-card-4 w13-container w3-leftbar"
 			s1tyle="width: 190px"
 			data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 

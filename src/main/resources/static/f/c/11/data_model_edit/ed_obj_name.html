@@ -1,0 +1,12 @@
+<div data-ng-switch="el.doctype">
+	<span class="w3-tiny am-b"> field name <i
+		data-ng-click="ctrl.field_name_focus2(el)" class="w3-right fas fa-sync-alt"></i>
+	</span> <span data-ng-switch-when="23"> <input type="number"
+		data-ng-focus="ctrl.field_name_focus(el)"
+		data-ng-model="d.value_1_edit" class="w3-border">
+	</span> <span data-ng-switch-default> <input
+		data-ng-focus="ctrl.field_name_focus(el)"
+		data-ng-model="d.value_1_edit" class="w3-border">
+	</span> <a class="w3-btn w3-ripple w3-padding-small" href="#"
+		data-ng-click="ctrl.field_name_save(el)"> OK </a>
+</div>

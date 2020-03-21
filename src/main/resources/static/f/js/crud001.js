@@ -161,6 +161,7 @@ sql_app.INSERT_doc1 = function(so){
 
 
 var initMenu = function() {
+	
 	ctrl.initTypesList = function(){
 		if(!ctrl.typeList){
 			var sql = "" +
@@ -310,6 +311,7 @@ var initMenu = function() {
 		read_object({doc_id:ctrl.two_docs_ids[0]})
 		read_object({doc_id:ctrl.two_docs_ids[1]})
 	}
+	
 	ctrl.content_menu.setTypeElement = function(typEl, el){
 		console.log(typEl, el)
 		var doctype_id = typEl.doctype_id
@@ -448,7 +450,7 @@ var initMenu = function() {
 		console.log(el)
 		ctrl.content_menu.typeElement('paste',el)
 	}
-	ctrl.content_menu.copyElement=function(el){
+	ctrl.content_menu.copyElement = function(el){
 		ctrl.content_menu.copyObject = el
 		el.countWithChildren = countWithChildren(el)
 		console.log(ctrl.content_menu.copyObject)

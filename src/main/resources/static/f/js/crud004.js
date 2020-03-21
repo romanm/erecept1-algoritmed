@@ -10,6 +10,74 @@ var initCrud004 = function() {
 var initDataModel = function(){
 	ctrl.content_menu = {}
 
+	ctrl.initTypesList = function(){
+		if(!ctrl.typeList){
+			var sql = "" +
+			"SELECT * FROM (SELECT d1.*, d2.doctype doctype2, d2.doctype_id doctype2_id FROM doctype d1 \n" +
+			"LEFT JOIN doctype d2 ON d2.parent_id=d1.doctype_id  \n" +
+			"WHERE d1.parent_id =18 \n" +
+			"UNION \n" +
+			"SELECT d1.*, null, null FROM doctype d1 where doctype_id=18) x ORDER BY doctype_id, doctype2_id"
+			readSql({ sql:sql,
+				afterRead:function(response){ 
+					ctrl.typeList = response.data.list
+					console.log(ctrl.typeList)
+				}
+			})
+		}
+	}
+
+	ctrl.content_menu.setTypeElement = function(typEl, el){
+		console.log(typEl, el)
+		var doctype_id = typEl.doctype_id
+		if(typEl.doctype2_id)
+			var doctype_id = typEl.doctype2_id
+		var so = {doc_id:el.doc_id, doctype_id:doctype_id,
+			sql:"UPDATE doc SET doctype = :doctype_id WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.doctype = doctype_id
+			}
+		}
+		writeSql(so)
+	}
+
+	ctrl.field_name_save = function(el){
+		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		var table_name = ctrl.doctype_content_table_name[doctype]
+		
+		if(el.value_1_edit != el['value_1_'+doctype]){
+			var so = {doc_id:el.doc_id, value:el.value_1_edit}
+			if(!el['value_1_'+doctype]){
+				so.sql = "INSERT INTO "+table_name
+				+" (" + table_name + "_id, value) VALUES (:doc_id, :value);\n"
+			}else{
+				so.sql = "UPDATE "+table_name
+				+" SET value = :value WHERE " + table_name + "_id=:doc_id ;\n"
+			}
+			console.log(so, el.doctype,el)
+			so.dataAfterSave = function(response){
+				el['value_1_'+doctype] = el.value_1_edit
+				console.log(el, response.data, so)
+			}
+			writeSql(so)
+		}
+	}
+
+	ctrl.field_name_focus2 = function(el){ 
+		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		el.value_1_edit = el['value_1_'+doctype]
+	}
+	ctrl.field_name_focus = function(el){ 
+		if(!el.value_1_edit)	ctrl.field_name_focus2(el)
+	}
+
+	ctrl.go_up_level2 = function(position, doc_id){
+		var doc2doc_ids = ctrl.doc2doc_ids.slice();
+		doc2doc_ids[position] = doc_id
+		console.log(doc_id, position, doc2doc_ids)
+		ctrl.openUrl('?doc2doc='+doc2doc_ids.toString())
+	}
 	ctrl.go_up_level = function(edEl_id, parent_id){
 		var position = ctrl.doc2doc_ids.indexOf(edEl_id)
 		if(!parent_id)
@@ -18,7 +86,6 @@ var initDataModel = function(){
 //		var doc2doc_ids = ctrl.doc2doc_ids.splice(position,1,parent_id)
 		console.log(edEl_id, parent_id, position, doc2doc_ids, ctrl.doc2doc_ids)
 		doc2doc_ids[position] = parent_id
-		console.log(edEl_id, parent_id, position, doc2doc_ids.toString())
 		ctrl.openUrl('?doc2doc='+doc2doc_ids.toString())
 	}
 	ctrl.click_data_model_close_children = function(el){
@@ -59,6 +126,48 @@ var initDataModel = function(){
 			if(!el.children)
 				el.children = []
 			el.children.push(response.data.list1[0])
+		}
+		writeSql(so)
+	}
+
+	ctrl.content_menu.pasteElement = function(el){
+		console.log(el)
+		ctrl.content_menu.typeElement('paste',el)
+	}
+	ctrl.content_menu.copyElement = function(el){
+		ctrl.content_menu.copyObject = el
+		el.countWithChildren = countWithChildren(el)
+		console.log(ctrl.content_menu.copyObject)
+	}
+	var countWithChildren = function(el){
+		var count = 1
+		if(el.children)
+			angular.forEach(el.children, function(v){
+				count += countWithChildren(v)
+			})
+		return count
+	}
+	ctrl.content_menu.pasteElementReference2 = function(el){
+		console.log(el, ctrl.content_menu.copyObject)
+		var so = {reference2:ctrl.content_menu.copyObject.doc_id,
+			doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference2 = :reference2 WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.reference2 = ctrl.content_menu.copyObject.doc_id
+			}
+		}
+		writeSql(so)
+	}
+	ctrl.content_menu.pasteElementReference1 = function(el){
+		console.log(el, ctrl.content_menu.copyObject)
+		var so = {reference:ctrl.content_menu.copyObject.doc_id,
+			doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference = :reference WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				el.reference = ctrl.content_menu.copyObject.doc_id
+			}
 		}
 		writeSql(so)
 	}
