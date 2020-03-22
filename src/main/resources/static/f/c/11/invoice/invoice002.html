@@ -1,0 +1,40 @@
+<div data-ng-repeat="d_type in [ctrl.eMap[369379]]">
+	{{d_type.value_1_22}}
+	<div class="w3-border-bottom"
+		d11ata-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:d_type.doc_id}"
+		data-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:369379}">
+		<div class="w3-hover-shadow">
+			{{table_model.value_1_22}} <span class="w3-tiny"> col №: </span>
+			{{ctrl.eMap[table_model.doc_id].cnt_child}}
+		</div>
+		<div>
+			<table>
+				<thead class="w3-grey">
+					<tr class="w3-small">
+						<th>#</th>
+						<th data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children"
+							title="{{col.doc_id}}">{{col.value_1_22}}</th>
+					</tr>
+				</thead>
+				<tbody
+					data-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}">
+					<tr class="w3-hover-shadow"
+						data-ng-repeat="row in ctrl.eMap[data_tab.doc_id].children">
+						<td title="{{row.doc_id}}">#</td>
+						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children">
+							<div
+								data-ng-repeat="cell in [ctrl.eMap[row.ref_to_col[col.doc_id]]]">
+								{{cell['value_1_'+cell.doctype_r]}}</div> <span
+							data-ng-if="col.reference"> <span class="w3-tiny"
+								data-ng-repeat="formula in [ctrl.eMap[col.reference]] | filter:{reference2:369364}">
+									<i class="fas fa-calculator"></i> {{ctrl.calc_cell(row, col,
+									formula)}} {{row['calc_value_'+col.doc_id]}}
+							</span>
+						</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

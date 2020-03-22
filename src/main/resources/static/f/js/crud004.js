@@ -10,6 +10,29 @@ var initCrud004 = function() {
 var initDataModel = function(){
 	ctrl.content_menu = {}
 
+	ctrl.calc_cell = function(row, col, formula){
+		if(row && row.ref_to_col){
+			if(formula && formula.children){
+				if(row && !row['calc_value_'+col.doc_id]){
+					var operatorEl = formula.children[0]
+					var operator = operatorEl.r1value
+					if(operator){
+						var f_operandEl0 = operatorEl.children[0]
+						var f_operandEl1 = operatorEl.children[1]
+						var val_operandEl0 = ctrl.eMap[row.ref_to_col[f_operandEl0.reference]]
+						var val_operandEl1 = ctrl.eMap[row.ref_to_col[f_operandEl1.reference]]
+						var val_operand0 = val_operandEl0['value_1_'+val_operandEl0.doctype_r]
+						var val_operand1 = val_operandEl1['value_1_'+val_operandEl1.doctype_r]
+						console.log(val_operand0,operator,val_operand1)
+						if('*'==operator){
+							row['calc_value_'+col.doc_id] = val_operand0 * val_operand1
+						}
+					}
+				}
+			}
+		}
+	}
+
 	ctrl.initTypesList = function(){
 		if(!ctrl.typeList){
 			var sql = "" +
@@ -183,7 +206,6 @@ var initDataModel = function(){
 	ctrl.select_tree_item = function(d){
 		ctrl.choice_data_model_obj = d
 		if(ctrl.choice_data_model_obj.cnt_child && !ctrl.choice_data_model_obj.children){
-			console.log(ctrl.choice_data_model_obj)
 			read_element_children(ctrl.choice_data_model_obj.doc_id, function(response){
 					ctrl.choice_data_model_obj.open_children = true
 			})
@@ -229,6 +251,12 @@ function read_dataObject2fn(sql, afterRead, limit) {
 	readSql({sql:sql, afterRead:function(response){afterRead(response)}})
 }
 
+var set_ref_to_col = function(d,p) {
+	if(!p.ref_to_col)	p.ref_to_col = {}
+	if(d.reference)		p.ref_to_col[d.reference] = d.doc_id
+}
+
+
 function read_element_children(doc_id, fn){
 	var o = ctrl.eMap[doc_id]
 	if(o){
@@ -237,6 +265,7 @@ function read_element_children(doc_id, fn){
 			var fn0 = function(response){
 				o.children = response.data.list
 				angular.forEach(o.children, function(v){
+					set_ref_to_col(v,o)
 					if(!ctrl.eMap[v.doc_id])
 						ctrl.eMap[v.doc_id] = v
 				})

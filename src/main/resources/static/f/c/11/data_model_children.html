@@ -15,8 +15,10 @@
 			data-ng-if="d.i18n"> : {{d.i18n}} </span> <span
 			data-ng-if="!(d.value_1_22 || d.value_1_23 || d.value_1_24) && !d.i18n && !d.reference">
 				-- ? -- </span> <span class="w3-tiny" data-ng-if="d.reference">
-		{{ctrl.doctype_short[d.doctype_r]}}{{d.doctype_r
-		}}{{d.r1value}}:{{d.reference}} </span>
+				{{ctrl.doctype_short[d.doctype_r]}}{{d.doctype_r
+				}}&nbsp;{{d.r1value}}:{{d.reference}} </span> <span class="w3-tiny"
+			data-ng-if="d.reference2">
+				{{'{'+d.reference2+':'+ctrl.eMap[d.reference2].value_1_22+'}'}} </span>
 		</a> <sup data-ng-if="d.children && !d.open_children" class="w3-tiny am-b">[{{d.children.length}}]</sup>
 		<span data-ng-if="ctrl.mouseover_item==d.doc_id" class="w3-right"
 			data-ng-include="'/f/c/11/data_model_item/node_move_menu.html'">
