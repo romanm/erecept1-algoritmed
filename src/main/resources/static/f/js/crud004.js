@@ -10,11 +10,40 @@ var initCrud004 = function() {
 var initDataModel = function(){
 	ctrl.content_menu = {}
 
+	ctrl.init_table_model = function(table_model){
+		var sql0 = sql_app.obj_with_i18n() + " WHERE d1.doc_id IN ( SELECT d2.doc_id FROM doc d1, doc d2 where d2.parent=d1.doc_id and  d1.reference = "+ table_model.doc_id+")"
+		var sql = "  SELECT d1.parent FROM doc d1 where d1.reference = " + table_model.doc_id
+		read_dataObject2fn(sql, function(response){
+			var parent_id = response.data.list[0].parent
+			read_element_children(parent_id, function(response){ 
+				read_dataObject2fn(sql0, function(response2){
+					angular.forEach(response2.data.list, function(v){
+						var parentEl = ctrl.eMap[v.parent]
+						set_ref_to_col(v,parentEl)
+						if(!parentEl.children) parentEl.children = []
+						parentEl.children.push(v)
+						ctrl.eMap[v.doc_id] = v
+					})
+				})
+			})
+		}, 1)
+		var init_reference = function(v){ if(v.reference){
+			read_element_descendant(v.reference, function(response){
+				console.log(table_model.doc_id,'ref',v.reference)
+			})
+		}}
+		if(table_model.children){
+			angular.forEach(table_model.children, function(v){ init_reference(v) })
+		}else{
+			read_element_children(table_model.doc_id, {forEachOne:true, fn:function(v){ init_reference(v) }})
+		}
+	}
+
 	ctrl.calc_cell = function(row, col, formula){
-		if(row && row.ref_to_col){
+		if(row && !row['calc_value_'+col.doc_id] && row.ref_to_col){
 			if(formula && formula.children){
-				if(row && !row['calc_value_'+col.doc_id]){
-					var operatorEl = formula.children[0]
+				var operatorEl = formula.children[0]
+				if(operatorEl.children){
 					var operator = operatorEl.r1value
 					if(operator){
 						var f_operandEl0 = operatorEl.children[0]
@@ -207,7 +236,7 @@ var initDataModel = function(){
 		ctrl.choice_data_model_obj = d
 		if(ctrl.choice_data_model_obj.cnt_child && !ctrl.choice_data_model_obj.children){
 			read_element_children(ctrl.choice_data_model_obj.doc_id, function(response){
-					ctrl.choice_data_model_obj.open_children = true
+				ctrl.choice_data_model_obj.open_children = true
 			})
 		}else{
 			ctrl.choice_data_model_obj.open_children = 
@@ -241,10 +270,8 @@ function readSql(params, obj){
 
 function read_dataObject2fn(sql, afterRead, limit) {
 	if(!limit){
-		if(ctrl.limit){
-			limit = ctrl.limit
-		}else{
-			limit = 100
+		if(ctrl.limit){ limit = ctrl.limit
+		}else{ limit = 100
 		}
 	}
 	sql += " LIMIT "+limit
@@ -256,22 +283,49 @@ var set_ref_to_col = function(d,p) {
 	if(d.reference)		p.ref_to_col[d.reference] = d.doc_id
 }
 
+function read_element_descendant(doc_id, fn){
+	var o = ctrl.eMap[doc_id]
+	if(!o){
+		read_element(doc_id, function(response){
+			if(fn)		fn(response)
+			read_element_descendant(doc_id)
+		})
+	}else{
+		read_element_children(o.doc_id, {forEachOne:true, fn:function(v, response){
+			if(v.cnt_child>0){
+				read_element_descendant(v.doc_id)
+			}
+		}})
+	}
+}
 
 function read_element_children(doc_id, fn){
 	var o = ctrl.eMap[doc_id]
+
 	if(o){
-		if(!o.children){
+		if(o.cnt_child>0 && !o.children){
 			var sql = sql_app.SELECT_children_with_i18n(doc_id)
 			var fn0 = function(response){
 				o.children = response.data.list
-				angular.forEach(o.children, function(v){
+				angular.forEach(o.children, function(v, k){
 					set_ref_to_col(v,o)
-					if(!ctrl.eMap[v.doc_id])
+					if(!ctrl.eMap[v.doc_id]){
 						ctrl.eMap[v.doc_id] = v
+					}else{
+						o.children[k] = ctrl.eMap[v.doc_id]
+					}
+					if(fn && typeof fn === 'object' && fn.forEachOne)	fn.fn(v,response)
 				})
-				if(fn)		fn(response)
+				if(fn && typeof fn === 'function')		fn(response)
 			}
 			read_dataObject2fn(sql, function(response){fn0(response)})
+//		}else if(o.children){
+//			if(fn && typeof fn === 'object' && fn.forEachOne){
+//				angular.forEach(o.children, function(v){
+//					fn.fn(v,response)
+//				})
+//			}
+			
 		}
 	}
 }
@@ -284,9 +338,16 @@ function read_element(doc_id, fn){
 //		console.log(response.data)
 			var o = response.data.list[0]
 			ctrl.eMap[o.doc_id] = o
+			if(ctrl.eMap[o.parent]){
+				if(!ctrl.eMap[o.parent].children){
+					ctrl.eMap[o.parent].children = [o]
+				}
+			}
 			if(fn)		fn(response)
 		}
 		read_dataObject2fn(sql, function(response){fn0(response)})
+	}else{
+			if(fn)		fn()
 	}
 }
 

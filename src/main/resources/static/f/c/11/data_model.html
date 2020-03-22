@@ -33,7 +33,6 @@
 			</span>
 		</div>
 		<div class="w3-rest w3-border-left">
-
 			<span class="w3-text-blue"> &nbsp; <i class="fas fa-tools"></i>
 				<i class="fas fa-terminal"></i>
 			</span> <span class="w3-btn w3-ripple w3-tiny w3-padding-small"
@@ -44,8 +43,11 @@
 				data-ng-class="{'w3-disabled':!ctrl.eMap[oCon.edEl_id].parent}"
 				data-ng-click="ctrl.go_up_level(oCon.edEl_id)"
 				title="go up to -> {{ctrl.eMap[oCon.edEl_id].parent}}"> <i
-				data-ng-class="{'fa-flip-horizontal':0==ctrl.doc2doc_ids.indexOf(oCon.edEl_id)}"
-				class="fas fa-level-up-alt "></i> {{ctrl.eMap[oCon.edEl_id].parent}}
+				data-ng-if="0==ctrl.doc2doc_ids.indexOf(oCon.edEl_id)"
+				class="fas fa-level-up-alt fa-flip-horizontal"></i>
+				{{ctrl.eMap[oCon.edEl_id].parent}} <i
+				data-ng-if="1==ctrl.doc2doc_ids.indexOf(oCon.edEl_id)"
+				class="fas fa-level-up-alt "></i>
 			</span>
 		</div>
 	</div>

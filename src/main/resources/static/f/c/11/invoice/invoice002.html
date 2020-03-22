@@ -3,9 +3,21 @@
 	<div class="w3-border-bottom"
 		d11ata-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:d_type.doc_id}"
 		data-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:369379}">
-		<div class="w3-hover-shadow">
+		<div class="w3-hover-shadow"
+			data-ng-click="ctrl.init_table_model(table_model)">
 			{{table_model.value_1_22}} <span class="w3-tiny"> col №: </span>
 			{{ctrl.eMap[table_model.doc_id].cnt_child}}
+		</div>
+		<div data-ng-if="table_model.children" class="w3-tiny">
+			<span data-ng-repeat="col in table_model.children"
+				data-ng-if="col.reference && 369364==ctrl.eMap[col.reference].reference2">
+				<i class="fas fa-calculator"></i>
+				{{ctrl.eMap[col.reference].r1value}} = <span
+				data-ng-repeat="f0 in ctrl.eMap[col.reference].children"
+				data-ng-switch="f0.r1value"> <span data-ng-switch-when="*">
+						{{f0.children[0].r1value}} {{f0.r1value}}
+						{{f0.children[1].r1value}} </span></span>
+			</span>
 		</div>
 		<div>
 			<table>
@@ -19,7 +31,7 @@
 				<tbody
 					data-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}">
 					<tr class="w3-hover-shadow"
-						data-ng-repeat="row in ctrl.eMap[data_tab.doc_id].children">
+						data-ng-repeat="row in ctrl.eMap[data_tab.doc_id].children | filter:{reference:table_model.doc_id}">
 						<td title="{{row.doc_id}}">#</td>
 						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children">
 							<div
