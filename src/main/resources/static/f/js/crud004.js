@@ -14,18 +14,20 @@ var initDataModel = function(){
 		var sql0 = sql_app.obj_with_i18n() + " WHERE d1.doc_id IN ( SELECT d2.doc_id FROM doc d1, doc d2 where d2.parent=d1.doc_id and  d1.reference = "+ table_model.doc_id+")"
 		var sql = "  SELECT d1.parent FROM doc d1 where d1.reference = " + table_model.doc_id
 		read_dataObject2fn(sql, function(response){
-			var parent_id = response.data.list[0].parent
-			read_element_children(parent_id, function(response){ 
-				read_dataObject2fn(sql0, function(response2){
-					angular.forEach(response2.data.list, function(v){
-						var parentEl = ctrl.eMap[v.parent]
-						set_ref_to_col(v,parentEl)
-						if(!parentEl.children) parentEl.children = []
-						parentEl.children.push(v)
-						ctrl.eMap[v.doc_id] = v
+			if(response.data.list[0]){
+				var parent_id = response.data.list[0].parent
+				read_element_children(parent_id, function(response){
+					read_dataObject2fn(sql0, function(response2){
+						angular.forEach(response2.data.list, function(v){
+							var parentEl = ctrl.eMap[v.parent]
+							set_ref_to_col(v,parentEl)
+							if(!parentEl.children) parentEl.children = []
+							parentEl.children.push(v)
+							ctrl.eMap[v.doc_id] = v
+						})
 					})
 				})
-			})
+			}
 		}, 1)
 		var init_reference = function(v){ if(v.reference){
 			read_element_descendant(v.reference, function(response){
@@ -182,15 +184,40 @@ var initDataModel = function(){
 		writeSql(so)
 	}
 
-	ctrl.content_menu.pasteElement = function(el){
-		console.log(el)
-		ctrl.content_menu.typeElement('paste',el)
-	}
 	ctrl.content_menu.copyElement = function(el){
 		ctrl.content_menu.copyObject = el
 		el.countWithChildren = countWithChildren(el)
 		console.log(ctrl.content_menu.copyObject)
 	}
+	ctrl.content_menu.cutElement=function(o){
+		ctrl.content_menu.cutObject = o
+		console.log(o)
+	}
+	ctrl.content_menu.pasteElement = function(el){
+		console.log(el)
+		ctrl.content_menu.typeElement('paste',el)
+	}
+
+	ctrl.content_menu.pasteElementContent = function(el){
+		console.log(el)
+		if(ctrl.content_menu.cutObject){
+			console.log(ctrl.content_menu.cutObject)
+			var so = {parent:el.parent,
+				doc_id:ctrl.content_menu.cutObject.doc_id,
+				sql:"UPDATE doc SET parent=:parent WHERE doc_id=:doc_id",
+				dataAfterSave:function(response){
+					console.log(response.data)
+					delete ctrl.content_menu.cutObject
+				}
+			}
+			writeSql(so)
+		}else if(ctrl.content_menu.copyObject){
+			console.log(el, ctrl.content_menu.copyObject)
+			sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
+		}
+	}
+
+	
 	var countWithChildren = function(el){
 		var count = 1
 		if(el.children)
@@ -243,9 +270,35 @@ var initDataModel = function(){
 			!ctrl.choice_data_model_obj.open_children 
 		}
 	}
+	ctrl.doc2doc_fd = {}
+	ctrl.doc2doc_fd[ctrl.doc2doc_ids[0]] = {}
+	ctrl.doc2doc_fd[ctrl.doc2doc_ids[1]] = {}
+	console.log(ctrl.doc2doc_fd)
+	read_to_folder({doc_id:ctrl.doc2doc_ids[0]}, ctrl.doc2doc_ids[0])
+	read_to_folder({doc_id:ctrl.doc2doc_ids[1]}, ctrl.doc2doc_ids[1])
 
 }
 
+var read_to_folder = function(d, d_start_id, doc){
+	var sql = sql_app.SELECT_obj_with_i18n(d.doc_id)
+	readSql({ sql:sql,
+		afterRead:function(response){
+			var d_r = response.data.list[0]
+//console.log(d.doc_id, d_r)
+			if(14==d_r.doctype){//folder
+				if(doc){
+					doc.folder = d_r
+					ctrl.doc2doc_fd[d_start_id] = doc
+				}
+			}else
+			if(17==d_r.doctype){//document
+				read_to_folder({doc_id:d_r.parent}, d_start_id, d_r)
+			}else{
+				read_to_folder({doc_id:d_r.parent}, d_start_id)
+			}
+		}
+	})
+}
 
 function readSql(params, obj){
 //	console.log(params)
@@ -319,13 +372,6 @@ function read_element_children(doc_id, fn){
 				if(fn && typeof fn === 'function')		fn(response)
 			}
 			read_dataObject2fn(sql, function(response){fn0(response)})
-//		}else if(o.children){
-//			if(fn && typeof fn === 'object' && fn.forEachOne){
-//				angular.forEach(o.children, function(v){
-//					fn.fn(v,response)
-//				})
-//			}
-			
 		}
 	}
 }
@@ -454,13 +500,13 @@ sql_app.INSERT_doc = function(so){
 		if(v){
 			if(vars.length>0){
 				vars += ', '
-					vals += ', '
+				vals += ', '
 			}
 			vars += k
 			if(!Number.isInteger(v) && (!v || v.indexOf(':')==0))
 				vals += v
-				else
-					vals += "'"+v+"'"
+			else
+				vals += "'"+v+"'"
 		}
 	})
 	if(vars.length>0){

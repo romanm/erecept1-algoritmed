@@ -65,11 +65,12 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 }
 
 sql_app.obj_with_i18n = function(){
+//	", s1.value value_1_22, s1.string_id id_1_22, i1.value value_1_23, i1.integer_id id_1_23, f1.value value_1_24, f1.double_id id_1_24 \n" +
 	var sql = "SELECT d1.*, dr1.doctype doctype_r \n" +
-	", s1.value value_1_22, s1.string_id id_1_22, i1.value value_1_23, i1.integer_id id_1_23, f1.value value_1_24, f1.double_id id_1_24 \n" +
+	", s1.value value_1_22, i1.value value_1_23, f1.value value_1_24 \n" +
 	", r1.value r1value, r2.value r2value, dt1.value dt1value \n" +
 	", sort, sort_id, uu.value uuid \n" +
-	", i18n, i18n_id, cnt_child  FROM doc d1 \n" +
+	", i18n, i18n_id, cnt_child FROM doc d1 \n" +
 	"LEFT JOIN uuid uu ON d1.doc_id = uu.uuid_id \n" +
 	"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 	"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +

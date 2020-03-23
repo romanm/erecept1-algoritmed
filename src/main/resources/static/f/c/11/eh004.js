@@ -11,8 +11,9 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 			console.log(o.doc_id)
 		})
 	})
+
 	read_element(ctrl.doc2doc_ids[1], function(response){
 		read_element_children(ctrl.doc2doc_ids[1])
 	})
-	
+
 })

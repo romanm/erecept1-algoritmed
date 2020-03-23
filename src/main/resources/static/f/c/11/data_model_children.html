@@ -1,6 +1,10 @@
 <div data-ng-repeat="d in children" data-ng-init="el=d">
 	<div data-ng-mouseover="ctrl.mouseover_item=d.doc_id"
-		data-ng-class="{'w3-border w3-border-green':d.doc_id==ctrl.choice_data_model_obj.doc_id}">
+		data-ng-class="{
+		'w3-border w3-border-green':d.doc_id==ctrl.choice_data_model_obj.doc_id,
+		'w3-light-gray':d.doc_id==ctrl.doc2doc_fd[ctrl.doc2doc_ids[1]].doc_id,
+		'w3-light-gray w3-border':d.doc_id==ctrl.doc2doc_fd[ctrl.doc2doc_ids[1]].folder.doc_id,
+		}">
 		<span class="w3-tiny w3-dropdown-hover w3-hover-shadow w3-white">
 			<span
 			data-ng-include="'/f/c/11/data_model_item/node_abstrack_info.html'"></span>
@@ -12,10 +16,11 @@
 		</span> <a class="w3-hover-shadow" href="#"
 			data-ng-click="ctrl.select_tree_item(d)"> <span
 			data-ng-switch="d.doc_id"> <i data-ng-switch-when="369379"
-				class="fas fa-table"> </i> <i data-ng-switch-when="369358"
-				class="fas fa-database"></i><i data-ng-switch-when="369364"
-				class="fas fa-calculator"></i> <i data-ng-switch-when="369365"
-				class="fas fa-spell-check"></i>
+				class="fas fa-table"> </i> <i data-ng-switch-when="369358|122593"
+				data-ng-switch-when-separator="|" class="fas fa-database"></i><i
+				data-ng-switch-when="369364" class="fas fa-calculator"></i> <i
+				data-ng-switch-when="369365" class="fas fa-spell-check"></i> <i
+				data-ng-switch-when="115922" class="fas fa-language"></i>
 		</span> {{d.value_1_22}}{{d.value_1_23}}{{d.value_1_24}}{{d.uuid}} <span
 			data-ng-if="d.i18n"> : {{d.i18n}} </span> <span
 			data-ng-if="!(d.value_1_22 || d.value_1_23 || d.value_1_24) && !d.i18n && !d.reference">
@@ -25,7 +30,8 @@
 					class="fas fa-table"> </i> <i data-ng-switch-when="369358"
 					class="fas fa-database"></i> <i data-ng-switch-when="369364"
 					class="fas fa-calculator"></i> <i data-ng-switch-when="369365"
-					class="fas fa-spell-check"></i>
+					class="fas fa-spell-check"></i><i data-ng-switch-when="115922"
+					class="fas fa-language"></i>
 			</span>&nbsp;{{d.r1value}}:{{d.reference}}
 		</span> <span class="w3-tiny" data-ng-if="d.reference2"> <span
 				data-ng-switch="d.reference2"> <i

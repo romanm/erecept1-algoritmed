@@ -28,11 +28,11 @@ var read_to_folder = function(d, d_start_id, doc){
 	readSql({ sql:sql,
 		afterRead:function(response){
 			var d_r = response.data.list[0]
-			if(14==d_r.doctype){
+			if(14==d_r.doctype){//folder
 				doc.folder = d_r
 				ctrl.doc2doc_fd['_'+d_start_id] = doc
 			}else
-			if(17==d_r.doctype){
+			if(17==d_r.doctype){//document
 				read_to_folder({doc_id:d_r.parent}, d_start_id, d_r)
 			}else{
 				read_to_folder({doc_id:d_r.parent}, d_start_id)
