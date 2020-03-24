@@ -41,6 +41,25 @@ var initDataModel = function(){
 		}
 	}
 
+	ctrl.calc_sum_column = function(fnEl){
+		var sum = 0
+		var colEl = ctrl.eMap[fnEl.parent]
+		var tabEl = ctrl.eMap[colEl.parent]
+		console.log(fnEl)
+		angular.forEach(ctrl.eMap, function(v,k){
+			if(tabEl.doc_id==v.reference){
+				if(v['calc_value_'+colEl.doc_id]){
+					sum += v['calc_value_'+colEl.doc_id]
+				}
+			}
+		})
+		fnEl.calc_value=sum
+	}
+	ctrl.calc_col_sum = function(col_id){
+		var table_id = ctrl.eMap[col_id].parent
+		console.log(col_id, ctrl.eMap[col_id].parent)
+		return 2
+	}
 	ctrl.calc_cell = function(row, col, formula){
 		if(row && !row['calc_value_'+col.doc_id] && row.ref_to_col){
 			if(formula && formula.children){
@@ -54,7 +73,7 @@ var initDataModel = function(){
 						var val_operandEl1 = ctrl.eMap[row.ref_to_col[f_operandEl1.reference]]
 						var val_operand0 = val_operandEl0['value_1_'+val_operandEl0.doctype_r]
 						var val_operand1 = val_operandEl1['value_1_'+val_operandEl1.doctype_r]
-						console.log(val_operand0,operator,val_operand1)
+//						console.log(val_operand0,operator,val_operand1)
 						if('*'==operator){
 							row['calc_value_'+col.doc_id] = val_operand0 * val_operand1
 						}
@@ -250,7 +269,27 @@ var initDataModel = function(){
 		}
 		writeSql(so)
 	}
-
+	ctrl.content_menu.deleteElementReference1 = function(el){
+		var so = {doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference = null WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				delete el.reference
+			}
+		}
+		writeSql(so)
+	}
+	ctrl.content_menu.deleteElementReference2 = function(el){
+		var so = {doc_id:el.doc_id,
+			sql:"UPDATE doc SET reference2 = null WHERE doc_id = :doc_id",
+			dataAfterSave:function(response){
+				console.log(response)
+				delete el.reference2 
+			}
+		}
+		writeSql(so)
+	}
+	
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}

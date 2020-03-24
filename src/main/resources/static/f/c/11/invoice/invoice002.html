@@ -1,5 +1,6 @@
 <div data-ng-repeat="d_type in [ctrl.eMap[369379]]">
-	{{d_type.value_1_22}}
+	{{d_type.value_1_22}} <span class="w3-right">
+		ctrl.tpc_sum={{ctrl.tpc_sum}} </span>
 	<div class="w3-border-bottom"
 		d11ata-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:d_type.doc_id}"
 		data-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:369379}">
@@ -14,16 +15,26 @@
 				<i class="fas fa-calculator"></i>
 				{{ctrl.eMap[col.reference].r1value}} = <span
 				data-ng-repeat="f0 in ctrl.eMap[col.reference].children"
-				data-ng-switch="f0.r1value"> <span data-ng-switch-when="*">
-						{{f0.children[0].r1value}} {{f0.r1value}}
-						{{f0.children[1].r1value}} </span></span>
+				data-ng-switch="f0.r1value"> <span data-ng-switch-when="*"> <span
+						data-ng-if="!f0.children[0].children">
+							{{f0.children[0].r1value}} </span> <span
+						data-ng-if="f0.children[0].children"> <span
+							data-ng-repeat="f00 in [f0.children[0]]">
+								{{f00.children[0].r1value}} {{f00.r1value}}
+								{{f00.children[1].r1value}} <span
+								data-ng-if="!f00.children[1].r1value">
+									:{{f00.children[1].reference}} </span>
+						</span>
+					</span> {{f0.r1value}} {{f0.children[1].r1value}}
+				</span></span>
+			</span> <span> | 
 			</span>
 		</div>
 		<div>
 			<table>
 				<thead class="w3-grey">
-					<tr class="w3-small">
-						<th>#</th>
+					<tr class="w3-small">	
+						<th>#<i class="fas fa-columns"></i></th>
 						<th data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children"
 							title="{{col.doc_id}}">{{col.value_1_22}}</th>
 					</tr>
@@ -31,7 +42,7 @@
 				<tbody
 					data-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}">
 					<tr class="w3-hover-shadow"
-						data-ng-repeat="row in ctrl.eMap[data_tab.doc_id].children | filter:{reference:table_model.doc_id}">
+						data-ng-repeat-start="row in ctrl.eMap[data_tab.doc_id].children | filter:{reference:table_model.doc_id}">
 						<td title="{{row.doc_id}}">#</td>
 						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children">
 							<div
@@ -43,6 +54,18 @@
 									formula)}} {{row['calc_value_'+col.doc_id]}}
 							</span>
 						</span>
+						</td>
+					</tr>
+					<tr data-ng-repeat-end data-ng-if="$last">
+						<td>*</td>
+						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children">
+							<div data-ng-repeat="col_fn in col.children"
+								data-ng-if="369364==ctrl.eMap[ctrl.eMap[col_fn.reference].parent].reference">
+								<span class="w3-tiny am-b w3-hover-shadow"
+									data-ng-click="ctrl['calc_'+ctrl.eMap[col_fn.reference].value_1_22](col_fn)">
+									{{ctrl.eMap[col_fn.reference].value_1_22}}: </span>
+								<div>{{col_fn.calc_value}}</div>
+							</div>
 						</td>
 					</tr>
 				</tbody>
