@@ -17,7 +17,7 @@ var initDataModel = function(){
 			if(response.data.list[0]){
 				var parent_id = response.data.list[0].parent
 				read_element_children(parent_id, function(response){
-					read_dataObject2fn(sql0, function(response2){
+					read_dataObject2fn(sql0, function(response2){//read table data
 						angular.forEach(response2.data.list, function(v){
 							var parentEl = ctrl.eMap[v.parent]
 							set_ref_to_col(v,parentEl)
@@ -31,35 +31,124 @@ var initDataModel = function(){
 		}, 1)
 		var init_reference = function(v){ if(v.reference){
 			read_element_descendant(v.reference, function(response){
+//				console.log(table_model.doc_id,'ref',v.reference)
+			})
+		}}
+		if(table_model.children){
+			angular.forEach(table_model.children, function(v){ init_reference(v) })
+		}else{
+			read_element_descendant(table_model.doc_id, {forEachOne:function(v){ init_reference(v) }})
+//			read_element_children(table_model.doc_id, {forEachOne:function(v){ init_reference(v) }})
+		}
+	}
+
+	ctrl.init_table_model1 = function(table_model){
+		var init_reference = function(v){ if(v.reference){
+			read_element_descendant(v.reference, function(response){
 				console.log(table_model.doc_id,'ref',v.reference)
 			})
 		}}
 		if(table_model.children){
 			angular.forEach(table_model.children, function(v){ init_reference(v) })
 		}else{
-			read_element_children(table_model.doc_id, {forEachOne:true, fn:function(v){ init_reference(v) }})
+			read_element_descendant(table_model.doc_id, {forEachOne:function(v){ init_reference(v) }})
+//			read_element_children(table_model.doc_id, {forEachOne:true, fn:function(v){ init_reference(v) }})
 		}
+		
 	}
 
 	ctrl.calc_sum_column = function(fnEl){
-		var sum = 0
-		var colEl = ctrl.eMap[fnEl.parent]
-		var tabEl = ctrl.eMap[colEl.parent]
-		console.log(fnEl)
-		angular.forEach(ctrl.eMap, function(v,k){
-			if(tabEl.doc_id==v.reference){
-				if(v['calc_value_'+colEl.doc_id]){
-					sum += v['calc_value_'+colEl.doc_id]
+		if(!fnEl.calc_value){
+			var sum = 0
+			var colEl = ctrl.eMap[fnEl.parent]
+			var tabEl = ctrl.eMap[colEl.parent]
+			console.log(fnEl)
+			angular.forEach(ctrl.eMap, function(v,k){
+				if(tabEl.doc_id==v.reference){
+					if(v['calc_value_'+colEl.doc_id]){
+						sum += v['calc_value_'+colEl.doc_id]
+					}
+				}
+			})
+			fnEl.calc_value = sum
+		}
+		return fnEl.calc_value 
+	}
+
+	ctrl.calc_set_value = function(f_operandEl){
+		var val_operandEl = f_operandEl.children[0]
+		var val_operand = val_operandEl['value_1_'+val_operandEl.doctype]
+		return val_operand
+	}
+
+	var valOperand = function(f_operandEl, row, col){
+		var val_operand
+		if(isBinaryOperation(f_operandEl)){
+			val_operand = binaryOperation(f_operandEl, row, col)
+		}else{
+			var f_ref_operandEl = ctrl.eMap[f_operandEl.reference]
+			if(f_ref_operandEl && ctrl['calc_'+f_ref_operandEl.r1value]){
+				val_operand = ctrl['calc_'+f_ref_operandEl.r1value](f_ref_operandEl)//ctrl.calc_set_value
+//				if(!val_operand){
+//					val_operand = f_ref_operandEl.calc_value
+//				}
+			}else{
+				var val_operandEl = ctrl.eMap[row.ref_to_col[f_operandEl.reference]]
+				if(val_operandEl){
+					val_operand = val_operandEl['value_1_'+val_operandEl.doctype_r]
+				}else{
+					val_operand = row['calc_value_'+f_operandEl.reference]
 				}
 			}
-		})
-		fnEl.calc_value=sum
+		}
+		return val_operand
 	}
-	ctrl.calc_col_sum = function(col_id){
-		var table_id = ctrl.eMap[col_id].parent
-		console.log(col_id, ctrl.eMap[col_id].parent)
-		return 2
+
+	var binaryOperation = function(operatorEl, row, col){
+		var operator = operatorEl.r1value
+		var val_operand0, val_operand1
+		var f_operandEl0 = operatorEl.children[0]
+		var f_operandEl1 = operatorEl.children[1]
+		val_operand0 = valOperand(f_operandEl0, row, col)
+		val_operand1 = valOperand(f_operandEl1, row, col)
+		console.log(val_operand0, operator, val_operand1)
+		if('/'==operator){
+			var v = val_operand0 / val_operand1
+			console.log(v)
+			return v
+		}else
+		if('*'==operator){
+			var v = val_operand0 * val_operand1
+			return v
+		}
 	}
+
+	var binaryOperationList = ['*','/','+','-']
+
+	var isBinaryOperation = function(o){
+		return binaryOperationList.indexOf(o.r1value) >= 0 && !!o.children
+	}
+	ctrl.calc_cell2 = function(row, col, formula){
+//		if(!row['calc_value_'+col.doc_id] || isNaN(row['calc_value_'+col.doc_id])){
+		if(!row['calc_value_'+col.doc_id]){
+			if(formula && formula.children){
+				var operatorEl = formula.children[0]
+				if(operatorEl.children){
+					if(isBinaryOperation(operatorEl)){
+						var v = binaryOperation(operatorEl, row, col)
+						console.log(v, v.toFixed(2))
+						if(!isNaN(v))
+							row['calc_value_'+col.doc_id] = v.toFixed(2)
+					}
+					console.log(formula.doc_id)
+//					if(!row['calc_value_'+col.doc_id])
+//						row['calc_value_'+col.doc_id] = -1
+				}
+			}
+		}
+	}
+
+
 	ctrl.calc_cell = function(row, col, formula){
 		if(row && !row['calc_value_'+col.doc_id] && row.ref_to_col){
 			if(formula && formula.children){
@@ -236,7 +325,22 @@ var initDataModel = function(){
 		}
 	}
 
-	
+	ctrl.content_menu.pasteElementChildContent = function(el){
+		console.log(el)
+		if(ctrl.content_menu.cutObject){
+			console.log(ctrl.content_menu.cutObject)
+			var so = {parent:el.doc_id,
+				doc_id:ctrl.content_menu.cutObject.doc_id,
+				sql:"UPDATE doc SET parent=:parent WHERE doc_id=:doc_id",
+				dataAfterSave:function(response){
+					console.log(response.data)
+					delete ctrl.content_menu.cutObject
+				}
+			}
+			writeSql(so)
+		}
+	}
+
 	var countWithChildren = function(el){
 		var count = 1
 		if(el.children)
@@ -289,21 +393,25 @@ var initDataModel = function(){
 		}
 		writeSql(so)
 	}
-	
+
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}
-	
+
 	ctrl.content_menu.typeElement = function(type, el){
 		ctrl.content_menu.subSepMenuName = type+'_'+el.doc_id
 	}
-	
+
 	ctrl.select_tree_item = function(d){
+//		console.log(d.doc_id)
 		ctrl.choice_data_model_obj = d
-		if(ctrl.choice_data_model_obj.cnt_child && !ctrl.choice_data_model_obj.children){
+		if(ctrl.choice_data_model_obj.cnt_child && (!ctrl.choice_data_model_obj.children || 
+				ctrl.choice_data_model_obj.children.length<ctrl.choice_data_model_obj.cnt_child
+		)){
 			read_element_children(ctrl.choice_data_model_obj.doc_id, function(response){
-				ctrl.choice_data_model_obj.open_children = true
+//				console.log(d.doc_id)
 			})
+			ctrl.choice_data_model_obj.open_children = true
 		}else{
 			ctrl.choice_data_model_obj.open_children = 
 			!ctrl.choice_data_model_obj.open_children 
@@ -380,22 +488,21 @@ function read_element_descendant(doc_id, fn){
 	if(!o){
 		read_element(doc_id, function(response){
 			if(fn)		fn(response)
-			read_element_descendant(doc_id)
+			read_element_descendant(doc_id, fn)
 		})
 	}else{
-		read_element_children(o.doc_id, {forEachOne:true, fn:function(v, response){
+		read_element_children(o.doc_id, {forEachOne:function(v, response){
 			if(v.cnt_child>0){
-				read_element_descendant(v.doc_id)
+				read_element_descendant(v.doc_id, fn)
 			}
-		}})
+		}, fn:fn})
 	}
 }
 
 function read_element_children(doc_id, fn){
 	var o = ctrl.eMap[doc_id]
-
 	if(o){
-		if(o.cnt_child>0 && !o.children){
+		if(o.cnt_child>0 && (!o.children || o.children.length < o.cnt_child)){
 			var sql = sql_app.SELECT_children_with_i18n(doc_id)
 			var fn0 = function(response){
 				o.children = response.data.list
@@ -406,7 +513,8 @@ function read_element_children(doc_id, fn){
 					}else{
 						o.children[k] = ctrl.eMap[v.doc_id]
 					}
-					if(fn && typeof fn === 'object' && fn.forEachOne)	fn.fn(v,response)
+					if(fn && typeof fn === 'object' && fn.forEachOne)	fn.forEachOne(v,response)
+					if(fn && fn.fn  && fn.fn.forEachOne)	fn.fn.forEachOne(v,response)
 				})
 				if(fn && typeof fn === 'function')		fn(response)
 			}

@@ -373,6 +373,7 @@ var initMenu = function() {
 		}
 		writeSql(so)
 	}
+
 	ctrl.content_menu.pasteElementChildContent = function(el){
 		console.log(el)
 		if(ctrl.content_menu.cutObject){
@@ -388,6 +389,7 @@ var initMenu = function() {
 			writeSql(so)
 		}
 	}
+
 	ctrl.content_menu.pasteElementContent = function(el){
 		console.log(el)
 		if(ctrl.content_menu.cutObject){
