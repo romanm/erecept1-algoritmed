@@ -62,11 +62,16 @@ var initDataModel = function(){
 			var sum = 0
 			var colEl = ctrl.eMap[fnEl.parent]
 			var tabEl = ctrl.eMap[colEl.parent]
-			console.log(fnEl)
+			console.log(fnEl, colEl, tabEl)
 			angular.forEach(ctrl.eMap, function(v,k){
+				if(tabEl.reference2==v.reference){
+					if(v['calc_value_'+colEl.doc_id]){
+						sum += v['calc_value_'+colEl.doc_id]*1
+					}
+				}
 				if(tabEl.doc_id==v.reference){
 					if(v['calc_value_'+colEl.doc_id]){
-						sum += v['calc_value_'+colEl.doc_id]
+						sum += v['calc_value_'+colEl.doc_id]*1
 					}
 				}
 			})
@@ -93,8 +98,8 @@ var initDataModel = function(){
 //					val_operand = f_ref_operandEl.calc_value
 //				}
 			}else{
-				var val_operandEl = ctrl.eMap[row.ref_to_col[f_operandEl.reference]]
-				if(val_operandEl){
+				if(row.ref_to_col && ctrl.eMap[row.ref_to_col[f_operandEl.reference]]){
+					var val_operandEl = ctrl.eMap[row.ref_to_col[f_operandEl.reference]]
 					val_operand = val_operandEl['value_1_'+val_operandEl.doctype_r]
 				}else{
 					val_operand = row['calc_value_'+f_operandEl.reference]
@@ -119,6 +124,10 @@ var initDataModel = function(){
 		}else
 		if('*'==operator){
 			var v = val_operand0 * val_operand1
+			return v
+		}else
+		if('+'==operator){
+			var v = val_operand0*1 + val_operand1*1
 			return v
 		}
 	}
@@ -421,6 +430,7 @@ var initDataModel = function(){
 	ctrl.doc2doc_fd[ctrl.doc2doc_ids[0]] = {}
 	ctrl.doc2doc_fd[ctrl.doc2doc_ids[1]] = {}
 	console.log(ctrl.doc2doc_fd)
+	
 	read_to_folder({doc_id:ctrl.doc2doc_ids[0]}, ctrl.doc2doc_ids[0])
 	read_to_folder({doc_id:ctrl.doc2doc_ids[1]}, ctrl.doc2doc_ids[1])
 

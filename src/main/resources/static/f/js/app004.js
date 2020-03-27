@@ -159,3 +159,54 @@ function initConfig(){
 	}
 	
 }
+
+/* 
+ * алгоритм перетворення цифри в читабельний набір символів
+ * по мінімальному залишку від цілочисленого діленя
+ * переведеня 10 в 19 значну систему cyr/lat
+*/ 
+var enEqCyr2 = {l:[
+	'123456789ABCEHKMPTX',
+	'1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19',
+	],
+}
+var enEqCyr = {l:['ABCEHKMPTX','65 66 67 69 72 75 77 80 84 88'],
+	concatHumanSymbol : function (p){
+		var r = p.s+(p.r?p.r:'')
+		if(p['i'+(p.i+1)] && p['i'+(p.i+1)].s){
+			var ra = this.concatHumanSymbol(p['i'+(p.i+1)])
+			r = ra+r
+		}
+		return r
+	},
+	humanSymbol2num : function(s){
+		var sp = s.match(/\w\d*/g)
+		console.log(sp)
+		var n = 1
+		sp.forEach(function(v){
+			var s0 = v.substring(0,1)
+			var s1 = v.substring(1)*1
+			var p = enEqCyr.l[0].split('').indexOf(s0)
+			var sn = enEqCyr.l[1].split(' ')[p]*1
+			n = n*sn+s1
+//			console.log(v,s0, s1,p, sn, n)
+		})
+		return n
+	},
+	num2humanSymbol : function (p){
+		if(!p.i)	p.i=0
+		p.r = p.n
+		enEqCyr.l[1].split(' ').forEach(function(d, k){
+			if(p.n%d<p.r){
+				p.r=p.n%d
+				p.k=k
+				p.s=enEqCyr.l[0].substring(k,k+1)
+			}
+		})
+		var d = enEqCyr.l[1].split(' ')[p.k]
+		var n = (p.n-p.n%d)/d
+		p['i'+(p.i+1)] = {n:n, i:p.i+1}
+		if(n>64)	enEqCyr.num2humanSymbol (p['i'+(p.i+1)])
+		if(p.i==0)	return enEqCyr.concatHumanSymbol(p)
+	},
+}

@@ -1,0 +1,17 @@
+<span data-ng-switch="f_bo.r1value"> <span
+	data-ng-switch-when="*|/" data-ng-switch-when-separator="|"> <span
+		data-ng-include="'/f/c/11/formula/f_bo_node.html'"
+		data-ng-repeat="f_bo in [f_bo.children[0]]"></span><span
+		title="{{f_bo.doc_id}}"> <span class="w3-small am-b">
+				{{f_bo.r1value}} </span></span><span
+		data-ng-include="'/f/c/11/formula/f_bo_node.html'"
+		data-ng-repeat="f_bo in [f_bo.children[1]]"></span>
+</span> <span data-ng-switch-when="+|-" data-ng-switch-when-separator="|">
+		(<span data-ng-include="'/f/c/11/formula/f_bo_node.html'"
+		data-ng-repeat="f_bo in [f_bo.children[0]]"></span><span
+		title="{{f_bo.doc_id}}"> <span class="w3-small am-b">
+				{{f_bo.r1value}} </span></span><span
+		data-ng-include="'/f/c/11/formula/f_bo_node.html'"
+		data-ng-repeat="f_bo in [f_bo.children[1]]"></span>)
+</span>
+</span>

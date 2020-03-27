@@ -7,27 +7,7 @@
 			{{table_model.value_1_22}} <span class="w3-tiny"> col №: </span>
 			{{ctrl.eMap[table_model.doc_id].cnt_child}}
 		</div>
-		<div data-ng-if="table_model.children" class="w3-tiny">
-			<span data-ng-repeat="col in table_model.children"
-				data-ng-if="col.reference && 369364==ctrl.eMap[col.reference].reference2">
-				<i class="fas fa-calculator"></i>
-				{{ctrl.eMap[col.reference].r1value}} = <span
-				data-ng-repeat="f0 in ctrl.eMap[col.reference].children"
-				data-ng-switch="f0.r1value"> <span data-ng-switch-when="*">
-						<span data-ng-if="!f0.children[0].children">
-							{{f0.children[0].r1value}} </span> <span
-						data-ng-if="f0.children[0].children"> <span
-							data-ng-repeat="f00 in [f0.children[0]]">
-								{{f00.children[0].r1value}} {{f00.r1value}}
-								{{f00.children[1].r1value}} <span
-								data-ng-if="!f00.children[1].r1value">
-									:{{f00.children[1].reference}} </span>
-						</span>
-					</span> {{f0.r1value}} {{f0.children[1].r1value}}
-				</span></span>
-			</span> <span> | 
-			</span>
-		</div>
+		<div data-ng-include="'/f/c/11/formula/data_model_formula_list.html'"></div>
 		<div>
 			<table>
 				<thead class="w3-grey">
@@ -56,8 +36,7 @@
 								{{cell['value_1_'+cell.doctype_r]}}</div> <span
 							data-ng-if="col.reference"> <span class="w3-tiny"
 								data-ng-repeat="formula in [ctrl.eMap[col.reference]] | filter:{reference2:369364}">
-									 {{ctrl.calc_cell(row, col,
-									formula)}} 
+									{{ctrl.calc_cell2(row, col, formula)}}
 									{{row['calc_value_'+col.doc_id]}}
 							</span>
 						</span>

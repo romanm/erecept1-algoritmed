@@ -1,0 +1,10 @@
+<div data-ng-if="table_model.children" class="w3-tiny">
+	<div data-ng-repeat="col in table_model.children"
+		data-ng-if="col.reference && 369364==ctrl.eMap[col.reference].reference2">
+		<span title="{{ctrl.eMap[col.reference].doc_id}}"> <i
+			class="fas fa-calculator"></i> {{ctrl.eMap[col.reference].r1value}} <span
+			class="w3-small am-b"> = </span>
+		</span><span data-ng-repeat="f_bo in ctrl.eMap[col.reference].children"
+			data-ng-include="'/f/c/11/formula/binary_operation.html'"></span> |
+	</div>
+</div>
