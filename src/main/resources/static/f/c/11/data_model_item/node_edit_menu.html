@@ -1,0 +1,34 @@
+<div>
+	<div data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('name_')==0">
+		<i class="fas fa-ad"></i>
+		<div data-ng-include="'/f/c/11/data_model_edit/ed_obj_name.html'"></div>
+	</div>
+	<div data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('i18n_')==0">
+		<i class="fas fa-globe"></i>
+		<div data-ng-include="'/f/c6/data_model_edit_obj_i18n.html'"></div>
+	</div>
+	<div data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('type_')==0">
+		<i class="fas fa-hashtag"></i> {{ctrl.content_menu.subSepMenuName}}
+		{{el.doctype}}
+		<div data-ng-if="14==ctrl.eMap[el.parent].doctype"
+			class="w3-border-bottom">
+			<div data-ng-repeat="doctype_id in [14,17]"
+				data-ng-click="ctrl.content_menu.setTypeIdElement(doctype_id, el)"
+				data-ng-class="{'w3-yellow':el.doctype && doctype_id==el.doctype}"
+				class="w3-hover-shadow">
+				: {{doctype_id}} <i data-ng-if="ctrl.doctype_fa[doctype_id]"
+					class="{{ctrl.doctype_fa[doctype_id]}}"></i>
+			</div>
+		</div>
+		<div data-ng-if="14!=ctrl.eMap[el.parent].doctype">
+			<div data-ng-repeat="typEl in ctrl.typeList"
+				data-ng-click="ctrl.content_menu.setTypeElement(typEl, el)"
+				data-ng-class="{'w3-yellow':typEl.doctype_id==el.doctype||typEl.doctype2_id==el.doctype}"
+				class="w3-hover-shadow">
+				<span data-ng-if="typEl.doctype2_id"> {{typEl.doctype2_id}}.</span>{{typEl.doctype_id}}
+				: {{typEl.doctype}}<span data-ng-if="typEl.doctype2_id">.{{typEl.doctype2}}</span>
+			</div>
+		</div>
+	</div>
+	<br />
+</div>

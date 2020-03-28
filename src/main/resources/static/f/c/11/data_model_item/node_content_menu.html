@@ -20,33 +20,10 @@
 			data-ng-click="ctrl.content_menu.typeElement('type',el);ctrl.initTypesList();"
 			title="Тип вузла"></i>
 			<div class="w3-dropdown-content w3-card-4 w3-container w3-leftbar"
+			data-ng-include="'/f/c/11/data_model_item/node_edit_menu.html'"
 				data-ng-if="ctrl.content_menu.subSepMenuName.indexOf(el.doc_id)>=0 && 
 							!(ctrl.content_menu.subSepMenuName.indexOf('paste_')==0)
 							">
-				<div
-					data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('name_')==0">
-					<i class="fas fa-ad"></i>
-					<div data-ng-include="'/f/c/11/data_model_edit/ed_obj_name.html'"></div>
-				</div>
-				<div
-					data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('i18n_')==0">
-					<i class="fas fa-globe"></i>
-					<div data-ng-include="'/f/c6/data_model_edit_obj_i18n.html'"></div>
-				</div>
-				<div
-					data-ng-if="ctrl.content_menu.subSepMenuName.indexOf('type_')==0">
-					<i class="fas fa-hashtag"></i> {{ctrl.content_menu.subSepMenuName}}
-					{{el.doctype}}
-					<div data-ng-repeat="typEl in ctrl.typeList"
-						data-ng-click="ctrl.content_menu.setTypeElement(typEl, el)"
-						data-ng-class="{'w3-yellow':typEl.doctype_id==el.doctype||typEl.doctype2_id==el.doctype}"
-						class="w3-hover-shadow">
-						<span data-ng-if="typEl.doctype2_id">
-							{{typEl.doctype2_id}}.</span>{{typEl.doctype_id}} : {{typEl.doctype}}<span
-							data-ng-if="typEl.doctype2_id">.{{typEl.doctype2}}</span>
-					</div>
-				</div>
-				<br />
 			</div>
 		</span>
 	</div>

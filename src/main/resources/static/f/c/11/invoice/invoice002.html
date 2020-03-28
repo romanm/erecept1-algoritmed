@@ -1,7 +1,6 @@
 <div data-ng-repeat="d_type in [ctrl.eMap[369379]]">
 	<div class="w3-border-bottom"
-		d11ata-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:d_type.doc_id}"
-		data-ng-repeat="table_model in ctrl.eMap[369344].children | filter:{reference:369379}">
+		data-ng-repeat="table_model in ctrl.object_values(ctrl.eMap) | filter:{reference:369379}">
 		<div class="w3-hover-shadow"
 			data-ng-click="ctrl.init_table_model(table_model)">
 			{{table_model.value_1_22}} <span class="w3-tiny"> col №: </span>
@@ -26,7 +25,8 @@
 					data-ng-if="table_model.reference==ctrl.eMap[table_model.reference2].reference">
 				</tbody>
 				<tbody
-					data-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}">
+					d11ata-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}"
+					data-ng-repeat="data_tab in ctrl.object_values(ctrl.eMap) | filter:{reference2:table_model.doc_id}">
 					<tr class="w3-hover-shadow"
 						data-ng-repeat-start="row in ctrl.eMap[data_tab.doc_id].children | filter:{reference:table_model.doc_id}">
 						<td title="{{row.doc_id}}">#</td>

@@ -11,6 +11,7 @@ var initDataModel = function(){
 	ctrl.content_menu = {}
 
 	ctrl.init_table_model = function(table_model){
+		console.log(table_model.doc_id)
 		var sql0 = sql_app.obj_with_i18n() + " WHERE d1.doc_id IN ( SELECT d2.doc_id FROM doc d1, doc d2 where d2.parent=d1.doc_id and  d1.reference = "+ table_model.doc_id+")"
 		var sql = "  SELECT d1.parent FROM doc d1 where d1.reference = " + table_model.doc_id
 		read_dataObject2fn(sql, function(response){
@@ -38,7 +39,6 @@ var initDataModel = function(){
 			angular.forEach(table_model.children, function(v){ init_reference(v) })
 		}else{
 			read_element_descendant(table_model.doc_id, {forEachOne:function(v){ init_reference(v) }})
-//			read_element_children(table_model.doc_id, {forEachOne:function(v){ init_reference(v) }})
 		}
 	}
 
@@ -62,7 +62,7 @@ var initDataModel = function(){
 			var sum = 0
 			var colEl = ctrl.eMap[fnEl.parent]
 			var tabEl = ctrl.eMap[colEl.parent]
-			console.log(fnEl, colEl, tabEl)
+//			console.log(fnEl, colEl, tabEl)
 			angular.forEach(ctrl.eMap, function(v,k){
 				if(tabEl.reference2==v.reference){
 					if(v['calc_value_'+colEl.doc_id]){
@@ -198,11 +198,7 @@ var initDataModel = function(){
 		}
 	}
 
-	ctrl.content_menu.setTypeElement = function(typEl, el){
-		console.log(typEl, el)
-		var doctype_id = typEl.doctype_id
-		if(typEl.doctype2_id)
-			var doctype_id = typEl.doctype2_id
+	ctrl.content_menu.setTypeIdElement = function(doctype_id, el){
 		var so = {doc_id:el.doc_id, doctype_id:doctype_id,
 			sql:"UPDATE doc SET doctype = :doctype_id WHERE doc_id = :doc_id",
 			dataAfterSave:function(response){
@@ -212,9 +208,17 @@ var initDataModel = function(){
 		}
 		writeSql(so)
 	}
+	ctrl.content_menu.setTypeElement = function(typEl, el){
+		console.log(typEl, el)
+		var doctype_id = typEl.doctype_id
+		if(typEl.doctype2_id)
+			var doctype_id = typEl.doctype2_id
+		ctrl.content_menu.setTypeIdElement(doctype_id, el)
+	}
 
 	ctrl.field_name_save = function(el){
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		doctype = [14,17].indexOf(el.doctype)>=0?22:doctype
 		var table_name = ctrl.doctype_content_table_name[doctype]
 		
 		if(el.value_1_edit != el['value_1_'+doctype]){

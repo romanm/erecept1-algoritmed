@@ -157,7 +157,15 @@ function initConfig(){
 		26:'date',
 		30:'uuid',
 	}
-	
+
+	ctrl.object_values = function(o){if(o){
+		return Object.values(o)
+	}}
+	ctrl.keys = function(o) {if(o){
+		return Object.keys(o)
+	}}
+
+	ctrl.reload_page = function(){location.reload()}
 }
 
 /* 
