@@ -11,7 +11,12 @@ var initDataModel = function(){
 	ctrl.content_menu = {}
 
 	ctrl.init_table_model = function(table_model){
-		console.log(table_model.doc_id)
+		if(!table_model.children){
+			table_model.open_view = true
+		}else{
+			table_model.open_view = !table_model.open_view
+		}
+		console.log(table_model.doc_id, !table_model.children)
 		var sql0 = sql_app.obj_with_i18n() + " WHERE d1.doc_id IN ( SELECT d2.doc_id FROM doc d1, doc d2 where d2.parent=d1.doc_id and  d1.reference = "+ table_model.doc_id+")"
 		var sql = "  SELECT d1.parent FROM doc d1 where d1.reference = " + table_model.doc_id
 		read_dataObject2fn(sql, function(response){
@@ -59,23 +64,18 @@ var initDataModel = function(){
 
 	ctrl.calc_sum_column = function(fnEl){
 		if(!fnEl.calc_value){
-			var sum = 0
-			var colEl = ctrl.eMap[fnEl.parent]
-			var tabEl = ctrl.eMap[colEl.parent]
+			var sum = {sum:0, colEl:ctrl.eMap[fnEl.parent]}
+			sum.calc = function(v){
+				if(v['calc_value_'+sum.colEl.doc_id])
+					sum.sum += v['calc_value_'+sum.colEl.doc_id]*1
+			}
+			var tabEl = ctrl.eMap[sum.colEl.parent]
 //			console.log(fnEl, colEl, tabEl)
 			angular.forEach(ctrl.eMap, function(v,k){
-				if(tabEl.reference2==v.reference){
-					if(v['calc_value_'+colEl.doc_id]){
-						sum += v['calc_value_'+colEl.doc_id]*1
-					}
-				}
-				if(tabEl.doc_id==v.reference){
-					if(v['calc_value_'+colEl.doc_id]){
-						sum += v['calc_value_'+colEl.doc_id]*1
-					}
-				}
+				if(tabEl.reference2==v.reference)	sum.calc(v)
+				if(tabEl.doc_id==v.reference)		sum.calc(v)
 			})
-			fnEl.calc_value = sum
+			fnEl.calc_value = sum.sum
 		}
 		return fnEl.calc_value 
 	}
@@ -216,6 +216,27 @@ var initDataModel = function(){
 		ctrl.content_menu.setTypeIdElement(doctype_id, el)
 	}
 
+	ctrl.rowOpenToEdit = function(row){
+		row.rowOpenToEdit = !row.rowOpenToEdit
+		console.log(row)
+		if(row.rowOpenToEdit){
+			angular.forEach(row.children, function(cell){
+				if(!cell.value_1_edit){
+					var col = ctrl.eMap[cell.reference]
+					cell.value_1_edit = cell['value_1_'+col.doctype]
+					console.log(col.doctype, cell['value_1_'+col.doctype])
+				}
+			})
+		}
+	}
+	ctrl.inputBlur = function(cell){
+		var el = cell
+		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		if(cell.value_1_edit != el['value_1_'+doctype]){
+			console.log(cell)
+			ctrl.field_name_save(el)
+		}
+	}
 	ctrl.field_name_save = function(el){
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
 		doctype = [14,17].indexOf(el.doctype)>=0?22:doctype

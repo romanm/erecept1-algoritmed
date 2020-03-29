@@ -3,15 +3,21 @@
 		data-ng-repeat="table_model in ctrl.object_values(ctrl.eMap) | filter:{reference:369379}">
 		<div class="w3-hover-shadow"
 			data-ng-click="ctrl.init_table_model(table_model)">
-			{{table_model.value_1_22}} <span class="w3-tiny"> col №: </span>
-			{{ctrl.eMap[table_model.doc_id].cnt_child}}
+			{{table_model.value_1_22}} <span class="w3-tiny w3-right"> col №:
+				{{ctrl.eMap[table_model.doc_id].cnt_child}} </span>
 		</div>
-		<div data-ng-include="'/f/c/11/formula/data_model_formula_list.html'"></div>
-		<div>
+		<div data-ng-if="table_model.open_view">
+			<div data-ng-include="'/f/c/11/formula/data_model_formula_list.html'"></div>
 			<table>
 				<thead class="w3-grey">
 					<tr class="w3-small">
-						<th>#<i class="fas fa-columns"></i></th>
+						<th class="w3-left-align"><span
+							class="w3-dropdown-hover w3-hover-shadow"> #<i
+								class="fas fa-columns"></i>
+								<div class="w3-dropdown-content w3-card">
+									<span class="w3-btn"> + </span>
+								</div>
+						</span></th>
 						<th data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children"
 							title="{{col.doc_id}}">{{col.value_1_22}} <i
 							data-ng-if="ctrl.eMap[col.reference].reference2==369364"
@@ -25,22 +31,16 @@
 					data-ng-if="table_model.reference==ctrl.eMap[table_model.reference2].reference">
 				</tbody>
 				<tbody
-					d11ata-ng-repeat="data_tab in ctrl.eMap[369344].children | filter:{reference2:table_model.doc_id}"
 					data-ng-repeat="data_tab in ctrl.object_values(ctrl.eMap) | filter:{reference2:table_model.doc_id}">
 					<tr class="w3-hover-shadow"
 						data-ng-repeat-start="row in ctrl.eMap[data_tab.doc_id].children | filter:{reference:table_model.doc_id}">
-						<td title="{{row.doc_id}}">#</td>
-						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children">
-							<div
-								data-ng-repeat="cell in [ctrl.eMap[row.ref_to_col[col.doc_id]]]">
-								{{cell['value_1_'+cell.doctype_r]}}</div> <span
-							data-ng-if="col.reference"> <span class="w3-tiny"
-								data-ng-repeat="formula in [ctrl.eMap[col.reference]] | filter:{reference2:369364}">
-									{{ctrl.calc_cell2(row, col, formula)}}
-									{{row['calc_value_'+col.doc_id]}}
-							</span>
-						</span>
-						</td>
+						<td title="{{row.doc_id}}" data-ng-click="ctrl.rowOpenToEdit(row)"
+							class="w3-hover-shadow"
+							data-ng-class="{'am-b w3-border-top w3-border-bottom':row.rowOpenToEdit}"><a href="#">
+								#</a></td>
+						<td data-ng-repeat="col in ctrl.eMap[table_model.doc_id].children"
+						data-ng-class="{'w3-border-top':row.rowOpenToEdit}"
+							data-ng-include="'/f/c/11/invoice/cell_view_edit.html'"></td>
 					</tr>
 					<tr data-ng-repeat-end data-ng-if="$last">
 						<td>*</td>

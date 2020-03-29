@@ -1,0 +1,16 @@
+<div>
+	<div data-ng-repeat="cell in [ctrl.eMap[row.ref_to_col[col.doc_id]]]">
+		<span data-ng-class="{'w3-tiny':row.rowOpenToEdit}">
+			{{cell['value_1_'+cell.doctype_r]}} </span>
+		<div data-ng-if="row.rowOpenToEdit && !(col.reference)">
+			<input class="w3-border am-width-100pr"
+				data-ng-model="cell.value_1_edit"
+				data-ng-blur="ctrl.inputBlur(cell)" />
+		</div>
+	</div>
+	<span data-ng-if="col.reference"> <span class="w3-tiny"
+		data-ng-repeat="formula in [ctrl.eMap[col.reference]] | filter:{reference2:369364}">
+			{{ctrl.calc_cell2(row, col, formula)}}
+			{{row['calc_value_'+col.doc_id]}} </span>
+	</span>
+</div>
