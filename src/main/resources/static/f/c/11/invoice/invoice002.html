@@ -3,7 +3,8 @@
 		data-ng-repeat="table_model in ctrl.object_values(ctrl.eMap) | filter:{reference:369379}">
 		<div class="w3-hover-shadow"
 			data-ng-click="ctrl.init_table_model(table_model)">
-			{{table_model.value_1_22}} <span class="w3-tiny w3-right"> col №:
+			<i class="w3-tiny fas fa-table"> </i> {{table_model.value_1_22}} <span
+				class="w3-tiny w3-right"> col №:
 				{{ctrl.eMap[table_model.doc_id].cnt_child}} </span>
 		</div>
 		<div data-ng-if="table_model.open_view">

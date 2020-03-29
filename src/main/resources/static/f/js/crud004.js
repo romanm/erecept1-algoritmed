@@ -94,9 +94,6 @@ var initDataModel = function(){
 			var f_ref_operandEl = ctrl.eMap[f_operandEl.reference]
 			if(f_ref_operandEl && ctrl['calc_'+f_ref_operandEl.r1value]){
 				val_operand = ctrl['calc_'+f_ref_operandEl.r1value](f_ref_operandEl)//ctrl.calc_set_value
-//				if(!val_operand){
-//					val_operand = f_ref_operandEl.calc_value
-//				}
 			}else{
 				if(row.ref_to_col && ctrl.eMap[row.ref_to_col[f_operandEl.reference]]){
 					var val_operandEl = ctrl.eMap[row.ref_to_col[f_operandEl.reference]]
@@ -224,20 +221,54 @@ var initDataModel = function(){
 				if(!cell.value_1_edit){
 					var col = ctrl.eMap[cell.reference]
 					cell.value_1_edit = cell['value_1_'+col.doctype]
-					console.log(col.doctype, cell['value_1_'+col.doctype])
+//					console.log(col.doctype, cell['value_1_'+col.doctype])
 				}
 			})
 		}
 	}
+
+	var input_recalc = function(cell){
+		var	col = ctrl.eMap[cell.reference]
+		,	tab = ctrl.eMap[col.parent]
+		,	row = ctrl.eMap[cell.parent]
+		if(369379==tab.reference && !tab.tab_cols_ids){//init table
+			tab.tab_cols_ids = []
+			angular.forEach(tab.children, function(col) {
+				tab.tab_cols_ids.push(col.doc_id)
+			})
+		}
+		var check_fn_use_cell = function(fnO, col_fn){
+			if(fnO.reference==col.doc_id){
+				console.log(fnO.doc_id, fnO.reference, col.doc_id, fnO.reference==col.doc_id, row['calc_value_'+col_fn.doc_id], row.doc_id)
+				delete row['calc_value_'+col_fn.doc_id]
+				ctrl.calc_cell2(row, col, ctrl.eMap[col_fn.reference])
+				console.log(fnO.doc_id, fnO.reference, col.doc_id, fnO.reference==col.doc_id, row['calc_value_'+col_fn.doc_id], row.doc_id)
+			}
+			angular.forEach(fnO.children, function(v) {
+				check_fn_use_cell(v, col_fn)
+			})
+		}
+		angular.forEach(tab.children, function(col_fn){
+			if(col_fn.reference && 369364==ctrl.eMap[col_fn.reference].reference2){//function - formula - calc column
+				var fnEl = ctrl.eMap[col_fn.reference]
+				console.log(col_fn.doc_id, fnEl.doc_id)
+				check_fn_use_cell(fnEl, col_fn)
+			}
+		})
+	}
+
 	ctrl.inputBlur = function(cell){
 		var el = cell
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		console.log(doctype, cell.value_1_edit, el['value_1_'+doctype])
 		if(cell.value_1_edit != el['value_1_'+doctype]){
-			console.log(cell)
-			ctrl.field_name_save(el)
+			ctrl.field_name_save(el, function(){
+				input_recalc(cell)
+			})
 		}
 	}
-	ctrl.field_name_save = function(el){
+
+	ctrl.field_name_save = function(el, fn){
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
 		doctype = [14,17].indexOf(el.doctype)>=0?22:doctype
 		var table_name = ctrl.doctype_content_table_name[doctype]
@@ -251,10 +282,9 @@ var initDataModel = function(){
 				so.sql = "UPDATE "+table_name
 				+" SET value = :value WHERE " + table_name + "_id=:doc_id ;\n"
 			}
-			console.log(so, el.doctype,el)
 			so.dataAfterSave = function(response){
 				el['value_1_'+doctype] = el.value_1_edit
-				console.log(el, response.data, so)
+				if(fn) fn()
 			}
 			writeSql(so)
 		}
