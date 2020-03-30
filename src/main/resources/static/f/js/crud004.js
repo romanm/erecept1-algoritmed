@@ -227,7 +227,7 @@ var initDataModel = function(){
 		}
 	}
 
-	var input_recalc = function(cell){
+	var input_cell_recalc = function(cell){
 		var	col = ctrl.eMap[cell.reference]
 		,	tab = ctrl.eMap[col.parent]
 		,	row = ctrl.eMap[cell.parent]
@@ -262,9 +262,7 @@ var initDataModel = function(){
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
 		console.log(doctype, cell.value_1_edit, el['value_1_'+doctype])
 		if(cell.value_1_edit != el['value_1_'+doctype]){
-			ctrl.field_name_save(el, function(){
-				input_recalc(cell)
-			})
+			ctrl.field_name_save(el, function(){ input_cell_recalc(cell) })
 		}
 	}
 
@@ -288,6 +286,43 @@ var initDataModel = function(){
 			}
 			writeSql(so)
 		}
+	}
+
+	ctrl.save_model_i18n = function(el){
+//		var i18n_parent = ctrl.doc_i18n_parent['_'+ctrl.choice_data_model.doc_id]
+		var i18n_parent = ctrl.i18n_parent
+		console.log(el, ctrl.choice_data_model, ctrl.choice_data_model_obj, i18n_parent)
+		if(el.i18n_id){
+			var so = { i18n : el.i18n, i18n_id : el.i18n_id,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+			},}
+			so.sql = "UPDATE string SET value=:i18n WHERE string_id=:i18n_id"
+			writeSql(so)
+//		}else if(ctrl.choice_data_model.i18n_parent){
+		}else if(i18n_parent){
+			var so = {parent:i18n_parent, reference:el.doc_id, i18n:el.i18n,
+			dataAfterSave : function(response){
+				console.log(el, response.data, so)
+				el.i18n_id = response.data.nextDbId1
+			},}
+			console.log(so)
+			so.sql = sql_app.INSERT_doc_parent_ref()
+			so.sql += "INSERT INTO string (string_id, value) VALUES (:nextDbId1, :i18n);\n"
+			console.log(el, so, ctrl.choice_data_model, so.sql)
+			writeSql(so)
+		}
+	}
+
+	sql_app.INSERT_doc_parent_ref = function(d){
+		var sql = "INSERT INTO doc (doc_id, parent, reference) VALUES (:nextDbId1, :parent, :reference); \n"
+		if(d){
+			if(d.parent) sql = sql.replace(':parent',d.parent)
+			if(d.reference) sql = sql.replace(':reference',d.reference)
+			else sql = sql.replace(':reference','null')
+			if(d.nextDbId) sql = sql.replace(':nextDbId1',':nextDbId'+d.nextDbId)
+		}
+		return sql
 	}
 
 	ctrl.field_name_focus2 = function(el){ 
@@ -387,6 +422,45 @@ var initDataModel = function(){
 			console.log(el, ctrl.content_menu.copyObject)
 			sql_app.copyElement({parent:el.parent, doc_id:':nextDbId'+1}, el.sort, {copyObject:ctrl.content_menu.copyObject, el:el})
 		}
+	}
+
+	sql_app.copyElement = function(so, sort, d){
+		if(d.copyObject.reference) so.reference = d.copyObject.reference
+		if(d.copyObject.reference2) so.reference2 = d.copyObject.reference2
+		if(d.copyObject.doctype) so.doctype = d.copyObject.doctype
+		if(d.copyObject.s1value){
+			so.s1value = d.copyObject.s1value
+		}
+		so.sql = sql_app.INSERT_doc(so)
+		if(sort){
+			so.sql += "INSERT INTO sort (sort_id, sort) VALUES (" +
+				so.doc_id + ", " + sort + ");\n"
+		}
+		so.sql += sql_app.SELECT_obj_with_i18n(so.doc_id)
+		console.log(d.copyObject, so.sql)
+		so.dataAfterSave = function(response){
+			var newEl
+			angular.forEach(response.data, function(v,k){ if(k.indexOf('list')==0){
+				newEl = v[0]
+			}})
+			ctrl.eMap[newEl.doc_id] = newEl
+			if(!d.elParent){
+				var elParent = ctrl.eMap[d.el.parent]
+				var indexEl = elParent.children.indexOf(d.el)
+				console.log(newEl, indexEl)
+				elParent.children.splice(indexEl, 0, newEl)
+			}else{
+				d.elParent.children[sort] = newEl
+			}
+			if(d.copyObject.children){
+				newEl.children = []
+				angular.forEach(d.copyObject.children, function(v, k_sort){
+					console.log(v)
+					sql_app.copyElement({parent:newEl.doc_id, doc_id:':nextDbId'+1}, k_sort, {copyObject:v, elParent:newEl})
+				})
+			}
+		}
+		writeSql(so)
 	}
 
 	ctrl.content_menu.pasteElementChildContent = function(el){
