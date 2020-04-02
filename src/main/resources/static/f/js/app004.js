@@ -67,18 +67,19 @@ sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 sql_app.obj_with_i18n = function(){
 //	", s1.value value_1_22, s1.string_id id_1_22, i1.value value_1_23, i1.integer_id id_1_23, f1.value value_1_24, f1.double_id id_1_24 \n" +
 	var sql = "SELECT d1.*, dr1.doctype doctype_r \n" +
-	", s1.value value_1_22, i1.value value_1_23, f1.value value_1_24 \n" +
-	", r1.value r1value, r2.value r2value, dt1.value dt1value \n" +
+	", s1.value value_1_22, i1.value value_1_23, f1.value value_1_24 , ts1.value value_1_25, dt1.value value_1_26 \n" +
+	", r1.value r1value, r2.value r2value \n" +
 	", sort, sort_id, uu.value uuid \n" +
 	", i18n, i18n_id, cnt_child FROM doc d1 \n" +
 	"LEFT JOIN uuid uu ON d1.doc_id = uu.uuid_id \n" +
 	"LEFT JOIN string s1 ON d1.doc_id = s1.string_id \n" +
 	"LEFT JOIN integer i1 ON d1.doc_id = i1.integer_id \n" +
 	"LEFT JOIN double f1 ON d1.doc_id = f1.double_id \n" +
+	"LEFT JOIN timestamp ts1 ON d1.doc_id = ts1.timestamp_id \n" +
+	"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 	"LEFT JOIN doc dr1 ON d1.reference = dr1.doc_id \n" +
 	"LEFT JOIN string r1 ON d1.reference = r1.string_id \n" +
 	"LEFT JOIN string r2 ON d1.reference2 = r2.string_id \n" +
-	"LEFT JOIN date dt1 ON d1.doc_id = dt1.date_id \n" +
 	"LEFT JOIN (" +sql_app.select_i18n_all() + " \n) i18n ON i18n_ref=d1.doc_id \n"+
 	"LEFT JOIN sort o1 ON o1.sort_id = d1.doc_id \n" +
 	"LEFT JOIN (SELECT COUNT(*) cnt_child, parent FROM doc GROUP BY parent) d2 ON d2.parent=d1.doc_id \n"
@@ -91,7 +92,8 @@ sql_app.SELECT_obj_with_i18n = function(doc_id){
 	return sql
 }
 
-//console.log(sql_app.SELECT_obj_with_i18n(369375))
+//console.log(sql_app.SELECT_obj_with_i18n(':nextDbId1'))
+//console.log(sql_app.SELECT_obj_with_i18n(369574))
 
 sql_app.SELECT_children_with_i18n = function(parent_id){
 	var sql = sql_app.obj_with_i18n()+

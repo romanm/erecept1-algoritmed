@@ -213,6 +213,38 @@ var initDataModel = function(){
 		ctrl.content_menu.setTypeIdElement(doctype_id, el)
 	}
 
+	ctrl.rowDelete = function(row){
+		console.log(row)
+		var so = {doc_id:row.doc_id, sql:"DELETE FROM doc WHERE doc_id=:doc_id"}
+		so.dataAfterSave = function(response) {
+			var tab = ctrl.eMap[row.parent]
+			var i = tab.children.indexOf(row)
+			console.log(i, response.data)
+			delete tab.children[i]
+		}
+		writeSql(so)
+	}
+	ctrl.rowInsert = function(table_model){
+		if(!table_model.table_data_id){
+			angular.forEach(ctrl.eMap, function(v, k){
+				if(369358==v.reference && v.reference2==table_model.doc_id){
+					table_model.table_data_id = v.doc_id
+				}
+			})
+		}
+		if(table_model.table_data_id){
+			var so = {parent:table_model.table_data_id, reference:table_model.doc_id}
+			so.sql =	sql_app.INSERT_doc(so)
+			so.sql +=	sql_app.SELECT_doc_id()
+			so.dataAfterSave = function(response) {
+				console.log(response.data)
+				var table_data = ctrl.eMap[table_model.table_data_id]
+				if(!table_data.children)	table_data.children = []
+				table_data.children.push(response.data.list1[0])
+			}
+			writeSql(so)
+		}
+	}
 	ctrl.rowOpenToEdit = function(row){
 		row.rowOpenToEdit = !row.rowOpenToEdit
 		console.log(row)
@@ -221,7 +253,13 @@ var initDataModel = function(){
 				if(!cell.value_1_edit){
 					var col = ctrl.eMap[cell.reference]
 					cell.value_1_edit = cell['value_1_'+col.doctype]
-//					console.log(col.doctype, cell['value_1_'+col.doctype])
+					if(25==col.doctype){
+						var d = new Date(cell['value_1_'+col.doctype])
+						console.log(col.doctype, cell['value_1_'+col.doctype], col.doc_id, d)
+						cell.value_1_edit_date = d
+						cell.value_1_edit_hour = d.getHours()
+						cell.value_1_edit_minute = d.getMinutes()
+					}
 				}
 			})
 		}
@@ -257,6 +295,28 @@ var initDataModel = function(){
 		})
 	}
 
+	ctrl.inputFocus = function(row, col, cell){
+		if(!cell){
+			console.log(row, col, cell)
+			var so = {parent:row.doc_id, reference:col.doc_id}
+			so.sql =	sql_app.INSERT_doc(so)
+			so.sql +=	sql_app.SELECT_doc_id()
+			so.dataAfterSave = function(response){
+				console.log(response.data)
+				if(!row.children)	row.children = []
+				row.children.push(response.data.list1[0])
+			}
+			writeSql(so)
+		}
+	}
+
+	ctrl.inputBlurTS = function(cell){
+		console.log(cell)
+		if(cell.value_1_edit != cell.value_1_25){
+			console.log(123)
+		}
+		
+	}
 	ctrl.inputBlur = function(cell){
 		var el = cell
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
@@ -270,6 +330,7 @@ var initDataModel = function(){
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
 		doctype = [14,17].indexOf(el.doctype)>=0?22:doctype
 		var table_name = ctrl.doctype_content_table_name[doctype]
+		console.log(el, doctype, table_name)
 		
 		if(el.value_1_edit != el['value_1_'+doctype]){
 			var so = {doc_id:el.doc_id, value:el.value_1_edit}
@@ -286,6 +347,7 @@ var initDataModel = function(){
 			}
 			writeSql(so)
 		}
+
 	}
 
 	ctrl.save_model_i18n = function(el){
@@ -327,8 +389,10 @@ var initDataModel = function(){
 
 	ctrl.field_name_focus2 = function(el){ 
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+		doctype = [14,17].indexOf(el.doctype)>=0?22:doctype
 		el.value_1_edit = el['value_1_'+doctype]
 	}
+
 	ctrl.field_name_focus = function(el){ 
 		if(!el.value_1_edit)	ctrl.field_name_focus2(el)
 	}
