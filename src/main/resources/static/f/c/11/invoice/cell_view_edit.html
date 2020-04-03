@@ -17,10 +17,13 @@
 			<div data-ng-switch-when="25">
 				<input type="date" data-ng-model="cell.value_1_edit_date"
 					data-ng-blur="ctrl.inputBlurTS(cell)" class="w3-border"> <input
-					type="number" data-ng-blur="ctrl.inputBlurTS(cell)"
+					type="number" 
+					data-ng-blur="ctrl.inputBlurTS(cell, 'hour')"
+					data-ng-change="ctrl.inputBlurTS(cell, 'hour')"
 					data-ng-model="cell.value_1_edit_hour" min="0" max="23"
 					style="width: 40px" class="w3-border">:<input type="number"
-					data-ng-blur="ctrl.inputBlurTS(cell)"
+					data-ng-blur="ctrl.inputBlurTS(cell, 'minute')"
+					data-ng-change="ctrl.inputBlurTS(cell, 'minute')"
 					data-ng-model="cell.value_1_edit_minute" min="0" max="59"
 					style="width: 40px" class="w3-border">
 			</div>

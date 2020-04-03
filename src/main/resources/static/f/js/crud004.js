@@ -310,13 +310,21 @@ var initDataModel = function(){
 		}
 	}
 
-	ctrl.inputBlurTS = function(cell){
-		console.log(cell)
-		if(cell.value_1_edit != cell.value_1_25){
-			console.log(123)
+	ctrl.inputBlurTS = function(cell, hm){
+		if('hour'==hm){
+			cell.value_1_edit_date.setHours(cell.value_1_edit_hour)
+		}else if('minute'==hm){
+			cell.value_1_edit_date.setMinutes(cell.value_1_edit_minute)
 		}
-		
+		var value_1_edit = cell.value_1_edit_date.toISOString().split('.')[0]
+		var dtDB = cell.value_1_25.split('.')[0]
+		if(dtDB != value_1_edit){
+			cell.value_1_edit = cell.value_1_edit_date.toISOString()
+			console.log(value_1_edit, dtDB, hm)
+			ctrl.field_name_save(cell, function(){ input_cell_recalc(cell) })
+		}
 	}
+
 	ctrl.inputBlur = function(cell){
 		var el = cell
 		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
