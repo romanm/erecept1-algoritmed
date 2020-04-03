@@ -215,7 +215,7 @@ var initDataModel = function(){
 
 	ctrl.rowDelete = function(row){
 		console.log(row)
-		var so = {doc_id:row.doc_id, sql:"DELETE FROM doc WHERE doc_id=:doc_id"}
+		var so = {doc_id:row.doc_id, sql:"DELETE FROM doc WHERE parent=:doc_id OR doc_id=:doc_id"}
 		so.dataAfterSave = function(response) {
 			var tab = ctrl.eMap[row.parent]
 			var i = tab.children.indexOf(row)
@@ -254,7 +254,10 @@ var initDataModel = function(){
 					var col = ctrl.eMap[cell.reference]
 					cell.value_1_edit = cell['value_1_'+col.doctype]
 					if(25==col.doctype){
-						var d = new Date(cell['value_1_'+col.doctype])
+						if(cell['value_1_'+col.doctype])
+							var d = new Date(cell['value_1_'+col.doctype])
+						else
+							var d = new Date()
 						console.log(col.doctype, cell['value_1_'+col.doctype], col.doc_id, d)
 						cell.value_1_edit_date = d
 						cell.value_1_edit_hour = d.getHours()
@@ -298,13 +301,18 @@ var initDataModel = function(){
 	ctrl.inputFocus = function(row, col, cell){
 		if(!cell){
 			console.log(row, col, cell)
-			var so = {parent:row.doc_id, reference:col.doc_id}
+			var so =	{parent:row.doc_id, reference:col.doc_id}
 			so.sql =	sql_app.INSERT_doc(so)
-			so.sql +=	sql_app.SELECT_doc_id()
+			so.sql +=	sql_app.SELECT_obj_with_i18n(':nextDbId1')
+//			so.sql +=	sql_app.SELECT_doc_id()
 			so.dataAfterSave = function(response){
 				console.log(response.data)
 				if(!row.children)	row.children = []
-				row.children.push(response.data.list1[0])
+				if(!row.ref_to_col) row.ref_to_col = {}
+				var newEl = response.data.list1[0]
+				ctrl.eMap[newEl.doc_id] = newEl
+				row.children.push(newEl)
+				row.ref_to_col[col.doc_id] = newEl.doc_id
 			}
 			writeSql(so)
 		}
@@ -317,20 +325,35 @@ var initDataModel = function(){
 			cell.value_1_edit_date.setMinutes(cell.value_1_edit_minute)
 		}
 		var value_1_edit = cell.value_1_edit_date.toISOString().split('.')[0]
-		var dtDB = cell.value_1_25.split('.')[0]
-		if(dtDB != value_1_edit){
+		if(!cell.value_1_25 || cell.value_1_25.split('.')[0] != value_1_edit){
 			cell.value_1_edit = cell.value_1_edit_date.toISOString()
-			console.log(value_1_edit, dtDB, hm)
+			console.log(value_1_edit, cell.value_1_25, hm)
 			ctrl.field_name_save(cell, function(){ input_cell_recalc(cell) })
 		}
 	}
 
-	ctrl.inputBlur = function(cell){
-		var el = cell
-		var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
-		console.log(doctype, cell.value_1_edit, el['value_1_'+doctype])
-		if(cell.value_1_edit != el['value_1_'+doctype]){
-			ctrl.field_name_save(el, function(){ input_cell_recalc(cell) })
+	ctrl.inputBlur = function(cell, row, col){
+		console.log(cell)
+		if(cell){
+			console.log(123)
+			if(!cell.doc_id){
+				if(!row.ref_to_col) row.ref_to_col = []
+				if(!row.ref_to_col[col.doc_id]){
+					angular.forEach(row.children, function(v){
+						if(v.reference==col.doc_id){
+							row.ref_to_col[col.doc_id] = v
+							v.value_1_edit = cell.value_1_edit
+							cell = v
+						}
+					})
+				}
+			}
+			var el = cell
+			var doctype = el.doctype?el.doctype:el.doctype_r?el.doctype_r:22
+			console.log(doctype, cell.value_1_edit, el['value_1_'+doctype], el, row, col)
+			if(cell.value_1_edit != cell['value_1_'+doctype]){
+				ctrl.field_name_save(cell, function(){ input_cell_recalc(cell) })
+			}
 		}
 	}
 

@@ -12,16 +12,19 @@
 				<input class="w3-border am-width-100pr"
 					data-ng-model="cell.value_1_edit"
 					data-ng-focus="ctrl.inputFocus(row, col, cell)"
-					data-ng-blur="ctrl.inputBlur(cell)" />
+					data-ng-blur="ctrl.inputBlur(cell, row, col)" />
 			</div>
 			<div data-ng-switch-when="25">
 				<input type="date" data-ng-model="cell.value_1_edit_date"
+					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell)" class="w3-border"> <input
 					type="number" 
+					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell, 'hour')"
 					data-ng-change="ctrl.inputBlurTS(cell, 'hour')"
 					data-ng-model="cell.value_1_edit_hour" min="0" max="23"
 					style="width: 40px" class="w3-border">:<input type="number"
+					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell, 'minute')"
 					data-ng-change="ctrl.inputBlurTS(cell, 'minute')"
 					data-ng-model="cell.value_1_edit_minute" min="0" max="59"
