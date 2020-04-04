@@ -336,6 +336,10 @@ var initDataModel = function(){
 		}
 	}
 
+	ctrl.inputBlurTSdirect = function(cell){
+		cell.value_1_edit = cell.value_1_edit_date.toISOString()
+		ctrl.field_name_save(cell, function(){ input_cell_recalc(cell) })
+	}
 	ctrl.inputBlurTS = function(cell, hm){
 		if('hour'==hm){
 			cell.value_1_edit_date.setHours(cell.value_1_edit_hour)
@@ -344,9 +348,8 @@ var initDataModel = function(){
 		}
 		var value_1_edit = cell.value_1_edit_date.toISOString().split('.')[0]
 		if(!cell.value_1_25 || cell.value_1_25.split('.')[0] != value_1_edit){
-			cell.value_1_edit = cell.value_1_edit_date.toISOString()
 			console.log(value_1_edit, cell.value_1_25, hm)
-			ctrl.field_name_save(cell, function(){ input_cell_recalc(cell) })
+			ctrl.inputBlurTSdirect(cell)
 		}
 	}
 

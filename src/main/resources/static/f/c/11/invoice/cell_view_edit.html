@@ -14,12 +14,13 @@
 					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlur(cell, row, col)" />
 			</div>
-			<div data-ng-switch-when="25">
+			<div data-ng-switch-when="25"
+			class="w3-small"
+			>
 				<input type="date" data-ng-model="cell.value_1_edit_date"
 					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell)" class="w3-border"> <input
-					type="number" 
-					data-ng-focus="ctrl.inputFocus(row, col, cell)"
+					type="number" data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell, 'hour')"
 					data-ng-change="ctrl.inputBlurTS(cell, 'hour')"
 					data-ng-model="cell.value_1_edit_hour" min="0" max="23"
@@ -28,7 +29,9 @@
 					data-ng-blur="ctrl.inputBlurTS(cell, 'minute')"
 					data-ng-change="ctrl.inputBlurTS(cell, 'minute')"
 					data-ng-model="cell.value_1_edit_minute" min="0" max="59"
-					style="width: 40px" class="w3-border">
+					style="width: 40px" class="w3-border"> <span
+					data-ng-click="ctrl.inputBlurTSdirect(cell)"
+					class="w3-btn w3-ripple w3-padding-small">ok</span>
 			</div>
 		</div>
 	</div>
