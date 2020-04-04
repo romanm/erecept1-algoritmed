@@ -224,6 +224,7 @@ var initDataModel = function(){
 		}
 		writeSql(so)
 	}
+
 	ctrl.rowInsert = function(table_model){
 		if(!table_model.table_data_id){
 			angular.forEach(ctrl.eMap, function(v, k){
@@ -235,16 +236,34 @@ var initDataModel = function(){
 		if(table_model.table_data_id){
 			var so = {parent:table_model.table_data_id, reference:table_model.doc_id}
 			so.sql =	sql_app.INSERT_doc(so)
-			so.sql +=	sql_app.SELECT_doc_id()
+			so.sql +=	sql_app.SELECT_obj_with_i18n(':nextDbId1')
 			so.dataAfterSave = function(response) {
 				console.log(response.data)
 				var table_data = ctrl.eMap[table_model.table_data_id]
 				if(!table_data.children)	table_data.children = []
-				table_data.children.push(response.data.list1[0])
+				var row = response.data.list1[0]
+				table_data.children.unshift(row)
+				ctrl.eMap[row.doc_id] = row
+				angular.forEach(table_model.children, function(col){
+					var so1 = {parent:row.doc_id, reference:col.doc_id}
+					console.log(col.doc_id, so1)
+					so1.sql =	sql_app.INSERT_doc(so1)
+					so1.sql +=	sql_app.SELECT_obj_with_i18n(':nextDbId1')
+					so1.dataAfterSave = function(response) {
+						var cell = response.data.list1[0]
+						ctrl.eMap[cell.doc_id] = cell
+						if(!row.children)	row.children = []
+						row.children.push(cell)
+						if(!row.ref_to_col) row.ref_to_col = {}
+						row.ref_to_col[col.doc_id] = cell.doc_id
+					}
+					writeSql(so1)
+				})
 			}
 			writeSql(so)
 		}
 	}
+
 	ctrl.rowOpenToEdit = function(row){
 		row.rowOpenToEdit = !row.rowOpenToEdit
 		console.log(row)
@@ -304,14 +323,13 @@ var initDataModel = function(){
 			var so =	{parent:row.doc_id, reference:col.doc_id}
 			so.sql =	sql_app.INSERT_doc(so)
 			so.sql +=	sql_app.SELECT_obj_with_i18n(':nextDbId1')
-//			so.sql +=	sql_app.SELECT_doc_id()
 			so.dataAfterSave = function(response){
 				console.log(response.data)
-				if(!row.children)	row.children = []
-				if(!row.ref_to_col) row.ref_to_col = {}
 				var newEl = response.data.list1[0]
 				ctrl.eMap[newEl.doc_id] = newEl
+				if(!row.children)	row.children = []
 				row.children.push(newEl)
+				if(!row.ref_to_col) row.ref_to_col = {}
 				row.ref_to_col[col.doc_id] = newEl.doc_id
 			}
 			writeSql(so)
@@ -378,7 +396,6 @@ var initDataModel = function(){
 			}
 			writeSql(so)
 		}
-
 	}
 
 	ctrl.save_model_i18n = function(el){
