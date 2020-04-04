@@ -244,9 +244,8 @@ var initDataModel = function(){
 				var row = response.data.list1[0]
 				table_data.children.unshift(row)
 				ctrl.eMap[row.doc_id] = row
-				angular.forEach(table_model.children, function(col){
+				angular.forEach(table_model.children, function(col, k){
 					var so1 = {parent:row.doc_id, reference:col.doc_id}
-					console.log(col.doc_id, so1)
 					so1.sql =	sql_app.INSERT_doc(so1)
 					so1.sql +=	sql_app.SELECT_obj_with_i18n(':nextDbId1')
 					so1.dataAfterSave = function(response) {
@@ -256,6 +255,10 @@ var initDataModel = function(){
 						row.children.push(cell)
 						if(!row.ref_to_col) row.ref_to_col = {}
 						row.ref_to_col[col.doc_id] = cell.doc_id
+						if(table_model.children.length-1 == k){
+							console.log(table_model.children.length, k)
+							ctrl.rowOpenToEdit(row)
+						}
 					}
 					writeSql(so1)
 				})
@@ -272,7 +275,7 @@ var initDataModel = function(){
 				if(!cell.value_1_edit){
 					var col = ctrl.eMap[cell.reference]
 					cell.value_1_edit = cell['value_1_'+col.doctype]
-					if(25==col.doctype){
+					if(25==col.doctype || 26==col.doctype){
 						if(cell['value_1_'+col.doctype])
 							var d = new Date(cell['value_1_'+col.doctype])
 						else

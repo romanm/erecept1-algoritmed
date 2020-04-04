@@ -2,9 +2,12 @@
 	<div data-ng-repeat="cell in [ctrl.eMap[row.ref_to_col[col.doc_id]]]">
 		<span data-ng-class="{'w3-tiny':row.rowOpenToEdit}"
 			data-ng-switch="col.doctype"> <span data-ng-switch-default>
-				{{cell['value_1_'+cell.doctype_r]}} </span> <span data-ng-switch-when="25">
-				{{cell['value_1_'+cell.doctype_r] | date:'mediumDate'}}
-				{{cell['value_1_'+cell.doctype_r] | date:'mediumTime'}} </span>
+				{{cell['value_1_'+cell.doctype_r]}} </span> <span data-ng-switch-when="32">
+				{{cell.r2value}} </span> <span data-ng-switch-when="26">
+				{{cell['value_1_'+cell.doctype_r] | date:'mediumDate'}} </span> <span
+			data-ng-switch-when="25"> {{cell['value_1_'+cell.doctype_r] |
+				date:'mediumDate'}} {{cell['value_1_'+cell.doctype_r] |
+				date:'mediumTime'}} </span>
 		</span>
 		<div data-ng-if="row.rowOpenToEdit && !(col.reference)"
 			data-ng-switch="col.doctype">
@@ -14,9 +17,12 @@
 					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlur(cell, row, col)" />
 			</div>
-			<div data-ng-switch-when="25"
-			class="w3-small"
-			>
+			<div data-ng-switch-when="26" class="w3-small">
+				<input type="date" data-ng-model="cell.value_1_edit_date"
+					data-ng-focus="ctrl.inputFocus(row, col, cell)"
+					data-ng-blur="ctrl.inputBlurTS(cell)" class="w3-border">
+			</div>
+			<div data-ng-switch-when="25" class="w3-small">
 				<input type="date" data-ng-model="cell.value_1_edit_date"
 					data-ng-focus="ctrl.inputFocus(row, col, cell)"
 					data-ng-blur="ctrl.inputBlurTS(cell)" class="w3-border"> <input
