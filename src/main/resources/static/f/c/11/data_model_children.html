@@ -13,8 +13,10 @@
 			<div class="w3-dropdown-content w3-card-4" style="width: 180px"
 				data-ng-include="'/f/c/11/data_model_item/node_content_menu.html'">
 			</div>
-		</span> <a class="w3-hover-shadow" href="#"
-			data-ng-click="ctrl.select_tree_item(d)"> <span
+		</span> <a data-ng-if="d.value_1_22.indexOf('http')==0" class="w3-btn"
+			target="_blank" href="{{d.value_1_22}}"><i
+			class="fas fa-external-link-alt"></i></a> <a class="w3-hover-shadow"
+			href="#" data-ng-click="ctrl.select_tree_item(d)"> <span
 			data-ng-switch="d.doc_id"> <i data-ng-switch-when="369379"
 				class="fas fa-table"> </i> <i data-ng-switch-when="369358|122593"
 				data-ng-switch-when-separator="|" class="fas fa-database"></i><i
