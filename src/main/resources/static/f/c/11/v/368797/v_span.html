@@ -1,10 +1,15 @@
-<span
-data-ng-if="d.children"
-> | <span data-ng-if="ctrl.eMap[d.ref_to_col[369936]]">
-		{{ctrl.eMap[d.ref_to_col[369936]].value_1_23}} раз. </span> <span
-	data-ng-if="ctrl.eMap[d.ref_to_col[368863]]"> в
+<span data-ng-if="d.children"> | <span
+	data-ng-if="ctrl.eMap[d.ref_to_col[368861]]"> кожні
+		{{ctrl.eMap[d.ref_to_col[368861]].value_1_23}}
 		{{ctrl.eMap[ctrl.eMap[d.ref_to_col[368863]].reference2].i18n}} <span
 		data-ng-if="!ctrl.eMap[ctrl.eMap[d.ref_to_col[368863]].reference2]">
 			{{ctrl.eMap[d.ref_to_col[368863]].r2value}} </span>
+</span> <span data-ng-if="ctrl.eMap[d.ref_to_col[369936]]">
+		{{ctrl.eMap[d.ref_to_col[369936]].value_1_23}} раз. <span
+		data-ng-if="ctrl.eMap[d.ref_to_col[368863]]"> в
+			{{ctrl.eMap[ctrl.eMap[d.ref_to_col[368863]].reference2].i18n}} <span
+			data-ng-if="!ctrl.eMap[ctrl.eMap[d.ref_to_col[368863]].reference2]">
+				{{ctrl.eMap[d.ref_to_col[368863]].r2value}} </span>
+	</span>
 </span>
 </span>
