@@ -1,4 +1,5 @@
-<div data-ng-switch="el.doctype">
+<div data-ng-init="doctype=el.doctype?el.doctype:el.doctype_r"
+	data-ng-switch="doctype">
 	<span class="w3-tiny am-b"> field name <a
 		class="w3-btn w3-ripple w3-padding-small" href="#"
 		data-ng-click="ctrl.field_name_save(el)"> OK </a> <i
