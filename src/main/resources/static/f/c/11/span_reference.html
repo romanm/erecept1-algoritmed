@@ -1,4 +1,4 @@
-<span> {{ctrl.doctype_short[d.doctype_r]}}{{d.doctype_r }} <span
+<span> {{ctrl.doctype_short[d.doctype_r]}}{{d.doctype_r}} <span
 	data-ng-switch="d.reference"> <i data-ng-switch-when="369379"
 		class="fas fa-table"> </i> <i data-ng-switch-when="369358"
 		class="fas fa-database"></i> <i data-ng-switch-when="369364"
@@ -8,5 +8,8 @@
 		class="fas fa-link"></i><i data-ng-switch-when="369883"
 		class="fas fa-anchor"></i><i data-ng-switch-when="115919"
 		class="fas fa-hashtag"></i>
-</span> &nbsp;{{d.r1value}}:{{d.reference}}
+</span> &nbsp;{{d.r1value}}:{{d.reference}} <span
+	data-ng-if="d.reference && !d.r1value">
+		{{ctrl.eMap[d.reference].r1value}}:{{ctrl.eMap[d.reference].reference}}
+</span>
 </span>
