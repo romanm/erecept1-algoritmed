@@ -1,0 +1,10 @@
+<span> | <span data-ng-repeat="dp in d.children"
+	data-ng-switch="dp.reference"> <span
+		data-ng-switch-when="369979"> {{dp.value_1_23}} </span> <span
+		data-ng-switch-when="371352"> {{ctrl.eMap[dp.reference2].i18n}}
+	</span> <span data-ng-switch-when="369970"> <span
+			data-ng-repeat="d in [ctrl.eMap[dp.reference2]]"
+			data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span>
+	</span>
+</span>
+</span>
