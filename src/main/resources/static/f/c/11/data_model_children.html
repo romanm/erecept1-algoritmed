@@ -30,7 +30,8 @@
 				data-ng-switch-when="369881" class="fas fa-link"></i> <i
 				data-ng-switch-when="369883" class="fas fa-anchor"></i> <i
 				data-ng-switch-when="369940" class="fab fa-wikipedia-w"></i> <i
-				data-ng-switch-when="369949" class="fas fa-code"></i>
+				data-ng-switch-when="369949" class="fas fa-code"></i> <i
+				data-ng-switch-when="371327" class="fas fa-terminal"></i>
 		</span> {{d.value_1_22}}{{d.value_1_23}}{{d.value_1_24}}{{d.uuid}}
 			{{d.value_1_26 | date:'mediumDate'}} {{d.value_1_25 |
 			date:'mediumDate'}} {{d.value_1_25 | date:'mediumTime'}} <span
@@ -50,7 +51,9 @@
 			data-ng-switch="ctrl.eMap[d.reference].reference2"> <i
 			data-ng-switch-when="369364" class="fas fa-calculator"></i><i
 			data-ng-switch-when="369365" class="fas fa-spell-check"></i>
-		</span> <sup data-ng-if="d.children && !d.open_children" class="w3-tiny am-b">[{{d.children.length}}]</sup>
+		</span> <sup data-ng-if="d.children && !d.open_children" class="w3-tiny am-b">[{{d.children.length}}]</sup> 
+		<span data-ng-repeat="d in [ctrl.eMap[d.reference2]]"
+			data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span>
 		<span data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span>
 		<span data-ng-if="ctrl.mouseover_item==d.doc_id" class="w3-right"
 			data-ng-include="'/f/c/11/data_model_item/node_move_menu.html'">

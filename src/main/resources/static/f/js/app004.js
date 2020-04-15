@@ -59,8 +59,8 @@ function getRandomInt(max) {
 
 sql_app.select_i18n_all= function(left_join_ref, i18n_parent){
 	var sql = "SELECT reference i18n_ref, doc_id i18n_id, value i18n " +
-	"FROM (SELECT d2.* FROM doc d1, doc d2 where d2.parent=d1.doc_id and d1.reference=285596) d" +
-	"LEFT JOIN string s1 ON s1.string_id=doc_id"
+	"FROM (SELECT d2.* FROM doc d1, doc d2 where d2.parent=d1.doc_id and d1.reference=285596) d " +
+	"LEFT JOIN string s1 ON s1.string_id=doc_id "
 	return sql
 }
 

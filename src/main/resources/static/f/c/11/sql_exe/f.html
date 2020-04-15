@@ -1,0 +1,26 @@
+<div data-ng-if="ctrl.sql_exe.list2exe">
+	<div class="w3-light-gray">
+		SQL <i class="fas fa-terminal"></i> <span
+			data-ng-repeat="(v,k) in ctrl.sql_exe.list2exe"> | <a
+			data-ng-click="ctrl.sql_exe.read(v)" href="#"> {{v}} </a>
+		</span>
+	</div>
+<div
+class="w3-tiny"
+>
+<i class="fas fa-terminal"></i>
+{{ctrl.sql_exe.read_sql}}
+</div>
+	<table>
+		<thead class="w3-tiny w3-light-gray">
+			<tr>
+				<th data-ng-repeat="(k,v) in ctrl.sql_exe.readList[0]">{{k}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr data-ng-repeat="row in ctrl.sql_exe.readList">
+				<td data-ng-repeat="(k,v) in row">{{v}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
