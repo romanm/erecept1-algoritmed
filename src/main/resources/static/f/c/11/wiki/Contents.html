@@ -1,0 +1,9 @@
+<div class="w3-border w3-light-gray w3-small">
+	<div class="w3-hover-shadow"
+		data-ng-click="ctrl.wiki.closeContents = !ctrl.wiki.closeContents">Зміст</div>
+	<ol data-ng-if="!ctrl.wiki.closeContents">
+		<li data-ng-repeat="e in el.children" data-ng-if="371364==e.reference">
+			<a href="#_{{e.doc_id}}"> {{e.value_1_22}} </a>
+		</li>
+	</ol>
+</div>

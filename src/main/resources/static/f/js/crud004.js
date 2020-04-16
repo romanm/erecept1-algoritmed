@@ -7,48 +7,9 @@ var initCrud004 = function() {
 	}
 	initDataModel()
 	initSqlExe()
+	initWiki()
 }
-var initSqlExe = function(){
-	sql_app.exe = {}
-	ctrl.sql_exe = sql_app.exe
-	sql_app.exe.limit = 5
 
-	ctrl.sql_exe.read = function(sql_id){
-		var d = ctrl.eMap[sql_id]
-		ctrl.sql_exe.read_sql = d.value_1_22
-		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':')
-		if(sp_sql.length>1){
-			var sql2 = ''
-			angular.forEach(sp_sql, function(sql_part){
-				if(sql_part.indexOf('sql_')==0){
-					var v1 = sql_part.split(' ')[0]
-					var sql_id2 = v1.split('_')[1]
-					var d2 = ctrl.eMap[sql_id2]
-					var sql3 = d2.value_1_22
-					sql_part = sql_part.replace(v1, sql3)
-				}
-				sql2 +=sql_part
-			})
-			ctrl.sql_exe.read_sql = sql2
-		}
-		ctrl.sql_exe.read_sql += " LIMIT " + sql_app.exe.limit
-		delete ctrl.sql_exe.readList
-		readSql({ sql:ctrl.sql_exe.read_sql,
-			afterRead:function(response){ 
-				ctrl.sql_exe.readList = response.data.list
-				console.log(ctrl.sql_exe.readList)
-			}
-		})
-	}
-
-	ctrl.sql_exe.add2exe = function(d){
-		if(!sql_app.exe.list2exe){
-			sql_app.exe.list2exe = {}
-		}
-		sql_app.exe.list2exe[d.doc_id] = d.doc_id
-	}
-
-}
 var initDataModel = function(){
 	ctrl.content_menu = {}
 
@@ -972,4 +933,54 @@ sql_app.INSERT_doc = function(so){
 sql_app.SELECT_doc_id = function(){
 	var sql = "SELECT * FROM doc WHERE doc_id=:nextDbId1; \n"
 	return sql
+}
+
+var initWiki = function(){
+	console.log('wiki')
+	ctrl.wiki = {}
+	ctrl.wiki.clickContents = function() {
+		ctrl.wiki.closeContents = !ctrl.wiki.closeContents
+	}
+}
+
+var initSqlExe = function(){
+	sql_app.exe = {}
+	ctrl.sql_exe = sql_app.exe
+	sql_app.exe.limit = 5
+
+	ctrl.sql_exe.read = function(sql_id){
+		var d = ctrl.eMap[sql_id]
+		ctrl.sql_exe.read_sql = d.value_1_22
+		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':')
+		if(sp_sql.length>1){
+			var sql2 = ''
+			angular.forEach(sp_sql, function(sql_part){
+				if(sql_part.indexOf('sql_')==0){
+					var v1 = sql_part.split(' ')[0]
+					var sql_id2 = v1.split('_')[1]
+					var d2 = ctrl.eMap[sql_id2]
+					var sql3 = d2.value_1_22
+					sql_part = sql_part.replace(v1, sql3)
+				}
+				sql2 +=sql_part
+			})
+			ctrl.sql_exe.read_sql = sql2
+		}
+		ctrl.sql_exe.read_sql += " LIMIT " + sql_app.exe.limit
+		delete ctrl.sql_exe.readList
+		readSql({ sql:ctrl.sql_exe.read_sql,
+			afterRead:function(response){ 
+				ctrl.sql_exe.readList = response.data.list
+				console.log(ctrl.sql_exe.readList)
+			}
+		})
+	}
+
+	ctrl.sql_exe.add2exe = function(d){
+		if(!sql_app.exe.list2exe){
+			sql_app.exe.list2exe = {}
+		}
+		sql_app.exe.list2exe[d.doc_id] = d.doc_id
+	}
+
 }
