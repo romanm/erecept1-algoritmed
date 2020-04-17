@@ -23,7 +23,11 @@
 			data-ng-click="ctrl.select_tree_item(d)"> <span
 			data-ng-repeat="switch_id in [d.doc_id]"
 			data-ng-include="'/f/c/11/icons.html'"></span>
-			{{d.value_1_22}}{{d.value_1_23}}{{d.value_1_24}}{{d.uuid}}
+			<span data-ng-if="!(d.value_1_22.length>40)"> {{d.value_1_22}}
+		</span> <span data-ng-if="d.value_1_22.length>40">
+				{{d.value_1_22.substring(0,40)}} <span title="{{d.value_1_22.length}}">
+					... </span>
+		</span> {{d.value_1_23}}{{d.value_1_24}}{{d.uuid}}
 			{{d.value_1_26 | date:'mediumDate'}} {{d.value_1_25 |
 			date:'mediumDate'}} {{d.value_1_25 | date:'mediumTime'}} <span
 			data-ng-if="d.i18n"> : {{d.i18n}} </span> <span

@@ -32,8 +32,7 @@
 			<div class="w3-half w3-border-right">
 				<div class="w3-tiny " data-ng-include="'/f/c/11/dd_head.html'"
 					data-ng-repeat="ddEl in [ctrl.eMap[ctrl.doc2doc_ids[0]]]"></div>
-				<div
-				data-ng-if="!ctrl.eMap[ctrl.doc2doc_ids[0]].open_children"
+				<div data-ng-if="!ctrl.eMap[ctrl.doc2doc_ids[0]].open_children"
 					data-ng-repeat="oCon in [{edEl_id:ctrl.doc2doc_ids[0], 
 				edpv:'value'
 				}] "
