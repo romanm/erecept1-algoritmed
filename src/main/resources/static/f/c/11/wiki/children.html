@@ -1,6 +1,6 @@
 <div data-ng-repeat="e in el.children" data-ng-switch="e.reference">
-	<p data-ng-switch-when="371359" data-ng-bind-html="ctrl.markdownInLine(e.value_1_22)">
-	</p>
+	<p data-ng-switch-when="371359"
+		data-ng-bind-html="ctrl.markdownInLine(e.value_1_22)"></p>
 	<div data-ng-if="$first && e.parent==file.doc_id"
 		data-ng-include="'/f/c/11/wiki/Contents.html'"></div>
 	<h2 id="_{{e.doc_id}}" class="w3-border-bottom"
@@ -13,8 +13,10 @@
 		</span>
 	</h2>
 	<ol data-ng-switch-when="371367">
-		<li data-ng-repeat="li in el.children">{{li.value_1_22}}</li>
+		<li data-ng-repeat="li in e.children">
+			<div data-ng-bind-html="ctrl.markdownInLine(li.value_1_22)"></div>
+		</li>
 	</ol>
-	<div data-ng-if="e.children" data-ng-init="el=e"
+	<div data-ng-if="e.children && 371367!=e.reference" data-ng-init="el=e"
 		data-ng-include="'/f/c/11/wiki/children.html'"></div>
 </div>
