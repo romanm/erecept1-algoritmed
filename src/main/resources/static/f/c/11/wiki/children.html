@@ -1,8 +1,8 @@
 <div data-ng-repeat="e in el.children" data-ng-switch="e.reference">
-	<p data-ng-switch-when="371359">{{e.value_1_22}}
+	<p data-ng-switch-when="371359" data-ng-bind-html="ctrl.markdownInLine(e.value_1_22)">
+	</p>
 	<div data-ng-if="$first && e.parent==file.doc_id"
 		data-ng-include="'/f/c/11/wiki/Contents.html'"></div>
-	</p>
 	<h2 id="_{{e.doc_id}}" class="w3-border-bottom"
 		data-ng-switch-when="371364">
 		<span class="w3-tooltip"> {{e.value_1_22}} <span

@@ -941,6 +941,15 @@ var initWiki = function(){
 	ctrl.wiki.clickContents = function() {
 		ctrl.wiki.closeContents = !ctrl.wiki.closeContents
 	}
+	var re = /(\w+)\s(\w+)/;
+	var str = 'John Smith';
+	var newstr = str.replace(re, '$2, $1');
+	console.log(newstr, 2, str);
+	var str2 = '**Sm i-th** Jo**hй**n ';
+//	var re2 = /\u002A\u002A([\w]+\s*\w*)\u002A\u002A/gi;
+	var re2 = /\u002A\u002A([\wа-я]+\s*\w*)\u002A\u002A/gi;
+	var newstr2 = str2.replace(re2, '<strong>$1</strong>');
+	console.log(newstr2, 2, str2);
 }
 
 var initSqlExe = function(){

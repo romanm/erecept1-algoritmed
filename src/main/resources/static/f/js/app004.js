@@ -133,10 +133,25 @@ function Exe_fn($http){
 }
 
 function initConfig(){
+
+	ctrl.markdownInLine = function(text){
+		if (!text) return
+		var bold = /\u002A\u002A([\wа-яА-Яі\-]+\s*[\wа-яА-Яі\-]*)\u002A\u002A/gi;
+		var t2 = (''+text).replace(bold, '<strong>$1</strong>');
+		return t2
+	}
+
+	ctrl.highlight = function(text, search){
+		if (!text) return
+		if (!search) return text;
+		return (''+text).replace(new RegExp(search, 'gi'), '<span class="w3-yellow">$&</span>');
+	}
+
 	ctrl.doctype_fa = {
 		14:'far fa-folder',
 		17:'far fa-file',
 	}
+
 	ctrl.doctype_short = {
 		18:'o',
 		22:'o',
