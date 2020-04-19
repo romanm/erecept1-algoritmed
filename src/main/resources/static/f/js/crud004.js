@@ -694,10 +694,10 @@ var open_children = function(id2remove){
 //	console.log(id2remove, i, restReadChildrenIds)
 	if(i>=0)	restReadChildrenIds.splice(i,1)
 	angular.forEach(restReadChildrenIds, function(v,k){
-			read_element_children(v, function(response){
-				open_children(v)
-				//console.log(v, response.data)
-			})
+		read_element_children(v, function(response){
+			open_children(v)
+			//console.log(v, response.data)
+		})
 	})
 }
 
@@ -961,11 +961,12 @@ var initWiki = function(){
 var initSqlExe = function(){
 	sql_app.exe = {}
 	ctrl.sql_exe = sql_app.exe
-	sql_app.exe.limit = 5
+	sql_app.exe.limit = 15
 
 	ctrl.sql_exe.read = function(sql_id){
 		var d = ctrl.eMap[sql_id]
 		ctrl.sql_exe.read_sql = d.value_1_22
+		ctrl.sql_exe.sql_id = sql_id
 		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':')
 		if(sp_sql.length>1){
 			var sql2 = ''
@@ -973,7 +974,9 @@ var initSqlExe = function(){
 				if(sql_part.indexOf('sql_')==0){
 					var v1 = sql_part.split(' ')[0]
 					var sql_id2 = v1.split('_')[1]
+					console.log(sql_id2)
 					var d2 = ctrl.eMap[sql_id2]
+					console.log(d2)
 					var sql3 = d2.value_1_22
 					sql_part = sql_part.replace(v1, sql3)
 				}
