@@ -4,6 +4,8 @@ var initCrud004 = function() {
 		angular.forEach(ctrl.request.parameters.doc2doc.split(','), function(v,k){
 			ctrl.doc2doc_ids[k] = 1*v
 		})
+		restReadChildrenIds = ctrl.doc2doc_ids.slice()
+		console.log(ctrl.doc2doc_ids)
 	}
 	initDataModel()
 	initSqlExe()
@@ -680,11 +682,23 @@ var initDataModel = function(){
 	ctrl.doc2doc_fd = {}
 	ctrl.doc2doc_fd[ctrl.doc2doc_ids[0]] = {}
 	ctrl.doc2doc_fd[ctrl.doc2doc_ids[1]] = {}
-	console.log(ctrl.doc2doc_fd)
+//	console.log(ctrl.doc2doc_fd)
 	
 	read_to_folder({doc_id:ctrl.doc2doc_ids[0]}, ctrl.doc2doc_ids[0])
 	read_to_folder({doc_id:ctrl.doc2doc_ids[1]}, ctrl.doc2doc_ids[1])
 
+}
+
+var open_children = function(id2remove){
+	var i = restReadChildrenIds.indexOf(id2remove)
+//	console.log(id2remove, i, restReadChildrenIds)
+	if(i>=0)	restReadChildrenIds.splice(i,1)
+	angular.forEach(restReadChildrenIds, function(v,k){
+			read_element_children(v, function(response){
+				open_children(v)
+				//console.log(v, response.data)
+			})
+	})
 }
 
 var read_to_folder = function(d, d_start_id, doc){
