@@ -965,6 +965,43 @@ var initSqlExe = function(){
 
 	ctrl.sql_exe.read = function(sql_id){
 		var d = ctrl.eMap[sql_id]
+		if(ctrl.sql_exe.sql_id != sql_id){
+			ctrl.sql_exe.read_sql = d.value_1_22
+			ctrl.sql_exe.sql_id = sql_id
+		}
+//		console.log(ctrl.sql_exe.read_sql)
+		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':sql_')
+//		console.log(sp_sql)
+		if(sp_sql[1]){
+			var sql_id2 = sp_sql[1].split(' ')[0]
+			var d2 = ctrl.eMap[sql_id2]
+			if(!d2){
+				console.log(sql_id2)
+				read_element(sql_id2, function(response){
+					ctrl.eMap[sql_id2] = response.data.list[0]
+					ctrl.sql_exe.read(sql_id)
+				})
+			}else{
+				var sql2 = d2.value_1_22
+//				console.log(sql_id2, sql2, d2)
+				ctrl.sql_exe.read_sql = 
+					ctrl.sql_exe.read_sql.replace(':sql_'+sql_id2, sql2)
+				ctrl.sql_exe.read(sql_id)
+			}
+		}else{
+			console.log(2)
+			ctrl.sql_exe.read_sql += " LIMIT " + sql_app.exe.limit
+			delete ctrl.sql_exe.readList
+			readSql({ sql:ctrl.sql_exe.read_sql,
+				afterRead:function(response){ 
+					ctrl.sql_exe.readList = response.data.list
+					console.log(ctrl.sql_exe.readList)
+				}
+			})
+		}
+	}
+	ctrl.sql_exe.read_1 = function(sql_id){
+		var d = ctrl.eMap[sql_id]
 		ctrl.sql_exe.read_sql = d.value_1_22
 		ctrl.sql_exe.sql_id = sql_id
 		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':')
@@ -977,6 +1014,13 @@ var initSqlExe = function(){
 					console.log(sql_id2)
 					var d2 = ctrl.eMap[sql_id2]
 					console.log(d2)
+					if(!d2){
+						read_element(sql_id2, function(response){
+							ctrl.eMap[sql_id2] = response.data.list[0]
+							d2 = ctrl.eMap[sql_id2]
+							console.log(d2)
+						})
+					}
 					var sql3 = d2.value_1_22
 					sql_part = sql_part.replace(v1, sql3)
 				}
