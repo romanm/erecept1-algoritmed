@@ -961,32 +961,47 @@ var initWiki = function(){
 var initSqlExe = function(){
 	sql_app.exe = {}
 	ctrl.sql_exe = sql_app.exe
+	ctrl.sql_exe.show_sql_type='value_1_22'
 	sql_app.exe.limit = 15
 
 	ctrl.sql_exe.read = function(sql_id){
 		var d = ctrl.eMap[sql_id]
+		if(d.cnt_child>0 && !d.children){
+			read_element_children(sql_id)
+		}
+		if(!d.sql_inner){
+			d.sql_inner = []
+			d.sql_inner1 = []
+		}
 		if(ctrl.sql_exe.sql_id != sql_id){
 			ctrl.sql_exe.read_sql = d.value_1_22
 			ctrl.sql_exe.sql_id = sql_id
 		}
 //		console.log(ctrl.sql_exe.read_sql)
 		var sp_sql = ctrl.sql_exe.read_sql.replace(/\n/g,' ').split(':sql_')
-//		console.log(sp_sql)
 		if(sp_sql[1]){
 			var sql_id2 = sp_sql[1].split(' ')[0]
+			console.log(sql_id2)
 			var d2 = ctrl.eMap[sql_id2]
+			var fn2 = function(d2){
+				var sql2 = d2.value_1_22
+				var sql_id2 = d2.doc_id
+				ctrl.sql_exe.read_sql =	ctrl.sql_exe.read_sql.replace(':sql_'+sql_id2, sql2)
+				d.sql_inner.push(sql_id2)
+				if(d.value_1_22.indexOf(sql_id2)>=0){
+					d.sql_inner1.push(sql_id2)
+				}
+				ctrl.sql_exe.read(sql_id)
+				read_element_children(sql_id2)
+			}
 			if(!d2){
-				console.log(sql_id2)
 				read_element(sql_id2, function(response){
-					ctrl.eMap[sql_id2] = response.data.list[0]
-					ctrl.sql_exe.read(sql_id)
+//					ctrl.eMap[sql_id2] = response.data.list[0]
+					var d2 = ctrl.eMap[sql_id2]
+					fn2(d2)
 				})
 			}else{
-				var sql2 = d2.value_1_22
-//				console.log(sql_id2, sql2, d2)
-				ctrl.sql_exe.read_sql = 
-					ctrl.sql_exe.read_sql.replace(':sql_'+sql_id2, sql2)
-				ctrl.sql_exe.read(sql_id)
+				fn2(d2)
 			}
 		}else{
 			console.log(2)
@@ -1001,11 +1016,11 @@ var initSqlExe = function(){
 		}
 	}
 
-	ctrl.sql_exe.add2exe = function(d){
+	ctrl.sql_exe.add2exe = function(doc_id){
 		if(!sql_app.exe.list2exe){
 			sql_app.exe.list2exe = {}
 		}
-		sql_app.exe.list2exe[d.doc_id] = d.doc_id
+		sql_app.exe.list2exe[doc_id] = doc_id
 	}
 
 }

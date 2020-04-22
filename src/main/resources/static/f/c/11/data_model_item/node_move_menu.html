@@ -12,7 +12,7 @@
 				class="fas fa-level-up-alt"></i>
 		</span> </span>
 		<div data-ng-if="371331==d.reference">
-			<span data-ng-click="ctrl.sql_exe.add2exe(d)" class="w3-btn"> <span
+			<span data-ng-click="ctrl.sql_exe.add2exe(d.doc_id);ctrl.sql_exe.read(d.doc_id)" class="w3-btn"> <span
 				class="w3-tiny"> SQL </span> <i class="fas fa-terminal"></i>
 			</span>
 		</div>

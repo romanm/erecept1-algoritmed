@@ -134,7 +134,6 @@ function Exe_fn($http){
 
 function initConfig(){
 
-
 	ctrl.markdownInLine = function(text){
 		if (!text) return
 		var t2		= (''+text)
