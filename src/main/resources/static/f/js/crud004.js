@@ -689,15 +689,23 @@ var initDataModel = function(){
 
 }
 
-var open_children = function(id2remove){
-	var i = restReadChildrenIds.indexOf(id2remove)
-//	console.log(id2remove, i, restReadChildrenIds)
-	if(i>=0)	restReadChildrenIds.splice(i,1)
-	angular.forEach(restReadChildrenIds, function(v,k){
-		read_element_children(v, function(response){
-			open_children(v)
-			//console.log(v, response.data)
-		})
+var open_children_doc2doc = function(){
+	var fn_r_c = function(v){
+		var o = ctrl.eMap[v]
+		if(371327 == o.reference2){//SQL
+			console.log(v, o.reference2)
+			ctrl.sql_exe.add2exe(v)
+			ctrl.sql_exe.read(v)
+		}
+		read_element_children(v, function(response){ open_children_doc2doc() })
+	}
+	angular.forEach(restReadChildrenIds.slice(), function(v,k){
+		restReadChildrenIds.splice(restReadChildrenIds.indexOf(v),1)
+		if(!ctrl.eMap[v]){
+			read_element(v, function(response){ fn_r_c(v) })
+		}else if(!ctrl.eMap[v].children){
+			fn_r_c(v)
+		}
 	})
 }
 
@@ -955,7 +963,6 @@ var initWiki = function(){
 	ctrl.wiki.clickContents = function() {
 		ctrl.wiki.closeContents = !ctrl.wiki.closeContents
 	}
-	
 }
 
 var initSqlExe = function(){
@@ -996,7 +1003,6 @@ var initSqlExe = function(){
 			}
 			if(!d2){
 				read_element(sql_id2, function(response){
-//					ctrl.eMap[sql_id2] = response.data.list[0]
 					var d2 = ctrl.eMap[sql_id2]
 					fn2(d2)
 				})

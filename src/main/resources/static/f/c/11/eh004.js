@@ -5,12 +5,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	initCrud004()
 	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
 
-	read_element(ctrl.doc2doc_ids[0], function(response){
-		read_element_children(ctrl.doc2doc_ids[0], function(){open_children(ctrl.doc2doc_ids[0])})
-	})
-	read_element(ctrl.doc2doc_ids[1], function(response){
-		read_element_children(ctrl.doc2doc_ids[1], function(){open_children(ctrl.doc2doc_ids[1])})
-	})
+	open_children_doc2doc()
 
 })
 /*
