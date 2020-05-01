@@ -48,8 +48,11 @@
 			data-ng-switch-when="369365" class="fas fa-spell-check"></i>
 		</span> <sup data-ng-if="d.children && !d.open_children" class="w3-tiny am-b">[{{d.children.length}}]</sup> 
 		<span data-ng-repeat="d in [ctrl.eMap[d.reference2]]"
+			data-ng-if="ctrl.views_template_list.indexOf(d.reference)>=0"
+			data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span> 
+			<span 
+						data-ng-if="ctrl.views_template_list.indexOf(d.reference)>=0"
 			data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span>
-		<span data-ng-include="'/f/c/11/v/'+d.reference+'/v_span.html'"></span>
 		<span data-ng-if="ctrl.mouseover_item==d.doc_id" class="w3-right"
 			data-ng-include="'/f/c/11/data_model_item/node_move_menu.html'">
 		</span>

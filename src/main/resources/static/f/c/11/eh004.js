@@ -4,7 +4,7 @@ app.controller('AppCtrl', function($scope, $http, $timeout) {
 	random_newValue('edProtocol','value2')
 	initCrud004()
 	ctrl.page_title = 'mc:' + ctrl.request.parameters.doc2doc
-
+	ctrl.views_template_list = [368797,369967,369984,369988,371294,371306]
 	open_children_doc2doc()
 
 })
