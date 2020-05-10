@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'org.springframework.boot' version '2.2.7.RELEASE'
 	id 'java'
 }
 
@@ -23,6 +23,11 @@ dependencies {
 	runtimeOnly 'com.h2database:h2:1.4.200'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/com.google.zxing/core
+	implementation 'com.google.zxing:core:3.4.0'
+	implementation 'com.google.zxing:javase:3.4.0'
+//	implementation 'com.google.zxing:core'
+	
 	//compile 'org.webjars:font-awesome:4.7.0'
 //	implementation 'org.webjars:font-awesome:5.10.1'
 	implementation 'org.webjars:font-awesome:5.12.0'
